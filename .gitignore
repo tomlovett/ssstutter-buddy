@@ -29,5 +29,7 @@
 !/tmp/storage/
 !/tmp/storage/.keep
 
+/vendor/
+
 # Ignore master key for decrypting credentials and more.
 /config/master.key

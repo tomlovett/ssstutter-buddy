@@ -67,6 +67,8 @@ GEM
       minitest (>= 5.1)
       tzinfo (~> 2.0)
     ast (2.4.2)
+    base64 (0.2.0)
+    bcrypt (3.1.20)
     bootsnap (1.18.4)
       msgpack (~> 1.2)
     builder (3.3.0)
@@ -94,6 +96,8 @@ GEM
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
     json (2.7.2)
+    jwt (2.8.2)
+      base64
     language_server-protocol (3.17.0.3)
     loofah (2.22.0)
       crass (~> 1.0.2)
@@ -196,6 +200,18 @@ GEM
       unicode-display_width (>= 2.4.0, < 3.0)
     rubocop-ast (1.32.1)
       parser (>= 3.3.1.0)
+    rubocop-factory_bot (2.26.1)
+      rubocop (~> 1.61)
+    rubocop-rails (2.26.0)
+      activesupport (>= 4.2.0)
+      rack (>= 1.1)
+      rubocop (>= 1.52.0, < 2.0)
+      rubocop-ast (>= 1.31.1, < 2.0)
+    rubocop-rspec (3.0.4)
+      rubocop (~> 1.61)
+    rubocop-rspec_rails (2.30.0)
+      rubocop (~> 1.61)
+      rubocop-rspec (~> 3, >= 3.0.1)
     ruby-progressbar (1.13.0)
     sqlite3 (1.7.3-x86_64-darwin)
     stringio (3.1.1)
@@ -213,14 +229,20 @@ PLATFORMS
   x86_64-darwin-21
 
 DEPENDENCIES
+  bcrypt (~> 3.1.7)
   bootsnap
   debug
   factory_bot_rails
   faker
+  jwt
   puma (~> 5.0)
   rails (~> 7.0.8)
   rspec-rails
   rubocop
+  rubocop-factory_bot
+  rubocop-rails
+  rubocop-rspec
+  rubocop-rspec_rails
   sqlite3 (~> 1.4)
   tzinfo-data
 
