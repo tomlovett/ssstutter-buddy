@@ -5,7 +5,7 @@ FactoryBot.define do
     name_alias { Faker::Lorem.words(number: 3) }
     country { 'US' }
     postal_code { Faker::Address.zip_code }
-    birthdate { Faker::Date.between(from: '1950-01-01', to: '2006-01-01') }
+    birthdate { Faker::Date.birthday(min_age: 18, max_age: 85) }
     gender { %w[m f].sample }
     handedness { %w[r l].sample }
     etiology { 'developmental' }

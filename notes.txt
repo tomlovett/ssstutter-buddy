@@ -84,7 +84,8 @@ Study
 	duration (single-session)
 	follow-up (string)
 	type -- survey, brain imaging, therapeutic/intervention
-	age_range
+	min_age
+	max_age
 
 	#timeline -> "X hours over X total sessions over the course of [duration]"
 

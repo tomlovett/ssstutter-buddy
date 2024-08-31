@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_08_31_165514) do
+ActiveRecord::Schema[7.0].define(version: 2024_08_31_171824) do
   create_table "participants", force: :cascade do |t|
     t.string "name_alias"
     t.string "country"
@@ -35,6 +35,27 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_31_165514) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_researchers_on_user_id"
+  end
+
+  create_table "studies", force: :cascade do |t|
+    t.string "title"
+    t.text "short_desc"
+    t.text "long_desc"
+    t.date "open_date"
+    t.date "close_date"
+    t.string "type"
+    t.integer "min_age"
+    t.integer "max_age"
+    t.string "country"
+    t.string "postal_code"
+    t.float "total_hours"
+    t.integer "total_sessions"
+    t.string "duration"
+    t.string "follow_up"
+    t.integer "remuneration"
+    t.integer "primary_researcher_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
