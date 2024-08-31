@@ -10,7 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_08_31_163438) do
+ActiveRecord::Schema[7.0].define(version: 2024_08_31_165514) do
+  create_table "participants", force: :cascade do |t|
+    t.string "name_alias"
+    t.string "country"
+    t.string "postal_code"
+    t.date "birthdate"
+    t.string "gender"
+    t.string "handedness"
+    t.string "etiology"
+    t.boolean "default_reveal", default: false, null: false
+    t.float "default_distance", default: 50.0
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_participants_on_user_id"
+  end
+
   create_table "researchers", force: :cascade do |t|
     t.string "university_profile_url"
     t.text "bio"
@@ -30,5 +46,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_31_163438) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "participants", "users"
   add_foreign_key "researchers", "users"
 end
