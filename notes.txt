@@ -4,8 +4,6 @@ User
 	email
 	password/auth
 
-	#generate_alias_options
-
 Researcher
 	user_id
 	university_profile_url
@@ -26,6 +24,7 @@ Participant
 	default_distance
 	default_reveal
 
+	#generate_alias_options
 	#prep_registration_blast
 	#view_history
 	#print_languages
