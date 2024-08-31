@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_08_31_200926) do
+ActiveRecord::Schema[7.0].define(version: 2024_08_31_205817) do
   create_table "participants", force: :cascade do |t|
     t.string "name_alias"
     t.string "country"
@@ -43,7 +43,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_31_200926) do
     t.text "long_desc"
     t.date "open_date"
     t.date "close_date"
-    t.string "type"
+    t.string "study_type"
     t.integer "min_age"
     t.integer "max_age"
     t.string "country"
