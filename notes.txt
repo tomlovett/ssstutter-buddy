@@ -13,7 +13,7 @@ Researcher
 
 Participant
 	user_id
-	alias
+	name_alias
 	country
 	postal_code
 	birthdate
@@ -29,16 +29,15 @@ Participant
 	#view_history
 	#print_languages
 
-ParticipantStudy
+ParticipantStudy - StudyParticipation(?)
+	not_interested - timestamp
+	registered
 	invited - timestamp
-	viewed (?)
-	registered -
-	accepted - nil, accepted, rejected
+	intvitation_response - nil, accepted, rejected
 	showed_up
 	completed
 	rating
 	concerns
-	flagged_non_pws
 	participant_feedback
 
 ParticipantLocation(?)

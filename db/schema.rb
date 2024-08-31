@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_08_31_171824) do
+ActiveRecord::Schema[7.0].define(version: 2024_08_31_200926) do
   create_table "participants", force: :cascade do |t|
     t.string "name_alias"
     t.string "country"
@@ -56,6 +56,23 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_31_171824) do
     t.integer "primary_researcher_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["primary_researcher_id"], name: "index_studies_on_primary_researcher_id"
+  end
+
+  create_table "study_participations", force: :cascade do |t|
+    t.datetime "not_interested"
+    t.datetime "registered"
+    t.datetime "invited"
+    t.string "invitation_response"
+    t.boolean "no_show", default: false, null: false
+    t.boolean "completed", default: false, null: false
+    t.integer "participant_rating"
+    t.integer "study_id", null: false
+    t.integer "participant_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["participant_id"], name: "index_study_participations_on_participant_id"
+    t.index ["study_id"], name: "index_study_participations_on_study_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -69,4 +86,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_31_171824) do
 
   add_foreign_key "participants", "users"
   add_foreign_key "researchers", "users"
+  add_foreign_key "study_participations", "participants"
+  add_foreign_key "study_participations", "studies"
 end
