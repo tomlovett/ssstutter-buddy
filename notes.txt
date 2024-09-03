@@ -40,7 +40,7 @@ ParticipantStudy - StudyParticipation(?)
 	concerns
 	participant_feedback
 
-ParticipantLocation(?)
+ParticipantLocation(?) -- can expand in the future; one location per Party for now
 	participant
 	zipcode
 	country(?)
@@ -80,7 +80,8 @@ Study
 
 	total_hours
 	total_sessions
-	duration (single-session)
+	duration
+		number + days/weeks/months/years (dropdown)
 	follow-up (string)
 	type -- survey, brain imaging, therapeutic/intervention
 	min_age
@@ -88,7 +89,7 @@ Study
 
 	#timeline -> "X hours over X total sessions over the course of [duration]"
 
-ResearcherStudy
+ResearcherStudy -- can expand in the future; one per study for now
 	role (admin)
 
 

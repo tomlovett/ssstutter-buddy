@@ -1,0 +1,67 @@
+seeds
+
+services
+	ZipCode gem
+		search_for_participants
+		studies_near_me
+		studies_near_location
+	alias_generator
+		generate individual name subfunction -- sub-piece groups
+		check uniqueness within generated names; replace if needed
+		query existing aliases
+	check_stale_studies
+	send_message
+	send_confirmation_email
+
+policies
+	can see Participant real name?
+		connection has been established && always reveal || ParticipantStudy -> registered
+		participant
+
+CRUD's
+	user
+	participant
+	researcher
+		need file storage
+	study
+
+email service
+	base service
+	notification emails
+	message emails
+
+ActiveStorage -- researcher headshots
+
+
+Frontend page list
+-----------------
+Landing
+	connected # different PWS # times with # studies
+Talking you into signing up
+FAQ's
+About Us
+
+
+Participant
+-----------
+Registration flow
+Home screen
+	active connections
+	active studies near me
+	active digitals
+Profile page
+	edit self
+		add language
+Messages
+Study search
+	USA
+	Non-USA
+
+Researcher
+----------
+Registration flow
+Dashboard
+	active studies
+	# uninvited potential participants
+	New study
+Create Study flow

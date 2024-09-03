@@ -9,14 +9,14 @@ FactoryBot.define do
     long_desc { Faker::Lorem.paragraph }
     open_date { '2024-08-31' }
     close_date { '2024-08-31' }
-    type { Faker::Lorem.sentence }
+    study_type { Faker::Lorem.sentence }
     min_age { 18 }
     max_age { nil }
     country { 'US' }
     postal_code { Faker::Address.zip_code }
     total_hours { rand(0.5..5) }
     total_sessions { rand(1..3) }
-    duration { Faker::Lorem.words(number: 2) }
+    duration { "#{rand(1..5)} #{%w[days weeks months years].sample}" }
     follow_up { nil }
     remuneration { rand(25..100) }
 
