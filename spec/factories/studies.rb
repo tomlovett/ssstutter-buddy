@@ -12,8 +12,9 @@ FactoryBot.define do
     study_type { Faker::Lorem.sentence }
     min_age { 18 }
     max_age { nil }
+    city { Faker::Address.city }
+    state { Faker::Address.state_abbr }
     country { 'US' }
-    postal_code { Faker::Address.zip_code }
     total_hours { rand(0.5..5) }
     total_sessions { rand(1..3) }
     duration { "#{rand(1..5)} #{%w[days weeks months years].sample}" }

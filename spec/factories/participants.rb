@@ -3,8 +3,9 @@
 FactoryBot.define do
   factory :participant do
     name_alias { Faker::Lorem.words(number: 3) }
+    city { Faker::Address.city }
+    state { Faker::Address.state_abbr }
     country { 'US' }
-    postal_code { Faker::Address.zip_code }
     birthdate { Faker::Date.birthday(min_age: 18, max_age: 85) }
     gender { %w[m f].sample }
     handedness { %w[r l].sample }

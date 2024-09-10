@@ -1,10 +1,10 @@
 seeds
 
 services
-	ZipCode gem
-		search_for_participants
-		studies_near_me
-		studies_near_location
+	geocoder
+		-store latitude & longitude; prompt user for nearest town, state/province, country (default to US)
+		-no, or just do city/state/country
+		validate during registration
 	alias_generator
 		generate individual name subfunction -- sub-piece groups
 		check uniqueness within generated names; replace if needed

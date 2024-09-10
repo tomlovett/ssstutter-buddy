@@ -10,11 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_08_31_205817) do
+ActiveRecord::Schema[7.0].define(version: 2024_09_10_013144) do
   create_table "participants", force: :cascade do |t|
     t.string "name_alias"
     t.string "country"
-    t.string "postal_code"
     t.date "birthdate"
     t.string "gender"
     t.string "handedness"
@@ -24,6 +23,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_31_205817) do
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "city"
+    t.string "state"
     t.index ["user_id"], name: "index_participants_on_user_id"
   end
 
@@ -47,7 +48,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_31_205817) do
     t.integer "min_age"
     t.integer "max_age"
     t.string "country"
-    t.string "postal_code"
     t.float "total_hours"
     t.integer "total_sessions"
     t.string "duration"
@@ -56,6 +56,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_31_205817) do
     t.integer "primary_researcher_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "city"
+    t.string "state"
     t.index ["primary_researcher_id"], name: "index_studies_on_primary_researcher_id"
   end
 
