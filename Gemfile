@@ -20,7 +20,14 @@ gem 'puma', '~> 5.0'
 # Use Redis adapter to run Action Cable in production
 # gem "redis", "~> 4.0"
 
-gem 'sprockets-rails', :require => 'sprockets/railtie'
+# importmap
+gem 'importmap-rails'
+
+# SCSS tools
+gem 'bootstrap'
+gem 'sassc-rails'
+
+gem 'sprockets-rails', require: 'sprockets/railtie'
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
@@ -55,6 +62,8 @@ group :development, :test do
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
   gem 'rubocop-rspec_rails'
+
+  gem 'htmlbeautifier'
 end
 
 group :development do

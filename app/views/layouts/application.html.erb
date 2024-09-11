@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SSStutterBuddy</title>
+    <%= favicon_link_tag asset_path('favicon/favicon-32x32.png') %>
+    <%= stylesheet_link_tag "application" %>
+    <%= javascript_importmap_tags %>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+  </head>
+  <body>
+    <div class="container">
+      <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container">
+          <a class="navbar-brand" href="/">
+            <h3>SSStutter Buddy &nbsp; (BETA)</h3>
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Member</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="#">Courses</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Blog</a>
+              </li>
+            </ul>
+            <form class="">
+              <a class="btn btn-outline-primary mr-2" href="#">Login</a>
+              <a class="btn btn-outline-success" href="#">Become member</a>
+            </form>
+          </div>
+        </div>
+      </nav>
+      <%= yield %>
+      <h3>FAQ -- About Us -- Support -- Support the Project</h3>
+    </div>
+  </body>
+</html>

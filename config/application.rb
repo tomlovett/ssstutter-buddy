@@ -3,8 +3,8 @@
 require_relative 'boot'
 
 require 'rails/all'
-require "sprockets/railtie"
-require "action_view/railtie"
+require 'sprockets/railtie'
+require 'action_view/railtie'
 
 Bundler.require(*Rails.groups)
 

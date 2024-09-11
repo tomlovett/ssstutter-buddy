@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-class ApplicationController < ActionController::API
+class ApplicationController < ActionController::Base
   include Response
   include ExceptionHandler
 
-  before_action :authorize_request
+  # before_action :authorize_request
   attr_reader :current_user
 
   private
