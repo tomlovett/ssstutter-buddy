@@ -2,6 +2,8 @@
 
 module ControllerSpecHelper
   def token_generator(user_id)
+    return nil if user_id.nil?
+
     JsonWebToken.encode(user_id:)
   end
 
@@ -11,7 +13,7 @@ module ControllerSpecHelper
 
   def valid_headers
     {
-      'Authorization' => token_generator(user.id),
+      'Authorization' => token_generator(user&.id),
       'Content-Type' => 'application/json'
     }
   end

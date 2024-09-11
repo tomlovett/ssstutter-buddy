@@ -35,6 +35,9 @@ ActiveStorage -- researcher headshots
 
 Frontend page list
 -----------------
+User login & link to register (split on PWS/R here?) "I want to register as a Participant/Researcher"
+	participant registration
+	researcher participation
 Landing
 	connected # different PWS # times with # studies
 Talking you into signing up
@@ -45,6 +48,8 @@ About Us
 Participant
 -----------
 Registration flow
+	first/last name, email, city/state/country
+	PWS info
 Home screen
 	active connections
 	active studies near me

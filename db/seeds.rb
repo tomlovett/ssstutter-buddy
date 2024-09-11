@@ -5,8 +5,9 @@ user = User.create(first_name: 'Patty', last_name: 'Participant', email: 'p@p.co
 Participant.create(
   user:,
   name_alias: 'Upper Canadian Fowl',
+  city: "Bel Air",
+  state: 'MD'
   country: 'US',
-  postal_code: 12_345,
   birthdate: '01-01-1990',
   gender: 'M',
   handedness: 'right',
@@ -33,8 +34,9 @@ Study.create(
   study_type: Faker::Lorem.sentence,
   min_age: 18,
   max_age: nil,
+  city: "Boston",
+  state: 'MA',
   country: 'US',
-  postal_code: Faker::Address.zip_code,
   total_hours: rand(0.5..5),
   total_sessions: rand(1..3),
   duration: Faker::Lorem.words(number: 2),

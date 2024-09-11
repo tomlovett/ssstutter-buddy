@@ -51,6 +51,7 @@ ParticipantLanguage
 	language_name
 	fluency_level
 	origin (native/acquired)
+	use_frequency
 
 ParticipantFlag
 	participant_id
