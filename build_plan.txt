@@ -17,6 +17,12 @@ policies
 	can see Participant real name?
 		connection has been established && always reveal || ParticipantStudy -> registered
 		participant
+	-will have to read about implementing policies in Rails
+
+implementing sessions
+	https://edgeguides.rubyonrails.org/action_controller_overview.html#accessing-the-session
+	flash messages for reference
+		https://edgeguides.rubyonrails.org/action_controller_overview.html#the-flash
 
 CRUD's
 	user
@@ -45,24 +51,27 @@ FAQ's
 About Us
 
 
-Participant
+Participant (namespace)
 -----------
 Registration flow
 	first/last name, email, city/state/country
 	PWS info
 Home screen
 	active connections
+		user.ParticipantStudies.active
+		-study-slice
 	active studies near me
+		ParticipantStudies.active
 	active digitals
 Profile page
 	edit self
 		add language
 Messages
 Study search
-	USA
-	Non-USA
+Digitals
+My History
 
-Researcher
+Researcher (namespace)
 ----------
 Registration flow
 Dashboard
@@ -70,3 +79,14 @@ Dashboard
 	# uninvited potential participants
 	New study
 Create Study flow
+Studies
+View Study
+	presentation (collapsible)
+	potential participants
+	connected participants
+	uninterested participants (collapsed by default)
+
+Pie in the Sky Wishlist
+-----------------------
+mobile app
+Turbo live-reloading

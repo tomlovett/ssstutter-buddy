@@ -1,0 +1,4 @@
+investigate issue with Geocoder API response
+
+Landing page
+	about; enter email to stay in touch

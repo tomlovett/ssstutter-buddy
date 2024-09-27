@@ -1,0 +1,43 @@
+<%= form_with(model: user) do |form| %>
+  <% if user.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
+      <ul>
+        <% user.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= form.label :first_name, 'First Name:' %>
+  <%= form.text_field :first_name %>
+  <br>
+
+  <%= form.label :last_name, 'Last Name:' %>
+  <%= form.text_field :last_name %>
+  <br>
+
+  <%= form.label :email, 'Email:' %>
+  <%= form.email_field :email %>
+  <br>
+
+  <% unless @user.id? %>
+    Note: If you are registering as a researcher, please use the email associated with your institution to aid the SSStutterBuddy team in verifying your identity.
+    <br>
+    <%= form.label :password_field, 'Password:' %>
+    <%= form.password_field :password_digest %>
+    <br>
+    <%= form.label :password_confirmation, 'Password Confirmation:' %>
+    <%= form.password_field :password_confirmation %>
+    <br>
+  <% end %>
+
+  <div>
+    <% if @user.id? %>
+      <%= form.submit 'Update' %>
+    <% else %>
+      <%= form.submit 'Next' %>
+    <% end %>
+  </div>
+<% end %>

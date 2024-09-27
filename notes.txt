@@ -33,7 +33,7 @@ ParticipantStudy - StudyParticipation(?)
 	not_interested - timestamp
 	registered
 	invited - timestamp
-	intvitation_response - nil, accepted, rejected
+	invitation_response - nil, accepted, rejected
 	showed_up
 	completed
 	rating
@@ -103,3 +103,8 @@ Services
 	check_stale_studies
 	send_message
 	send_confirmation_email
+
+
+Future directions
+-----------------
+Turbo -- https://turbo.hotwired.dev/
