@@ -5,4 +5,8 @@
 	<br>
 	Email: <%= @user.email %>
 	<br>
+
+	<% if @user.researcher.present? %>
+		<%= link_to 'My researcher profile', researcher_path(id: @user.researcher.id) %>
+	<% end %>
 </div>

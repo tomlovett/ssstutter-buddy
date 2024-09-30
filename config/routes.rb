@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   # root "articles#index"
 
   resources :participants
-  resources :researchers
+  resources :researchers, except: :index
 
   namespace 'p' do # Participants
   end

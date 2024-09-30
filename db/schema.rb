@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_09_10_013144) do
+ActiveRecord::Schema[7.0].define(version: 2024_09_30_224850) do
   create_table "participants", force: :cascade do |t|
     t.string "name_alias"
     t.string "country"
@@ -35,6 +35,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_10_013144) do
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "institution"
+    t.string "titles"
     t.index ["user_id"], name: "index_researchers_on_user_id"
   end
 
@@ -78,9 +80,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_10_013144) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "first_name"
-    t.string "last_name"
-    t.string "email"
+    t.string "first_name", default: "", null: false
+    t.string "last_name", default: "", null: false
+    t.string "email", default: "", null: false
     t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

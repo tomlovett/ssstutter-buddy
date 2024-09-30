@@ -1,0 +1,11 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @researcher %>
+
+<div>
+  <%= link_to "Back to somewhere else", researchers_path %>
+  <% if from_current_user?(@current_user, @researcher) %>
+    <%= link_to "Edit my profile", edit_user_path(@researcher) %> |
+    <%= link_to "Edit my researcher profile", edit_researcher_path(@researcher) %>
+  <% end %>
+</div>

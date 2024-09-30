@@ -1,0 +1,18 @@
+<div id="<%= dom_id researcher %>">
+  <h3><%= @researcher.professional_name %></h3>
+  <h4><i><% @researcher.institution %></i></h4>
+
+	headshot
+
+	<p>Biography:</p>
+  <%= @researcher.bio %>
+	<br>
+
+  <p>Research interests: <%= @researcher.research_interests %></p>
+  <br>
+
+	<p>Professional profile:</p>
+  <%= @researcher.university_profile_url %>
+	<br>
+
+</div>

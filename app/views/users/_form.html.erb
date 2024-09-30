@@ -39,5 +39,8 @@
     <% else %>
       <%= form.submit 'Next' %>
     <% end %>
+    <% if @user.researcher.present? %>
+      <%= link_to 'My researcher profile', researcher_path(id: @user.researcher.id) %>
+    <% end %>
   </div>
 <% end %>

@@ -31,7 +31,7 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   def update
     if @user.update(user_params)
-      redirect_to @user, notice: 'Profile updated!', status: :see_other
+      redirect_to @user, notice: t.success, status: :see_other
     else
       render :edit, status: :unprocessable_entity
     end
@@ -40,7 +40,7 @@ class UsersController < ApplicationController
   # DELETE /users/1
   def destroy
     @user.destroy
-    redirect_to users_url, notice: 'User was successfully destroyed.', status: :see_other
+    redirect_to users_url, notice: t.success, status: :see_other
   end
 
   private
