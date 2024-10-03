@@ -7,6 +7,8 @@ class Study < ApplicationRecord
   geocoded_by :address
   after_validation :geocode if Rails.env.production?
 
+  scope :closed, -> { where('close_date > ?', Time.zone.today) }
+
   def address
     [city, state, country].compact.join(', ')
   end

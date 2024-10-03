@@ -1,19 +1,13 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  resources :users, except: :index
+  resources :users, except: :index, path: 'u'
   get '/users/:id/select_role', to: 'users#select_role'
   get '/users/:id/change_password', to: 'users#change_password'
 
   # Defines the root path route ("/")
   # root "articles#index"
 
-  resources :participants
-  resources :researchers, except: :index
-
-  namespace 'p' do # Participants
-  end
-
-  namespace 'r' do # Researchers
-  end
+  resources :participants, except: :index, path: 'p'
+  resources :researchers, except: :index, path: 'r'
 end

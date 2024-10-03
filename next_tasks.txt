@@ -2,3 +2,7 @@ investigate issue with Geocoder API response
 
 Landing page
 	about; enter email to stay in touch
+
+image uploading for researcher profiles
+
+change title to match page

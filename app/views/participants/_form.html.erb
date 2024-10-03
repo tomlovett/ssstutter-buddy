@@ -1,0 +1,92 @@
+<%= form_with(model: participant) do |form| %>
+  <% if participant.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(participant.errors.count, "error") %> prohibited this participant from being saved:</h2>
+      <ul>
+        <% participant.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <p>Your information is only visible in an anonymized format to researchers. It is never shared with other participants or accessible publicly.</p>
+
+  <h3>Codename</h3>
+  <% if @participant.codename? %>
+    <p><%= @participant.codename %></p>
+  <% else %>
+    <p>This is how researchers see your "name" in order to protect your privacy. </p>
+    <br>
+    <p>Choose from one of these five randomly-generated codenames.</p>
+    <p>While these nicknames do not <i>mean</i> anything, it is important to us that you like yours.</p>
+    <p>This cannot be changed later, so choose carefully!</p>
+    <% @participant.potential_codenames.each do |name, i| %>
+      <%= form.radio_button :codename, name %>
+      <%= form.label "#{name}_#{i}".parameterize.underscore.to_sym, name %>
+      <br>
+    <% end %>
+  <% end %>
+
+  <h3>Location</h3>
+  <%= form.label :country, "Country" %>
+  <%= form.country_select :country, priority_countries: ['US', 'GB', 'FR', 'DE'], sort_provided: false %>
+
+  <p>@participant.country: <%= @participant.country %></p>
+  <% if @participant.country? %>
+    <%= form.label :state, "State" %>
+    <%= form.select :state, CS.states(@participant.country).invert, selected: @participant.state %>
+  <% end %>
+
+  <p>@participant.state: <%= @participant.state %></p>
+  <% if @participant.state? %>
+    <%= form.label :city, "City" %>
+    <%= form.select :city, CS.cities(@participant.state, @participant.country) %>
+  <% end %>
+
+  <p>@participant.city: <%= @participant.city %></p>
+  <h3>Personal Info</h3>
+  <%= form.date_select :birthdate %>
+  <%= form.label :birthdate, 'Your birthday' %>
+  <br>
+
+  Handedness:
+  <%= form.radio_button :handedness, "right" %>
+  <%= form.label :handedness_right, "Right" %>
+  <%= form.radio_button :handedness, "left" %>
+  <%= form.label :handedness_left, "Left" %>
+  <br>
+
+  Biological gender:
+  <%= form.radio_button :gender, "male" %>
+  <%= form.label :gender_male, "M" %>
+  <%= form.radio_button :gender, "female" %>
+  <%= form.label :gender_female, "F" %>
+  <br>
+
+  Stutter etiology:
+  <p>"Etiology" is a fancy word for the source of your stutter. (Helpful clarifying link)</p>
+  <p>"Developmental" means you began stuttering in childhood. (This applies to 99% of people who stutter.) </p>
+
+  <%= form.radio_button :etiology, "developmental" %>
+  <%= form.label :etiology_developmental, "Developmental" %>
+  <p>"Acquired" means you passed through childhood without stuttering and then at some point began stuttering. This usually happens from physical trauma -- stroke, traumatic brain injury -- but can happen for a variety of reasons.<p/>
+    <%= form.radio_button :etiology, "acquired" %>
+    <%= form.label :etiology_acquired, "Acquired" %>
+    <br>
+    <h3>Privacy</h3>
+    <p>When researchers see me in results, allow the researcher to see:</p>
+    <%= form.radio_button :etiology, "developmental" %>
+    <%= form.label :etiology_developmental, "My city and state" %>
+    <%= form.radio_button :etiology, "acquired" %>
+    <%= form.label :etiology_acquired, "My distance from the study" %>
+    <p>When I have confirmed interest in participating in a study, allow the researcher to see:</p>
+    <%= form.radio_button :etiology, "developmental" %>
+    <%= form.label :etiology_developmental, "My full name" %>
+    <%= form.radio_button :etiology, "acquired" %>
+    <%= form.label :etiology_acquired, "My first name and last initial" %>
+
+    <div>
+      <%= form.submit %>
+    </div>
+  <% end %>

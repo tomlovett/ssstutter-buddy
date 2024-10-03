@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_09_30_224850) do
+ActiveRecord::Schema[7.0].define(version: 2024_10_03_002706) do
   create_table "participants", force: :cascade do |t|
-    t.string "name_alias"
+    t.string "codename"
     t.string "country"
     t.date "birthdate"
     t.string "gender"

@@ -38,6 +38,9 @@ email service
 
 ActiveStorage -- researcher headshots
 
+Cache-ing
+	researcher can see participant?
+	site stats
 
 Frontend page list
 -----------------
@@ -80,7 +83,7 @@ Dashboard
 	New study
 Create Study flow
 Studies
-View Study
+View Study (/overview)
 	presentation (collapsible)
 	potential participants
 	connected participants
@@ -90,3 +93,6 @@ Pie in the Sky Wishlist
 -----------------------
 mobile app
 Turbo live-reloading
+Badges:
+	1/5/10/25/50/100 digital studies
+	1/3/5/10/20 non-digital studies

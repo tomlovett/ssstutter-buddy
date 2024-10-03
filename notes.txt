@@ -13,7 +13,7 @@ Researcher
 
 Participant
 	user_id
-	name_alias
+	codename
 	country
 	postal_code
 	birthdate

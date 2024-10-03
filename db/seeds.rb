@@ -4,7 +4,7 @@
 user = User.create(first_name: 'Patty', last_name: 'Participant', email: 'p@p.com', password: 'password')
 Participant.create(
   user:,
-  name_alias: 'Upper Canadian Fowl',
+  codename: 'Upper Canadian Fowl',
   city: 'Bel Air',
   state: 'MD',
   country: 'US',

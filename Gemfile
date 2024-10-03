@@ -44,6 +44,9 @@ gem 'bootsnap', require: false
 
 gem 'geocoder', '~> 1.8', '>= 1.8.3'
 
+gem 'city-state'
+gem 'country_select', '~> 8.0'
+
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 

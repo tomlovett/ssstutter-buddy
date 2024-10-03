@@ -12,4 +12,16 @@ class Participant < ApplicationRecord
   def address
     [city, state, country].compact.join(', ')
   end
+
+  def study_invitations
+    study_participations.invited
+  end
+
+  def completed_studies
+    study_participations.completed
+  end
+
+  def potential_codenames
+    CodenameGenerator.new.run
+  end
 end

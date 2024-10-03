@@ -47,6 +47,12 @@ class ResearchersController < ApplicationController
   end
 
   def researcher_params
-    params.fetch(:researcher).permit(:titles, :institution, :university_profile_url, :bio, :research_interests)
+    params.fetch(:researcher).permit(
+      :titles,
+      :institution,
+      :university_profile_url,
+      :bio,
+      :research_interests
+    )
   end
 end
