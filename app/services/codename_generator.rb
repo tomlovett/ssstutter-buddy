@@ -1,27 +1,27 @@
 # frozen_string_literal: true
 
 GENERATORS = [
-  Faker::Adjective.positive,
-  Faker::Ancient.primordial,
-  Faker::Ancient.titan,
-  Faker::Ancient.hero,
-  Faker::Artist.name,
-  Faker::Beer.hop,
-  Faker::Coffee.blend_name,
-  Faker::Color.color_name,
-  Faker::Compass.ordinal,
-  Faker::Construction.heavy_equipment,
-  Faker::Dessert.variety,
-  Faker::Emotion.adjective,
-  Faker::Food.ingredient,
-  Faker::Food.spice,
-  Faker::Food.sushi,
-  Faker::Food.vegetables,
-  Faker::Science.element,
-  Faker::Space.galaxy,
-  Faker::Space.moon,
-  Faker::Space.constellation,
-  Faker::Tea.variety
+  proc { Faker::Adjective.positive },
+  proc { Faker::Ancient.primordial },
+  proc { Faker::Ancient.titan },
+  proc { Faker::Ancient.hero },
+  proc { Faker::Artist.name },
+  proc { Faker::Beer.hop },
+  proc { Faker::Coffee.blend_name },
+  proc { Faker::Color.color_name },
+  proc { Faker::Compass.ordinal },
+  proc { Faker::Construction.heavy_equipment },
+  proc { Faker::Dessert.variety },
+  proc { Faker::Emotion.adjective },
+  proc { Faker::Food.ingredient },
+  proc { Faker::Food.spice },
+  proc { Faker::Food.sushi },
+  proc { Faker::Food.vegetables },
+  proc { Faker::Science.element },
+  proc { Faker::Space.galaxy },
+  proc { Faker::Space.moon },
+  proc { Faker::Space.constellation },
+  proc { Faker::Tea.variety }
 ].freeze
 
 class CodenameGenerator
@@ -40,9 +40,8 @@ class CodenameGenerator
   end
 
   def invoke_single_generator
-    rand(1..9999).to_i.to_s
-
-    # generator = GENERATORS.sample
+    random_index = rand(0..(GENERATORS.size - 1))
+    GENERATORS[random_index].call
   end
 
   private

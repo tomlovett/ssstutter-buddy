@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @study %>
+
+<div>
+  <%= link_to "Edit this study", edit_study_path(@study) %> |
+  <%= link_to "Back to studies", studies_path %>
+
+  <%= button_to "Destroy this study", @study, method: :delete %>
+</div>

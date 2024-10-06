@@ -15,8 +15,8 @@ FactoryBot.define do
     city { Faker::Address.city }
     state { Faker::Address.state_abbr }
     country { 'US' }
-    total_hours { rand(0.5..5) }
-    total_sessions { rand(1..3) }
+    total_hours { rand(0.5..5).round(1) }
+    total_sessions { rand(1..3).to_i }
     duration { "#{rand(1..5)} #{%w[days weeks months years].sample}" }
     follow_up { nil }
     remuneration { rand(25..100) }

@@ -1,0 +1,29 @@
+<div id="<%= dom_id study %>">
+	<h3><%= @study.title %></h3>
+
+	<p><%= @study.primary_researcher.professional_name %></p>
+
+	<p>Led by <%= link_to @study.primary_researcher.professional_name, researcher_path(@study.primary_researcher) %> -- <%= @study.primary_researcher.institution %> </p>
+
+	<% if @study.fully_digital? %>
+		<p>Online</p>
+	<% else %>
+		<%= @study.short_addr %>
+	<% end %>
+
+	<p>Ages: <%= @study.age_range %></p>
+
+	<p><%= @study.long_desc %></p>
+
+	<p>Study type: <%= @study.study_type %></p>
+
+	<p>Estimated duration: <%= @study.timeline %></p>
+
+	<p>Estimated remuneration (in USD): $<%= @study.remuneration %></p>
+
+	<% if @study.follow_up? %>
+		<p>Follow-up: <%= @study.follow_up %></p>
+	<% end %>
+
+	<p>Connect with this study</p>
+</div>

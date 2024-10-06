@@ -73,11 +73,13 @@ Study
 	long_desc
 	remuneration (USD$)
 
+	paused <- add
 	open_date
 	close_date
 	is_digital
 	country
-	postal_code
+	state
+	city
 
 	total_hours
 	total_sessions

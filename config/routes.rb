@@ -10,4 +10,5 @@ Rails.application.routes.draw do
 
   resources :participants, except: :index, path: 'p'
   resources :researchers, except: :index, path: 'r'
+  resources :studies, path: 's'
 end

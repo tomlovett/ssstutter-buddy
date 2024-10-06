@@ -1,5 +1,14 @@
 investigate issue with Geocoder API response
 
+register domains
+	ssstutterbuddy.com; ssstutter-buddy.com; stutterbuddy.com; stutter-buddy.com
+
+create JS tool for dynamic Country -> State/Province -> City selection
+	implement in Participant and Study
+	country.nil? -? state.nil? -> city.nil?
+	on country change, set state to null
+	on state change, set city to null
+
 Landing page
 	about; enter email to stay in touch
 
