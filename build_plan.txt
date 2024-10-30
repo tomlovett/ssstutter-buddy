@@ -6,9 +6,7 @@ services
 		-no, or just do city/state/country
 		validate during registration
 	alias_generator
-		generate individual name subfunction -- sub-piece groups
-		check uniqueness within generated names; replace if needed
-		query existing aliases
+		make aliases more user-friendly/likeable
 	check_stale_studies
 	send_message
 	send_confirmation_email
@@ -66,6 +64,7 @@ Home screen
 	active studies near me
 		ParticipantStudies.active
 	active digitals
+		sorted by most recent post date
 Profile page
 	edit self
 		add language
@@ -91,6 +90,8 @@ View Study (/overview)
 
 Pie in the Sky Wishlist
 -----------------------
+demo experiences: for both P and R's
+	have to use dummy data if we're going to protect P privacy
 mobile app
 Turbo live-reloading
 Badges:

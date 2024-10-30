@@ -24,5 +24,6 @@ namespace :seed do
     end
 
     puts '--- Finished seeding database ---'
+    puts ''
   end
 end
