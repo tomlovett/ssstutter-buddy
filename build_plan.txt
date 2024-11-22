@@ -97,3 +97,5 @@ Turbo live-reloading
 Badges:
 	1/5/10/25/50/100 digital studies
 	1/3/5/10/20 non-digital studies
+Happy birthday email
+	wish P's a happy birthday and thank them for the contribution to stuttering research
