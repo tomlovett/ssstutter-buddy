@@ -8,8 +8,9 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
   </head>
-  <body>
+  <body style="background-color:#D4EBF8">
     <div class="container">
+      <%= stylesheet_link_tag 'application', media: 'all', type: 'scss' %>
       <%= yield %>
     </div>
   </body>
