@@ -8,44 +8,10 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
   </head>
-  <body>
-    <% flash.each do |name, msg| -%>
-      <%= content_tag :div, msg, class: name %>
-    <% end -%>
+  <body style="background-color:#D4EBF8">
     <div class="container">
-      <nav class="navbar navbar-expand-lg bg-light">
-        <div class="container">
-          <a class="navbar-brand" href="/">
-            <h3>SSStutterBuddy &nbsp; (BETA)</h3>
-          </a>
-
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-
-          <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" href="#">My Connections</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Studies</a>
-              </li>
-            </ul>
-
-            <form class="">
-              <a class="btn btn-outline-primary mr-2" href="#">Login</a>
-              <a class="btn btn-outline-success" href="#">Sign up</a>
-              <% link_to 'Sign up', new_user_path, class: "btn btn-outline-primary mr-2" %>
-            </form>
-          </div>
-        </div>
-      </nav>
+      <%= stylesheet_link_tag 'application', media: 'all', type: 'scss' %>
       <%= yield %>
-      <h3>FAQ -- About Us -- Support</h3>
     </div>
   </body>
 </html>

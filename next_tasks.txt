@@ -8,7 +8,7 @@ QR code
 	until launch, redirect page to home; blanket redirect "/*" -> "/"
 
 ASHA basic requirements
-	domains: ssstutterbuddy, stutterbuddy
+	-domains: ssstutterbuddy, stutterbuddy
 	intake Google form -- email, role
 	page content:
 		what is SB?

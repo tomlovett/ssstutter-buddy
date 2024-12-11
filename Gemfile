@@ -47,6 +47,9 @@ gem 'geocoder', '~> 1.8', '>= 1.8.3'
 gem 'city-state'
 gem 'country_select', '~> 8.0'
 
+# move outside dev/test in order to run rake seed:dev
+gem 'factory_bot_rails'
+
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 
@@ -56,7 +59,6 @@ gem 'country_select', '~> 8.0'
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri mingw x64_mingw]
-  gem 'factory_bot_rails'
   gem 'faker'
   gem 'rspec-rails'
 
