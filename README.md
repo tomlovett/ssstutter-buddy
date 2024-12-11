@@ -1,24 +1,11 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+To run the app:
 
-Things you may want to cover:
+`bundle`
+`rake db:setup`
+`rails s`
 
-* Ruby version
+You will need to have `postgres` running locally. If you have Homebrew, `brew install postgresql@15 && brew services run postgresql@15`
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Run `rake seed:dev` to seed the database with dummy data.
