@@ -7,7 +7,7 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  database: blog_development
+  database: sb-dev
   pool: 5
 
 development:
