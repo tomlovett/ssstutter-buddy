@@ -40,7 +40,7 @@ ParticipantStudy - StudyParticipation(?)
 	concerns
 	participant_feedback
 
-ParticipantLocation(?) -- can expand in the future; one location per Party for now
+ParticipantLocation(?) -- can expand in the future; one location per P/S for now
 	participant
 	zipcode
 	country(?)

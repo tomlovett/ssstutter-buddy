@@ -3,44 +3,11 @@
 Participant user flow
 Researcher user flow
 
-QR code
-	brings user to sssb.com/about
-	until launch, redirect page to home; blanket redirect "/*" -> "/"
-
-ASHA basic requirements
-	-domains: ssstutterbuddy, stutterbuddy
-	intake Google form -- email, role
-	page content:
-		what is SB?
-			SSStutterBuddy is a free, not-for-profit online platform that connects people who stutter (PWS) with researchers who need study participants.
-			SSStutterBuddy is free and will always be free.
-		for PWS: support research (and make some cash!)
-			You might be surprised, but the biggest impediment to stuttering research is usually not funding, research ideas, or even technology -- it's finding enough PWS to participate in the study!
-			If you (or your child) are a PWS, you can support hard-working academics as they advance our knowledge of stuttering's expression, causes, and treatments by participating in studies.
-			As a nice bonus, most studies compensate participants for their time and effort. So you can do a good deed and be paid for it as well!
-			SSStutterBuddy *never* shares your personal details unless *you* decide to connect with a study.
-			Register today with only your first name, last initial, email and hometown!
-		privacy: only vetted researchers can see P's; you will only appear as an alias until *you* decide to connect with a researcher/study
-			how you are displayed -- how you are displayed to a specific researcher after you have confirmed interest in their study
-			"Proud Heron -- F 27 Boston, MA" --> "Jane D. -- F 27 Boston, MA"
-		for R's:
-			see a list of PWS and their basic demographic information, indexed by distance from you; invite them to participate in your study
-			if your study can be completed entirely online, your study will be listed on the list of digital studies, accessible by PWS anywhere
-
-business cards
-	SSStutterBuddy "support stuttering research (and earn some cash!)" "(and get paid [for it]!)"
-	QR code
-	"Scan QR code or see reverse to learn more"
-		SSStutterBuddy is a free online platform that connects people who stutter with researchers.
-		By participating in studies, you can advance our understanding of stuttering (while earning cash!)
-	VistaPrint will design for $10; deal; once I have everything else iron'd out
+hook up Next.js
 
 investigate issue with Geocoder API response
 
 sessions & current_user
-
--register domains
-setup Heroku
 
 dynamic Country -> State/Province -> City selection
 	implement in Participant and Study
@@ -54,15 +21,13 @@ Landing page
 
 image uploading for researcher profiles
 
+set up ActiveMailer
+	basic dev config/infrastructure
+	DevOps logistics and config
+
 basic styling
 
 actual styling
-
-written content to explain process to potential users
-	R's need PWS P's, but PWS are difficult to find
-	how we protect your privacy
-		PWS' cannot view other PWS
-		how R's see you when you are a potential match
 
 -less important-
 

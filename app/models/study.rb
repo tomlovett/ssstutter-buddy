@@ -17,6 +17,10 @@ class Study < ApplicationRecord
     fully_digital? ? 'Online' : "#{city}, #{state}"
   end
 
+  def display_remuneration
+    remuneration.zero? ? 'Gratis' : "#{remuneration}$"
+  end
+
   def timeline
     if total_sessions == 1
       "#{total_hours} #{total_hours == 1 ? 'hour' : 'hours'} in one session"
@@ -26,11 +30,12 @@ class Study < ApplicationRecord
   end
 
   def fully_digital?
+    # not sure why I did this. should be fairly simple to implement the actual functionality
     false
   end
 
   def open?
-    Time.zone.today > start_date && Time.zone.today < end_date
+    Time.zone.today >= start_date && Time.zone.today <= end_date
   end
 
   def age_range
@@ -44,14 +49,10 @@ class Study < ApplicationRecord
   end
 
   def duration_number
-    return '' if duration.nil?
-
-    duration.split[0]
+    duration.nil? ? '' : duration.split[0]
   end
 
   def duration_factor
-    return '' if duration.nil?
-
-    duration.split[1]
+    duration.nil? ? '' : duration.split[1]
   end
 end
