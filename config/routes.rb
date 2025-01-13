@@ -8,8 +8,8 @@ Rails.application.routes.draw do
     match '/*any', to: redirect('/'), via: :all
   else
     resources :users, except: :index, path: 'u'
-    get '/users/:id/select_role', to: 'users#select_role'
-    get '/users/:id/change_password', to: 'users#change_password'
+    get '/u/:id/select_role', to: 'users#select_role'
+    get '/u/:id/change_password', to: 'users#change_password'
 
     # Defines the root path route ("/")
     # root "articles#index"
