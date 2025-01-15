@@ -5,15 +5,8 @@ import pluginReact from 'eslint-plugin-react'
 /** @type {import('eslint').Linter.Config[]} */
 export default [
   { files: ['**/*.{js,mjs,cjs,jsx}'] },
-  {
-    ignores: ['vendor/*'],
-  },
   { languageOptions: { globals: globals.browser } },
+  { ignores: ['public/', 'vendor/'] },
   pluginJs.configs.recommended,
   pluginReact.configs.flat.recommended,
-  {
-    rules: {
-      'react/prop-types': 0,
-    },
-  },
 ]

@@ -12,6 +12,9 @@
   "browserslist": [
     "defaults"
   ],
+  "scripts": {
+    "lint": "yarn prettier . --write && yarn eslint"
+  },
   "dependencies": {
     "@babel/core": "^7.26.0",
     "@babel/plugin-transform-runtime": "^7.25.9",
