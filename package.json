@@ -13,7 +13,8 @@
     "defaults"
   ],
   "scripts": {
-    "lint": "yarn prettier . --write && yarn eslint"
+    "lint": "yarn prettier . --write && yarn eslint",
+    "shaka": "./bin/shakapacker-dev-server"
   },
   "dependencies": {
     "@babel/core": "^7.26.0",
@@ -29,8 +30,8 @@
     "css-minimizer-webpack-plugin": "^7.0.0",
     "mini-css-extract-plugin": "^2.9.2",
     "prop-types": "^15.8.1",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react_ujs": "^3.2.1",
     "shakapacker": "8.0.0",
     "style-loader": "^4.0.0",
