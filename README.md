@@ -1,5 +1,17 @@
 # README
 
+## to prepare your evniroment
+you can install manually 
+
+NodeJS,
+Postgre
+Rails
+
+### for ubuntu there is a an auto setup
+sudo chmod +x setup_environment.sh
+./setup_environment.sh
+
+
 To run the app:
 
 `bundle`
