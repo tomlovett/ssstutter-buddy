@@ -56,7 +56,10 @@
 
 
   <h3>Location</h3>
-  LOCATION TOOL
+  <p>{country: <%= study.country %>, state: study.state, city: study.city})</p>
+  <%= react_component('LocationTool') %>
+
+<%# <%= react_component('LocationTool', {country: @study.country, state: @study.state, city: @study.city}) %> %>
 
   <h3>Duration</h3>
 
