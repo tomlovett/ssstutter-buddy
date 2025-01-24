@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :study_participation do
+  factory :connection do
     participant
     study
 

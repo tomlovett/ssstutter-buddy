@@ -2,7 +2,7 @@
 
 class Participant < ApplicationRecord
   belongs_to :user
-  has_many :study_participations, dependent: nil
+  has_many :connections, dependent: nil
 
   delegate :first_name, :last_name, :email, to: :user
 
@@ -14,11 +14,11 @@ class Participant < ApplicationRecord
   end
 
   def study_invitations
-    study_participations.invited
+    connections.invited
   end
 
   def completed_studies
-    study_participations.completed
+    connections.completed
   end
 
   def potential_codenames
