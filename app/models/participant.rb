@@ -7,7 +7,7 @@ class Participant < ApplicationRecord
   delegate :first_name, :last_name, :email, to: :user
 
   geocoded_by :address
-  after_validation :geocode if Rails.env.production?
+  after_validation :geocode, if: ->(obj) { obj.city.present? && obj.city_changed? }
 
   def address
     [city, state, country].compact.join(', ')

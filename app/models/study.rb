@@ -5,7 +5,7 @@ class Study < ApplicationRecord
   has_many :connections, dependent: nil
 
   geocoded_by :address
-  after_validation :geocode if Rails.env.production?
+  after_validation :geocode, if: ->(obj) { obj.city.present? && obj.city_changed? }
 
   scope :closed, -> { where('close_date > ?', Time.zone.today) }
 
