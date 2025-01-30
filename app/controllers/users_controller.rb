@@ -22,6 +22,8 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
+      confirmation_link = @user.confirmation_link # not built yet
+      UserMailer.with(user: @user, @confirmation_link: confirmation_link).confirmation_email
       render :select_role
     else
       render :new, status: :unprocessable_entity
@@ -43,6 +45,17 @@ class UsersController < ApplicationController
     redirect_to users_url, notice: t.success, status: :see_other
   end
 
+  def confirm_email
+    if params[:pin] == @user.confirmation_pin
+      @user.update(confirmed: DateTime.now)
+
+      # render: thank you for confirming!
+    else
+      # render: bad link, request another
+      # this was not a valid link. to request a new link for your account, enter your email below
+    end
+  end
+
   private
 
   def set_user
@@ -51,5 +64,9 @@ class UsersController < ApplicationController
 
   def user_params
     params.fetch(:user).permit(:first_name, :last_name, :email, :password, :password_digest, :password_confirmation)
+  end
+
+  def confirm_params
+    params.fetch(:pin, :user)
   end
 end

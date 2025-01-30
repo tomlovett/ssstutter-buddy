@@ -6,10 +6,15 @@ class User < ApplicationRecord
   has_one :researcher, required: false, dependent: :destroy
   has_one :participant, required: false, dependent: :destroy
 
+  after_initalize ->(user) { user.confirmation_pin = PinGenerator.new.pin }
   before_save :format_last_initial!
 
   def full_name
     "#{first_name} #{last_name}"
+  end
+
+  def confirmation_link
+    user_confirm_url + "?pin=#{confirmation_pin}"
   end
 
   private
