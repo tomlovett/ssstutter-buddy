@@ -14,6 +14,6 @@ class Connection < ApplicationRecord
   private
 
   def assign_pin!
-    6.times { self.pin += Random.rand(0..9).to_s }
+    self.pin = PinGenerator.new.pin
   end
 end

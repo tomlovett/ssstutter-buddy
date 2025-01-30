@@ -19,6 +19,8 @@ module SsstutterBuddy
     config.time_zone = 'Eastern Time (US & Canada)'
     # config.eager_load_paths << Rails.root.join("extras")
 
+    config.action_mailer.default_url_options = { host: "ssstutterbuddy.com" }
+
     config.middleware.use ActionDispatch::Flash
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Session::CookieStore
