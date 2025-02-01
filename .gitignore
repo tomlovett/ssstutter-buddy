@@ -17,6 +17,14 @@
 !/log/.keep
 !/tmp/.keep
 
+*/logs
+*/*.log
+*/npm-debug.log*
+*/yarn-debug.log*
+*/yarn-error.log*
+*/pnpm-debug.log*
+*/lerna-debug.log*
+
 # Ignore pidfiles, but keep the directory.
 /tmp/pids/*
 !/tmp/pids/
@@ -36,6 +44,28 @@
 .vscode
 
 /node_modules
+/dist
+/dist-ssr
+/*.local
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Vite Ruby
+/public/vite*
+node_modules
+# Vite uses dotenv and suggests to ignore local-only env files. See
+# https://vitejs.dev/guide/env-and-mode.html#env-files
+*.local
+
