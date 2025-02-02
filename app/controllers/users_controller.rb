@@ -12,7 +12,9 @@ class UsersController < ApplicationController
   end
 
   # GET /users/1/edit
-  def edit; end
+  def edit
+    render inertia: 'Simple'#, props: { user: @user }
+  end
 
   # GET /users/1/change_password
   def change_password; end
