@@ -91,7 +91,8 @@ GEM
       irb (~> 1.10)
       reline (>= 0.3.8)
     diff-lcs (1.5.1)
-    erubi (1.13.0)
+    dry-cli (1.2.0)
+    erubi (1.13.1)
     execjs (2.9.1)
     factory_bot (6.4.6)
       activesupport (>= 5.0.0)
@@ -108,12 +109,14 @@ GEM
     globalid (1.2.1)
       activesupport (>= 6.1)
     htmlbeautifier (1.4.3)
-    i18n (1.14.5)
+    i18n (1.14.7)
       concurrent-ruby (~> 1.0)
     importmap-rails (2.0.1)
       actionpack (>= 6.0.0)
       activesupport (>= 6.0.0)
       railties (>= 6.0.0)
+    inertia_rails (3.6.0)
+      railties (>= 6)
     io-console (0.7.2)
     irb (1.14.0)
       rdoc (>= 4.0.0)
@@ -122,7 +125,8 @@ GEM
     jwt (2.8.2)
       base64
     language_server-protocol (3.17.0.3)
-    loofah (2.22.0)
+    logger (1.6.5)
+    loofah (2.24.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
     mail (2.8.1)
@@ -133,8 +137,9 @@ GEM
     marcel (1.0.4)
     method_source (1.1.0)
     mini_mime (1.1.5)
-    minitest (5.25.1)
+    minitest (5.25.4)
     msgpack (1.7.2)
+    mutex_m (0.3.0)
     net-imap (0.4.15)
       date
       net-protocol
@@ -160,8 +165,10 @@ GEM
     puma (5.6.8)
       nio4r (~> 2.0)
     racc (1.8.1)
-    rack (2.2.9)
-    rack-test (2.1.0)
+    rack (2.2.10)
+    rack-proxy (0.7.7)
+      rack
+    rack-test (2.2.0)
       rack (>= 1.3)
     rails (7.0.8.4)
       actioncable (= 7.0.8.4)
@@ -181,9 +188,9 @@ GEM
       activesupport (>= 5.0.0)
       minitest
       nokogiri (>= 1.6)
-    rails-html-sanitizer (1.6.0)
+    rails-html-sanitizer (1.6.2)
       loofah (~> 2.21)
-      nokogiri (~> 1.14)
+      nokogiri (>= 1.15.7, != 1.16.7, != 1.16.6, != 1.16.5, != 1.16.4, != 1.16.3, != 1.16.2, != 1.16.1, != 1.16.0.rc1, != 1.16.0)
     railties (7.0.8.4)
       actionpack (= 7.0.8.4)
       activesupport (= 7.0.8.4)
@@ -264,10 +271,19 @@ GEM
       concurrent-ruby (~> 1.0)
     unaccent (0.4.0)
     unicode-display_width (2.5.0)
+    vite_rails (3.0.19)
+      railties (>= 5.1, < 9)
+      vite_ruby (~> 3.0, >= 3.2.2)
+    vite_ruby (3.9.1)
+      dry-cli (>= 0.7, < 2)
+      logger (~> 1.6)
+      mutex_m
+      rack-proxy (~> 0.6, >= 0.6.1)
+      zeitwerk (~> 2.2)
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    zeitwerk (2.6.17)
+    zeitwerk (2.7.1)
 
 PLATFORMS
   x86_64-darwin-21
@@ -280,6 +296,7 @@ DEPENDENCIES
   bootsnap
   bootstrap
   city-state
+  concurrent-ruby (= 1.3.4)
   country_select (~> 8.0)
   debug
   factory_bot_rails
@@ -287,6 +304,7 @@ DEPENDENCIES
   geocoder (~> 1.8, >= 1.8.3)
   htmlbeautifier
   importmap-rails
+  inertia_rails
   jwt
   pg (~> 1.1)
   puma (~> 5.0)
@@ -300,6 +318,7 @@ DEPENDENCIES
   sassc-rails
   sprockets-rails
   tzinfo-data
+  vite_rails
 
 RUBY VERSION
    ruby 3.3.3p89

@@ -1,0 +1,32 @@
+{
+  "name": "ssstutter-buddy",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "pretty": "yarn prettier . --write",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@inertiajs/react": "^2.0.3",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.19.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react-swc": "^3.5.0",
+    "eslint": "^9.19.0",
+    "eslint-plugin-react": "^7.37.4",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-react-refresh": "^0.4.16",
+    "globals": "^15.14.0",
+    "prettier": "3.4.2",
+    "vite": "^5.4.14",
+    "vite-plugin-ruby": "^5.1.1"
+  }
+}
