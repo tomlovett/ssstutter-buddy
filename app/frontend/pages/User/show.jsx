@@ -1,4 +1,8 @@
-export default function show({ user }) {
+import { useState } from 'react'
+
+const Show = ({ user }) => {
+  const [counter, setCounter] = useState(0)
+
   return (
     <div>
       <h3>Hola Muchacho</h3>
@@ -10,3 +14,5 @@ export default function show({ user }) {
     </div>
   )
 }
+
+export default Show
