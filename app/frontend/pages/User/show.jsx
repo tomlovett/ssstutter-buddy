@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
-const Show = ({ user }) => {
-  const [counter, setCounter] = useState(0)
+export default ({ user }) => {
+  const [email, setEmail] = useState(user.email)
 
   return (
     <div>
@@ -9,10 +9,8 @@ const Show = ({ user }) => {
       <p>First Name: {user.first_name}</p>
       <p>Last Name: {user.last_name}</p>
       <br />
-      <p>Email: {user.email}</p>
+      <p>Email: {email}</p>
       <br />
     </div>
   )
 }
-
-export default Show
