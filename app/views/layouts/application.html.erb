@@ -4,8 +4,13 @@
     <title>SSStutterBuddy</title>
     <%= favicon_link_tag asset_path('favicon/favicon-32x32.png') %>
     <%= stylesheet_link_tag "application" %>
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+
+    <%= inertia_headers %>
+    <%= vite_react_refresh_tag %>
+
     <%= vite_client_tag %>
     <%= vite_javascript_tag 'application.jsx' %>
   </head>

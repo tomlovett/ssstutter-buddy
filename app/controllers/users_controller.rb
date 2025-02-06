@@ -5,7 +5,7 @@ class UsersController < ApplicationController
 
   # GET /users/1
   def show
-    render inertia: 'User/show', props: { user: @user.as_json }
+    render inertia: 'User/show', props: { user: @user }
   end
 
   # GET /users/new
@@ -15,7 +15,7 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
-    render inertia: 'Simple'
+    render inertia: 'Simple', props: { user: @user }
   end
 
   # GET /users/1/change_password
