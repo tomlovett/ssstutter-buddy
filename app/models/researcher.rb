@@ -2,7 +2,7 @@
 
 class Researcher < ApplicationRecord
   belongs_to :user
-  has_many :study, primary_key: :primary_researcher_id, dependent: nil
+  has_many :studies, dependent: nil
 
   delegate :first_name, :last_name, :full_name, :email, to: :user
 
