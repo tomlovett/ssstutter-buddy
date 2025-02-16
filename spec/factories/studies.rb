@@ -20,9 +20,14 @@ FactoryBot.define do
     duration { "#{rand(1..5)} #{%w[days weeks months years].sample}" }
     follow_up { nil }
     remuneration { rand(25..100) }
+    fully_digital { rand > 0.6 }
 
     trait :with_follow_up do
       follow_up { Faker::Lorem.sentence }
+    end
+
+    trait :fully_digital do
+      fully_digital { true }
     end
   end
 end
