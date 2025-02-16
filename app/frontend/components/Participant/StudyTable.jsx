@@ -6,26 +6,41 @@ import {
   TableHeader,
   TableRow,
 } from '@ui/table'
+import { ageRange, shortAddr, timeline } from '@/lib/study'
 
 const formatDate = dateObj => new Date(dateObj).toDateString().slice(0, -4)
 
 const StudyTable = ({ studies, nullStatement }) => {
   const EmptyRow = () => (
-    <TableCell className="text-muted-foreground">{nullStatement}</TableCell>
+    <TableRow>
+      <TableCell className="text-muted-foreground">{nullStatement}</TableCell>
+    </TableRow>
+  )
+
+  const TableHeaderRow = () => (
+    <TableHeader>
+      <TableRow>
+        <TableHead>Study Name</TableHead>
+        <TableHead>Age Range</TableHead>
+        <TableHead>Commitment</TableHead>
+        <TableHead>Location</TableHead>
+      </TableRow>
+    </TableHeader>
   )
 
   const StudySlice = ({ study }) => (
     <TableRow key={study.id} className="even:bg-muted">
       <TableCell>{study.title}</TableCell>
-      <TableCell className="font-medium">{study.age_range}</TableCell>
-      <TableCell>{study.duration}</TableCell>
-      <TableCell className="text-right">{study.distance}</TableCell>
+      <TableCell>{ageRange(study)}</TableCell>
+      <TableCell>{timeline(study)}</TableCell>
+      <TableCell>{shortAddr(study)}</TableCell>
     </TableRow>
   )
 
   return (
     <Table>
-      <TableBody w-full>
+      {studies.length > 0 && <TableHeaderRow />}
+      <TableBody>
         {studies.length == 0 ? (
           <EmptyRow />
         ) : (
