@@ -1,4 +1,4 @@
-const Home = ({ researcher, studies, activeConnections }) => {
+const ResearcherHome = ({ researcher, studies, active_connections }) => {
   const StudySlice = ({ study }) => (
     <>
       <p>
@@ -19,20 +19,23 @@ const Home = ({ researcher, studies, activeConnections }) => {
   return (
     <div>
       <h3>Researcher Home Page</h3>
+
       <button onClick={() => {}}>New Study</button>
+
       <h5>Active Studies</h5>
       {studies.length == 0
         ? "You don't have any active studies"
         : studies.map(study => <StudySlice study={study} key={study.id} />)}
       <br />
+
       <h5>Active Connections</h5>
-      {activeConnections.length == 0
+      {active_connections.length == 0
         ? "You don't have any active connections"
-        : activeConnections.map(connection => (
+        : active_connections.map(connection => (
             <ConnectionSlice connection={connection} key={connection.id} />
           ))}
     </div>
   )
 }
 
-export default Home
+export default ResearcherHome

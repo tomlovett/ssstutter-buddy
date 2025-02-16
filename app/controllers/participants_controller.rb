@@ -1,10 +1,22 @@
 # frozen_string_literal: true
 
 class ParticipantsController < ApplicationController
-  before_action :set_participant, only: %i[show edit update destroy]
+  before_action :set_participant, only: %i[show home edit update destroy]
 
   # GET /participants/1
   def show; end
+
+  # GET /participants/1/home
+  def home
+    props = {
+      participant: @participant.as_json(include: :user),
+      study_invitations: @participant.study_invitations.as_json(include: :study),
+      connections: @participant.connections.as_json(include: :study),
+      nearby_studies: @participant.nearby_studies
+    }
+
+    render inertia: 'Participant/home', props:
+  end
 
   # GET /participants/new
   def new

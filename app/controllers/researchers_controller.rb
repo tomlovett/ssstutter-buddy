@@ -11,7 +11,7 @@ class ResearchersController < ApplicationController
     props = {
       researcher: @researcher,
       studies: @researcher.studies,
-      activeConnections: @researcher.active_connections
+      active_connections: @researcher.active_connections
     }
 
     render inertia: 'Researcher/home', props:
