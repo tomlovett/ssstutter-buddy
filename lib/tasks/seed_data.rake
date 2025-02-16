@@ -9,12 +9,13 @@ namespace :seed do
     puts '--- Seeding database ---'
 
     FactoryBot.create_list(:participant, 30)
-    FactoryBot.create_list(:researcher, 5)
 
     3.times do
-      primary_researcher = FactoryBot.create(:researcher)
-      FactoryBot.create_list(:study, 2, primary_researcher:)
+      researcher = FactoryBot.create(:researcher)
+      FactoryBot.create_list(:study, 3, researcher:)
     end
+
+    FactoryBot.create_list(:researcher, 3)
 
     # Loop over every table in database
     ActiveRecord::Base.connection.tables.each do |table_name|
