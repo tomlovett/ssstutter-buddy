@@ -5,11 +5,11 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from '../../components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
+} from '@ui/card'
+import { Input } from '@ui/input'
+import { Label } from '@ui/label'
 
-export default ({ user }) => {
+const UserShow = ({ user }) => {
   const [email, setEmail] = useState(user.email)
 
   return (
@@ -20,9 +20,7 @@ export default ({ user }) => {
             Hola Muchacho
           </h3>
         </CardTitle>
-        <CardDescription>
-          Make changes to your account here.
-        </CardDescription>
+        <CardDescription>Make changes to your account here.</CardDescription>
       </CardHeader>
       <CardContent className="space-y-2">
         <div className="space-y-1">
@@ -41,3 +39,5 @@ export default ({ user }) => {
     </Card>
   )
 }
+
+export default UserShow
