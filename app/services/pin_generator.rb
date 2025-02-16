@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PinGenerator
   attr_reader :pin
 
