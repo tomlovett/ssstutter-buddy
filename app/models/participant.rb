@@ -13,6 +13,11 @@ class Participant < ApplicationRecord
     [city, state, country].compact.join(', ')
   end
 
+  def nearby_studies
+    Study.limit(3)
+    # study where within distace_pref, no connection, active/not closed
+  end
+
   def study_invitations
     connections.invited
   end

@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :study do
-    primary_researcher { association(:researcher) }
+    researcher
 
     title { Faker::Lorem.sentence }
     short_desc { Faker::Lorem.sentences(number: 2) }

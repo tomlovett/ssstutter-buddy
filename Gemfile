@@ -29,7 +29,7 @@ gem 'sassc-rails'
 
 gem 'sprockets-rails', require: 'sprockets/railtie'
 
-gem "vite_rails"
+gem 'vite_rails'
 
 gem 'inertia_rails'
 

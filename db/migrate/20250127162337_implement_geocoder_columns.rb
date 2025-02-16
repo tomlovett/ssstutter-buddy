@@ -2,12 +2,16 @@
 
 class ImplementGeocoderColumns < ActiveRecord::Migration[7.0]
   def change
-    add_column :participants, :latitude, :float
-    add_column :participants, :longitude, :float
-    add_index :participants, %i[latitude longitude]
+    change_table :participants, bulk: true do |t|
+      t.add_column :latitude, :float
+      t.add_column :longitude, :float
+      t.add_index %i[latitude longitude]
+    end
 
-    add_column :studies, :latitude, :float
-    add_column :studies, :longitude, :float
-    add_index :studies, %i[latitude longitude]
+    change_table :studies, bulk: true do |t|
+      t.add_column :latitude, :float
+      t.add_column :longitude, :float
+      t.add_index %i[latitude longitude]
+    end
   end
 end

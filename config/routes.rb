@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   # root "articles#index"
 
   resources :participants, except: :index, path: 'p'
+  get '/p/:id/home', to: 'participants#home'
   resources :researchers, except: :index, path: 'r'
+  get '/r/:id/home', to: 'researchers#home'
   resources :studies, path: 's'
 end

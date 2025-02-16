@@ -1,10 +1,21 @@
 # frozen_string_literal: true
 
 class ResearchersController < ApplicationController
-  before_action :set_researcher, only: %i[show edit update destroy]
+  before_action :set_researcher, only: %i[show home edit update destroy]
 
   # GET /researchers/1
   def show; end
+
+  # GET /researchers/1/home
+  def home
+    props = {
+      researcher: @researcher,
+      studies: @researcher.studies,
+      active_connections: @researcher.active_connections
+    }
+
+    render inertia: 'Researcher/home', props:
+  end
 
   # GET /researchers/new
   def new

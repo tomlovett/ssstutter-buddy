@@ -2,16 +2,20 @@
 
 class TouchUpUsersResearchers < ActiveRecord::Migration[7.0]
   def change
-    change_column_null :users, :first_name, false
-    change_column_default :users, :first_name, from: nil, to: ''
+    change_table :users, bulk: true do |t|
+      t.change_column_null :first_name, false
+      t.change_column_default :first_name, from: nil, to: ''
 
-    change_column_null :users, :last_name, false
-    change_column_default :users, :last_name, from: nil, to: ''
+      t.change_column_null :last_name, false
+      t.change_column_default :last_name, from: nil, to: ''
 
-    change_column_null :users, :email, false
-    change_column_default :users, :email, from: nil, to: ''
+      t.change_column_null :email, false
+      t.change_column_default :email, from: nil, to: ''
+    end
 
-    add_column :researchers, :institution, :string
-    add_column :researchers, :titles, :string
+    change_table :researchers, bulk: true do |t|
+      t.add_column :institution, :string
+      t.add_column :titles, :string
+    end
   end
 end

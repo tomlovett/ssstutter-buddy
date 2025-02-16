@@ -24,6 +24,9 @@ Metrics/BlockLength:
 Metrics/MethodLength:
   Enabled: false
 
+Rails/I18nLocaleTexts:
+  Enabled: false
+
 RSpec/NestedGroups:
   Enabled: false
 
