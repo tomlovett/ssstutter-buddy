@@ -8,7 +8,7 @@ FactoryBot.define do
     not_interested { nil }
     registered { nil }
     invited { nil }
-    intvitation_response { [nil, 'accepted', 'rejected'].sample }
+    invitation_response { [nil, 'accepted', 'rejected'].sample }
     no_show { false }
     completed { false }
     participant_rating { rand(1..5) }

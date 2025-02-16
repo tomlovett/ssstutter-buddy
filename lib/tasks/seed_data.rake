@@ -17,6 +17,12 @@ namespace :seed do
 
     FactoryBot.create_list(:researcher, 3)
 
+    9.times do |i|
+      participant = Participant.find(i + 1)
+      study = Study.find(i + 1)
+      FactoryBot.create(:connection, participant:, study:)
+    end
+
     # Loop over every table in database
     ActiveRecord::Base.connection.tables.each do |table_name|
       # Changes ID sequence to the current max ID

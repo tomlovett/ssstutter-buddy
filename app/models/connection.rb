@@ -6,6 +6,7 @@ class Connection < ApplicationRecord
 
   scope :invited, -> { where.not(invited: nil) }
   scope :completed, -> { where(completed: true) }
+  scope :active, -> { where(invitation_response: 'accepted', completed: false) }
 
   validates :pin, length: { is: 6 }
 
