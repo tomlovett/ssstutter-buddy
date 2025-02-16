@@ -5,7 +5,7 @@ const Layout = ({ children }) => {
   return (
     <div>
       <Head />
-      <main className="p-6 flex justify-center">{children}</main>
+      <main className="p-6 justify-center">{children}</main>
     </div>
   )
 }
