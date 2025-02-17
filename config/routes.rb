@@ -10,6 +10,7 @@ Rails.application.routes.draw do
 
   resources :participants, except: :index, path: 'p'
   get '/p/:id/home', to: 'participants#home'
+  get '/p/:id/digital-studies', to: 'participants#digital_studies'
   resources :researchers, except: :index, path: 'r'
   get '/r/:id/home', to: 'researchers#home'
   resources :studies, path: 's'

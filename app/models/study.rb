@@ -4,10 +4,13 @@ class Study < ApplicationRecord
   belongs_to :researcher
   has_many :connections, dependent: nil
 
-  geocoded_by :address
+  validates :city, presence: true, unless: :digital_only
+
+  geocoded_by :address, unless: :digital_only
   after_validation :geocode, if: ->(obj) { obj.city.present? && obj.city_changed? }
 
   scope :closed, -> { where('close_date > ?', Time.zone.today) }
+  scope :digital, -> { where(digital_friendly: true) }
 
   def address
     [city, state, country].compact.join(', ')

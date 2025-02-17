@@ -33,7 +33,7 @@ const ParticipantHome = ({
       />
       <br />
 
-      <a href="#">View All Fully-Online Studies</a>
+      <a href="#">View Fully-Online Studies</a>
     </>
   )
 }

@@ -6,11 +6,16 @@ import {
   TableHeader,
   TableRow,
 } from '@ui/table'
-import { ageRange, shortAddr, timeline } from '@/lib/study'
+import { ageRange, displayAddr, timeline } from '@/lib/study'
 
 const formatDate = dateObj => new Date(dateObj).toDateString().slice(0, -4)
 
-const StudyTable = ({ studies, nullStatement }) => {
+const StudyTable = ({
+  studies,
+  nullStatement,
+  digital_only,
+  digital_friendly,
+}) => {
   const EmptyRow = () => (
     <TableRow>
       <TableCell className="text-muted-foreground">{nullStatement}</TableCell>
@@ -22,8 +27,9 @@ const StudyTable = ({ studies, nullStatement }) => {
       <TableRow>
         <TableHead>Study Name</TableHead>
         <TableHead>Age Range</TableHead>
-        <TableHead>Commitment</TableHead>
+        <TableHead>Estimated Commitment</TableHead>
         <TableHead>Location</TableHead>
+        {digital_only && <TableHead>Posted</TableHead>}
       </TableRow>
     </TableHeader>
   )
@@ -33,7 +39,10 @@ const StudyTable = ({ studies, nullStatement }) => {
       <TableCell>{study.title}</TableCell>
       <TableCell>{ageRange(study)}</TableCell>
       <TableCell>{timeline(study)}</TableCell>
-      <TableCell>{shortAddr(study)}</TableCell>
+      <TableCell>{displayAddr(study)}</TableCell>
+      {digital_only && (
+        <TableCell>{formatDate(study.created_at)}</TableCell>
+      )}
     </TableRow>
   )
 

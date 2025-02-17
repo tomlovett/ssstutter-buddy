@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ParticipantsController < ApplicationController
-  before_action :set_participant, only: %i[show home edit update destroy]
+  before_action :set_participant, only: %i[show home digital_studies edit update destroy]
 
   # GET /participants/1
   def show; end
@@ -16,6 +16,17 @@ class ParticipantsController < ApplicationController
     }
 
     render inertia: 'Participant/home', props:
+  end
+
+  def digital_studies
+    existing_study_connections = Connection.where(participant: @participant).pluck(:study_id)
+    untouched_digital_studies = Study.digital.where.not(id: existing_study_connections)
+
+    props = {
+      studies: untouched_digital_studies.order(:created_at)
+    }
+
+    render inertia: 'Participant/digitalStudies', props:
   end
 
   # GET /participants/new

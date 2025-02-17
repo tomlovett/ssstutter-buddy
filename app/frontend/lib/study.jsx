@@ -1,14 +1,34 @@
-export const shortAddr = ({ fully_digital, city, state }) =>
-  fully_digital ? 'Online' : `${city}, ${state}`
+export const displayAddr = ({
+  only_digital,
+  digital_friendly,
+  city,
+  state,
+}) => {
+  if (only_digital) {
+    return 'Online'
+  }
+
+  const cityState = `${city}, ${state}`
+  return digital_friendly ? cityState : `${cityState} / Online`
+}
 
 export const displayRemuneration = ({ remuneration }) =>
   remuneration == '0' ? 'Gratis' : `$${remuneration}`
 
+export const displayHours = total_hours => {
+  if (total_hours == 1) {
+    return '1 hour'
+  }
+
+  return total_hours < 1
+    ? `${total_hours * 60} minutes`
+    : `${total_hours} hours`
+}
+
 export const timeline = ({ total_hours, total_sessions, duration }) =>
   total_sessions == 1
-    ? `${total_hours} ${total_hours == 1 ? 'hour' : 'hours'} in one session`
-    : `${total_hours} ${total_hours == 1 ? 'hour' : 'total hours'} in ${total_sessions} sessions \
-	over the course of ${duration}`
+    ? `${displayHours(total_hours)} in one session`
+    : `${displayHours(total_hours)} in ${total_sessions} sessions over the course of ${duration}`
 
 export const ageRange = ({ min_age, max_age }) => {
   if (!min_age && !max_age) {
