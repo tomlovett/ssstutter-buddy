@@ -1,41 +1,26 @@
-const ResearcherHome = ({ researcher, studies, active_connections }) => {
-  const StudySlice = ({ study }) => (
-    <>
-      <p>
-        {study.title} -- green: study.active_connections.count blue:
-        study.completed_connections.count {study.open_date}-{study.close_date}
-      </p>
-    </>
-  )
+import ConnectionsTable from 'components/Researcher/ConnectionsTable'
+import StudyTable from 'components/Researcher/StudyTable'
+import { Button } from '@/components/ui/button'
 
-  const ConnectionSlice = ({ connection }) => (
-    <>
-      <p>
-        Participant.display_name -- connection.status -- most recent timestamp
-      </p>
-    </>
-  )
+const ResearcherHome = ({ researcher, studies, active_connections }) => (
+  <div>
+    <h3>Researcher Home Page</h3>
 
-  return (
-    <div>
-      <h3>Researcher Home Page</h3>
+    <Button onClick={() => {}}>New Study</Button>
 
-      <button onClick={() => {}}>New Study</button>
+    <h5>Active Studies</h5>
+    <StudyTable
+      studies={studies}
+      nullStatement="You don't have any active studies"
+    />
+    <br />
 
-      <h5>Active Studies</h5>
-      {studies.length == 0
-        ? "You don't have any active studies"
-        : studies.map(study => <StudySlice study={study} key={study.id} />)}
-      <br />
-
-      <h5>Active Connections</h5>
-      {active_connections.length == 0
-        ? "You don't have any active connections"
-        : active_connections.map(connection => (
-            <ConnectionSlice connection={connection} key={connection.id} />
-          ))}
-    </div>
-  )
-}
+    <h5>Active Connections</h5>
+    <ConnectionsTable
+      connections={active_connections}
+      nullStatement="You don't have any active connections"
+    />
+  </div>
+)
 
 export default ResearcherHome

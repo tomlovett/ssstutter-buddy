@@ -10,8 +10,8 @@ class ResearchersController < ApplicationController
   def home
     props = {
       researcher: @researcher,
-      studies: @researcher.studies,
-      active_connections: @researcher.active_connections
+      studies: @researcher.studies.as_json,
+      active_connections: @researcher.active_connections.as_json(include: :participant)
     }
 
     render inertia: 'Researcher/home', props:
