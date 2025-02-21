@@ -1,17 +1,17 @@
 # frozen_string_literal: true
 
-class StudiesController < ApplicationController
+class R::StudiesController < ApplicationController
   before_action :set_study, only: %i[show edit update destroy]
 
-  # GET /studies
+  # GET /r/studies
   def index
-    @studies = Study.all
+    @studies = @current_user.researcher.studies
   end
 
-  # GET /studies/1
+  # GET /r/studies/1
   def show; end
 
-  # GET /studies/new
+  # GET /r/studies/new
   def new
     @study = Study.new(
       primary_researcher: @current_user&.researcher,
@@ -23,10 +23,10 @@ class StudiesController < ApplicationController
     )
   end
 
-  # GET /studies/1/edit
+  # GET /r/studies/1/edit
   def edit; end
 
-  # POST /studies
+  # POST /r/studies
   def create
     @study = Study.new(study_params)
 
@@ -37,7 +37,7 @@ class StudiesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /studies/1
+  # PATCH/PUT /r/studies/1
   def update
     if @study.update(study_params)
       redirect_to @study, notice: 'Success!', status: :see_other
@@ -46,7 +46,7 @@ class StudiesController < ApplicationController
     end
   end
 
-  # DELETE /studies/1
+  # DELETE /r/studies/1
   def destroy
     @study.destroy
     redirect_to studies_url, notice: 'Success!', status: :see_other

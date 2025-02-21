@@ -30,8 +30,15 @@ Rails/I18nLocaleTexts:
 RSpec/NestedGroups:
   Enabled: false
 
-Style/Documentation:
+RSpec/MultipleExpectations:
   Enabled: false
 
-RSpec/MultipleExpectations:
+Style/ClassAndModuleChildren:
+  EnforcedStyle: compact
+  Exclude:
+    - 'app/channels/application_cable/channel.rb'
+    - 'app/channels/application_cable/connection.rb'
+    - 'config/application.rb'
+
+Style/Documentation:
   Enabled: false

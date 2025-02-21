@@ -1,13 +1,12 @@
 # frozen_string_literal: true
 
-class ParticipantsController < ApplicationController
-  before_action :set_participant, only: %i[show home digital_studies edit update destroy]
+class P::ParticipantsController < ApplicationController
+  before_action :set_participant, only: %i[show edit update destroy]
 
-  # GET /participants/1
-  def show; end
+  # GET /p
+  def index
+    @participant = Participant.find(1)
 
-  # GET /participants/1/home
-  def home
     props = {
       participant: @participant.as_json(include: :user),
       study_invitations: @participant.study_invitations.as_json(include: :study),
@@ -18,26 +17,18 @@ class ParticipantsController < ApplicationController
     render inertia: 'Participant/home', props:
   end
 
-  def digital_studies
-    existing_study_connections = Connection.where(participant: @participant).pluck(:study_id)
-    untouched_digital_studies = Study.digital.where.not(id: existing_study_connections)
+  # GET /p/participants/1
+  def show; end
 
-    props = {
-      studies: untouched_digital_studies.order(:created_at)
-    }
-
-    render inertia: 'Participant/digitalStudies', props:
-  end
-
-  # GET /participants/new
+  # GET /p/participants/new
   def new
     @participant = Participant.new
   end
 
-  # GET /participants/1/edit
+  # GET /p/participants/1/edit
   def edit; end
 
-  # POST /participants
+  # POST /p/participants
   def create
     @participant = Participant.new(participant_params)
 
@@ -48,7 +39,7 @@ class ParticipantsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /participants/1
+  # PATCH/PUT /p/participants/1
   def update
     if @participant.update(participant_params)
       redirect_to @participant, notice: 'Success!', status: :see_other
@@ -57,7 +48,7 @@ class ParticipantsController < ApplicationController
     end
   end
 
-  # DELETE /participants/1
+  # DELETE /p/participants/1
   def destroy
     @participant.destroy
     redirect_to participants_url, notice: t.success, status: :see_other
