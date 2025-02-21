@@ -1,13 +1,12 @@
 # frozen_string_literal: true
 
-class ResearchersController < ApplicationController
-  before_action :set_researcher, only: %i[show home edit update destroy]
+class R::ResearchersController < ApplicationController
+  before_action :set_researcher, only: %i[show edit update destroy]
 
-  # GET /researchers/1
-  def show; end
-
-  # GET /researchers/1/home
+  # GET /r
   def home
+    @researcher = Researcher.find(1)
+
     props = {
       researcher: @researcher,
       studies: @researcher.studies.as_json,
@@ -17,15 +16,18 @@ class ResearchersController < ApplicationController
     render inertia: 'Researcher/home', props:
   end
 
-  # GET /researchers/new
+  # GET /r/researchers/1
+  def show; end
+
+  # GET /r/researchers/new
   def new
     @researcher = Researcher.new
   end
 
-  # GET /researchers/1/edit
+  # GET /r/researchers/1/edit
   def edit; end
 
-  # POST /researchers
+  # POST /r/researchers
   def create
     @researcher = Researcher.new(researcher_params)
 
@@ -36,7 +38,7 @@ class ResearchersController < ApplicationController
     end
   end
 
-  # PATCH/PUT /researchers/1
+  # PATCH/PUT /r/researchers/1
   def update
     if @researcher.update(researcher_params)
       redirect_to @researcher, notice: t.success, status: :see_other
@@ -45,7 +47,7 @@ class ResearchersController < ApplicationController
     end
   end
 
-  # DELETE /researchers/1
+  # DELETE /r/researchers/1
   def destroy
     @researcher.destroy
     redirect_to researchers_url, notice: t.success, status: :see_other

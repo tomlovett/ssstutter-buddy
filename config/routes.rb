@@ -8,10 +8,20 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
 
-  resources :participants, except: :index, path: 'p'
-  get '/p/:id/home', to: 'participants#home'
-  get '/p/:id/digital-studies', to: 'participants#digital_studies'
-  resources :researchers, except: :index, path: 'r'
-  get '/r/:id/home', to: 'researchers#home'
-  resources :studies, path: 's'
+  namespace :p do
+    get '/', to: '/p/participants#index'
+    resources :participants, except: :index
+
+    resources :researchers, only: :show
+    get '/studies/digital', to: 'studies#digital_studies'
+    resources :studies, only: %i[index show]
+  end
+
+  namespace :r do
+    get '/', to: '/r/researchers#home'
+    resources :researchers, except: :index
+
+    resources :studies
+    resources :participants, only: [:show]
+  end
 end
