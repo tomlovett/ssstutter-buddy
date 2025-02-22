@@ -49,7 +49,6 @@ gem 'bootsnap', require: false
 gem 'geocoder', '~> 1.8', '>= 1.8.3'
 
 gem 'city-state'
-gem 'country_select', '~> 8.0'
 
 # move outside dev/test in order to run rake seed:dev
 gem 'factory_bot_rails'

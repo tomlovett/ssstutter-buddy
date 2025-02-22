@@ -14,7 +14,7 @@ class P::ParticipantsController < ApplicationController
       nearby_studies: @participant.nearby_studies
     }
 
-    render inertia: 'Participant/home', props:
+    render inertia: 'p/Participant/home', props:
   end
 
   # GET /p/participants/1
