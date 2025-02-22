@@ -24,4 +24,8 @@ Rails.application.routes.draw do
     resources :studies
     resources :participants, only: [:show]
   end
+
+  scope :api do
+    post '/location', to: 'api#location'
+  end
 end
