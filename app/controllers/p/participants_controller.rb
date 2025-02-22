@@ -28,7 +28,9 @@ class P::ParticipantsController < ApplicationController
   end
 
   # GET /p/participants/1/edit
-  def edit; end
+  def edit
+    render inertia: 'p/Participant/edit', props: { participant: @participant.as_json }
+  end
 
   # POST /p/participants
   def create
