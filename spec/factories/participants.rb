@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :participant do
-    codename { Faker::Lorem.words(number: 3) }
+    codename { Faker::Lorem.words(number: 3).join(' ') }
     city { Faker::Address.city }
     state { Faker::Address.state_abbr }
     country { 'US' }

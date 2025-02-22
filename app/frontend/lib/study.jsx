@@ -9,7 +9,7 @@ export const displayAddr = ({
   }
 
   const cityState = `${city}, ${state}`
-  return digital_friendly ? cityState : `${cityState} / Online`
+  return digital_friendly ? cityState : `Online / ${cityState}`
 }
 
 export const displayRemuneration = ({ remuneration }) =>
@@ -21,7 +21,7 @@ export const displayHours = total_hours => {
   }
 
   return total_hours < 1
-    ? `${total_hours * 60} minutes`
+    ? `${Number.parseInt(total_hours * 60)} minutes`
     : `${total_hours} hours`
 }
 

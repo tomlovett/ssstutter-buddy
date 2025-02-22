@@ -18,7 +18,9 @@ class P::ParticipantsController < ApplicationController
   end
 
   # GET /p/participants/1
-  def show; end
+  def show
+    render inertia: 'p/Participant/show', props: { participant: @participant.as_json }
+  end
 
   # GET /p/participants/new
   def new

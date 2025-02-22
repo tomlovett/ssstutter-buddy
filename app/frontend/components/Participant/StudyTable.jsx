@@ -7,15 +7,9 @@ import {
   TableRow,
 } from '@ui/table'
 import { ageRange, displayAddr, timeline } from '@/lib/study'
+import { formatDate } from '@/lib/utils'
 
-const formatDate = dateObj => new Date(dateObj).toDateString().slice(0, -4)
-
-const StudyTable = ({
-  studies,
-  nullStatement,
-  digital_only,
-  digital_friendly,
-}) => {
+const StudyTable = ({ studies, nullStatement, digital_only }) => {
   const EmptyRow = () => (
     <TableRow>
       <TableCell className="text-muted-foreground">{nullStatement}</TableCell>
