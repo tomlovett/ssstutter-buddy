@@ -48,6 +48,7 @@ gem 'bootsnap', require: false
 
 gem 'geocoder', '~> 1.8', '>= 1.8.3'
 
+gem 'countries'
 gem 'city-state'
 
 # move outside dev/test in order to run rake seed:dev
