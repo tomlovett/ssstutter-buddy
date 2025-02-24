@@ -1,4 +1,5 @@
 import ParticipantForm from '@/components/Participant/ParticipantForm'
+import LocationTool from '@/components/lib/LocationTool'
 import { formatLocation } from '@/lib/utils'
 
 const ParticipantEdit = ({ participant }) => {
@@ -9,13 +10,19 @@ const ParticipantEdit = ({ participant }) => {
       <ParticipantForm participant={participant} />
 
       <p>
-        <b>Location</b>:{' '}
+        <b>Your Location</b>:{' '}
         {formatLocation(
           participant.country,
           participant.state,
           participant.city
         )}
       </p>
+
+      <LocationTool
+        country={participant.country}
+        state={participant.state}
+        city={participant.city}
+      />
 
       <p>
         <b>how researchers will see you:</b>

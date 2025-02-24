@@ -16,5 +16,10 @@ export const formatBirthday = dateObj => {
   return date.toDateString().slice(4, -5) + ', ' + date.getUTCFullYear()
 }
 
-export const formatLocation = (country, state, city) =>
-  `${city}, ${state.name || state}, ${country.name || country}`
+export const formatLocation = (country, state, city) => {
+  if (!country) {
+    return 'No Location Selected'
+  }
+
+  return `${city.name || city}, ${state.name || state}, ${country.name || country}`
+}

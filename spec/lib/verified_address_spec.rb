@@ -13,7 +13,7 @@ RSpec.describe VerifiedAddress do
   describe '#as_json' do
     context 'when passed no values' do
       it 'returns an empty hash' do
-        expect(as_json).to eq({ country: '', state: '', city: '' })
+        expect(as_json).to eq({ country: {}, state: {}, city: {}, states_list: [], cities_list: [] })
       end
     end
 
@@ -22,8 +22,10 @@ RSpec.describe VerifiedAddress do
 
       it 'returns the formatted country with an array of states' do
         expect(as_json[:country]).to eq({ name: 'United States of America', symbol: 'US' })
-        expect(as_json[:state]).to include({ name: 'Maryland', symbol: 'MD' })
-        expect(as_json[:city]).to eq('')
+        expect(as_json[:states_list]).not_to be_empty
+        expect(as_json[:states_list]).to include({ name: 'Maryland', symbol: 'MD' })
+        expect(as_json[:state]).to eq({})
+        expect(as_json[:city]).to eq({})
       end
     end
 
@@ -34,7 +36,7 @@ RSpec.describe VerifiedAddress do
       it 'returns the formmatted country and city with an array of city names' do
         expect(as_json[:country]).to eq({ name: 'United States of America', symbol: 'US' })
         expect(as_json[:state]).to eq({ name: 'Maryland', symbol: 'MD' })
-        expect(as_json[:city]).to include('Bel Air')
+        expect(as_json[:cities_list]).to include({ name: 'Bel Air', symbol: 'Bel Air' })
       end
     end
 
@@ -46,7 +48,8 @@ RSpec.describe VerifiedAddress do
       it 'returns a completely formatted hash' do
         expect(as_json[:country]).to eq({ name: 'United States of America', symbol: 'US' })
         expect(as_json[:state]).to eq({ name: 'Maryland', symbol: 'MD' })
-        expect(as_json[:city]).to eq('Bel Air')
+        expect(as_json[:city]).to eq({ name: 'Bel Air', symbol: 'Bel Air' })
+        expect(as_json[:cities_list]).to include({ name: 'Bel Air', symbol: 'Bel Air' })
       end
     end
 
@@ -58,7 +61,9 @@ RSpec.describe VerifiedAddress do
       it 'returns a completely formatted hash' do
         expect(as_json[:country]).to eq({ name: 'Argentina', symbol: 'AR' })
         expect(as_json[:state]).to eq({ name: 'Mendoza', symbol: 'M' })
-        expect(as_json[:city]).to eq('Lujan de Cuyo')
+        expect(as_json[:city]).to eq({ name: 'Lujan de Cuyo', symbol: 'Lujan de Cuyo' })
+        expect(as_json[:states_list]).not_to be_empty
+        expect(as_json[:cities_list]).not_to be_empty
       end
     end
   end
