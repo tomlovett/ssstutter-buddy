@@ -21,7 +21,7 @@ RSpec.describe VerifiedAddress do
       let(:country) { 'US' }
 
       it 'returns the formatted country with an array of states' do
-        expect(as_json[:country]).to eq({ name: 'United States of America', symbol: 'US' })
+        expect(as_json[:country]).to eq({ name: 'United States', symbol: 'US' })
         expect(as_json[:states_list]).not_to be_empty
         expect(as_json[:states_list]).to include({ name: 'Maryland', symbol: 'MD' })
         expect(as_json[:state]).to eq({})
@@ -34,7 +34,7 @@ RSpec.describe VerifiedAddress do
       let(:state) { 'MD' }
 
       it 'returns the formmatted country and city with an array of city names' do
-        expect(as_json[:country]).to eq({ name: 'United States of America', symbol: 'US' })
+        expect(as_json[:country]).to eq({ name: 'United States', symbol: 'US' })
         expect(as_json[:state]).to eq({ name: 'Maryland', symbol: 'MD' })
         expect(as_json[:cities_list]).to include({ name: 'Bel Air', symbol: 'Bel Air' })
       end
@@ -46,7 +46,7 @@ RSpec.describe VerifiedAddress do
       let(:city) { 'Bel Air' }
 
       it 'returns a completely formatted hash' do
-        expect(as_json[:country]).to eq({ name: 'United States of America', symbol: 'US' })
+        expect(as_json[:country]).to eq({ name: 'United States', symbol: 'US' })
         expect(as_json[:state]).to eq({ name: 'Maryland', symbol: 'MD' })
         expect(as_json[:city]).to eq({ name: 'Bel Air', symbol: 'Bel Air' })
         expect(as_json[:cities_list]).to include({ name: 'Bel Air', symbol: 'Bel Air' })
