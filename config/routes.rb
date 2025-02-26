@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  # Authentication routes (available in all environments)
+  post 'auth/login', to: 'authentication#login'
+  post 'signup', to: 'registrations#create'
+  get 'auth/:provider/callback', to: 'omniauth_callbacks#google_oauth2'
+
   if Rails.env.production?
     root 'placeholder#landing'
 
