@@ -8,20 +8,18 @@ import Modal from '@/components/ui/custom/modal'
 import countriesList from '@/lib/countriesList'
 
 const LocationTool = ({ country, state, city }) => {
-  const [currentCountry, setCurrentCountry] = useState(country)
-  const [currentState, setCurrentState] = useState(state)
-  const [currentCity, setCurrentCity] = useState(city)
+  const [currentCountry, setCurrentCountry] = useState(country || {})
+  const [currentState, setCurrentState] = useState(state || {})
+  const [currentCity, setCurrentCity] = useState(city || {})
 
   const [statesList, setStatesList] = useState([])
   const [citiesList, setCitiesList] = useState([])
 
-  const [enableSave, setEnableSave] = useState(
-    currentCountry?.name && currentState?.name && currentCity?.name
-  )
-  const [isLoading, setIsLoading] = useState(false)
+  let enableSave = false
+  enableSave = currentCountry?.name && currentState?.name && currentCity?.name
 
   const refreshLocation = async () => {
-    const response = await fetch('http://localhost:3000/api/location', {
+    await fetch('http://localhost:3001/api/location', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -32,27 +30,12 @@ const LocationTool = ({ country, state, city }) => {
     })
       .then(results => results.json())
       .then(({ states_list, cities_list }) => {
-        console.log(
-          'states_list',
-          states_list.map(s => s.symbol)
-        )
         setStatesList(states_list)
         setCitiesList(cities_list)
-      })
-      .then(() => {
-        console.log('citiesList.length:', citiesList.length)
-        console.log('statesList.length:', statesList.length)
       })
   }
 
   useEffect(() => {
-    console.log('useEfect called on change')
-    console.log(
-      'current -> country/state/city:',
-      currentCountry,
-      currentState,
-      currentCity
-    )
     refreshLocation()
   }, [currentCountry, currentState, currentCity])
 
@@ -65,12 +48,12 @@ const LocationTool = ({ country, state, city }) => {
   const clearCity = () => setCurrentCity({})
 
   const clearState = () => {
-    setCurrentState({})
     clearCity()
+    setCurrentState({})
   }
   const clearCountry = () => {
-    setCurrentCountry({})
     clearState()
+    setCurrentCountry({})
   }
 
   const ClearFieldIcon = ({ onClick }) => (
@@ -84,13 +67,9 @@ const LocationTool = ({ country, state, city }) => {
       <ComboBox
         key="country"
         placeholder="Country"
-        defaultValue={currentCountry}
+        selectedPair={currentCountry}
         valuesList={countriesList}
-        onChange={pair => {
-          console.log('Country - onChange -> pair:', pair)
-          setCurrentCountry(pair)
-          console.log('currentCountry:', currentCountry)
-        }}
+        onChange={pair => setCurrentCountry(pair)}
         disabled={!!currentState?.name}
       />
       {currentCountry?.name && <ClearFieldIcon onClick={clearCountry} />}
@@ -98,13 +77,9 @@ const LocationTool = ({ country, state, city }) => {
       <ComboBox
         key="state"
         placeholder="State"
-        defaultValue={currentState}
+        selectedPair={currentState}
         valuesList={statesList}
-        onChange={pair => {
-          console.log('state - onChange -> pair:', pair)
-          // setCurrentState(pair)
-          setCurrentCity(pair.symbol === currentState?.symbol ? {} : item)
-        }}
+        onChange={pair => setCurrentState(pair)}
         disabled={!currentCountry?.name || currentCity?.name}
       />
       {currentState?.name && <ClearFieldIcon onClick={clearState} />}
@@ -112,14 +87,9 @@ const LocationTool = ({ country, state, city }) => {
       <ComboBox
         key="city"
         placeholder="City"
-        defaultValue={currentCity}
+        selectedPair={currentCity}
         valuesList={citiesList}
-        onChange={pair => {
-          console.log('city onChange -> pair:', pair)
-          // item.symbol === selectedPair?.symbol ? {} : item
-          setCurrentCity(pair.symbol === currentCity?.symbol ? {} : item)
-          // setCurrentCity(pair)
-        }}
+        onChange={pair => setCurrentCity(pair)}
         disabled={!currentState?.name}
       />
       {currentCity?.name && <ClearFieldIcon onClick={clearCity} />}

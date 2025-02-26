@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Check, ChevronsUpDown } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
@@ -18,45 +18,28 @@ import {
 } from '@/components/ui/popover'
 
 export function ComboBox({
-  defaultValue,
+  selectedPair,
   valuesList,
   placeholder,
   disabled,
   onChange,
 }) {
   const [open, setOpen] = useState(false)
-  const [selectedPair, setSelectedPair] = useState({})
-
-  useEffect(() => {
-    if (defaultValue?.name) {
-      setSelectedPair(defaultValue)
-    }
-  }, [defaultValue])
 
   const ItemRow = ({ item }) => {
-    const checkOpacity =
+    const checkmarkOpacity =
       selectedPair?.symbol === item.symbol ? 'opacity-100' : 'opacity-0'
 
     return (
       <CommandItem
         key={item.symbol}
-        value={item.symbol}
+        value={item.name}
         onSelect={() => {
-          console.log(
-            'combobox -> item.symbol, selectedPair?.symbol:',
-            item.symbol,
-            !!selectedPair && selectedPair.symbol
-          )
-          // setSelectedPair(item.symbol === selectedPair?.symbol ? {} : item)
+          onChange(item)
           setOpen(false)
-          // .then(() => {
-          console.log('selectedPair:', selectedPair)
-          // onChange(item.symbol === selectedPair?.symbol ? {} : item)
-          onChange(selectedPair)
-          // })
         }}
       >
-        <Check className={cn('mr-2 h-4 w-4', checkOpacity)} />
+        <Check className={cn('mr-2 h-4 w-4', checkmarkOpacity)} />
         {item.name}
       </CommandItem>
     )
