@@ -1,27 +1,23 @@
+import { useState } from 'react'
 import ParticipantForm from '@/components/Participant/ParticipantForm'
 import LocationTool from '@/components/lib/LocationTool'
-import { formatLocation } from '@/lib/utils'
 
 const ParticipantEdit = ({ participant }) => {
+  const [participantValues, setParticipantValues] = useState(participant)
+
   return (
     <>
       <h3>Edit your profile</h3>
 
-      <ParticipantForm participant={participant} />
-
-      <p>
-        <b>Your Location</b>:{' '}
-        {formatLocation(
-          participant.country,
-          participant.state,
-          participant.city
-        )}
-      </p>
+      <ParticipantForm participant={participantValues} />
 
       <LocationTool
-        country={participant.country}
-        state={participant.state}
-        city={participant.city}
+        country={participantValues.country}
+        state={participantValues.state}
+        city={participantValues.city}
+        onSave={locationValues => {
+          setParticipantValues(Object.assign(participantValues, locationValues))
+        }}
       />
 
       <p>

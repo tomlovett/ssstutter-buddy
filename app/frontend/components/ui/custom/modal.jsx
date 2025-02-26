@@ -19,7 +19,15 @@ const Modal = ({
   modalBody,
   enableSave,
   onClickCancel,
+  onClickSave,
 }) => {
+  const SaveButton = () =>
+    enableSave ? (
+      <AlertDialogAction onClick={onClickSave}>Save Changes</AlertDialogAction>
+    ) : (
+      <Button disabled>Save Changes</Button>
+    )
+
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -33,14 +41,8 @@ const Modal = ({
           <AlertDialogDescription>{modalBody}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={() => onClickCancel()}>
-            Cancel
-          </AlertDialogCancel>
-          {enableSave ? (
-            <AlertDialogAction>Save Changes</AlertDialogAction>
-          ) : (
-            <Button disabled>Save Changes</Button>
-          )}
+          <AlertDialogCancel onClick={onClickCancel}>Cancel</AlertDialogCancel>
+          <SaveButton />
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

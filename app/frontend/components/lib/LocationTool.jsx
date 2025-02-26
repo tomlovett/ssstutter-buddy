@@ -1,5 +1,3 @@
-'use client'
-
 import { useEffect, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
@@ -7,7 +5,7 @@ import { ComboBox } from '@/components/ui/combobox'
 import Modal from '@/components/ui/custom/modal'
 import countriesList from '@/lib/countriesList'
 
-const LocationTool = ({ country, state, city }) => {
+const LocationTool = ({ country, state, city, onSave }) => {
   const [currentCountry, setCurrentCountry] = useState(country || {})
   const [currentState, setCurrentState] = useState(state || {})
   const [currentCity, setCurrentCity] = useState(city || {})
@@ -62,6 +60,13 @@ const LocationTool = ({ country, state, city }) => {
     </Button>
   )
 
+  const LocationDisplay = () => {
+    if (!currentCountry.name || !currentState.name || !currentCity.name)
+      return 'Editing'
+
+    return `${currentCity.name}, ${currentState.name}, ${currentCountry.name}`
+  }
+
   const ModalBody = () => (
     <>
       <ComboBox
@@ -97,13 +102,23 @@ const LocationTool = ({ country, state, city }) => {
   )
 
   return (
-    <Modal
-      buttonText="Edit Location"
-      modalTitle="Location Selection"
-      modalBody={<ModalBody />}
-      enableSave={enableSave}
-      onClickCancel={resetFields}
-    />
+    <>
+      <LocationDisplay />
+      <Modal
+        buttonText="Edit Location"
+        modalTitle="Location Selection"
+        modalBody={<ModalBody />}
+        enableSave={enableSave}
+        onClickCancel={resetFields}
+        onClickSave={() =>
+          onSave({
+            country: currentCountry,
+            state: currentState,
+            city: currentCity,
+          })
+        }
+      />
+    </>
   )
 }
 
