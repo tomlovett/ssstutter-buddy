@@ -4,7 +4,9 @@ class UsersController < ApplicationController
   before_action :set_user, only: %i[show edit change_password update destroy]
 
   # GET /users/1
-  def show; end
+  def show
+    render inertia: 'User/show', props: { user: @user }
+  end
 
   # GET /users/new
   def new
@@ -12,7 +14,9 @@ class UsersController < ApplicationController
   end
 
   # GET /users/1/edit
-  def edit; end
+  def edit
+    render inertia: 'Simple', props: { user: @user }
+  end
 
   # GET /users/1/change_password
   def change_password; end

@@ -2,23 +2,32 @@
 
 class Participant < ApplicationRecord
   belongs_to :user
-  has_many :study_participations, dependent: nil
+  has_many :connections, dependent: nil
 
   delegate :first_name, :last_name, :email, to: :user
 
   geocoded_by :address
-  after_validation :geocode if Rails.env.production?
+  after_validation :geocode, if: ->(obj) { obj.city.present? && obj.city_changed? }
+
+  def as_json
+    attributes.merge({ first_name:, last_name:, email: }).merge(VerifiedAddress.new(self).as_json)
+  end
 
   def address
     [city, state, country].compact.join(', ')
   end
 
+  def nearby_studies
+    Study.limit(3)
+    # study where within distace_pref, no connection, active/not closed
+  end
+
   def study_invitations
-    study_participations.invited
+    connections.invited
   end
 
   def completed_studies
-    study_participations.completed
+    connections.completed
   end
 
   def potential_codenames

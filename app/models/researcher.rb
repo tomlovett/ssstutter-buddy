@@ -2,11 +2,16 @@
 
 class Researcher < ApplicationRecord
   belongs_to :user
-  has_many :study, primary_key: :primary_researcher_id, dependent: nil
+  has_many :studies, dependent: nil
+  has_many :connections, dependent: nil
 
   delegate :first_name, :last_name, :full_name, :email, to: :user
 
   def professional_name
     titles.present? ? "#{full_name}, #{titles}" : full_name
+  end
+
+  def active_connections
+    Connection.where(study: studies).active
   end
 end

@@ -1,13 +1,16 @@
 # frozen_string_literal: true
 
 class Study < ApplicationRecord
-  belongs_to :primary_researcher, class_name: 'Researcher'
-  has_many :study_participations, dependent: nil
+  belongs_to :researcher
+  has_many :connections, dependent: nil
 
-  geocoded_by :address
-  after_validation :geocode if Rails.env.production?
+  validates :city, presence: true, unless: :digital_only
+
+  geocoded_by :address, unless: :digital_only
+  after_validation :geocode, if: ->(obj) { obj.city.present? && obj.city_changed? }
 
   scope :closed, -> { where('close_date > ?', Time.zone.today) }
+  scope :digital, -> { where(digital_friendly: true) }
 
   def address
     [city, state, country].compact.join(', ')
@@ -25,7 +28,8 @@ class Study < ApplicationRecord
     if total_sessions == 1
       "#{total_hours} #{total_hours == 1 ? 'hour' : 'hours'} in one session"
     else
-      "#{total_hours} #{total_hours == 1 ? 'hour' : 'total hours'} in #{total_sessions} sessions over the course of #{duration}"
+      "#{total_hours} #{total_hours == 1 ? 'hour' : 'total hours'} in #{total_sessions} sessions \
+      over the course of #{duration}"
     end
   end
 

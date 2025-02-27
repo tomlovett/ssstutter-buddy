@@ -4,14 +4,17 @@
     <title>SSStutterBuddy</title>
     <%= favicon_link_tag asset_path('favicon/favicon-32x32.png') %>
     <%= stylesheet_link_tag "application" %>
-    <%= javascript_importmap_tags %>
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+
+    <%= inertia_headers %>
+    <%= vite_react_refresh_tag %>
+
+    <%= vite_client_tag %>
+    <%= vite_javascript_tag 'application.jsx' %>
   </head>
   <body>
-    <div class="container">
-      <%= stylesheet_link_tag 'application', media: 'all', type: 'scss' %>
-      <%= yield %>
-    </div>
+    <%= yield %>
   </body>
 </html>

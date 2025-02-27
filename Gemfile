@@ -29,6 +29,10 @@ gem 'sassc-rails'
 
 gem 'sprockets-rails', require: 'sprockets/railtie'
 
+gem 'vite_rails'
+
+gem 'inertia_rails'
+
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
 
@@ -48,7 +52,7 @@ gem 'bootsnap', require: false
 gem 'geocoder', '~> 1.8', '>= 1.8.3'
 
 gem 'city-state'
-gem 'country_select', '~> 8.0'
+gem 'countries'
 
 # move outside dev/test in order to run rake seed:dev
 gem 'factory_bot_rails'
@@ -58,6 +62,9 @@ gem 'factory_bot_rails'
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem "rack-cors"
+
+# Fixes ActiveLogger issue 1/31/25 -- https://github.com/facebook/react-native/issues/48746
+gem 'concurrent-ruby', '1.3.4'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

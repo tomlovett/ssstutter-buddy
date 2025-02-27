@@ -1,21 +1,25 @@
 # README
 
 ## to prepare your evniroment
-you can install manually 
+
+you can install manually
+
 
 NodeJS,
 postgres
 Rails
 
-### the database can be managed through Homebrew and Rails commands 
- If you have Homebrew
+
+### the database can be managed through Homebrew and Rails commands
+
+If you have Homebrew
+
 
 `brew install postgresql@15`
 `brew services start postgresql@15`
 
-
-
 ### for ubuntu there is a an auto setup
+
 sudo chmod +x setup_environment.sh
 ./setup_environment.sh
 
