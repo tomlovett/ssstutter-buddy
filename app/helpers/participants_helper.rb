@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 
 module ParticipantsHelper
-  # display_name
-  # if no connection or no response, show codename
+  def display_name(participant)
+    if participant.connected? && participant.responded?
+      participant.name
+    else
+      participant.codename
+    end
+  end
 end

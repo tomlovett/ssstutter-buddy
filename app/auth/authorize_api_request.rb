@@ -2,7 +2,7 @@
 
 class AuthorizeApiRequest
   def initialize(headers = {})
-    @headers = headers
+    # redacted
   end
 
   def call
@@ -26,4 +26,5 @@ class AuthorizeApiRequest
 
     raise(ExceptionHandler::MissingToken, Message.missing_token)
   end
+end
 end
