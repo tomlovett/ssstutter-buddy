@@ -17,7 +17,7 @@ class Study < ApplicationRecord
   end
 
   def short_addr
-    fully_digital? ? 'Online' : "#{city}, #{state}"
+    digital_only? ? 'Online' : "#{city}, #{state}"
   end
 
   def display_remuneration
@@ -31,11 +31,6 @@ class Study < ApplicationRecord
       "#{total_hours} #{total_hours == 1 ? 'hour' : 'total hours'} in #{total_sessions} sessions \
       over the course of #{duration}"
     end
-  end
-
-  def fully_digital?
-    # not sure why I did this. should be fairly simple to implement the actual functionality
-    false
   end
 
   def open?
