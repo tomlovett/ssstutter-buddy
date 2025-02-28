@@ -67,6 +67,7 @@ export function ComboBox({
             <CommandGroup>
               {valuesList.length > 1 &&
                 valuesList.map(item => <ItemRow item={item} key={item.name} />)}
+              {/* TODO: clean up a React error that pops up when this is rendered */}
             </CommandGroup>
           </CommandList>
         </Command>

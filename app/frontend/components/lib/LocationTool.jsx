@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { ComboBox } from '@/components/ui/combobox'
 import Modal from '@/components/ui/custom/modal'
+import { postRequest } from '@/lib/api'
 import countriesList from '@/lib/countriesList'
 
 const LocationTool = ({ country, state, city, onSave }) => {
@@ -17,15 +18,13 @@ const LocationTool = ({ country, state, city, onSave }) => {
   enableSave = currentCountry?.name && currentState?.name && currentCity?.name
 
   const refreshLocation = async () => {
-    await fetch('http://localhost:3001/api/location', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        country: currentCountry?.symbol || '',
-        state: currentState?.symbol || '',
-        city: currentCity?.symbol || '',
-      }),
-    })
+    const body = {
+      country: currentCountry?.symbol || '',
+      state: currentState?.symbol || '',
+      city: currentCity?.symbol || '',
+    }
+
+    postRequest('/api/location', body)
       .then(results => results.json())
       .then(({ states_list, cities_list }) => {
         setStatesList(states_list)
@@ -60,12 +59,10 @@ const LocationTool = ({ country, state, city, onSave }) => {
     </Button>
   )
 
-  const LocationDisplay = () => {
-    if (!currentCountry.name || !currentState.name || !currentCity.name)
-      return 'Editing'
-
-    return `${currentCity.name}, ${currentState.name}, ${currentCountry.name}`
-  }
+  const LocationDisplay = () =>
+    !currentCountry.name || !currentState.name || !currentCity.name
+      ? 'Editing...'
+      : `${currentCity.name}, ${currentState.name}, ${currentCountry.name}`
 
   const ModalBody = () => (
     <>
@@ -98,6 +95,9 @@ const LocationTool = ({ country, state, city, onSave }) => {
         disabled={!currentState?.name}
       />
       {currentCity?.name && <ClearFieldIcon onClick={clearCity} />}
+      {/* Tooltip:
+        Is your state or city missing from this list? Send an email to support@ssstutterbuddy.com and we'll add it for you.
+         */}
     </>
   )
 

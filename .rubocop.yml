@@ -24,6 +24,16 @@ Metrics/BlockLength:
 Metrics/MethodLength:
   Enabled: false
 
+Metrics/CyclomaticComplexity:
+  Enabled: true
+  Exclude:
+    - 'app/lib/verified_address.rb'
+
+Metrics/PerceivedComplexity:
+  Enabled: true
+  Exclude:
+    - 'app/lib/verified_address.rb'
+
 Rails/I18nLocaleTexts:
   Enabled: false
 
