@@ -3,9 +3,6 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Link } from '@inertiajs/react'
 
-// import { toast } from "@/components/ui/sonner"
-// import { useToast } from "@/hooks/use-toast"
-
 import { Button } from '@/components/ui/button'
 import { Form, FormMessage } from '@/components/ui/form'
 import Select from '@/components/ui/custom/select'
@@ -57,8 +54,6 @@ const formFieldData = [
 ]
 
 const ParticipantForm = ({ participant, onSave }) => {
-  // const { toast } = useToast()
-
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -85,7 +80,9 @@ const ParticipantForm = ({ participant, onSave }) => {
         <Button key="submit" type="submit">
           Save Changes
         </Button>
-        <Link href={`/p/participants/${participant.id}/edit`} as="button">Cancel</Link>
+        <Link href={`/p/participants/${participant.id}/edit`} as="button">
+          Cancel
+        </Link>
         {formFieldData.map(({ name, placeholder, desc }) => (
           <TextInput
             key={name}
