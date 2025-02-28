@@ -8,11 +8,14 @@ Rails.application.routes.draw do
 
   if Rails.env.production?
     root 'placeholder#landing'
+  else
+    # Defines the root path route ("/")
+    root 'articles#index'
+  end
 
   resources :users, except: :index, path: 'u'
   get '/u/:id/select_role', to: 'users#select_role'
   get '/u/:id/change_password', to: 'users#change_password'
-
 
   # Defines the root path route ("/")
   # root "articles#index"
