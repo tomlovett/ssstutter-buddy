@@ -8,8 +8,7 @@ default: &default
   adapter: postgresql
   encoding: unicode
   pool: 5
-  username: ssstutterbuddy
-  password: '1234'
+  database: sb-dev
 
 development:
   <<: *default
