@@ -46,9 +46,9 @@ class P::ParticipantsController < ApplicationController
   # PATCH/PUT /p/participants/1
   def update
     if @participant.update(participant_params)
-      redirect_to @participant, notice: 'Success!', status: :see_other
+      head :ok
     else
-      render :edit, status: :unprocessable_entity
+      head :unprocessable_entity
     end
   end
 

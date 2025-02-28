@@ -1,8 +1,7 @@
-'use client'
-
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+import { Link } from '@inertiajs/react'
 
 // import { toast } from "@/components/ui/sonner"
 // import { useToast } from "@/hooks/use-toast"
@@ -25,7 +24,7 @@ const FormSchema = z.object({
   codename: z.string().min(1, {
     message: 'Codename must be at least 1 character.',
   }),
-  defaultDistance: z.number(),
+  defaultDistance: z.coerce.number(),
   gender: z.string(),
   birthdate: z.coerce.date({
     required_error: 'A date of birth is required.',
@@ -57,7 +56,7 @@ const formFieldData = [
   },
 ]
 
-const ParticipantForm = ({ participant }) => {
+const ParticipantForm = ({ participant, onSave }) => {
   // const { toast } = useToast()
 
   const form = useForm({
@@ -73,9 +72,7 @@ const ParticipantForm = ({ participant }) => {
     },
   })
 
-  const onSubmit = data => {
-    console.log(JSON.stringify(data, null, 2))
-  }
+  const onSubmit = data => onSave(data)
 
   const genderValues = [
     { key: 'F', value: 'f' },
@@ -85,6 +82,10 @@ const ParticipantForm = ({ participant }) => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
+        <Button key="submit" type="submit">
+          Save Changes
+        </Button>
+        <Link href={`/p/participants/${participant.id}/edit`} as="button">Cancel</Link>
         {formFieldData.map(({ name, placeholder, desc }) => (
           <TextInput
             key={name}
@@ -106,8 +107,6 @@ const ParticipantForm = ({ participant }) => {
           placeholder="Birthdate (YYYY-MM-DD)"
         />
         <FormMessage />
-        <Button type="submit">Submit</Button>
-        <Button>Cancel</Button>
       </form>
     </Form>
   )
