@@ -14,7 +14,7 @@ Rails.application.routes.draw do
 
   namespace :p do
     get '/', to: '/p/participants#index'
-    resources :participants, except: :index
+    resources :participants, except: %i[index create]
 
     resources :researchers, only: :show
     get '/studies/digital', to: 'studies#digital_studies'
