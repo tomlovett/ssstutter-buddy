@@ -2,8 +2,9 @@
 
 class User < ApplicationRecord
   has_secure_password
-  has_one :participant
-  has_one :researcher
+
+  has_one :participant, required: false, dependent: :destroy
+  has_one :researcher, required: false, dependent: :destroy
 
   validates :email, presence: true, uniqueness: true
   validates :password, presence: true, length: { minimum: 6 }, if: :password_required?

@@ -7,8 +7,8 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  pool: 5
   database: sb-dev
+  pool: 5
 
 development:
   <<: *default
@@ -16,7 +16,7 @@ development:
 
 test:
   <<: *default
-  database: sb_test
+  database: sb-test
 
 production:
   <<: *default
