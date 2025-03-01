@@ -2,19 +2,30 @@
 
 class User < ApplicationRecord
   has_secure_password
+  has_one :participant
+  has_one :researcher
 
-  has_one :researcher, required: false, dependent: :destroy
-  has_one :participant, required: false, dependent: :destroy
-
-  before_save :format_last_initial!
+  validates :email, presence: true, uniqueness: true
+  validates :password, presence: true, length: { minimum: 6 }, if: :password_required?
+  validates :first_name, presence: true
+  validates :last_name, presence: true
 
   def full_name
     "#{first_name} #{last_name}"
   end
 
+  def self.from_omniauth(auth)
+    find_or_create_by(email: auth.info.email) do |user|
+      user.email = auth.info.email
+      user.password = SecureRandom.hex(15)
+      user.first_name = auth.info.first_name
+      user.last_name = auth.info.last_name
+    end
+  end
+
   private
 
-  def format_last_initial!
-    self.last_name = "#{last_name}." if last_name.length == 1
+  def password_required?
+    !persisted? || password.present?
   end
 end
