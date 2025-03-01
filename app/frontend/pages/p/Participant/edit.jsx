@@ -7,9 +7,9 @@ import { putRequest } from '@/lib/api'
 const ParticipantEdit = ({ participant }) => {
   const saveLocationChanges = locationData => {
     const parsedData = {
-      country: locationData.country.symbol,
-      state: locationData.state.symbol,
-      city: locationData.city.symbol,
+      country: locationData.country?.symbol,
+      state: locationData.state?.symbol,
+      city: locationData.city?.symbol,
     }
 
     saveParticipantChanges(parsedData)

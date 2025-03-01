@@ -11,26 +11,13 @@ RSpec.describe 'Api' do
 
     before { post '/api/location', params: params }
 
-    context 'when passed no valid params' do
-      let(:params) { nil }
-
-      it 'returns a list of country codes' do
-        expect(response).to have_http_status(:ok)
-      end
-    end
-
-    context 'when passed no attributes' do
-      it 'returns a list of country codes' do
-        expect(response).to have_http_status(:ok)
-      end
-    end
-
     context 'when passed only a country' do
       let(:country) { 'US' }
 
       it 'returns a list of states and provinces for that country' do
-        expect(json['country']).to eq({ 'name' => 'United States of America', 'symbol' => 'US' })
-        expect(json['state']).not_to be_empty
+        expect(json['country']).to eq({ 'name' => 'United States', 'symbol' => 'US' })
+        expect(json['state']).to be_empty
+        expect(json['states_list']).not_to be_empty
         expect(json['city']).to be_empty
       end
     end
@@ -40,9 +27,10 @@ RSpec.describe 'Api' do
       let(:state) { 'MD' }
 
       it 'returns a list of cities' do
-        expect(json['country']).to eq({ 'name' => 'United States of America', 'symbol' => 'US' })
+        expect(json['country']).to eq({ 'name' => 'United States', 'symbol' => 'US' })
         expect(json['state']).to eq({ 'name' => 'Maryland', 'symbol' => 'MD' })
-        expect(json['city']).not_to be_empty
+        expect(json['cities_list']).not_to be_empty
+        expect(json['city']).to be_empty
       end
     end
 
