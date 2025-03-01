@@ -1,5 +1,3 @@
-import Basic from '../components/basic'
-
 const Simple = ({ user }) => (
   <>
     <Basic />
