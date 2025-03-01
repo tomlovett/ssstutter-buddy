@@ -20,7 +20,9 @@ class P::StudiesController < ApplicationController
   end
 
   # GET /p/studies/1
-  def show; end
+  def show
+    render inertia: 'p/Study/show', props: { study: @study }
+  end
 
   private
 

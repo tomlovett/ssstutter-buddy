@@ -13,7 +13,7 @@ class R::ResearchersController < ApplicationController
       active_connections: @researcher.active_connections.as_json(include: :participant)
     }
 
-    render inertia: 'Researcher/home', props:
+    render inertia: 'r/home', props:
   end
 
   # GET /r/researchers/1
