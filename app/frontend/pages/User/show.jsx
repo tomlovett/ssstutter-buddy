@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import {
   Card,
   CardContent,
@@ -10,8 +9,6 @@ import { Input } from '@ui/input'
 import { Label } from '@ui/label'
 
 const UserShow = ({ user }) => {
-  const [email, setEmail] = useState(user.email)
-
   return (
     <Card className="w-1/2">
       <CardHeader>
@@ -33,7 +30,7 @@ const UserShow = ({ user }) => {
         </div>
         <div className="space-y-1">
           <Label htmlFor="username">Email</Label>
-          <Input id="email" defaultValue={email} />
+          <Input id="email" defaultValue={user.email} />
         </div>
       </CardContent>
     </Card>
