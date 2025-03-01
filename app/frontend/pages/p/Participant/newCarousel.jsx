@@ -1,0 +1,160 @@
+import { useState } from 'react'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+
+import { Button } from '@/components/ui/button'
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '@/components/ui/carousel'
+import { Form, FormMessage } from '@/components/ui/form'
+import Select from '@/components/ui/custom/select'
+import TextInput from '@/components/ui/custom/textInput'
+
+const ParticipantNew = ({ participant }) => {
+  const [participantValues, setParticipantValues] = useState(participant)
+
+  const FormSchema = z.object({
+    firstName: z.string().min(2, {
+      message: 'First Name must be at least 2 characters.',
+    }),
+    lastName: z.string().min(1, {
+      message: 'Last Name must be at least 1 character.',
+    }),
+    email: z.string().min(1, {
+      message: 'Email must be at least 1 character.',
+    }),
+    codename: z.string().min(1, {
+      message: 'Codename must be at least 1 character.',
+    }),
+    defaultDistance: z.coerce.number(),
+    gender: z.string(),
+    birthdate: z.coerce.date({
+      required_error: 'A date of birth is required.',
+    }),
+  })
+
+  const codenameDescription =
+    'The name that will be displayed to researchers before you have connected with them'
+  const defaultDistanceDescription =
+    'The distance at which studies will be shown to you. It is best to set a longer distance than a shorter one'
+
+  const formFieldData = [
+    { name: 'firstName', placeholder: 'First Name', desc: '' },
+    {
+      name: 'lastName',
+      placeholder: 'Last Name',
+      desc: 'You may use your last initial if you prefer, i.e. "L."',
+    },
+    { name: 'email', placeholder: 'Email', desc: '' },
+    {
+      name: 'codename',
+      placeholder: 'Codename',
+      desc: codenameDescription,
+    },
+    {
+      name: 'defaultDistance',
+      placeholder: 'Default study distance',
+      desc: defaultDistanceDescription,
+    },
+  ]
+
+  const form = useForm({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      firstName: participant.first_name || '',
+      lastName: participant.last_name || '',
+      email: participant.email || '',
+      codename: participant.codename || '',
+      birthdate: participant.birthdate || '',
+      defaultDistance: participant.default_distance || 50,
+      gender: participant.gender || '',
+    },
+  })
+
+  const onSubmit = data => onSave(data)
+
+  const genderValues = [
+    { key: 'F', value: 'f' },
+    { key: 'M', value: 'm' },
+  ]
+
+  // <Button key="submit" type="submit">
+  // 	Save Changes
+  // </Button>
+  // <Link href={`/p/participants/${participant.id}/edit`} as="button">
+  // 	Cancel
+  // </Link>
+
+  // {formFieldData.map(({ name, placeholder, desc }) => (
+  //   <CarouselItem key={name}>
+  //     <TextInput
+  //       key={name}
+  //       form={form}
+  //       name={name}
+  //       placeholder={placeholder}
+  //       desc={desc}
+  //       />
+  //   </CarouselItem>
+  // ))}
+
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
+        <Carousel>
+          <CarouselContent>
+            <CarouselItem key="firstName">
+              <TextInput
+                key="firstName"
+                form={form}
+                name="firstName"
+                placeholder="First Name"
+              />
+            </CarouselItem>
+            <CarouselItem key="lastName">
+              <TextInput
+                key="lastName"
+                form={form}
+                name="lastName"
+                placeholder="Last Name"
+                desc='You may use your last initial if you prefer, i.e. "L."'
+              />
+            </CarouselItem>
+            <CarouselItem key="email">
+              <TextInput
+                key="email"
+                form={form}
+                name="email"
+                placeholder="Email"
+              />
+            </CarouselItem>
+            <CarouselItem key="gender">
+              <Select
+                form={form}
+                name="gender"
+                placeholder="Biological Gender"
+                options={genderValues}
+              />
+            </CarouselItem>
+            <CarouselItem key="birthdate">
+              <TextInput
+                form={form}
+                name="birthdate"
+                placeholder="Birthdate (YYYY-MM-DD)"
+              />
+            </CarouselItem>
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
+        <FormMessage />
+      </form>
+    </Form>
+  )
+}
+
+export default ParticipantNew
