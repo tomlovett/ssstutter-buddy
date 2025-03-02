@@ -1,14 +1,27 @@
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
-import { AppSidebar } from "@/components/AppSidebar/AppSidebar"
+import { useState } from 'react'
 
-const SideBarLayout = ({ children })=> {
+import {
+  SidebarProvider,
+  SidebarTrigger,
+  SidebarInset,
+} from '@/components/ui/sidebar'
+import { AppSidebar } from '@/components/AppSidebar/AppSidebar'
+
+const SideBarLayout = ({ children }) => {
+  const [open, setOpen] = useState(false)
+
   return (
-    <SidebarProvider>
+    <SidebarProvider open={open} onOpenChange={setOpen} className="">
       <AppSidebar />
-      <main className="container px-4 py-6">
-      <SidebarTrigger className="my-2" />
-        {children}
-      </main>
+      <SidebarInset>
+        <main className="px-4 py-6">
+
+          <SidebarTrigger className="my-2" />
+          <div className="container mx-auto">
+          {children}
+          </div>
+        </main>
+      </SidebarInset>
     </SidebarProvider>
   )
 }
