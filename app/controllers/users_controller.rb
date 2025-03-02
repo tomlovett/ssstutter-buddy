@@ -23,6 +23,8 @@ class UsersController < ApplicationController
 
   # POST /users
   def create
+    head :unprocessable_entity if User.find_by(email: user_params[:email]).present?
+
     @user = User.new(user_params)
 
     if @user.save

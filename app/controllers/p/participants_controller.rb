@@ -24,23 +24,16 @@ class P::ParticipantsController < ApplicationController
 
   # GET /p/participants/new
   def new
-    @participant = Participant.new
+    @current_user = User.take
+
+    @participant = Participant.new(user: @current_user)
+
+    render inertia: 'p/Participant/edit', props: { participant: @participant.as_json }
   end
 
   # GET /p/participants/1/edit
   def edit
     render inertia: 'p/Participant/edit', props: { participant: @participant.as_json }
-  end
-
-  # POST /p/participants
-  def create
-    @participant = Participant.new(participant_params)
-
-    if @participant.save
-      redirect_to @participant, notice: t.success
-    else
-      render :new, status: :unprocessable_entity
-    end
   end
 
   # PATCH/PUT /p/participants/1

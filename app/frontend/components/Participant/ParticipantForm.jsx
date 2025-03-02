@@ -1,32 +1,12 @@
-import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { z } from 'zod'
 import { Link } from '@inertiajs/react'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 import { Button } from '@/components/ui/button'
 import { Form, FormMessage } from '@/components/ui/form'
 import Select from '@/components/ui/custom/select'
 import TextInput from '@/components/ui/custom/textInput'
-
-const FormSchema = z.object({
-  firstName: z.string().min(2, {
-    message: 'First Name must be at least 2 characters.',
-  }),
-  lastName: z.string().min(1, {
-    message: 'Last Name must be at least 1 character.',
-  }),
-  email: z.string().min(1, {
-    message: 'Email must be at least 1 character.',
-  }),
-  codename: z.string().min(1, {
-    message: 'Codename must be at least 1 character.',
-  }),
-  defaultDistance: z.coerce.number(),
-  gender: z.string(),
-  birthdate: z.coerce.date({
-    required_error: 'A date of birth is required.',
-  }),
-})
+import UserSchema from '@/schemas/User'
 
 const codenameDescription =
   'The name that will be displayed to researchers before you have connected with them'
@@ -55,7 +35,7 @@ const formFieldData = [
 
 const ParticipantForm = ({ participant, onSave }) => {
   const form = useForm({
-    resolver: zodResolver(FormSchema),
+    resolver: zodResolver(UserSchema),
     defaultValues: {
       firstName: participant.first_name || '',
       lastName: participant.last_name || '',

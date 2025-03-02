@@ -7,6 +7,10 @@ class Researcher < ApplicationRecord
 
   delegate :first_name, :last_name, :full_name, :email, to: :user
 
+  def to_participant_json
+    { professional_name:, institution:, research_interests:, bio:, studies: }
+  end
+
   def professional_name
     titles.present? ? "#{full_name}, #{titles}" : full_name
   end
