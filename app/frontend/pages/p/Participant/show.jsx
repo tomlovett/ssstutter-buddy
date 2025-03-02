@@ -32,7 +32,6 @@ const ParticipantShow = ({ participant }) => (
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger>
-                  {' '}
                   <span className="text-sm text-gray-500">
                     @{participant.codename}
                   </span>
@@ -59,7 +58,7 @@ const ParticipantShow = ({ participant }) => (
             className="rounded-lg lg:rounded-md"
             name="edit my info"
           >
-            <UserPen />{' '}
+            <UserPen className="inline-block"/>
             <span className="hidden lg:inline-block">edit my info</span>
           </Button>
         </div>
