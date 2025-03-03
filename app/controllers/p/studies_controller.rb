@@ -21,7 +21,11 @@ class P::StudiesController < ApplicationController
 
   # GET /p/studies/1
   def show
-    render inertia: 'p/Study/show', props: { study: @study }
+    render inertia: 'p/Study/show', props: {
+      study: @study,
+      researcher: @study.researcher.to_participant_json,
+      connection: Connection.find_by(study: @study, participant: @current_user&.participant)
+    }
   end
 
   private

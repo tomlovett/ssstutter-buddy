@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from '@ui/table'
-import { ageRange, displayAddr, timeline } from '@/lib/study'
+import { ageRange, displayLocation, timeline } from '@/lib/study'
 import { formatDate } from '@/lib/utils'
 
 const StudyTable = ({ studies, nullStatement, digital_only }) => {
@@ -35,7 +35,7 @@ const StudyTable = ({ studies, nullStatement, digital_only }) => {
       <TableCell>{study.title}</TableCell>
       <TableCell>{ageRange(study)}</TableCell>
       <TableCell>{timeline(study)}</TableCell>
-      <TableCell>{displayAddr(study)}</TableCell>
+      <TableCell>{displayLocation(study)}</TableCell>
       <TableCell>
         <Link href={`/p/studies/${study.id}`}>
           <u>View</u>

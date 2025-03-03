@@ -64,7 +64,8 @@ const ParticipantShow = ({ participant }) => (
         </div>
         <ul className="list-none list-inside flex flex-col gap-2">
           <li>
-            <Mail className="inline-block mr-4" />{participant.email}
+            <Mail className="inline-block mr-4" />
+            {participant.email}
           </li>
           <li>
             <Cake className="inline-block mr-4" />{' '}
@@ -94,7 +95,7 @@ const ParticipantShow = ({ participant }) => (
 )
 
 ParticipantShow.layout = page => (
-  <SideBarLayout children={page} title="Profile" />
+  <SideBarLayout title="Profile">{page}</SideBarLayout>
 )
 
 export default ParticipantShow

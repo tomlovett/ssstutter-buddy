@@ -1,4 +1,4 @@
-import { UserRound, Inbox } from 'lucide-react'
+import { UserRound } from 'lucide-react'
 
 import {
   Sidebar,

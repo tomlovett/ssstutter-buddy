@@ -1,4 +1,4 @@
-export const displayAddr = ({
+export const displayLocation = ({
   only_digital,
   digital_friendly,
   city,
