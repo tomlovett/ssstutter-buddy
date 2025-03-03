@@ -22,7 +22,7 @@ const ParticipantShow = ({ participant }) => (
           <Avatar size="lg">
             <AvatarImage src="https://i.pravatar.cc/300" alt="@pravatar" />
             <AvatarFallback>
-              {participant.first_name[0]} {participant.last_name[0]}
+              {participant.first_name} {participant.last_name}
             </AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
@@ -58,13 +58,13 @@ const ParticipantShow = ({ participant }) => (
             className="rounded-lg lg:rounded-md"
             name="edit my info"
           >
-            <UserPen className="inline-block"/>
+            <UserPen className="inline-block" />
             <span className="hidden lg:inline-block">edit my info</span>
           </Button>
         </div>
         <ul className="list-none list-inside flex flex-col gap-2">
           <li>
-            <Mail className="inline-block mr-4" /> {participant.email}
+            <Mail className="inline-block mr-4" />{participant.email}
           </li>
           <li>
             <Cake className="inline-block mr-4" />{' '}
@@ -80,7 +80,10 @@ const ParticipantShow = ({ participant }) => (
           </li>
           <li>
             <LandPlot className="inline-block mr-4" />
-            <span className="font-semibold">Default distance setting:</span> {participant.default_distance} miles
+            <span className="font-semibold">
+              Default distance setting:
+            </span>{' '}
+            {participant.default_distance} miles
           </li>
         </ul>
       </div>

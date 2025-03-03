@@ -1,4 +1,4 @@
-import { UserRound, Inbox } from "lucide-react"
+import { UserRound, Inbox } from 'lucide-react'
 
 import {
   Sidebar,
@@ -9,27 +9,25 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
+} from '@/components/ui/sidebar'
 
 const items = [
   {
-    title: "Profile",
-    url: "#",
+    title: 'Profile',
+    url: '#',
     icon: UserRound,
   },
 ]
 
- 
-const AppSidebar = ()=> {
+const AppSidebar = () => {
   return (
-<Sidebar>
+    <Sidebar>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>ssstutter buddy
-          </SidebarGroupLabel>
+          <SidebarGroupLabel>ssstutter buddy</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
+              {items.map(item => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <a href={item.url}>

@@ -37,7 +37,9 @@ const StudyTable = ({ studies, nullStatement, digital_only }) => {
       <TableCell>{timeline(study)}</TableCell>
       <TableCell>{displayAddr(study)}</TableCell>
       <TableCell>
-        <Link href={`/p/studies/${study.id}`}><u>View</u></Link>
+        <Link href={`/p/studies/${study.id}`}>
+          <u>View</u>
+        </Link>
       </TableCell>
       {digital_only && <TableCell>{formatDate(study.created_at)}</TableCell>}
     </TableRow>

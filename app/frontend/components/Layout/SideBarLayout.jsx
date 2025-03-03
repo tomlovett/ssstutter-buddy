@@ -15,11 +15,8 @@ const SideBarLayout = ({ children }) => {
       <AppSidebar />
       <SidebarInset>
         <main className="px-4 py-6">
-
           <SidebarTrigger className="my-2" />
-          <div className="container mx-auto">
-          {children}
-          </div>
+          <div className="container mx-auto">{children}</div>
         </main>
       </SidebarInset>
     </SidebarProvider>
