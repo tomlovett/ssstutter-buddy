@@ -18,15 +18,15 @@ import { formatDate } from '@/lib/utils'
 import { displayLocation, displayRemuneration, timeline } from '@/lib/study'
 
 const StudyShow = ({ study, researcher, connection }) => {
-  const body = { study_id: study.id, researcher_id: researcher.id }
+  const body = { study_id: study.id }
   const postCreateConnection = () => {
-    postRequest('/p/connections/create', body).then(res => {
+    postRequest('/p/connections', body).then(res => {
       if (res.status == '201') {
         toast('Success! Check your email', { duration: 5000 })
       } else {
         toast(
           'Uh oh! There was an error. Refresh the page, or email SSStutterBuddy if the problem persists',
-					{ duration: 10000 }
+          { duration: 10000 }
         )
       }
     })
@@ -56,7 +56,11 @@ const StudyShow = ({ study, researcher, connection }) => {
   )
 
   const StudyButton = () =>
-    connection?.id ? <p>You are connected</p> : <ExpressInterest />
+    connection?.id ? (
+      <p>You are connected to this study</p>
+    ) : (
+      <ExpressInterest />
+    )
 
   return (
     <>
