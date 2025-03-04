@@ -33,6 +33,8 @@ const formFieldData = [
   },
 ]
 
+// const isUnderEighteen = val => !!val && 'math'
+
 const ParticipantForm = ({ participant, onSave }) => {
   const form = useForm({
     resolver: zodResolver(UserSchema),
@@ -82,7 +84,9 @@ const ParticipantForm = ({ participant, onSave }) => {
           form={form}
           name="birthdate"
           placeholder="Birthdate (YYYY-MM-DD)"
+          disabled={!!participant.id}
         />
+        {/* if isUnderEighteen => show sheckbox warning that adult must own/run the account   */}
         <FormMessage />
       </form>
     </Form>
