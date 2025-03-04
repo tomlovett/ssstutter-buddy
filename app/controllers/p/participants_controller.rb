@@ -14,12 +14,12 @@ class P::ParticipantsController < ApplicationController
       nearby_studies: @participant.nearby_studies
     }
 
-    render inertia: 'p/Participant/home', props:
+    render inertia: 'p/Participants/home', props:
   end
 
   # GET /p/participants/1
   def show
-    render inertia: 'p/Participant/show', props: { participant: @participant.as_json }
+    render inertia: 'p/Participants/show', props: { participant: @participant.as_json }
   end
 
   # GET /p/participants/new
@@ -28,12 +28,12 @@ class P::ParticipantsController < ApplicationController
 
     @participant = Participant.new(user: @current_user)
 
-    render inertia: 'p/Participant/edit', props: { participant: @participant.as_json }
+    render inertia: 'p/Participants/edit', props: { participant: @participant.as_json }
   end
 
   # GET /p/participants/1/edit
   def edit
-    render inertia: 'p/Participant/edit', props: { participant: @participant.as_json }
+    render inertia: 'p/Participants/edit', props: { participant: @participant.as_json }
   end
 
   # PATCH/PUT /p/participants/1
