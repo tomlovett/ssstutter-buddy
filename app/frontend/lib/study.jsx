@@ -1,15 +1,15 @@
 export const displayLocation = ({
-  only_digital,
+  digital_only,
   digital_friendly,
   city,
   state,
 }) => {
-  if (only_digital) {
+  if (digital_only) {
     return 'Online'
   }
 
   const cityState = `${city}, ${state}`
-  return digital_friendly ? cityState : `Online / ${cityState}`
+  return digital_friendly ? `Online / ${cityState}` : cityState
 }
 
 export const displayRemuneration = ({ remuneration }) =>

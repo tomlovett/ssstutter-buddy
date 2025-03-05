@@ -10,7 +10,7 @@ import {
 import { ageRange, displayLocation, timeline } from '@/lib/study'
 import { formatDate } from '@/lib/utils'
 
-const StudyTable = ({ studies, nullStatement, digital_only }) => {
+const StudyTable = ({ studies, nullStatement }) => {
   const EmptyRow = () => (
     <TableRow>
       <TableCell className="text-muted-foreground">{nullStatement}</TableCell>
@@ -21,11 +21,12 @@ const StudyTable = ({ studies, nullStatement, digital_only }) => {
     <TableHeader>
       <TableRow>
         <TableHead>Study Name</TableHead>
+        <TableHead>Study Type</TableHead>
         <TableHead>Age Range</TableHead>
         <TableHead>Estimated Commitment</TableHead>
         <TableHead>Location</TableHead>
-        <TableHead>View</TableHead>
-        {digital_only && <TableHead>Posted</TableHead>}
+        <TableHead>Link</TableHead>
+        <TableHead>Posted</TableHead>
       </TableRow>
     </TableHeader>
   )
@@ -33,6 +34,7 @@ const StudyTable = ({ studies, nullStatement, digital_only }) => {
   const StudySlice = ({ study }) => (
     <TableRow className="even:bg-muted">
       <TableCell>{study.title}</TableCell>
+      <TableCell>{study.study_type}</TableCell>
       <TableCell>{ageRange(study)}</TableCell>
       <TableCell>{timeline(study)}</TableCell>
       <TableCell>{displayLocation(study)}</TableCell>
@@ -41,7 +43,7 @@ const StudyTable = ({ studies, nullStatement, digital_only }) => {
           <u>View</u>
         </Link>
       </TableCell>
-      {digital_only && <TableCell>{formatDate(study.created_at)}</TableCell>}
+      <TableCell>{formatDate(study.created_at)}</TableCell>
     </TableRow>
   )
 

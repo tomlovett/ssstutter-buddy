@@ -10,7 +10,7 @@ class Study < ApplicationRecord
   after_validation :geocode, if: ->(obj) { obj.city.present? && obj.city_changed? }
 
   scope :closed, -> { where('close_date > ?', Time.zone.today) }
-  scope :digital, -> { where(digital_friendly: true) }
+  scope :digital_friendly, -> { where(digital_friendly: true) }
 
   def address
     [city, state, country].compact.join(', ')
