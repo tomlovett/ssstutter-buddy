@@ -5,7 +5,7 @@ class P::ResearchersController < ApplicationController
 
   # GET /p/researchers/1
   def show
-    render inertia: 'p/Researchers/show', props: { researcher: @researcher.to_participant_json }
+    render inertia: 'p/Researchers/show', props: { researcher: @researcher.to_json }
   end
 
   private

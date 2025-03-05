@@ -2,9 +2,12 @@ import ConnectionsTable from 'components/Researcher/ConnectionsTable'
 import StudyTable from 'components/Researcher/StudyTable'
 import { Button } from '@/components/ui/button'
 
-const ResearcherHome = ({ studies, active_connections }) => (
+const ResearcherHome = ({ researcher, studies, active_connections }) => (
   <div>
-    <h3>Researcher Home Page</h3>
+    <h3>Welcome, {researcher.first_name}</h3>
+    <p>
+      {researcher.professional_name} of {researcher.institution}
+    </p>
 
     <Button onClick={() => {}}>New Study</Button>
 

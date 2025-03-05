@@ -7,7 +7,7 @@ import {
   TableRow,
 } from '@ui/table'
 
-const formatDate = dateObj => new Date(dateObj).toDateString().slice(0, -4)
+import { formatDate } from '@/lib/utils'
 
 const ConnectionsTable = ({ connections, nullStatement }) => {
   const EmptyRow = () => (
@@ -22,6 +22,7 @@ const ConnectionsTable = ({ connections, nullStatement }) => {
         <TableHead>Participant Name/Alias</TableHead>
         <TableHead>Status</TableHead>
         <TableHead>Last Interaction</TableHead>
+        <TableHead>PIN</TableHead>
         <TableHead>Manage</TableHead>
       </TableRow>
     </TableHeader>
@@ -32,6 +33,9 @@ const ConnectionsTable = ({ connections, nullStatement }) => {
       <TableCell>{connection.participant.codename}</TableCell>
       <TableCell>connection.status</TableCell>
       <TableCell>{formatDate(connection.updated_at)}</TableCell>
+      <TableCell style={{ fontFamily: 'monospace' }}>
+        {connection.pin}
+      </TableCell>
       <TableCell>Manage button</TableCell>
     </TableRow>
   )

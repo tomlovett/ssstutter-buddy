@@ -8,7 +8,7 @@ class R::ResearchersController < ApplicationController
     @researcher = Researcher.find(1)
 
     props = {
-      researcher: @researcher,
+      researcher: @researcher.to_json,
       studies: @researcher.studies.as_json,
       active_connections: @researcher.active_connections.as_json(include: :participant)
     }
