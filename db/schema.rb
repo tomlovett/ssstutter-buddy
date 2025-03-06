@@ -10,23 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_02_17_000849) do
+ActiveRecord::Schema[7.0].define(version: 2025_03_05_233635) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "connections", force: :cascade do |t|
-    t.datetime "not_interested"
-    t.datetime "registered"
-    t.datetime "invited"
     t.string "invitation_response"
-    t.boolean "no_show", default: false, null: false
-    t.boolean "completed", default: false, null: false
     t.integer "participant_rating"
     t.integer "study_id", null: false
     t.integer "participant_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "pin", default: ""
+    t.string "status", default: ""
+    t.text "participant_feedback"
     t.index ["participant_id"], name: "index_connections_on_participant_id"
     t.index ["study_id"], name: "index_connections_on_study_id"
   end

@@ -5,12 +5,16 @@ FactoryBot.define do
     participant
     study
 
-    not_interested { nil }
-    registered { nil }
-    invited { nil }
+    status { Connection::STATUSES.sample }
     invitation_response { [nil, 'accepted', 'rejected'].sample }
-    no_show { false }
-    completed { false }
     participant_rating { rand(1..5) }
+
+    trait :in_progress do
+      status { Connection::IN_PROGRESS_STATUSES.sample }
+    end
+
+    trait :completed do
+      status { Connection::COMPLETED_STATUSES.sample }
+    end
   end
 end

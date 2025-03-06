@@ -7,7 +7,7 @@ class Researcher < ApplicationRecord
 
   delegate :first_name, :last_name, :full_name, :email, to: :user
 
-  def to_json
+  def to_json(*_args)
     { id:, first_name:, professional_name:, institution:, research_interests:, bio:, studies: }
   end
 
