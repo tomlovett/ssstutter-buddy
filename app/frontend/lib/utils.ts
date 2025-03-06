@@ -5,6 +5,8 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
+export const capitalize = str => str[0].toLocaleUpperCase() + str.substring(1)
+
 // Tue Oct 17
 export const formatDate = dateObj =>
   new Date(dateObj).toDateString().slice(0, -4)

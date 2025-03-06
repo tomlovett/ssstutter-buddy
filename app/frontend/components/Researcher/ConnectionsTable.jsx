@@ -7,7 +7,7 @@ import {
   TableRow,
 } from '@ui/table'
 
-import { formatDate } from '@/lib/utils'
+import { capitalize, formatDate } from '@/lib/utils'
 
 const ConnectionsTable = ({ connections, nullStatement }) => {
   const EmptyRow = () => (
@@ -31,7 +31,7 @@ const ConnectionsTable = ({ connections, nullStatement }) => {
   const ConnectionSlice = ({ connection }) => (
     <TableRow className="even:bg-muted">
       <TableCell>{connection.participant.codename}</TableCell>
-      <TableCell>connection.status</TableCell>
+      <TableCell>{capitalize(connection.status)}</TableCell>
       <TableCell>{formatDate(connection.updated_at)}</TableCell>
       <TableCell style={{ fontFamily: 'monospace' }}>
         {connection.pin}
