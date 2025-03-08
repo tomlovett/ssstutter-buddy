@@ -30,8 +30,6 @@ class P::ConnectionsController < ApplicationController
     # head :unprocessable_entity if @current_user&.participant.nil?
 
     @participant = Participant.find(1)
-    nil
-
     # @participant = @current_user.participant
   end
 

@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@/components/ui/button'
 import { Form, FormMessage } from '@/components/ui/form'
 import Select from '@/components/ui/custom/select'
-import TextInput from '@/components/ui/custom/textInput'
+import FormInput from '@/components/ui/custom/formInput'
 import UserSchema from '@/schemas/User'
 
 const codenameDescription =
@@ -66,7 +66,7 @@ const ParticipantForm = ({ participant, onSave }) => {
           Cancel
         </Link>
         {formFieldData.map(({ name, placeholder, desc }) => (
-          <TextInput
+          <FormInput
             key={name}
             form={form}
             name={name}
@@ -80,7 +80,7 @@ const ParticipantForm = ({ participant, onSave }) => {
           placeholder="Biological Gender"
           options={genderValues}
         />
-        <TextInput
+        <FormInput
           form={form}
           name="birthdate"
           placeholder="Birthdate (YYYY-MM-DD)"

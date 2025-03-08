@@ -33,7 +33,7 @@ const ParticipantEdit = ({ participant }) => {
 
       <ParticipantForm
         participant={participant}
-        onSave={particpantValues => saveParticipantChanges(particpantValues)}
+        onSave={participantValues => saveParticipantChanges(participantValues)}
       />
 
       <LocationTool

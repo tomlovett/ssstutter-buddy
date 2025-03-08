@@ -13,19 +13,29 @@ class R::ResearchersController < ApplicationController
       active_connections: @researcher.active_connections.as_json(include: :participant)
     }
 
-    render inertia: 'r/home', props:
+    render inertia: 'r/Researchers/home', props:
   end
 
   # GET /r/researchers/1
-  def show; end
+  def show
+    @researcher = Researcher.find(1)
+
+    render inertia: 'r/Researchers/show', props: { researcher: @researcher.to_json }
+  end
 
   # GET /r/researchers/new
   def new
-    @researcher = Researcher.new
+    @researcher = Researcher.new(user_id: params[:user_id])
+
+    render inertia: 'r/Researchers/edit', props: { researcher: @researcher.to_json }
   end
 
   # GET /r/researchers/1/edit
-  def edit; end
+  def edit
+    @researcher = Researcher.find(1)
+
+    render inertia: 'r/Researchers/edit', props: { researcher: @researcher.to_json }
+  end
 
   # POST /r/researchers
   def create
@@ -41,9 +51,9 @@ class R::ResearchersController < ApplicationController
   # PATCH/PUT /r/researchers/1
   def update
     if @researcher.update(researcher_params)
-      redirect_to @researcher, notice: t.success, status: :see_other
+      head :ok
     else
-      render :edit, status: :unprocessable_entity
+      head :unprocessable_entity
     end
   end
 
