@@ -10,14 +10,6 @@ const UserSchema = z.object({
   email: z.string().min(1, {
     message: 'Email must be at least 1 character.',
   }),
-  codename: z.string().min(1, {
-    message: 'Codename must be at least 1 character.',
-  }),
-  defaultDistance: z.coerce.number(),
-  gender: z.string(),
-  birthdate: z.coerce.date({
-    required_error: 'A date of birth is required.',
-  }),
 })
 
 export default UserSchema

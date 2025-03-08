@@ -1,7 +1,10 @@
+import { Link } from '@inertiajs/react'
 import { toast } from 'sonner'
 
 import ParticipantForm from '@/components/Participant/ParticipantForm'
 import LocationTool from '@/components/lib/LocationTool'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import { putRequest } from '@/lib/api'
 
 const ParticipantEdit = ({ participant }) => {
@@ -29,7 +32,21 @@ const ParticipantEdit = ({ participant }) => {
 
   return (
     <>
-      <h3>Edit your profile</h3>
+      <h3>Edit your participant profile</h3>
+
+      <p>
+        To edit your name or email, go to your{' '}
+        <Link href={`/u/edit/${participant.user_id}`}>user profile</Link>
+      </p>
+
+      <Label htmlFor="name">Name</Label>
+      <Input
+        key="name"
+        disabled
+        value={`${participant.first_name} ${participant.last_name}`}
+      />
+      <Label htmlFor="email">Email</Label>
+      <Input key="email" disabled value={participant.email} />
 
       <ParticipantForm
         participant={participant}
@@ -44,7 +61,7 @@ const ParticipantEdit = ({ participant }) => {
       />
 
       <p>
-        <b>how researchers will see you:</b>
+        <b>How researchers will see you:</b>
       </p>
       <p>Researcher/ParticipantSlice participant=participant</p>
     </>

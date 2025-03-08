@@ -21,7 +21,7 @@ class VerifiedAddress
     @states_list = []
     @cities_list = []
 
-    return if loc_hash[:country].nil?
+    return if loc_hash[:country].empty?
 
     country_sym = loc_hash[:country].to_sym
     @country = { name: CS.countries[country_sym], symbol: loc_hash[:country] }
@@ -29,7 +29,7 @@ class VerifiedAddress
 
     @states_list << LOCATION_OVERRIDES[country_sym] if LOCATION_OVERRIDES.key?(country_sym)
 
-    return if loc_hash[:state].nil?
+    return if loc_hash[:state].empty?
 
     state_sym = loc_hash[:state].to_sym
     @state = { name: CS.states(country_sym)[state_sym], symbol: loc_hash[:state] }
@@ -39,7 +39,7 @@ class VerifiedAddress
       @cities_list << LOCATION_OVERRIDES[country_sym]
     end
 
-    return if loc_hash[:city].nil?
+    return if loc_hash[:city].empty?
 
     @city = { name: loc_hash[:city], symbol: loc_hash[:city] }
   end

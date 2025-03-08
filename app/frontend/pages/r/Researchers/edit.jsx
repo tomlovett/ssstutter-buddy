@@ -59,7 +59,7 @@ const ResearcherEdit = ({ researcher }) => {
           className="w-2/3 space-y-6"
         >
           {formFieldData.map(({ name, placeholder, desc }) =>
-            ['bio', 'researchInterests'].includes(name) ? (
+            ['bio', 'research_interests'].includes(name) ? (
               <FormTextarea
                 key={name}
                 form={form}

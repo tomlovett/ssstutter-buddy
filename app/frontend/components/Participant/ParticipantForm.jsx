@@ -6,21 +6,16 @@ import { Button } from '@/components/ui/button'
 import { Form, FormMessage } from '@/components/ui/form'
 import Select from '@/components/ui/custom/select'
 import FormInput from '@/components/ui/custom/formInput'
-import UserSchema from '@/schemas/User'
+import ParticipantSchema from '@/schemas/Participant'
 
 const codenameDescription =
   'The name that will be displayed to researchers before you have connected with them'
 const defaultDistanceDescription =
   'The distance at which studies will be shown to you. It is best to set a longer distance than a shorter one'
+const underEighteenWarning =
+  'Participants under the age of eighteen must have their accounts managed by their parent or legal guardian.'
 
 const formFieldData = [
-  { name: 'firstName', placeholder: 'First Name', desc: '' },
-  {
-    name: 'lastName',
-    placeholder: 'Last Name',
-    desc: 'You may use your last initial if you prefer, i.e. "L."',
-  },
-  { name: 'email', placeholder: 'Email', desc: '' },
   {
     name: 'codename',
     placeholder: 'Codename',
@@ -33,15 +28,10 @@ const formFieldData = [
   },
 ]
 
-// const isUnderEighteen = val => !!val && 'math'
-
 const ParticipantForm = ({ participant, onSave }) => {
   const form = useForm({
-    resolver: zodResolver(UserSchema),
+    resolver: zodResolver(ParticipantSchema),
     defaultValues: {
-      firstName: participant.first_name || '',
-      lastName: participant.last_name || '',
-      email: participant.email || '',
       codename: participant.codename || '',
       birthdate: participant.birthdate || '',
       defaultDistance: participant.default_distance || 50,
@@ -85,6 +75,7 @@ const ParticipantForm = ({ participant, onSave }) => {
           name="birthdate"
           placeholder="Birthdate (YYYY-MM-DD)"
           disabled={!!participant.id}
+          desc={underEighteenWarning}
         />
         {/* if isUnderEighteen => show sheckbox warning that adult must own/run the account   */}
         <FormMessage />

@@ -9,9 +9,9 @@ class Participant < ApplicationRecord
   geocoded_by :address
   after_validation :geocode, if: ->(obj) { obj.city.present? && obj.city_changed? }
 
-  # def as_json
-  #   attributes.merge({ first_name:, last_name:, email: }) # .merge(VerifiedAddress.new(self).as_json)
-  # end
+  def as_json
+    attributes.merge({ first_name:, last_name:, email: }).merge(VerifiedAddress.new(self).as_json)
+  end
 
   def address
     [city, state, country].compact.join(', ')
