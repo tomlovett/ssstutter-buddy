@@ -9,7 +9,9 @@ class R::StudiesController < ApplicationController
   end
 
   # GET /r/studies/1
-  def show; end
+  def show
+    render inertia: 'r/Studies/show', props: { study: @study }
+  end
 
   # GET /r/studies/new
   def new
