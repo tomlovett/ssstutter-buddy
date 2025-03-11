@@ -61,7 +61,7 @@ const LocationTool = ({ country, state, city, onSave }) => {
 
   const LocationDisplay = () =>
     !currentCountry.name || !currentState.name || !currentCity.name
-      ? 'Editing...'
+      ? 'No Location Selected'
       : `${currentCity.name}, ${currentState.name}, ${currentCountry.name}`
 
   const ModalBody = () => (

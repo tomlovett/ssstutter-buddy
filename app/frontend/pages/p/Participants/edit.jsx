@@ -24,7 +24,7 @@ const ParticipantEdit = ({ participant }) => {
         const msg =
           res.status == '200'
             ? 'Changes saved!'
-            : 'Uh oh, there was an error! Please refresh the page and try again.'
+            : 'Uh oh, there was an error! Be careful, your changes were not saved.'
 
         toast(msg)
       }

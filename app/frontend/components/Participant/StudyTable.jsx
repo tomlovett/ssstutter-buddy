@@ -20,30 +20,30 @@ const StudyTable = ({ studies, nullStatement }) => {
   const TableHeaderRow = () => (
     <TableHeader>
       <TableRow>
-        <TableHead>Study Name</TableHead>
-        <TableHead>Study Type</TableHead>
-        <TableHead>Age Range</TableHead>
-        <TableHead>Estimated Commitment</TableHead>
-        <TableHead>Location</TableHead>
-        <TableHead>Link</TableHead>
-        <TableHead>Posted</TableHead>
+        <TableHead key="title">Study Name</TableHead>
+        <TableHead key="studyType">Study Type</TableHead>
+        <TableHead key="ageRange">Age Range</TableHead>
+        <TableHead key="timeline">Estimated Commitment</TableHead>
+        <TableHead key="location">Location</TableHead>
+        <TableHead key="link">Link</TableHead>
+        <TableHead key="posted">Posted</TableHead>
       </TableRow>
     </TableHeader>
   )
 
   const StudySlice = ({ study }) => (
     <TableRow className="even:bg-muted">
-      <TableCell>{study.title}</TableCell>
-      <TableCell>{study.study_type}</TableCell>
-      <TableCell>{ageRange(study)}</TableCell>
-      <TableCell>{timeline(study)}</TableCell>
-      <TableCell>{displayLocation(study)}</TableCell>
-      <TableCell>
+      <TableCell key="title">{study.title}</TableCell>
+      <TableCell key="studyType">{study.study_type}</TableCell>
+      <TableCell key="ageRange">{ageRange(study)}</TableCell>
+      <TableCell key="timeline">{timeline(study)}</TableCell>
+      <TableCell key="location">{displayLocation(study)}</TableCell>
+      <TableCell key="view">
         <Link href={`/p/studies/${study.id}`}>
           <u>View</u>
         </Link>
       </TableCell>
-      <TableCell>{formatDate(study.created_at)}</TableCell>
+      <TableCell key="date">{formatDate(study.created_at)}</TableCell>
     </TableRow>
   )
 
