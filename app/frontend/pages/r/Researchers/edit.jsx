@@ -53,6 +53,13 @@ const ResearcherEdit = ({ researcher }) => {
   return (
     <>
       <h3>{researcher.professional_name}</h3>
+      <p>
+        A core tenet of SSStutterBuddy is that PWS will be more likely to engage
+        with researchers they see as more human and accessible. The information
+        on this profile will help them feel more comfortable engaging in studies
+        with you, and may help allay nerves or doubts about participating in
+        studies conducted by you.
+      </p>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(saveResearcherChanges)}

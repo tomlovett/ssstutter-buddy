@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Form, FormMessage } from '@/components/ui/form'
 import Select from '@/components/ui/custom/select'
 import FormInput from '@/components/ui/custom/formInput'
+import { isUnderEighteen } from '@/lib/participant'
 import ParticipantSchema from '@/schemas/Participant'
 
 const codenameDescription =
@@ -13,7 +14,7 @@ const codenameDescription =
 const defaultDistanceDescription =
   'The distance at which studies will be shown to you. It is best to set a longer distance than a shorter one'
 const underEighteenWarning =
-  'Participants under the age of eighteen must have their accounts managed by their parent or legal guardian.'
+  'Warning: For legal reasons, participants under the age of eighteen must have their accounts managed by their parent or legal guardian. By continuing, you acknolwedge that this account is managed by an adult'
 
 const formFieldData = [
   {
@@ -38,6 +39,8 @@ const ParticipantForm = ({ participant, onSave }) => {
       gender: participant.gender || '',
     },
   })
+
+  const watchedBirthdate = form.watch('birthdate')
 
   const onSubmit = data => onSave(data)
 
@@ -75,9 +78,10 @@ const ParticipantForm = ({ participant, onSave }) => {
           name="birthdate"
           placeholder="Birthdate (YYYY-MM-DD)"
           disabled={!!participant.id}
-          desc={underEighteenWarning}
         />
-        {/* if isUnderEighteen => show sheckbox warning that adult must own/run the account   */}
+        {watchedBirthdate && isUnderEighteen(watchedBirthdate) && (
+          <p>{underEighteenWarning}</p>
+        )}
         <FormMessage />
       </form>
     </Form>
