@@ -8,7 +8,10 @@ export const displayLocation = ({
     return 'Online'
   }
 
-  const cityState = `${city}, ${state}`
+  const cityState =
+    typeof city == 'string'
+      ? `${city}, ${state}`
+      : `${city.name}, ${state.name}`
   return digital_friendly ? `Online / ${cityState}` : cityState
 }
 

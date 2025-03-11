@@ -6,11 +6,28 @@ class Study < ApplicationRecord
 
   validates :city, presence: true, unless: :digital_only
 
+  before_save :clear_location, if: :digital_only?
+
   geocoded_by :address, unless: :digital_only
   after_validation :geocode, if: ->(obj) { obj.city.present? && obj.city_changed? }
 
   scope :closed, -> { where('close_date > ?', Time.zone.today) }
   scope :digital_friendly, -> { where(digital_friendly: true) }
+
+  STUDY_TYPES = [
+    'survey',
+    'interview',
+    'task performance',
+    'brain imaging',
+    'speech intervention',
+    'behavioral intervention',
+    'genetic sample collection',
+    'pharmaceutical'
+  ].freeze
+
+  def as_json
+    attributes.merge(VerifiedAddress.new(self).as_json)
+  end
 
   def address
     [city, state, country].compact.join(', ')
@@ -53,5 +70,14 @@ class Study < ApplicationRecord
 
   def duration_factor
     duration.nil? ? '' : duration.split[1]
+  end
+
+  private
+
+  def clear_location
+    self.city = nil
+    self.state = nil
+    self.country = nil
+    self.digital_friendly = true
   end
 end

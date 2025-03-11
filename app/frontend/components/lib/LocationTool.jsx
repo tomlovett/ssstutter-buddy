@@ -105,7 +105,7 @@ const LocationTool = ({ country, state, city, onSave }) => {
     <>
       <LocationDisplay />
       <Modal
-        buttonText="Edit My Location"
+        buttonText="Edit Location"
         modalTitle="Location Selection"
         modalBody={<ModalBody />}
         enableSave={enableSave}

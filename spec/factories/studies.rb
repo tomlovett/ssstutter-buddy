@@ -9,7 +9,7 @@ FactoryBot.define do
     long_desc { Faker::Lorem.paragraph }
     open_date { '2024-08-31' }
     close_date { '2024-08-31' }
-    study_type { Faker::Lorem.sentence }
+    study_type { gen_study_type }
     min_age { 18 }
     max_age { nil }
     city { Faker::Address.city }
@@ -37,4 +37,11 @@ FactoryBot.define do
       digital_only { true }
     end
   end
+end
+
+def gen_study_type
+  end_array = []
+  types = Study::STUDY_TYPES.dup.shuffle
+  rand(2..7).times { end_array << types.pop }
+  end_array.join(',')
 end

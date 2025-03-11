@@ -26,7 +26,9 @@ class R::StudiesController < ApplicationController
   end
 
   # GET /r/studies/1/edit
-  def edit; end
+  def edit
+    render inertia: 'r/Studies/edit', props: { study: @study.as_json }
+  end
 
   # POST /r/studies
   def create
@@ -42,9 +44,9 @@ class R::StudiesController < ApplicationController
   # PATCH/PUT /r/studies/1
   def update
     if @study.update(study_params)
-      redirect_to @study, notice: 'Success!', status: :see_other
+      head :ok
     else
-      render :edit, status: :unprocessable_entity
+      head :unprocessable_entity
     end
   end
 
