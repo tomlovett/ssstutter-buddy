@@ -68,7 +68,7 @@ const remuneration = {
   placeholder: 'Estimated remuneration for the participant (in USD)',
 }
 
-const STUDY_TYPES = [
+const METHODOLOGIES = [
   { id: 'Survey', label: 'Survey' },
   { id: 'Interview', label: 'Interview' },
   { id: 'Task performance', label: 'Task Performance' },
@@ -86,7 +86,7 @@ const StudyEdit = ({ study }) => {
       title: study.title || '',
       short_desc: study.short_desc || '',
       long_desc: study.long_desc || '',
-      study_type: study.study_type.split(',') || [],
+      methodologies: study.methodologies.split(',') || [],
       country: study.country || '',
       state: study.state || '',
       city: study.city || '',
@@ -115,7 +115,7 @@ const StudyEdit = ({ study }) => {
 
   const saveFormChanges = formValues => {
     const refinedValues = Object.assign({}, formValues)
-    refinedValues.study_type = formValues.study_type.join(',')
+    refinedValues.methodologies = formValues.methodologies.join(',')
 
     saveStudy(refinedValues)
   }
@@ -221,8 +221,8 @@ const StudyEdit = ({ study }) => {
             form={form}
             title="Study Methodologies"
             subtitle="Select all that apply"
-            name="study_type"
-            items={STUDY_TYPES}
+            name="methodologies"
+            items={METHODOLOGIES}
           />
 
           <p>Age Range: {ageRange(watchedStudy)}</p>

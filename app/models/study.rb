@@ -14,7 +14,7 @@ class Study < ApplicationRecord
   scope :closed, -> { where('close_date > ?', Time.zone.today) }
   scope :digital_friendly, -> { where(digital_friendly: true) }
 
-  STUDY_TYPES = [
+  METHODOLOGIES = [
     'survey',
     'interview',
     'task performance',

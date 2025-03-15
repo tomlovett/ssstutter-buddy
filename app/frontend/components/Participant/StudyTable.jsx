@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from '@ui/table'
-import { ageRange, displayLocation, timeline } from '@/lib/study'
+import { ageRange, displayLocation, displayMethodologies, timeline } from '@/lib/study'
 import { formatDate } from '@/lib/utils'
 
 const StudyTable = ({ studies, nullStatement }) => {
@@ -21,7 +21,7 @@ const StudyTable = ({ studies, nullStatement }) => {
     <TableHeader>
       <TableRow>
         <TableHead key="title">Study Name</TableHead>
-        <TableHead key="studyType">Study Type</TableHead>
+        <TableHead key="methodologies">Methodologies</TableHead>
         <TableHead key="ageRange">Age Range</TableHead>
         <TableHead key="timeline">Estimated Commitment</TableHead>
         <TableHead key="location">Location</TableHead>
@@ -34,7 +34,7 @@ const StudyTable = ({ studies, nullStatement }) => {
   const StudySlice = ({ study }) => (
     <TableRow className="even:bg-muted">
       <TableCell key="title">{study.title}</TableCell>
-      <TableCell key="studyType">{study.study_type}</TableCell>
+      <TableCell key="methodologies">{displayMethodologies(study)}</TableCell>
       <TableCell key="ageRange">{ageRange(study)}</TableCell>
       <TableCell key="timeline">{timeline(study)}</TableCell>
       <TableCell key="location">{displayLocation(study)}</TableCell>

@@ -4,7 +4,7 @@ const StudySchema = z.object({
   title: z.string(),
   short_desc: z.string(),
   long_desc: z.string(),
-  study_type: z.any(),
+  methodologies: z.any(),
   min_age: z.coerce.number().optional(),
   max_age: z.coerce.number().optional(),
   country: z.string(),

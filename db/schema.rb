@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_03_05_233635) do
+ActiveRecord::Schema[7.0].define(version: 2025_03_15_201720) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -66,7 +66,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_05_233635) do
     t.text "long_desc"
     t.date "open_date"
     t.date "close_date"
-    t.string "study_type"
+    t.string "methodologies"
     t.integer "min_age"
     t.integer "max_age"
     t.string "country"

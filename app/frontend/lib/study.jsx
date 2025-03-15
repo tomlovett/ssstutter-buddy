@@ -1,3 +1,5 @@
+import { capitalize } from '@/lib/utils'
+
 export const displayLocation = ({
   digital_only,
   digital_friendly,
@@ -17,6 +19,8 @@ export const displayLocation = ({
 
 export const displayRemuneration = ({ remuneration }) =>
   remuneration == '0' ? 'Gratis' : `$${remuneration}`
+
+export const displayMethodologies = ({ methodologies }) => methodologies.split(',').map(m => capitalize(m)).join(', ')
 
 export const displayHours = total_hours => {
   if (total_hours == 1) {

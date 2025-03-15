@@ -4,7 +4,7 @@ const StudyInProgressSchema = z.object({
   title: z.string().optional(),
   short_desc: z.string().optional(),
   long_desc: z.string().optional(),
-  study_type: z.any().optional(),
+  methodologies: z.any().optional(),
   min_age: z.coerce.number().optional(),
   max_age: z.coerce.number().optional(),
   country: z.any().optional(),
