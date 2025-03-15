@@ -2,6 +2,7 @@
 
 class P::ConnectionsController < ApplicationController
   before_action :set_participant, only: %i[create index]
+  before_action :set_connection, only: %i[update]
 
   def index
     render inertia 'p/Connections/index', props: {
@@ -24,6 +25,15 @@ class P::ConnectionsController < ApplicationController
     end
   end
 
+  # PATCH/PUT /p/connections/1
+  def update
+    if @connection.update(connection_params)
+      head :ok
+    else
+      head :unprocessable_entity
+    end
+  end
+
   private
 
   def set_participant
@@ -33,7 +43,11 @@ class P::ConnectionsController < ApplicationController
     # @participant = @current_user.participant
   end
 
+  def set_connection
+    @connection = Connection.find(params[:id])
+  end
+
   def connection_params
-    params.permit(:study_id)
+    params.permit(:study_id, :status)
   end
 end

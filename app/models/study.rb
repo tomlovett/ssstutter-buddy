@@ -6,10 +6,10 @@ class Study < ApplicationRecord
 
   validates :city, presence: true, unless: :digital_only
 
+  after_validation :geocode, if: ->(obj) { obj.city.present? && obj.city_changed? }
   before_save :clear_location, if: :digital_only?
 
   geocoded_by :address, unless: :digital_only
-  after_validation :geocode, if: ->(obj) { obj.city.present? && obj.city_changed? }
 
   scope :closed, -> { where('close_date > ?', Time.zone.today) }
   scope :digital_friendly, -> { where(digital_friendly: true) }

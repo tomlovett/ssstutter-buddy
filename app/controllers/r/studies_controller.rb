@@ -10,19 +10,16 @@ class R::StudiesController < ApplicationController
 
   # GET /r/studies/1
   def show
-    render inertia: 'r/Studies/show', props: { study: @study }
+    connections = @study.connections.order(updated_at: :desc).map(&:as_json)
+
+    render inertia: 'r/Studies/show', props: { study: @study.as_json, connections: }
   end
 
   # GET /r/studies/new
   def new
-    @study = Study.new(
-      primary_researcher: @current_user&.researcher,
-      min_age: 18,
-      open_date: Time.zone.today,
-      total_hours: 2,
-      total_sessions: 2,
-      duration: '3 days'
-    )
+    @study = Study.create(researcher: @current_user&.researcher)
+
+    render inertia: 'r/Studies/edit', props: { study: @study.as_json }
   end
 
   # GET /r/studies/1/edit

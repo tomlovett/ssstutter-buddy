@@ -5,21 +5,20 @@ class Connection < ApplicationRecord
   belongs_to :study
 
   INTERESTED = 'interested'
+  NOT_INTERESTED = 'not interested'
   INVITED = 'invited'
   INVITATION_ACCEPTED = 'invitation accepted'
-  INVITATION_REJECTED = 'invitation rejected'
-  REJECTED = 'rejected'
+  INVITATION_DECLINED = 'invitation declined'
   STUDY_BEGAN = 'study began'
-  STUDY_INCOMPLETE = 'study incomplete'
-  STUDY_COMPLETED = 'study_completed'
+  STUDY_COMPLETED = 'study completed'
   DROPPED_OUT = 'dropped out'
-  FOLLOWUP_COMPLETED = 'followup_completed'
+  FOLLOWUP_COMPLETED = 'followup completed'
 
-  STATUSES_COMPLETED = [INVITATION_REJECTED, REJECTED, STUDY_COMPLETED, DROPPED_OUT, FOLLOWUP_COMPLETED].freeze
-  STATUSES_IN_PROGRESS = [INVITED, INVITATION_ACCEPTED, INTERESTED, STUDY_BEGAN, STUDY_INCOMPLETE].freeze
+  STATUSES_COMPLETED = [INVITATION_DECLINED, NOT_INTERESTED, STUDY_COMPLETED, DROPPED_OUT, FOLLOWUP_COMPLETED].freeze
+  STATUSES_IN_PROGRESS = [INVITED, INVITATION_ACCEPTED, INTERESTED, STUDY_BEGAN].freeze
   STATUSES = [
-    INVITATION_REJECTED, STUDY_COMPLETED, DROPPED_OUT, FOLLOWUP_COMPLETED,
-    INVITED, INVITATION_ACCEPTED, INTERESTED, STUDY_BEGAN, STUDY_INCOMPLETE
+    INVITATION_DECLINED, STUDY_COMPLETED, DROPPED_OUT, FOLLOWUP_COMPLETED,
+    INVITED, INVITATION_ACCEPTED, INTERESTED, STUDY_BEGAN
   ].freeze
 
   scope :invited, -> { where(status: INVITED) }
@@ -31,7 +30,20 @@ class Connection < ApplicationRecord
   before_validation { assign_pin! if pin.blank? }
 
   def display_participant_name?
-    [INVITED, INVITATION_REJECTED].exclude?(status)
+    [INVITED, NOT_INTERESTED, INVITATION_DECLINED].exclude?(status)
+  end
+
+  def as_json
+    attrs = attributes.dup
+
+    if display_participant_name?
+      attrs['name'] = "#{participant.first_name} #{participant.last_name}"
+      attrs['email'] = participant.email
+    else
+      attrs['name'] = participant.codename
+    end
+
+    attrs
   end
 
   private

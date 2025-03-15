@@ -1,0 +1,44 @@
+const INTERESTED = 'interested'
+const NOT_INTERESTED = 'not interested'
+const INVITED = 'invited'
+const INVITATION_ACCEPTED = 'invitation accepted'
+const INVITATION_DECLINED = 'invitation declined'
+const STUDY_BEGAN = 'study began'
+const STUDY_COMPLETED = 'study completed'
+const DROPPED_OUT = 'dropped out'
+const FOLLOWUP_COMPLETED = 'followup completed'
+
+export const CONNECTION_STATUSES = [
+  INVITATION_DECLINED,
+  STUDY_COMPLETED,
+  DROPPED_OUT,
+  FOLLOWUP_COMPLETED,
+  INVITED,
+  INVITATION_ACCEPTED,
+  INTERESTED,
+  STUDY_BEGAN,
+]
+
+export const MANAGE_STATUSES = [
+  INTERESTED,
+  STUDY_BEGAN,
+  STUDY_COMPLETED,
+  DROPPED_OUT,
+  FOLLOWUP_COMPLETED,
+]
+
+export const DECLINED_STATUSES = [NOT_INTERESTED, INVITATION_DECLINED]
+
+// const STATUSES_COMPLETED = [
+//   INVITATION_DECLINED,
+//   NOT_INTERESTED,
+//   STUDY_COMPLETED,
+//   DROPPED_OUT,
+//   FOLLOWUP_COMPLETED,
+// ]
+// const STATUSES_IN_PROGRESS = [
+//   INVITED,
+//   INVITATION_ACCEPTED,
+//   INTERESTED,
+//   STUDY_BEGAN,
+// ]

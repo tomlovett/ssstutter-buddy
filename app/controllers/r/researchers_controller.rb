@@ -37,17 +37,6 @@ class R::ResearchersController < ApplicationController
     render inertia: 'r/Researchers/edit', props: { researcher: @researcher.to_json }
   end
 
-  # POST /r/researchers
-  def create
-    @researcher = Researcher.new(researcher_params)
-
-    if @researcher.save
-      redirect_to @researcher, notice: t.success
-    else
-      render :new, status: :unprocessable_entity
-    end
-  end
-
   # PATCH/PUT /r/researchers/1
   def update
     if @researcher.update(researcher_params)
