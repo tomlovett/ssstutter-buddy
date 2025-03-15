@@ -66,7 +66,7 @@ class R::StudiesController < ApplicationController
       :long_desc,
       :open_date,
       :close_date,
-      :study_type,
+      :methodologies,
       :min_age,
       :max_age,
       :city,
