@@ -17,7 +17,11 @@ class R::StudiesController < ApplicationController
 
   # GET /r/studies/new
   def new
-    @study = Study.create(researcher: @current_user&.researcher)
+    @study = Study.new(
+      researcher_id: 1,
+      total_sessions: 1,
+      total_hours: 1
+    )
 
     render inertia: 'r/Studies/edit', props: { study: @study.as_json }
   end
@@ -32,18 +36,18 @@ class R::StudiesController < ApplicationController
     @study = Study.new(study_params)
 
     if @study.save
-      redirect_to @study, notice: 'Success!'
+      render json: @study.as_json, status: :created
     else
-      render :new, status: :unprocessable_entity
+      render json: @study.errors.to_json, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /r/studies/1
   def update
     if @study.update(study_params)
-      head :ok
+      render json: @study.as_json, status: :created
     else
-      head :unprocessable_entity
+      render json: @study.errors.to_json, status: :unprocessable_entity
     end
   end
 
@@ -61,6 +65,7 @@ class R::StudiesController < ApplicationController
 
   def study_params
     params.fetch(:study).permit(
+      :researcher_id,
       :title,
       :short_desc,
       :long_desc,
@@ -75,11 +80,8 @@ class R::StudiesController < ApplicationController
       :total_hours,
       :total_sessions,
       :duration,
-      :duration_number,
-      :duration_factor,
       :follow_up,
-      :remuneration,
-      :primary_researcher_id
+      :remuneration
     )
   end
 end

@@ -15,7 +15,12 @@ import {
 import { Button } from '@/components/ui/button'
 import { postRequest } from '@/lib/api'
 import { formatDate } from '@/lib/utils'
-import { displayLocation, displayMethodologies, displayRemuneration, timeline } from '@/lib/study'
+import {
+  displayLocation,
+  displayMethodologies,
+  displayRemuneration,
+  timeline,
+} from '@/lib/study'
 
 const StudyShow = ({ study, researcher, connection }) => {
   const body = { study_id: study.id }

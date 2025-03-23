@@ -7,7 +7,12 @@ import {
   TableHeader,
   TableRow,
 } from '@ui/table'
-import { ageRange, displayLocation, displayMethodologies, timeline } from '@/lib/study'
+import {
+  ageRange,
+  displayLocation,
+  displayMethodologies,
+  timeline,
+} from '@/lib/study'
 import { formatDate } from '@/lib/utils'
 
 const StudyTable = ({ studies, nullStatement }) => {

@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
-import { Link } from '@inertiajs/react'
+import { Link, router } from '@inertiajs/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import LocationTool from '@/components/lib/LocationTool'
@@ -10,7 +10,7 @@ import FormCheckbox from '@/components/ui/custom/formCheckbox'
 import FormCheckboxes from '@/components/ui/custom/formCheckboxes'
 import FormInput from '@/components/ui/custom/formInput'
 import FormTextarea from '@/components/ui/custom/formTextarea'
-import { putRequest } from '@/lib/api'
+import { sendRequest } from '@/lib/api'
 import {
   ageRange,
   displayLocation,
@@ -86,7 +86,7 @@ const StudyEdit = ({ study }) => {
       title: study.title || '',
       short_desc: study.short_desc || '',
       long_desc: study.long_desc || '',
-      methodologies: study.methodologies.split(',') || [],
+      methodologies: study.methodologies?.split(',') || [],
       country: study.country || '',
       state: study.state || '',
       city: study.city || '',
@@ -104,14 +104,26 @@ const StudyEdit = ({ study }) => {
 
   const watchedStudy = form.watch()
 
-  const saveStudy = async studyValues =>
-    await putRequest(`/r/studies/${study.id}`, studyValues).then(res =>
-      toast(
-        res.status == '200'
-          ? 'Changes saved!'
-          : 'Uh oh, there was an error! Be careful, your changes were not saved.'
-      )
-    )
+  const saveStudy = async studyValues => {
+    const method = study.id ? 'PUT' : 'POST'
+    const path = study.id ? `/r/studies/${study.id}` : '/r/studies'
+
+    await sendRequest(path, method, studyValues)
+      .then(res => res.json())
+      .then(study => {
+        if (study.id) {
+          toast('Changes saved! Redirecting you...')
+          setTimeout(() => {
+            router.visit(`/r/studies/${study.id}`)
+          }, 3500)
+        } else {
+          console.log(study)
+          // dsplay errors on page, because toast is too short
+          // but realistically, the backend does not currently validate this
+          toast(JSON.stringify(study))
+        }
+      })
+  }
 
   const saveFormChanges = formValues => {
     const refinedValues = Object.assign({}, formValues)

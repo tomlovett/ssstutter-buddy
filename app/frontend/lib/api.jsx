@@ -1,4 +1,4 @@
-const sendRequest = async (path, method, body = {}, headers = {}) =>
+export const sendRequest = async (path, method, body = {}, headers = {}) =>
   await fetch(`http://localhost:3001${path}`, {
     method: method,
     headers: Object.assign({ 'Content-Type': 'application/json' }, headers),

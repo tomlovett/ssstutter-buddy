@@ -10,7 +10,7 @@ class R::ResearchersController < ApplicationController
     props = {
       researcher: @researcher.to_json,
       studies: @researcher.studies.as_json,
-      active_connections: @researcher.active_connections.as_json(include: :participant)
+      active_connections: @researcher.active_connections.order(updated_at: :desc).as_json
     }
 
     render inertia: 'r/Researchers/home', props:

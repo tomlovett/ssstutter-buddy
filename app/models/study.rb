@@ -4,7 +4,7 @@ class Study < ApplicationRecord
   belongs_to :researcher
   has_many :connections, dependent: nil
 
-  validates :city, presence: true, unless: :digital_only
+  validates :city, presence: true, unless: -> { :digital_only }
 
   after_validation :geocode, if: ->(obj) { obj.city.present? && obj.city_changed? }
   before_save :clear_location, if: :digital_only?

@@ -1,13 +1,26 @@
 import { capitalize } from '@/lib/utils'
 
+const calcNullCityState = (city, state) => {
+  if (typeof city == 'string') {
+    return !city && !state
+  }
+
+  return !city?.name && !state?.name
+}
+
 export const displayLocation = ({
   digital_only,
   digital_friendly,
   city,
   state,
 }) => {
-  if (digital_only) {
+  const nullCityState = calcNullCityState(city, state)
+  if (digital_only || (digital_friendly && nullCityState)) {
     return 'Online'
+  }
+
+  if (!digital_only && !digital_friendly && nullCityState) {
+    return 'Not set'
   }
 
   const cityState =
@@ -18,9 +31,13 @@ export const displayLocation = ({
 }
 
 export const displayRemuneration = ({ remuneration }) =>
-  remuneration == '0' ? 'Gratis' : `$${remuneration}`
+  !remuneration || remuneration == '0' ? 'Gratis' : `$${remuneration}`
 
-export const displayMethodologies = ({ methodologies }) => methodologies.split(',').map(m => capitalize(m)).join(', ')
+export const displayMethodologies = ({ methodologies }) =>
+  methodologies
+    .split(', ')
+    .map(m => capitalize(m))
+    .join(', ')
 
 export const displayHours = total_hours => {
   if (total_hours == 1) {
