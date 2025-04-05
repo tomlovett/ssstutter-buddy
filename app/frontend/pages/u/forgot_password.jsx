@@ -35,7 +35,7 @@ const ForgotPassword = () => {
         .then(res => res.json())
         .then(() => {
           toast(
-            'If an account exists with this email, you will receive password reset instructions.',
+            'If an account exists with this email, you will receive login instructions.',
             { duration: 5000 }
           )
         })
@@ -53,7 +53,7 @@ const ForgotPassword = () => {
             Reset your password
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
-            Enter your email address and we'll send you instructions to reset
+            Enter your email address and we'll send you an email to reset
             your password.
           </p>
         </div>
@@ -71,7 +71,7 @@ const ForgotPassword = () => {
 
             <div>
               <Button type="submit" className="w-full">
-                Send Reset Instructions
+                Send Reset Email
               </Button>
             </div>
 

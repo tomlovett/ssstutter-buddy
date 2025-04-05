@@ -11,6 +11,8 @@ class User < ApplicationRecord
   validates :first_name, presence: true
   validates :last_name, presence: true
 
+  after_initialize { assign_activation_pin! }
+
   def full_name
     "#{first_name} #{last_name}"
   end
@@ -21,12 +23,24 @@ class User < ApplicationRecord
       user.password = SecureRandom.hex(15)
       user.first_name = auth.info.first_name
       user.last_name = auth.info.last_name
+      user.confirmed_at = Time.zone.now
     end
+  end
+
+  def home_page
+    return '/p/home' if participant.present?
+    return '/r/home' if researcher.present?
+
+    '/u/role'
   end
 
   private
 
   def password_required?
     !persisted? || password.present?
+  end
+
+  def assign_activation_pin!
+    self.activation_pin = PinGenerator.new.pin
   end
 end

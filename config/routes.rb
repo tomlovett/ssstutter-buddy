@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   get '/signup', to: 'registrations#new'
   get '/signup/:id/role', to: 'registrations#role'
   get '/login', to: 'authentication#login'
+  get '/confirm', to: 'authentication#confirm'
+  post '/auth/confirm', to: 'authentication#confirm_action'
   get '/forgot-password', to: 'authentication#forgot_password'
   post '/auth/forgot-password', to: 'authentication#forgot_password_action'
   post '/auth/login', to: 'authentication#login_action'
