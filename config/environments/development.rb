@@ -40,6 +40,11 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
+  # Enable email previews
+  config.action_mailer.show_previews = true
+  config.action_mailer.preview_path = Rails.root.join('test/mailers/previews').to_s
+  config.action_mailer.default_url_options = { host: 'ssstutterbuddy.com' }
+
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 

@@ -99,7 +99,10 @@ export default function Confirm() {
               </a>
               <br />
               Or{' '}
-              <a href="/forgot-password" className="text-blue-600 hover:text-blue-800">
+              <a
+                href="/forgot-password"
+                className="text-blue-600 hover:text-blue-800"
+              >
                 request a new confirmation email
               </a>
             </p>

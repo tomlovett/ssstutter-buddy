@@ -6,5 +6,6 @@ FactoryBot.define do
     last_name { Faker::Name.last_name }
     email { Faker::Internet.email }
     password { Faker::Lorem.characters(number: 10) }
+    activation_pin { PinGenerator.new.pin }
   end
 end

@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   post '/auth/confirm', to: 'authentication#confirm_action'
   get '/forgot-password', to: 'authentication#forgot_password'
   post '/auth/forgot-password', to: 'authentication#forgot_password_action'
+  get '/reset-password', to: 'authentication#reset_password'
   post '/auth/login', to: 'authentication#login_action'
   post '/signup', to: 'registrations#create'
   get '/auth/:provider/callback', to: 'omniauth_callbacks#google_oauth2'
