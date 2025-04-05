@@ -7,8 +7,8 @@ const UserSchema = z.object({
   lastName: z.string().min(1, {
     message: 'Last Name must be at least 1 character.',
   }),
-  email: z.string().min(1, {
-    message: 'Email must be at least 1 character.',
+  email: z.string().email().min(3, {
+    message: 'Email must be a valid email address.',
   }),
 })
 

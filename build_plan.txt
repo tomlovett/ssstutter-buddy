@@ -31,8 +31,10 @@ CRUD's
 
 email service
 	base service
+	account confirmation email
 	notification emails
 	message emails
+	-happy birthday
 
 ActiveStorage -- researcher headshots
 
@@ -45,11 +47,12 @@ Frontend page list
 User login & link to register (split on PWS/R here?) "I want to register as a Participant/Researcher"
 	participant registration
 	researcher participation
-Landing
-	connected # different PWS # times with # studies
-Talking you into signing up
-FAQ's
-About Us
+public-facing
+	Landing
+		connected # different PWS # times with # studies
+	Talking you into signing up
+	FAQ's
+	About Us
 
 
 Participant (namespace)
@@ -93,6 +96,7 @@ Pie in the Sky Wishlist
 demo experiences: for both P and R's
 	have to use dummy data if we're going to protect P privacy
 mobile app
+	can rely on mobile-friendly formatting for P side of app
 Turbo live-reloading
 Badges:
 	1/5/10/25/50/100 digital studies

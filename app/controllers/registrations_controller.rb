@@ -1,7 +1,13 @@
 # frozen_string_literal: true
 
 class RegistrationsController < ApplicationController
-  skip_before_action :authenticate_request, only: :create
+  # skip_before_action :authenticate_request, only: :create
+
+  def new
+    render inertia: 'u/signup'
+  end
+
+  def role; end
 
   def create
     @user = User.new(user_params)

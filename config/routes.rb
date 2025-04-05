@@ -1,9 +1,14 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  post 'auth/login', to: 'authentication#login'
-  post 'signup', to: 'registrations#create'
-  get 'auth/:provider/callback', to: 'omniauth_callbacks#google_oauth2'
+  get '/signup', to: 'registrations#new'
+  get '/signup/:id/role', to: 'registrations#role'
+  get '/login', to: 'authentication#login'
+  get '/forgot-password', to: 'authentication#forgot_password'
+  post '/auth/forgot-password', to: 'authentication#forgot_password_action'
+  post '/auth/login', to: 'authentication#login_action'
+  post '/signup', to: 'registrations#create'
+  get '/auth/:provider/callback', to: 'omniauth_callbacks#google_oauth2'
 
   resources :users, except: :index, path: 'u'
   get '/u/:id/select_role', to: 'users#select_role'

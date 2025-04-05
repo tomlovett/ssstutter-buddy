@@ -5,7 +5,7 @@ class UsersController < ApplicationController
 
   # GET /users/1
   def show
-    render inertia: 'User/show', props: { user: @user }
+    render inertia: 'u/show', props: { user: @user }
   end
 
   # GET /users/new
@@ -56,6 +56,13 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.fetch(:user).permit(:first_name, :last_name, :email, :password, :password_digest, :password_confirmation)
+    params.fetch(:user).permit(
+      :first_name,
+      :last_name,
+      :email,
+      :password,
+      :password_digest,
+      :password_confirmation
+    )
   end
 end

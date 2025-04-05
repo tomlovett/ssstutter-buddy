@@ -4,6 +4,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 
@@ -18,6 +19,7 @@ const FormInput = ({ form, name, placeholder, desc }) => (
           <Input placeholder={placeholder} {...field} />
         </FormControl>
         {!!desc && <FormDescription>{desc}</FormDescription>}
+        <FormMessage />
       </FormItem>
     )}
   />

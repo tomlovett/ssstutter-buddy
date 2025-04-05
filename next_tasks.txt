@@ -1,19 +1,12 @@
---move studies under researcher?
+verify Geocoder API
 
-Participant user flow
-Researcher user flow
-
-hook up Next.js
-
-investigate issue with Geocoder API response
+basic styling
 
 sessions & current_user
+login/signup flow
+	connect to P/R signup pages
 
-dynamic Country -> State/Province -> City selection
-	implement in Participant and Study
-	country.nil? -? state.nil? -> city.nil?
-	on country change, set state to null
-	on state change, set city to null
+email service
 
 Landing page
 	about; enter email to stay in touch
@@ -24,8 +17,6 @@ image uploading for researcher profiles
 set up ActiveMailer
 	basic dev config/infrastructure
 	DevOps logistics and config
-
-basic styling
 
 actual styling
 
