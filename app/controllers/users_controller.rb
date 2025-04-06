@@ -3,7 +3,7 @@
 class UsersController < ApplicationController
   # skip_before_action :authenticate_request, only: %i[new create]
 
-  # GET /users/1
+  # GET /u/1
   def show
     render inertia: 'u/show', props: { user: @current_user, token: }
   end
@@ -13,12 +13,13 @@ class UsersController < ApplicationController
     render inertia: 'u/signup', props: { user: User.new }
   end
 
-  # GET /users/1/edit
+  # GET /u/1/edit
   def edit
-    render inertia: 'Simple', props: { user: @current_user, token: }
+    @current_user = User.first
+    render inertia: 'u/edit', props: { user: @current_user, token: }
   end
 
-  # GET /users/1/select-role
+  # GET /u/1/select-role
   def select_role
     # if @current_user.participant || @current_user.researcher
     #   redirect_to edit_user_path(@current_user)
@@ -27,7 +28,7 @@ class UsersController < ApplicationController
     # end
   end
 
-  # POST /users/1/select-role
+  # POST /u/1/select-role
   def select_role_action
     role = params[:role]
 
@@ -43,7 +44,7 @@ class UsersController < ApplicationController
     end
   end
 
-  # POST /users
+  # POST /signup
   def create
     @current_user = User.new(user_params)
 
@@ -55,7 +56,7 @@ class UsersController < ApplicationController
     end
   end
 
-  # PATCH/PUT /users/1
+  # PATCH/PUT /u/1
   def update
     if @current_user.update(user_params)
       head :no_content
@@ -64,7 +65,7 @@ class UsersController < ApplicationController
     end
   end
 
-  # DELETE /users/1
+  # DELETE /u/1
   def destroy
     @current_user.destroy
     head :no_content

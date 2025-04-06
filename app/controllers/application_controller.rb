@@ -13,11 +13,12 @@ class ApplicationController < ActionController::Base
     @token ||= JsonWebToken.encode(user_id: @current_user.id)
   end
 
-  private
-
   def current_user
-    @current_user ||= session[:current_user_id] && User.find_by(id: session[:current_user_id])
+    @current_user ||= User.first
+    # @current_user ||= session[:current_user_id] && User.find_by(id: session[:current_user_id])
   end
+
+  private
 
   def authenticate_request
     header = request.headers['Authorization']

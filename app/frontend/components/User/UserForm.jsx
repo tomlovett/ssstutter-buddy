@@ -2,7 +2,6 @@ import { useForm } from 'react-hook-form'
 import { Link } from '@inertiajs/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { Label } from '@/components/ui/label'
 import Select from '@/components/ui/custom/select'
@@ -37,22 +36,6 @@ const UserForm = ({ user, onSave }) => {
 
   const onSubmit = data => onSave(data)
 
-  const SaveNextButtons = () =>
-    user.id ? (
-      <div className="flex justify-between space-x-4">
-        <Button key="submit" type="submit" className="flex-1">
-          Save Changes
-        </Button>
-        <Link href={`/u/${user.id}/edit`} as="button" className="flex-1">
-          Cancel
-        </Link>
-      </div>
-    ) : (
-      <Button key="submit" type="submit" className="w-full">
-        Next
-      </Button>
-    )
-
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -66,12 +49,6 @@ const UserForm = ({ user, onSave }) => {
           />
         ))}
         <div className="space-y-4 text-sm text-gray-600">
-          <div>
-            <Label>
-              If you are signing up as a researcher, please use the email
-              address associated with your institution.
-            </Label>
-          </div>
           {!user.id && (
             <div>
               <Label>
@@ -81,7 +58,20 @@ const UserForm = ({ user, onSave }) => {
             </div>
           )}
         </div>
-        <SaveNextButtons />
+        <div className="flex gap-4 mt-8 w-full">
+          <Link
+            href={`/u/${user.id}/edit`}
+            className="flex-1 px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-semibold transition-colors text-center"
+          >
+            Cancel
+          </Link>
+          <button
+            type="submit"
+            className="flex-1 px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-semibold transition-colors"
+          >
+            Save Changes
+          </button>
+        </div>
       </form>
     </Form>
   )
