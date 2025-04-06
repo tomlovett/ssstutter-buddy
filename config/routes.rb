@@ -1,24 +1,25 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  get '/signup', to: 'registrations#new'
-  get '/signup/:id/role', to: 'registrations#role'
+  # Authentication routes
   get '/login', to: 'authentication#login'
+  post '/auth/login', to: 'authentication#login_action'
+  get '/auth/:provider/callback', to: 'omniauth_callbacks#google_oauth2'
+
+  #  Routes for confirming email
   get '/confirm', to: 'authentication#confirm'
   post '/auth/confirm', to: 'authentication#confirm_action'
+
+  #  Routes for forgot password
   get '/forgot-password', to: 'authentication#forgot_password'
   post '/auth/forgot-password', to: 'authentication#forgot_password_action'
   get '/reset-password', to: 'authentication#reset_password'
-  post '/auth/login', to: 'authentication#login_action'
-  post '/signup', to: 'registrations#create'
-  get '/auth/:provider/callback', to: 'omniauth_callbacks#google_oauth2'
 
-  resources :users, except: :index, path: 'u'
-  get '/u/:id/select_role', to: 'users#select_role'
-  get '/u/:id/change_password', to: 'users#change_password'
-
-  # Defines the root path route ("/")
-  # root "articles#index"
+  resources :users, except: %i[index new create], path: 'u'
+  get '/signup', to: 'users#new'
+  post '/signup', to: 'users#create'
+  get '/u/:id/select-role', to: 'users#select_role'
+  post '/u/:id/select-role', to: 'users#select_role_action'
 
   namespace :p do
     get '/', to: '/p/participants#index'

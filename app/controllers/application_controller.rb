@@ -5,8 +5,13 @@ class ApplicationController < ActionController::Base
   include ExceptionHandler
 
   skip_forgery_protection
-
   # before_action :authenticate_request
+
+  def token
+    return nil unless current_user
+
+    @token ||= JsonWebToken.encode(user_id: @current_user.id)
+  end
 
   private
 
@@ -21,8 +26,13 @@ class ApplicationController < ActionController::Base
     begin
       @decoded = JsonWebToken.decode(bearer)
       @current_user = User.find(@decoded[:user_id])
-    rescue StandardError => e
-      render json: { errors: e.message }, status: :unauthorized
+
+      redirect_to confirm_path if @current_user.confirmed_at.blank?
+      if @current_user.researcher.blank? && @current_user.participant.blank?
+        redirect_to select_role_user_path(@current_user)
+      end
+    rescue StandardError
+      redirect_to login_path
     end
   end
 end

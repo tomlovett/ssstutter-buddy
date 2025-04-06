@@ -1,42 +1,63 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  before_action :set_user, only: %i[show edit change_password update destroy]
+  # skip_before_action :authenticate_request, only: %i[new create]
 
   # GET /users/1
   def show
-    render inertia: 'u/show', props: { user: @user }
+    render inertia: 'u/show', props: { user: @current_user, token: }
   end
 
-  # GET /users/new
+  # GET /signup
   def new
-    @user = User.new
+    render inertia: 'u/signup', props: { user: User.new }
   end
 
   # GET /users/1/edit
   def edit
-    render inertia: 'Simple', props: { user: @user }
+    render inertia: 'Simple', props: { user: @current_user, token: }
   end
 
-  # GET /users/1/change_password
-  def change_password; end
+  # GET /users/1/select-role
+  def select_role
+    # if @current_user.participant || @current_user.researcher
+    #   redirect_to edit_user_path(@current_user)
+    # else
+    render inertia: 'u/select-role', props: { user: @current_user, token: }
+    # end
+  end
+
+  # POST /users/1/select-role
+  def select_role_action
+    role = params[:role]
+
+    case role
+    when 'participant'
+      @current_user.create_participant!
+      render json: { participant: @current_user.participant, token: }
+    when 'researcher'
+      @current_user.create_researcher!
+      render json: { researcher: @current_user.researcher, token: }
+    else
+      head :unprocessable_entity
+    end
+  end
 
   # POST /users
   def create
-    head :unprocessable_entity if User.find_by(email: user_params[:email]).present?
+    @current_user = User.new(user_params)
 
-    @user = User.new(user_params)
-
-    if @user.save
-      render :select_role
+    if @current_user.save
+      JsonWebToken.encode(user_id: @current_user.id)
+      redirect_to select_role_user_path(@current_user)
     else
-      render :new, status: :unprocessable_entity
+      render inertia: 'u/signup', status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /users/1
   def update
-    if @user.update(user_params)
+    if @current_user.update(user_params)
       head :no_content
     else
       head :unprocessable_entity
@@ -45,15 +66,11 @@ class UsersController < ApplicationController
 
   # DELETE /users/1
   def destroy
-    @user.destroy
+    @current_user.destroy
     head :no_content
   end
 
   private
-
-  def set_user
-    @user = User.find(params[:id])
-  end
 
   def user_params
     params.fetch(:user).permit(

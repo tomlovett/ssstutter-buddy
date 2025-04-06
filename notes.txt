@@ -54,9 +54,7 @@ ParticipantLanguage
 	use_frequency
 
 ParticipantFlag
-	participant_id
-	researcher_id
-	study_id
+	connection_id
 	rationale
 	aspect: behavior/PWS
 

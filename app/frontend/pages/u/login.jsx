@@ -38,15 +38,15 @@ const Login = () => {
 
   const onSubmit = async data => {
     try {
-      const response = await postRequest('/auth/login', data)
+      await postRequest('/auth/login', data)
         .then(res => res.json())
         .then(({ token, redirect }) => {
           toast('Success! Redirecting you...')
           setTimeout(() => {
-            router.visit(`/${redirect}`)
+            router.visit(`/${redirect}`, { data: { token } })
           }, 2500)
         })
-    } catch (error) {
+    } catch (_error) {
       toast('Invalid email or password', { duration: 5000 })
     }
   }

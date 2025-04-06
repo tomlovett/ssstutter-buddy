@@ -39,7 +39,7 @@ export default function Confirm() {
         setErrorMessage('Invalid or expired activation pin: ' + activationPin)
         setIsSubmitting(false)
       }
-    } catch (error) {
+    } catch (_error) {
       setErrorMessage('Invalid or expired activation pin: ' + activationPin)
       setIsSubmitting(false)
     }
@@ -93,7 +93,7 @@ export default function Confirm() {
             </form>
 
             <p className="mt-8 text-center text-sm text-gray-600">
-              Didn't receive a pin?{' '}
+              Didn&apos;t receive a pin?{' '}
               <a href="/login" className="text-blue-600 hover:text-blue-800">
                 Contact Support
               </a>
