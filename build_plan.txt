@@ -33,6 +33,8 @@ email service
 	base service
 	account confirmation email
 	notification emails
+	participant welcome email
+	researcher welcome email
 	message emails
 	-happy birthday
 

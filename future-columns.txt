@@ -1,0 +1,11 @@
+User
+    generation_ip
+    blacklisted
+
+Study
+    autosend_url
+    paused
+
+Location
+    extract from Participant and Study
+    apply to User

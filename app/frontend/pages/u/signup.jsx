@@ -6,7 +6,7 @@ import { postRequest } from '@/lib/api'
 
 const sendCreateRequest = async userValues => {
   const body = Object.assign({}, userValues)
-  body.password = userValues.password // encrpyt
+  console.log(body)
 
   postRequest('/signup', body)
     .then(res => res.json())

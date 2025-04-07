@@ -31,7 +31,7 @@ class User < ApplicationRecord
     return '/p/home' if participant.present?
     return '/r/home' if researcher.present?
 
-    '/u/role'
+    "/u/#{id}/select-role"
   end
 
   private

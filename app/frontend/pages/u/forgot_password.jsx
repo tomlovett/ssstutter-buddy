@@ -32,15 +32,13 @@ const ForgotPassword = () => {
   const onSubmit = async data => {
     try {
       await postRequest('/auth/forgot-password', data)
-        .then(res => res.json())
         .then(() => {
           toast(
             'If an account exists with this email, you will receive login instructions.',
             { duration: 5000 }
           )
         })
-    } catch (error) {
-      console.error('Request failed:', error)
+    } catch (_error) {
       toast('Something went wrong. Please try again.', { duration: 5000 })
     }
   }

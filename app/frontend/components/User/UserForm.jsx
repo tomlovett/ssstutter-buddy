@@ -22,6 +22,16 @@ const formFieldData = [
     placeholder: 'Email',
     type: 'email',
   },
+  {
+    name: 'password',
+    placeholder: 'Password',
+    type: 'password',
+  },
+  {
+    name: 'passwordConfirmation',
+    placeholder: 'Password Confirmation',
+    type: 'password',
+  },
 ]
 
 const UserForm = ({ user, onSave }) => {
@@ -31,6 +41,8 @@ const UserForm = ({ user, onSave }) => {
       firstName: user.first_name || '',
       lastName: user.last_name || '',
       email: user.email || '',
+      password: '',
+      passwordConfirmation: '',
     },
   })
 
@@ -69,7 +81,7 @@ const UserForm = ({ user, onSave }) => {
             type="submit"
             className="flex-1 px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-semibold transition-colors"
           >
-            Save Changes
+            {user.id ? 'Save Changes' : 'Next'}
           </button>
         </div>
       </form>

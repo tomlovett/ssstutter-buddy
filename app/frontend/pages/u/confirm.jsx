@@ -61,6 +61,10 @@ export default function Confirm() {
               Confirm Your Account
             </h1>
 
+            <p className="mb-8 text-center text-sm text-gray-600">
+              Your account has been created! Check your email for a 6-digit pin.
+            </p>
+
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <Input
@@ -93,17 +97,20 @@ export default function Confirm() {
             </form>
 
             <p className="mt-8 text-center text-sm text-gray-600">
-              Didn&apos;t receive a pin?{' '}
-              <a href="/login" className="text-blue-600 hover:text-blue-800">
-                Contact Support
-              </a>
-              <br />
-              Or{' '}
+              Can&apos;t find your pin?{' '}
               <a
                 href="/forgot-password"
                 className="text-blue-600 hover:text-blue-800"
               >
-                request a new confirmation email
+                Request a new confirmation email
+              </a>
+              <br />
+              If all else fails, please{' '}
+              <a
+                href="mailto:support@ssstutterbuddy.com"
+                className="text-blue-600 hover:text-blue-800"
+              >
+                contact support
               </a>
             </p>
           </div>

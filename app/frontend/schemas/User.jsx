@@ -10,6 +10,12 @@ const UserSchema = z.object({
   email: z.string().email().min(3, {
     message: 'Email must be a valid email address.',
   }),
+  password: z.string().min(8, {
+    message: 'Password must be at least 8 characters.',
+  }),
+  passwordConfirmation: z.string().min(8, {
+    message: 'Password Confirmation must be at least 8 characters.',
+  }),
 })
 
 export default UserSchema

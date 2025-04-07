@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ApiController < ApplicationController
-  protect_from_forgery with: :null_session
+  skip_before_action :authenticate_request
 
   # POST /api/location
   def location
@@ -13,6 +13,6 @@ class ApiController < ApplicationController
   private
 
   def location_params
-    params.permit(:country, :state, :city)
+    params.require(:api).permit(:country, :state, :city)
   end
 end
