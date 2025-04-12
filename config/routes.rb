@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  resource :session
+  resources :passwords, param: :token
   # Authentication routes
   get '/login', to: 'authentication#login'
   post '/auth/login', to: 'authentication#login_action'
