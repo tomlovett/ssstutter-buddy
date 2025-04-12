@@ -6,7 +6,7 @@ import { toast } from 'sonner'
 const EditUserPage = ({ user, token }) => {
   const submitData = async formData => {
     try {
-      await putRequest(`/u/${user.id}`, formData, token)
+      await putRequest(`/u/${user.id}`, formData, { token })
       toast.success('Changes saved!')
     } catch (_error) {
       toast.error('Failed to update profile')

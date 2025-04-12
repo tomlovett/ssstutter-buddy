@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   # Authentication routes
   get '/login', to: 'authentication#login'
   post '/auth/login', to: 'authentication#login_action'
+  post '/auth/validate-token', to: 'authentication#validate_token_action'
   get '/auth/:provider/callback', to: 'omniauth_callbacks#google_oauth2'
 
   #  Routes for confirming email
@@ -42,4 +43,5 @@ Rails.application.routes.draw do
   scope :api do
     post '/location', to: 'api#location'
   end
+
 end

@@ -79,7 +79,7 @@ const METHODOLOGIES = [
   { id: 'Pharmaceutical trial', label: 'Pharmaceutical' },
 ]
 
-const StudyEdit = ({ study }) => {
+const StudyEdit = ({ study, token }) => {
   const form = useForm({
     resolver: zodResolver(StudyInProgressSchema),
     defaultValues: {
@@ -108,14 +108,11 @@ const StudyEdit = ({ study }) => {
     const method = study.id ? 'PUT' : 'POST'
     const path = study.id ? `/r/studies/${study.id}` : '/r/studies'
 
-    await sendRequest(path, method, studyValues)
+    await sendRequest(path, method, studyValues, { token })
       .then(res => res.json())
       .then(study => {
         if (study.id) {
-          toast('Changes saved! Redirecting you...')
-          setTimeout(() => {
-            router.visit(`/r/studies/${study.id}`)
-          }, 3500)
+          toast('Changes saved!')
         } else {
           console.log(study)
           // dsplay errors on page, because toast is too short

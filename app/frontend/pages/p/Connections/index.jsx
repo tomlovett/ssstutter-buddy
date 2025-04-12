@@ -1,4 +1,4 @@
-const ConnectionIdex = ({ connections }) => (
+const ConnectionIdex = ({ connections, token }) => (
   <>
     <h3>My Study Connections</h3>
     {connections.map(connection => (

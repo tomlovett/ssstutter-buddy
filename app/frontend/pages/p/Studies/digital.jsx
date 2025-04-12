@@ -2,7 +2,7 @@ import { Link } from '@inertiajs/react'
 
 import StudyTable from 'components/Participant/StudyTable'
 
-const DigitalStudies = ({ studies }) => (
+const DigitalStudies = ({ studies, token }) => (
   <>
     <h4 className="underline">Digital-Friendly Studies</h4>
     <StudyTable
