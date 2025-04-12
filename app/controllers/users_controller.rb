@@ -24,7 +24,7 @@ class UsersController < ApplicationController
     if @current_user.participant || @current_user.researcher
       redirect_to edit_user_path(@current_user)
     else
-    render inertia: 'u/select-role', props: { user: @current_user, token: }
+      render inertia: 'u/select-role', props: { user: @current_user, token: }
     end
   end
 
