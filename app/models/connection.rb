@@ -33,7 +33,7 @@ class Connection < ApplicationRecord
     [INVITED, NOT_INTERESTED, INVITATION_DECLINED].exclude?(status)
   end
 
-  def as_json
+  def as_json(options = {})
     attrs = attributes.dup
 
     if display_participant_name?
@@ -43,7 +43,7 @@ class Connection < ApplicationRecord
       attrs['name'] = participant.codename
     end
 
-    attrs
+    super.merge(attrs)
   end
 
   private

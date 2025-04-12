@@ -28,8 +28,8 @@ class User < ApplicationRecord
   end
 
   def home_page
-    return '/p/home' if participant.present?
-    return '/r/home' if researcher.present?
+    return '/p' if participant.present?
+    return '/r' if researcher.present?
 
     "/u/#{id}/select-role"
   end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  # skip_before_action :authenticate_request, only: %i[new create]
+  skip_before_action :authenticate_request, only: %i[new create]
 
   # GET /u/1
   def show
@@ -21,11 +21,11 @@ class UsersController < ApplicationController
 
   # GET /u/1/select-role
   def select_role
-    # if @current_user.participant || @current_user.researcher
-    #   redirect_to edit_user_path(@current_user)
-    # else
+    if @current_user.participant || @current_user.researcher
+      redirect_to edit_user_path(@current_user)
+    else
     render inertia: 'u/select-role', props: { user: @current_user, token: }
-    # end
+    end
   end
 
   # POST /u/1/select-role

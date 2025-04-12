@@ -23,7 +23,7 @@ class P::StudiesController < ApplicationController
   def show
     render inertia: 'p/Studies/show', props: {
       study: @study,
-      researcher: @study.researcher.to_json,
+      researcher: @study.researcher.as_json,
       connection: Connection.find_by(study: @study, participant: @current_user&.participant)
     }
   end

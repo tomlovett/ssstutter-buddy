@@ -20,21 +20,21 @@ class R::ResearchersController < ApplicationController
   def show
     @researcher = Researcher.find(1)
 
-    render inertia: 'r/Researchers/show', props: { researcher: @researcher.to_json }
+    render inertia: 'r/Researchers/show', props: { researcher: @researcher.as_json }
   end
 
   # GET /r/researchers/new
   def new
     @researcher = Researcher.new(user_id: params[:user_id])
 
-    render inertia: 'r/Researchers/edit', props: { researcher: @researcher.to_json }
+    render inertia: 'r/Researchers/edit', props: { researcher: @researcher.as_json }
   end
 
   # GET /r/researchers/1/edit
   def edit
     @researcher = Researcher.find(1)
 
-    render inertia: 'r/Researchers/edit', props: { researcher: @researcher.to_json }
+    render inertia: 'r/Researchers/edit', props: { researcher: @researcher.as_json }
   end
 
   # PATCH/PUT /r/researchers/1

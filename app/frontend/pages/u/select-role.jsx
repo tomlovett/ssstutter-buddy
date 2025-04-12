@@ -3,7 +3,7 @@ import { postRequest } from '@/lib/api'
 import { router } from '@inertiajs/react'
 import { toast } from 'sonner'
 
-const SelectRolePage = ({ token }) => {
+const SelectRolePage = ({ usertoken }) => {
   const [role, setRole] = useState('')
 
   const handleParticipantClick = () =>
@@ -14,7 +14,7 @@ const SelectRolePage = ({ token }) => {
 
   const handleNextClick = async () => {
     try {
-      await postRequest('/u/select-role', { role }, token)
+      await postRequest(`/u/${user.id}/select-role`, { role }, token)
         .then(response => response.json())
         .then(({ researcher, participant }) => {
           if (researcher) {
