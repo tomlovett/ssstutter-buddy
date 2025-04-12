@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_04_05_183554) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_12_182419) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  enable_extension "pg_catalog.plpgsql"
 
   create_table "connections", force: :cascade do |t|
     t.string "invitation_response"
@@ -60,6 +60,15 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_05_183554) do
     t.index ["user_id"], name: "index_researchers_on_user_id"
   end
 
+  create_table "sessions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "ip_address"
+    t.string "user_agent"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_sessions_on_user_id"
+  end
+
   create_table "studies", force: :cascade do |t|
     t.string "title"
     t.text "short_desc"
@@ -103,4 +112,5 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_05_183554) do
   add_foreign_key "connections", "studies"
   add_foreign_key "participants", "users"
   add_foreign_key "researchers", "users"
+  add_foreign_key "sessions", "users"
 end
