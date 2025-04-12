@@ -26,7 +26,7 @@ const formFieldData = [
   },
 ]
 
-const ResearcherEdit = ({ researcher }) => {
+const ResearcherEdit = ({ researcher, token }) => {
   const form = useForm({
     resolver: zodResolver(ResearcherSchema),
     defaultValues: {
@@ -39,16 +39,16 @@ const ResearcherEdit = ({ researcher }) => {
   })
 
   const saveResearcherChanges = async formValues =>
-    await putRequest(`/r/researchers/${researcher.id}`, formValues).then(
-      res => {
-        const msg =
-          res.status == '200'
-            ? 'Changes saved!'
-            : 'Uh oh, there was an error! Please refresh the page and try again.'
+    await putRequest(`/r/researchers/${researcher.id}`, formValues, {
+      token,
+    }).then(res => {
+      const msg =
+        res.status == '200'
+          ? 'Changes saved!'
+          : 'Uh oh, there was an error! Please refresh the page and try again.'
 
-        toast(msg)
-      }
-    )
+      toast(msg)
+    })
 
   return (
     <>

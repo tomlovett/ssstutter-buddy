@@ -13,7 +13,7 @@ import {
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
-const ParticipantShow = ({ participant }) => (
+const ParticipantShow = ({ participant, token }) => (
   <>
     <header className="flex flex-col lg:flex-row gap-4 mb-4">
       <div className="w-full lg:w-1/3 p-6 mb-2 rounded-md bg-blue-50">

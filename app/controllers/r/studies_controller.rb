@@ -38,7 +38,7 @@ class R::StudiesController < ApplicationController
     if @study.save
       render json: @study.as_json, status: :created
     else
-      render json: @study.errors.to_json, status: :unprocessable_entity
+      render json: @study.errors.as_json, status: :unprocessable_entity
     end
   end
 
@@ -47,7 +47,7 @@ class R::StudiesController < ApplicationController
     if @study.update(study_params)
       render json: @study.as_json, status: :created
     else
-      render json: @study.errors.to_json, status: :unprocessable_entity
+      render json: @study.errors.as_json, status: :unprocessable_entity
     end
   end
 

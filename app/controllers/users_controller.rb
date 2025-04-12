@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  # skip_before_action :authenticate_request, only: %i[new create]
+  skip_before_action :authenticate_request, only: %i[new create]
 
   # GET /u/1
   def show
@@ -21,11 +21,11 @@ class UsersController < ApplicationController
 
   # GET /u/1/select-role
   def select_role
-    # if @current_user.participant || @current_user.researcher
-    #   redirect_to edit_user_path(@current_user)
-    # else
-    render inertia: 'u/select-role', props: { user: @current_user, token: }
-    # end
+    if @current_user.participant || @current_user.researcher
+      redirect_to edit_user_path(@current_user)
+    else
+      render inertia: 'u/select-role', props:
+    end
   end
 
   # POST /u/1/select-role
@@ -50,9 +50,9 @@ class UsersController < ApplicationController
 
     if @current_user.save
       JsonWebToken.encode(user_id: @current_user.id)
-      redirect_to select_role_user_path(@current_user)
+      redirect_to confirm_path(@current_user)
     else
-      render inertia: 'u/signup', status: :unprocessable_entity
+      render json: @current_user.errors, status: :unprocessable_entity
     end
   end
 
@@ -74,7 +74,7 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.fetch(:user).permit(
+    params.permit(
       :first_name,
       :last_name,
       :email,

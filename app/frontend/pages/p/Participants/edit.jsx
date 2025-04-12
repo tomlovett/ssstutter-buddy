@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { putRequest } from '@/lib/api'
 
-const ParticipantEdit = ({ participant }) => {
+const ParticipantEdit = ({ participant, token }) => {
   const saveLocationChanges = locationData => {
     const parsedData = {
       country: locationData.country?.symbol,
@@ -19,16 +19,16 @@ const ParticipantEdit = ({ participant }) => {
   }
 
   const saveParticipantChanges = async changedValues =>
-    await putRequest(`/p/participants/${participant.id}`, changedValues).then(
-      res => {
-        const msg =
-          res.status == '200'
-            ? 'Changes saved!'
-            : 'Uh oh, there was an error! Be careful, your changes were not saved.'
+    await putRequest(`/p/participants/${participant.id}`, changedValues, {
+      token,
+    }).then(res => {
+      const msg =
+        res.status == '200'
+          ? 'Changes saved!'
+          : 'Uh oh, there was an error! Be careful, your changes were not saved.'
 
-        toast(msg)
-      }
-    )
+      toast(msg)
+    })
 
   return (
     <>

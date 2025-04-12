@@ -22,10 +22,10 @@ import {
   timeline,
 } from '@/lib/study'
 
-const StudyShow = ({ study, researcher, connection }) => {
+const StudyShow = ({ study, researcher, connection, token }) => {
   const body = { study_id: study.id }
   const postCreateConnection = () => {
-    postRequest('/p/connections', body).then(res => {
+    postRequest('/p/connections', body, { token }).then(res => {
       if (res.status == '201') {
         toast('Success! Check your email', { duration: 5000 })
       } else {

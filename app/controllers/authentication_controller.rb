@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class AuthenticationController < ApplicationController
-  # skip_before_action :authenticate_request
+  skip_before_action :authenticate_request
 
   # GET /login
   def login
@@ -32,7 +32,7 @@ class AuthenticationController < ApplicationController
   # POST /auth/confirm
   def confirm_action
     @user = User.find_by(activation_pin: params[:activation_pin])
-
+    Rails.logger.debug { "@user: #{@user.inspect}" }
     # PIN must be used within 10 minutes
     return head :unprocessable_entity if @user.nil? || @user.updated_at <= 10.minutes.ago
 
@@ -46,7 +46,7 @@ class AuthenticationController < ApplicationController
 
     if @user.present?
       if @user.confirmed_at.present?
-        @user.update(activation_pin: PinGenerator.new.pin, password: nil)
+        @user.update(activation_pin: PinGenerator.new.pin, password_digest: nil)
 
         UserMailer.with(user: @user).password_reset_email.deliver_later
       else
@@ -63,9 +63,30 @@ class AuthenticationController < ApplicationController
 
     if @user&.authenticate(params[:password])
       token = JsonWebToken.encode(user_id: @user.id)
-      render json: { token:, redirect: @user.home_page }, status: :ok
+      render json: { user: @user, token:, redirect: @user.home_page }
+      # redirect_to @user.home_page # data: { user: @user, token: }
     else
       render json: { error: 'unauthorized' }, status: :unauthorized
+    end
+  end
+
+  def validate_token_action
+    token = params[:sb_token]
+    begin
+      decoded = JsonWebToken.decode(token)
+      @user = User.find(decoded[:user_id])
+      
+      if @user.nil?
+        head :not_found
+      else
+        token = JsonWebToken.encode(user_id: @user.id)
+        redirect_to @user.home_page #, data: { user: @user, token: }
+        # render json: { user: @user, token:, redirect: @user.home_page }
+      end
+    rescue JWT::ExpiredSignature
+      head :unauthorized
+    rescue JWT::DecodeError
+      head :unauthorized
     end
   end
 end

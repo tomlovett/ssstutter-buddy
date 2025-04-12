@@ -1,10 +1,11 @@
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, router } from '@inertiajs/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { postRequest } from '@/lib/api'
 import { toast } from 'sonner'
 
+import { postRequest } from '@/lib/api'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import FormInput from '@/components/ui/custom/formInput'
@@ -28,6 +29,20 @@ const formFieldData = [
 ]
 
 const Login = () => {
+  useEffect(() => {
+    const sb_token  = localStorage.getItem('sb_token')
+    if (sb_token) {
+      postRequest('/auth/validate-token', { sb_token })  
+        .then(res => res.json())
+        .then(({ user, token, redirect }) => {
+          // toast('Success! Redirecting you...')
+
+        }).catch(_error => {
+          localStorage.removeItem('sb_token')
+        })
+    }
+  }, [])
+
   const form = useForm({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -40,11 +55,14 @@ const Login = () => {
     try {
       await postRequest('/auth/login', data)
         .then(res => res.json())
-        .then(({ token, redirect }) => {
+        .then(({ user, token, redirect }) => {
+          localStorage.setItem('sb_token', token)
           toast('Success! Redirecting you...')
-          setTimeout(() => {
-            router.visit(`/${redirect}`, { data: { token } })
-          }, 2500)
+
+          console.log('redirect', redirect)
+          // setTimeout(() => {
+          //   router.visit(redirect, { options: { token } })
+          // }, 200)
         })
     } catch (_error) {
       toast('Invalid email or password', { duration: 5000 })

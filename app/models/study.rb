@@ -25,8 +25,8 @@ class Study < ApplicationRecord
     'pharmaceutical'
   ].freeze
 
-  def as_json
-    attributes.merge(VerifiedAddress.new(self).as_json)
+  def as_json(options = {})
+    super.merge(VerifiedAddress.new(self).as_json)
   end
 
   def address

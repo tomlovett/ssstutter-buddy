@@ -7,8 +7,8 @@ class Researcher < ApplicationRecord
 
   delegate :first_name, :last_name, :full_name, :email, to: :user
 
-  def to_json(*_args)
-    attributes.merge({ first_name:, last_name:, email:, professional_name: })
+  def as_json(options = {})
+    super.merge({ first_name:, last_name:, email:, professional_name: })
   end
 
   def professional_name

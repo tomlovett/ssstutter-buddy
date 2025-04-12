@@ -5,6 +5,7 @@ const ParticipantHome = ({
   study_invitations,
   connections,
   nearby_studies,
+  token,
 }) => {
   return (
     <>
