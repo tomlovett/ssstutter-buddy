@@ -51,7 +51,7 @@ class Study < ApplicationRecord
   end
 
   def open?
-    Time.zone.today >= start_date && Time.zone.today <= end_date
+    Time.zone.today.between?(start_date, end_date)
   end
 
   def age_range
