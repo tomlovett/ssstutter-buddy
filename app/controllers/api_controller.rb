@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ApiController < ApplicationController
-  skip_before_action :authenticate_request
+  allow_unauthenticated_access
 
   # POST /api/location
   def location

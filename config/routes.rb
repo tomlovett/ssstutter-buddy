@@ -1,21 +1,22 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  resource :session
   resources :passwords, param: :token
   # Authentication routes
-  get '/login', to: 'authentication#login'
-  post '/auth/login', to: 'authentication#login_action'
-  get '/auth/:provider/callback', to: 'omniauth_callbacks#google_oauth2'
+  get '/login', to: 'sessions#new'
+  post '/login', to: 'sessions#create'
+  delete '/logout', to: 'sessions#destroy'
+  # get '/auth/:provider/callback', to: 'omniauth_callbacks#google_oauth2'
 
   #  Routes for confirming email
   get '/confirm', to: 'authentication#confirm'
-  post '/auth/confirm', to: 'authentication#confirm_action'
+  post '/confirm', to: 'authentication#confirm_action'
 
   #  Routes for forgot password
-  get '/forgot-password', to: 'authentication#forgot_password'
-  post '/auth/forgot-password', to: 'authentication#forgot_password_action'
-  get '/reset-password', to: 'authentication#reset_password'
+  get '/forgot-password', to: 'authentication#forgot_password', param: :token
+  post '/forgot-password', to: 'authentication#forgot_password_action'
+  get '/reset-password', to: 'authentication#reset_password', param: :token
+  post '/reset-password', to: 'authentication#reset_password_action'
 
   resources :users, except: %i[index new create], path: 'u'
   get '/signup', to: 'users#new'

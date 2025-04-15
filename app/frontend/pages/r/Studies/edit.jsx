@@ -112,10 +112,7 @@ const StudyEdit = ({ study }) => {
       .then(res => res.json())
       .then(study => {
         if (study.id) {
-          toast('Changes saved! Redirecting you...')
-          setTimeout(() => {
-            router.visit(`/r/studies/${study.id}`)
-          }, 3500)
+          toast('Changes saved!')
         } else {
           console.log(study)
           // dsplay errors on page, because toast is too short

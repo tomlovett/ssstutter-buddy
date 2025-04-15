@@ -3,7 +3,7 @@ import { postRequest } from '@/lib/api'
 import { router } from '@inertiajs/react'
 import { toast } from 'sonner'
 
-const SelectRolePage = ({ usertoken }) => {
+const SelectRolePage = () => {
   const [role, setRole] = useState('')
 
   const handleParticipantClick = () =>
@@ -14,7 +14,8 @@ const SelectRolePage = ({ usertoken }) => {
 
   const handleNextClick = async () => {
     try {
-      await postRequest(`/u/${user.id}/select-role`, { role }, token)
+      await postRequest(`/u/${user.id}/select-role`, { role })
+        // remove and change backend to send redirect
         .then(response => response.json())
         .then(({ researcher, participant }) => {
           if (researcher) {

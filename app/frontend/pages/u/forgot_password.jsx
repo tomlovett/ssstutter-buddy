@@ -31,7 +31,7 @@ const ForgotPassword = () => {
 
   const onSubmit = async data => {
     try {
-      await postRequest('/auth/forgot-password', data).then(() => {
+      await postRequest('/forgot-password', data).then(() => {
         toast(
           'If an account exists with this email, you will receive login instructions.',
           { duration: 5000 }

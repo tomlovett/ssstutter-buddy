@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  skip_before_action :authenticate_request, only: %i[new create]
+  # allow_unauthenticated_access, only: %i[new create]
 
   # GET /u/1
   def show

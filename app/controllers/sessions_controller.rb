@@ -6,19 +6,26 @@ class SessionsController < ApplicationController
     redirect_to new_session_url, alert: 'Try again later.'
   }
 
-  def new; end
+  # skip_before_action :authenticate_request
 
+  # GET /sessions/new
+  def new
+    render inertia: 'u/login'
+  end
+
+  # POST /sessions
   def create
-    if (user = User.authenticate_by(params.permit(:email_address, :password)))
+    if (user = User.authenticate_by(params.permit(:email, :password)))
       start_new_session_for user
-      redirect_to after_authentication_url
+      redirect_to user.home_page
     else
-      redirect_to new_session_url, alert: 'Try another email address or password.'
+      redirect_to login_path, alert: 'Try another email address or password.'
     end
   end
 
+  # DELETE /sessions
   def destroy
     terminate_session
-    redirect_to new_session_url
+    redirect_to login_path
   end
 end

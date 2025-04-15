@@ -3,6 +3,12 @@ export const sendRequest = async (path, method, body = {}, headers = {}) =>
     method: method,
     headers: Object.assign({ 'Content-Type': 'application/json' }, headers),
     body: JSON.stringify(body),
+    redirect: 'follow',
+  }).then(response => {
+    if (response.redirected) {
+      window.location.href = response.url
+    }
+    return response
   })
 
 export const getRequest = async (path, body = {}, headers = {}) =>

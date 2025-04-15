@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form'
-import { Link, router } from '@inertiajs/react'
+import { Link } from '@inertiajs/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { postRequest } from '@/lib/api'
@@ -38,15 +38,8 @@ const Login = () => {
 
   const onSubmit = async data => {
     try {
-      await postRequest('/auth/login', data)
-        .then(res => res.json())
-        .then(({ token, redirect }) => {
-          toast('Success! Redirecting you...')
-          setTimeout(() => {
-            router.visit(`/${redirect}`, { data: { token } })
-          }, 2500)
-        })
-    } catch (_error) {
+      await postRequest('/login', data)
+    } catch (error) {
       toast('Invalid email or password', { duration: 5000 })
     }
   }
