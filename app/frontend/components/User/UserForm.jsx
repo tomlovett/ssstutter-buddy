@@ -22,16 +22,6 @@ const formFieldData = [
     placeholder: 'Email',
     type: 'email',
   },
-  {
-    name: 'password',
-    placeholder: 'Password',
-    type: 'password',
-  },
-  {
-    name: 'passwordConfirmation',
-    placeholder: 'Password Confirmation',
-    type: 'password',
-  },
 ]
 
 const UserForm = ({ user, onSave }) => {
@@ -41,8 +31,6 @@ const UserForm = ({ user, onSave }) => {
       firstName: user.first_name || '',
       lastName: user.last_name || '',
       email: user.email || '',
-      password: '',
-      passwordConfirmation: '',
     },
   })
 
@@ -60,16 +48,29 @@ const UserForm = ({ user, onSave }) => {
             type={type}
           />
         ))}
-        <div className="space-y-4 text-sm text-gray-600">
-          {!user.id && (
+
+        {user.id ? (
+          <div className="text-sm text-gray-600">
+            <div className="flex justify-center">
+              <Link
+                href="/reset-password"
+                className="text-blue-500 hover:text-blue-600"
+              >
+                To change your password, click this link
+              </Link>
+            </div>
+          </div>
+        ) : (
+          <div className="space-y-4 text-sm text-gray-600">
             <div>
               <Label>
                 If you will be signing up as a researcher and a participant, use
                 two separate email addresses to create two separate accounts.
               </Label>
             </div>
-          )}
-        </div>
+          </div>
+        )}
+
         <div className="flex gap-4 mt-8 w-full">
           <Link
             href={`/u/${user.id}/edit`}

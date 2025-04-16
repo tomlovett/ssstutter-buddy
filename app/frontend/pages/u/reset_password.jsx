@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm, router } from '@inertiajs/react'
 import { Head } from '@inertiajs/react'
 import { putRequest } from '@/lib/api'
@@ -11,6 +11,12 @@ export default function ResetPassword({ user, redirect }) {
     password_confirmation: '',
     activation_pin: user.activation_pin,
   })
+
+  useEffect(() => {
+    if (redirect) {
+      router.visit(redirect)
+    }
+  }, [redirect])
 
   const handleSubmit = e => {
     e.preventDefault()

@@ -36,13 +36,13 @@ class User < ApplicationRecord
     "/u/#{id}/select-role"
   end
 
+  def assign_activation_pin!
+    self.activation_pin = PinGenerator.new.pin
+  end
+
   private
 
   def password_required?
     !persisted? || password.present?
-  end
-
-  def assign_activation_pin!
-    self.activation_pin = PinGenerator.new.pin
   end
 end

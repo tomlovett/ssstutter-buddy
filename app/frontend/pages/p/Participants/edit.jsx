@@ -36,7 +36,7 @@ const ParticipantEdit = ({ participant }) => {
 
       <p>
         To edit your name or email, go to your{' '}
-        <Link href={`/u/edit/${participant.user_id}`}>user profile</Link>
+        <Link href={`/u/${participant.user_id}/edit`}>user profile</Link>
       </p>
 
       <Label htmlFor="name">Name</Label>

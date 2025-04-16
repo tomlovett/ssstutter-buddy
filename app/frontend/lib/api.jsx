@@ -2,7 +2,7 @@ export const sendRequest = async (path, method, body = {}, headers = {}) =>
   await fetch(`http://localhost:3001${path}`, {
     method: method,
     headers: Object.assign({ 'Content-Type': 'application/json' }, headers),
-    body: JSON.stringify(body),
+    body: JSON.stringify(formatOutgoingBody(body)),
     redirect: 'follow',
   }).then(response => {
     if (response.redirected) {
@@ -19,3 +19,12 @@ export const putRequest = async (path, body = {}, headers = {}) =>
 
 export const postRequest = async (path, body = {}, headers = {}) =>
   await sendRequest(path, 'POST', body, headers)
+
+// convert camelCase keys to snake_case keys
+const formatOutgoingBody = body =>
+  Object.fromEntries(
+    Object.entries(body).map(([key, value]) => [
+      key.replace(/([A-Z])/g, '_$1').toLowerCase(),
+      value,
+    ])
+  )

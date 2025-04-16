@@ -39,6 +39,9 @@ Metrics/PerceivedComplexity:
 Rails/I18nLocaleTexts:
   Enabled: false
 
+Rails/Output:
+  Enabled: false
+
 RSpec/NestedGroups:
   Enabled: false
 
