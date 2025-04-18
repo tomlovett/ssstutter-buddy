@@ -1,17 +1,6 @@
 # frozen_string_literal: true
 
-LOCATION_OVERRIDES = {
-  AS: {
-    E: ['American Samoa'],
-    M: ['American Samoa'],
-    R: ['American Samoa'],
-    S: ['American Samoa'],
-    W: ['American Samoa']
-  },
-  US: {
-    CT: ['Middletown']
-  }
-}.freeze
+require 'yaml'
 
 class VerifiedAddress
   def initialize(loc_hash)
@@ -20,23 +9,24 @@ class VerifiedAddress
     @city = {}
     @states_list = []
     @cities_list = []
+    @location_overrides = location_overrides
 
     return if loc_hash[:country].blank?
 
     country_sym = loc_hash[:country].to_sym
     @country = { name: CS.countries[country_sym], symbol: loc_hash[:country] }
-    @states_list = CS.states(country_sym).map { |s| { name: s[1], symbol: s[0].to_s } }
+    @states_list = CS.states(country_sym).map { |state| { name: state[1], symbol: state[0].to_s } }
 
-    @states_list << LOCATION_OVERRIDES[country_sym] if LOCATION_OVERRIDES.key?(country_sym)
+    @states_list << @location_overrides[country_sym] if @location_overrides.key?(country_sym)
 
     return if loc_hash[:state].blank?
 
     state_sym = loc_hash[:state].to_sym
     @state = { name: CS.states(country_sym)[state_sym], symbol: loc_hash[:state] }
-    @cities_list = CS.cities(state_sym).map { |c| { name: c, symbol: c } }
+    @cities_list = CS.cities(state_sym).map { |city| { name: city, symbol: city } }
 
-    if LOCATION_OVERRIDES.key?(country_sym) && LOCATION_OVERRIDES[country_sym].key?(state_sym)
-      @cities_list << LOCATION_OVERRIDES[country_sym]
+    if @location_overrides.key?(country_sym) && @location_overrides[country_sym].key?(state_sym)
+      @cities_list << @location_overrides[country_sym][state_sym]
     end
 
     return if loc_hash[:city].blank?
@@ -48,5 +38,11 @@ class VerifiedAddress
 
   def as_json
     { country:, state:, city:, states_list:, cities_list: }
+  end
+
+  private
+
+  def location_overrides
+    @location_overrides ||= YAML.load_file(Rails.root.join('app/lib/location_overrides.yml')).deep_symbolize_keys
   end
 end
