@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-class P::StudiesController < ApplicationController
-  before_action :redirect_if_not_participant
+class P::StudiesController < P::BaseController
   before_action :set_study, only: %i[show]
 
   # GET /p/studies

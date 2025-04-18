@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-class R::ParticipantsController < ApplicationController
-  before_action :redirect_if_not_researcher
+class R::ParticipantsController < R::BaseController
   before_action :set_participant, only: :show
 
   # GET /r/participants/1

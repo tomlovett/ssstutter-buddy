@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-class P::ParticipantsController < ApplicationController
-  before_action :redirect_if_not_participant
+class P::ParticipantsController < P::BaseController
   before_action :set_participant, only: %i[show edit update destroy]
 
   # GET /p
@@ -20,7 +19,7 @@ class P::ParticipantsController < ApplicationController
 
   # GET /p/participants/1
   def show
-    return redirect_to '/p' unless allowed_to?(:show?, @participant)
+    return redirect_to '/p' if !allowed_to?(:show?, @participant)
 
     render inertia: 'p/Participants/show', props: { participant: @participant.as_json }
   end
@@ -34,6 +33,8 @@ class P::ParticipantsController < ApplicationController
 
   # GET /p/participants/1/edit
   def edit
+    return redirect_to "/p/participants/#{@participant.id}" if !allowed_to?(:edit?, @participant)
+
     render inertia: 'p/Participants/edit', props: { participant: @participant.as_json }
   end
 

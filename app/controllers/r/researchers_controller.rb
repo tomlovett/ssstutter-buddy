@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-class R::ResearchersController < ApplicationController
-  before_action :redirect_if_not_researcher
+class R::ResearchersController < R::BaseController
   before_action :set_researcher, only: %i[show edit update destroy]
 
   # GET /r

@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-class R::StudiesController < ApplicationController
-  before_action :redirect_if_not_researcher
+class R::StudiesController < R::BaseController
   before_action :set_study, only: %i[show edit update destroy]
 
   # GET /r/studies

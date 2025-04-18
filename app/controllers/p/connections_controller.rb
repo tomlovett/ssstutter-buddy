@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-class P::ConnectionsController < ApplicationController
-  before_action :redirect_if_not_participant
+class P::ConnectionsController < P::BaseController
   before_action :set_participant, only: %i[create index]
   before_action :set_connection, only: %i[update]
 
