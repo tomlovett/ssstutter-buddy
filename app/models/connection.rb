@@ -3,6 +3,7 @@
 class Connection < ApplicationRecord
   belongs_to :participant
   belongs_to :study
+  has_one :researcher, through: :study
 
   INTERESTED = 'interested'
   NOT_INTERESTED = 'not interested'
@@ -24,6 +25,8 @@ class Connection < ApplicationRecord
   scope :invited, -> { where(status: INVITED) }
   scope :completed, -> { where(status: STATUSES_COMPLETED) }
   scope :active, -> { where(status: STATUSES_IN_PROGRESS) }
+  scope :rejected, -> { where(status: [INVITATION_DECLINED, NOT_INTERESTED]) }
+  scope :not_rejected, -> { where.not(status: [INVITATION_DECLINED, NOT_INTERESTED]) }
 
   validates :pin, length: { is: 6 }
 

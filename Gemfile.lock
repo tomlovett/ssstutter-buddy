@@ -1,6 +1,8 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    action_policy (0.7.4)
+      ruby-next-core (>= 1.0)
     actioncable (8.0.0.rc1)
       actionpack (= 8.0.0.rc1)
       activesupport (= 8.0.0.rc1)
@@ -290,8 +292,9 @@ GEM
     rubocop-ast (1.44.1)
       parser (>= 3.3.7.2)
       prism (~> 1.4)
-    rubocop-factory_bot (2.26.1)
-      rubocop (~> 1.61)
+    rubocop-factory_bot (2.27.1)
+      lint_roller (~> 1.1)
+      rubocop (~> 1.72, >= 1.72.1)
     rubocop-rails (2.31.0)
       activesupport (>= 4.2.0)
       lint_roller (~> 1.1)
@@ -303,6 +306,7 @@ GEM
     rubocop-rspec_rails (2.30.0)
       rubocop (~> 1.61)
       rubocop-rspec (~> 3, >= 3.0.1)
+    ruby-next-core (1.1.1)
     ruby-progressbar (1.13.0)
     rubyzip (2.3.2)
     sassc (2.4.0)
@@ -361,6 +365,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  action_policy
   bcrypt (~> 3.1.7)
   bootsnap
   bootstrap

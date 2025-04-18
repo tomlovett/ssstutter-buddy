@@ -40,6 +40,14 @@ class User < ApplicationRecord
     self.activation_pin = PinGenerator.new.pin
   end
 
+  def researcher?
+    researcher.present?
+  end
+
+  def participant?
+    participant.present?
+  end
+
   private
 
   def password_required?

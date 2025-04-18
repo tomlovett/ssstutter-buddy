@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class P::StudiesController < ApplicationController
+  before_action :redirect_if_not_participant
   before_action :set_study, only: %i[show]
 
   # GET /p/studies
@@ -24,7 +25,7 @@ class P::StudiesController < ApplicationController
     render inertia: 'p/Studies/show', props: {
       study: @study,
       researcher: @study.researcher.as_json,
-      connection: Connection.find_by(study: @study, participant: @current_user&.participant)
+      connection: Connection.find_by(study: @study, participant: Current.user.participant)
     }
   end
 

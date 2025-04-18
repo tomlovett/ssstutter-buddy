@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
 class R::StudiesController < ApplicationController
+  before_action :redirect_if_not_researcher
   before_action :set_study, only: %i[show edit update destroy]
 
   # GET /r/studies
   def index
-    @studies = @current_user.researcher.studies
+    @studies = Current.user.researcher.studies
   end
 
   # GET /r/studies/1

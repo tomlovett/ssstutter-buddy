@@ -3,7 +3,7 @@
 class Researcher < ApplicationRecord
   belongs_to :user
   has_many :studies, dependent: nil
-  has_many :connections, dependent: nil
+  has_many :connections, through: :studies
 
   delegate :first_name, :last_name, :full_name, :email, to: :user
 
@@ -15,7 +15,11 @@ class Researcher < ApplicationRecord
     titles.present? ? "#{full_name}, #{titles}" : full_name
   end
 
+  def connected_participant_ids
+    connections.not_rejected.pluck(:participant_id).uniq
+  end
+
   def active_connections
-    Connection.where(study: studies).active
+    connections.where(study: studies).active
   end
 end

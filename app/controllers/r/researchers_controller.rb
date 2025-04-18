@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
 class R::ResearchersController < ApplicationController
+  before_action :redirect_if_not_researcher
   before_action :set_researcher, only: %i[show edit update destroy]
 
   # GET /r
   def home
-    @researcher = Researcher.find(1)
+    @researcher = Current.user.researcher
 
     props = {
       researcher: @researcher.to_json,

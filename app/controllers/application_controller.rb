@@ -2,10 +2,7 @@
 
 class ApplicationController < ActionController::Base
   include Authentication
+  include Gatekeeping
 
   skip_forgery_protection
-
-  def current_user
-    Current.user
-  end
 end

@@ -1,16 +1,21 @@
 # frozen_string_literal: true
 
 class P::ConnectionsController < ApplicationController
+  before_action :redirect_if_not_participant
   before_action :set_participant, only: %i[create index]
   before_action :set_connection, only: %i[update]
 
+  # GET /p/connections
   def index
     render inertia 'p/Connections/index', props: {
       connections: @participant.connections.as_json(include: :studies), participant:
     }
   end
 
+  # POST /p/connections
   def create
+    return head :unprocessable_entity unless Current.user.participant.id == @participant.id
+
     @connection = Connection.create(
       participant: @participant,
       study_id: params[:study_id]
@@ -27,7 +32,7 @@ class P::ConnectionsController < ApplicationController
 
   # PATCH/PUT /p/connections/1
   def update
-    if @connection.update(connection_params)
+    if allowed_to?(:update?, @connection) && @connection.update(connection_params)
       head :ok
     else
       head :unprocessable_entity
@@ -37,10 +42,7 @@ class P::ConnectionsController < ApplicationController
   private
 
   def set_participant
-    # head :unprocessable_entity if @current_user&.participant.nil?
-
-    @participant = Participant.find(1)
-    # @participant = @current_user.participant
+    @participant = Current.user.participant
   end
 
   def set_connection
