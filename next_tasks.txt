@@ -1,12 +1,19 @@
-verify Geocoder API
+frontend navigation
 
-basic styling
+db touchups:
+	remove user.email_address
+	remove researcher.headshot
 
-sessions & current_user
-login/signup flow
-	connect to P/R signup pages
+s
+	autosend_url
+	autosend_message -- if you want to give instructions, or simply share a message with interested participants
 
-email service
+emails
+	new connection
+	P
+		new study in your area
+		weekly digest
+			user.digest_opt_out
 
 Landing page
 	about; enter email to stay in touch

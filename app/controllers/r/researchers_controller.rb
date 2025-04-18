@@ -18,8 +18,6 @@ class R::ResearchersController < R::BaseController
 
   # GET /r/researchers/1
   def show
-    @researcher = Researcher.find(1)
-
     render inertia: 'r/Researchers/show', props: { researcher: @researcher.as_json }
   end
 
@@ -32,14 +30,14 @@ class R::ResearchersController < R::BaseController
 
   # GET /r/researchers/1/edit
   def edit
-    @researcher = Researcher.find(1)
+    return redirect_to "/r/researchers/#{params[:id]}" unless allowed_to?(:edit?, @researcher)
 
     render inertia: 'r/Researchers/edit', props: { researcher: @researcher.as_json }
   end
 
   # PATCH/PUT /r/researchers/1
   def update
-    if @researcher.update(researcher_params)
+    if allowed_to?(:update?, @researcher) && @researcher.update(researcher_params)
       head :ok
     else
       head :unprocessable_entity
@@ -48,6 +46,8 @@ class R::ResearchersController < R::BaseController
 
   # DELETE /r/researchers/1
   def destroy
+    return head :unauthorized unless allowed_to?(:destroy?, @researcher)
+
     @researcher.destroy
     redirect_to researchers_url, notice: t.success, status: :see_other
   end

@@ -10,6 +10,8 @@ class R::StudiesController < R::BaseController
 
   # GET /r/studies/1
   def show
+    return redirect_to "/r" unless allowed_to?(:show?, @study)
+
     connections = @study.connections.order(updated_at: :desc).map(&:as_json)
 
     render inertia: 'r/Studies/show', props: { study: @study.as_json, connections: }
@@ -28,6 +30,8 @@ class R::StudiesController < R::BaseController
 
   # GET /r/studies/1/edit
   def edit
+    return redirect_to "/r/studies/#{params[:id]}" unless allowed_to?(:edit?, @study)
+
     render inertia: 'r/Studies/edit', props: { study: @study.as_json }
   end
 
@@ -44,7 +48,7 @@ class R::StudiesController < R::BaseController
 
   # PATCH/PUT /r/studies/1
   def update
-    if @study.update(study_params)
+    if allowed_to?(:update?, @study) && @study.update(study_params)
       render json: @study.as_json, status: :created
     else
       render json: @study.errors.as_json, status: :unprocessable_entity
@@ -53,8 +57,10 @@ class R::StudiesController < R::BaseController
 
   # DELETE /r/studies/1
   def destroy
+    return head :unauthorized unless allowed_to?(:destroy?, @study)
+
     @study.destroy
-    redirect_to studies_url, notice: 'Success!', status: :see_other
+    redirect_to studies_url, notice: 'Success!', status: :created
   end
 
   private
