@@ -4,8 +4,14 @@ import pluginReact from 'eslint-plugin-react'
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
-  { files: ['**/*.{js,mjs,cjs,jsx}'] },
-  { ignores: ['**/public/'] },
+  {
+    ignores: [
+      '**/node_modules/**',
+      '**/vendor/**',
+      '**/public/**',
+      '**/tmp/**',
+    ],
+  },
   { languageOptions: { globals: globals.browser } },
   pluginJs.configs.recommended,
   {
@@ -13,11 +19,21 @@ export default [
     settings: { react: { version: 'detect' } },
   },
   {
+    files: ['**/*.{js,jsx}'],
+    languageOptions: {
+      parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+      },
+    },
     rules: {
       'no-unused-vars': [
-        // Not working
         'error',
-        { varsIgnorePattern: '^_', argsIgnorePattern: '^_' },
+        {
+          varsIgnorePattern: '^_',
+          argsIgnorePattern: '^_',
+          destructuredArrayIgnorePattern: '^_',
+        },
       ],
       'react/prop-types': 'off',
       'react/react-in-jsx-scope': 'off',

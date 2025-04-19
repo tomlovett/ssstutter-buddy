@@ -15,6 +15,12 @@ class User < ApplicationRecord
 
   after_initialize { assign_activation_pin! }
 
+  def as_json(options = {})
+    super(options.merge(except: %i[password_digest activation_pin created_at updated_at]).merge(
+      methods: [:home_page]
+    ))
+  end
+
   def full_name
     "#{first_name} #{last_name}"
   end

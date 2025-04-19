@@ -8,12 +8,12 @@ class SessionsController < ApplicationController
 
   # skip_before_action :authenticate_request
 
-  # GET /sessions/new
+  # GET /login
   def new
     render inertia: 'u/login'
   end
 
-  # POST /sessions
+  # POST /login
   def create
     if (user = User.authenticate_by(params.permit(:email, :password)))
       start_new_session_for user
@@ -23,7 +23,7 @@ class SessionsController < ApplicationController
     end
   end
 
-  # DELETE /sessions
+  # GET /logout
   def destroy
     terminate_session
     redirect_to login_path

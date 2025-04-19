@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   # Authentication routes
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
-  delete '/logout', to: 'sessions#destroy'
+  get '/logout', to: 'sessions#destroy'
   # get '/auth/:provider/callback', to: 'omniauth_callbacks#google_oauth2'
 
   #  Routes for confirming email
