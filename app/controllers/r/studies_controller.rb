@@ -10,7 +10,7 @@ class R::StudiesController < R::BaseController
 
   # GET /r/studies/1
   def show
-    return redirect_to "/r" unless allowed_to?(:show?, @study)
+    return redirect_to '/r' unless allowed_to?(:show?, @study)
 
     connections = @study.connections.order(updated_at: :desc).map(&:as_json)
 

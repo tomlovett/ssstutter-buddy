@@ -1,9 +1,13 @@
 User
     generation_ip
     blacklisted
+	remove email_address
+	add index to email
+
 
 Study
     autosend_url
+    autosend_message
     paused
 
 Location

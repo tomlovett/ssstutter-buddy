@@ -7,7 +7,7 @@ class UserMailer < ApplicationMailer
 
     mail(
       to: @user.email,
-      subject: 'Confirm your SsstutterBuddy account'
+      subject: 'Confirm your SSStutterBuddy account'
     )
   end
 
@@ -17,7 +17,7 @@ class UserMailer < ApplicationMailer
 
     mail(
       to: @user.email,
-      subject: 'Reset your SsstutterBuddy password'
+      subject: 'Reset your SSStutterBuddy password'
     )
   end
 end

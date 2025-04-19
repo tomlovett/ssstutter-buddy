@@ -37,7 +37,9 @@ class R::ResearchersController < R::BaseController
 
   # PATCH/PUT /r/researchers/1
   def update
-    if allowed_to?(:update?, @researcher) && @researcher.update(researcher_params)
+    return head :unauthorized unless allowed_to?(:update?, @researcher)
+
+    if @researcher.update(researcher_params) && attach_headshot_if_present
       head :ok
     else
       head :unprocessable_entity
@@ -54,6 +56,10 @@ class R::ResearchersController < R::BaseController
 
   private
 
+  def attach_headshot_if_present
+    @researcher.headshot.attach(params[:headshot]) if params[:headshot].present?
+  end
+
   def set_researcher
     @researcher = Researcher.find(params[:id])
   end
@@ -64,7 +70,8 @@ class R::ResearchersController < R::BaseController
       :institution,
       :university_profile_url,
       :bio,
-      :research_interests
+      :research_interests,
+      :headshot
     )
   end
 end

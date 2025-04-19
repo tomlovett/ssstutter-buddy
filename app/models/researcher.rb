@@ -5,6 +5,8 @@ class Researcher < ApplicationRecord
   has_many :studies, dependent: nil
   has_many :connections, through: :studies
 
+  has_one_attached :headshot
+
   delegate :first_name, :last_name, :full_name, :email, to: :user
 
   def as_json(options = {})

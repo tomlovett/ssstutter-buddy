@@ -1,12 +1,5 @@
 frontend navigation
-
-db touchups:
-	remove user.email_address
-	remove researcher.headshot
-
-s
-	autosend_url
-	autosend_message -- if you want to give instructions, or simply share a message with interested participants
+	side navbar
 
 emails
 	new connection
