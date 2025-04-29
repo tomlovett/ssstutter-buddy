@@ -1,4 +1,4 @@
-import { Calendar, Home, Inbox, LogOut, Search, Settings } from 'lucide-react'
+import { Calendar, Home, Inbox, LogOut, Plus, Settings } from 'lucide-react'
 import {
   Sidebar,
   SidebarContent,
@@ -12,8 +12,10 @@ import {
   SidebarGroupContent,
 } from '@/components/ui/sidebar'
 
+// TODO: add argumen for making it short for mobile
+
 const AppSidebar = ({ user }) => {
-  const items = [
+  const participantItems = [
     {
       title: 'Home',
       url: user.home_page,
@@ -30,9 +32,27 @@ const AppSidebar = ({ user }) => {
       icon: Calendar,
     },
     {
-      title: 'Search',
-      url: '#',
-      icon: Search,
+      title: 'Account',
+      url: `/u/${user.id}/edit`,
+      icon: Settings,
+    },
+  ]
+
+  const researcherItems = [
+    {
+      title: 'Home',
+      url: user.home_page,
+      icon: Home,
+    },
+    {
+      title: 'Studies',
+      url: '/r/studies',
+      icon: Inbox,
+    },
+    {
+      title: 'New study',
+      url: '/r/studies/new',
+      icon: Plus,
     },
     {
       title: 'Account',
@@ -40,6 +60,8 @@ const AppSidebar = ({ user }) => {
       icon: Settings,
     },
   ]
+
+  const items = user.participant ? participantItems : researcherItems
 
   return (
     <Sidebar collapsible="none">

@@ -10,7 +10,7 @@ class Participant < ApplicationRecord
   after_validation :geocode, if: ->(obj) { obj.city.present? && obj.city_changed? }
 
   def as_json(options = {})
-    super.merge({ first_name:, last_name:, email: }).merge(VerifiedAddress.new(self).as_json)
+    super.merge({ first_name:, last_name:, email:, badges: }).merge(VerifiedAddress.new(self).as_json)
   end
 
   def address
@@ -20,6 +20,13 @@ class Participant < ApplicationRecord
   def nearby_studies
     Study.limit(3)
     # study where within distace_pref, no connection, active/not closed
+  end
+
+  def badges
+    {
+      online: completed_studies.digital.count,
+      inperson: completed_studies.where(digital_friendly: false).count
+    }
   end
 
   def study_invitations

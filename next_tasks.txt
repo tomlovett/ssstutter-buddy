@@ -1,25 +1,43 @@
+user signup flow
+	split out UserForm into signup and user/edit
+	verify emails firing, verify flow from one page to the next
+
 frontend navigation
 	side navbar
+		figure out routes to use
+		verify functionality on mobile
+		fix user edit page being squished on one side
 
 emails
 	new connection
+		?: separate P/R or shared?
 	P
 		new study in your area
 		weekly digest
 			user.digest_opt_out
 
 Landing page
-	about; enter email to stay in touch
-	writeup: What is SSStutterBuddy?
+	restructure with pretty-fied Cursor code
 
 image uploading for researcher profiles
+	add upload file
+	display
+
+Researcher marking participant complete
+	if digital friendly -> ask if they came completed it in-person
 
 set up ActiveMailer
 	basic dev config/infrastructure
 	DevOps logistics and config
 
-actual styling
+go over and add styling
+
+overnight jobs
+	arrange digest
+	-check snoozes
 
 -less important-
+
+add "snooze" option to connection
 
 change title to match page

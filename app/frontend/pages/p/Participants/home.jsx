@@ -10,6 +10,8 @@ const ParticipantHome = ({
     <>
       <h3>Welcome, {participant.user.first_name}!</h3>
 
+      {/* TODO: your badges */}
+
       <h4 className="underline">Your Invitations</h4>
       <StudyTable
         studies={study_invitations.map(c => c.study)}

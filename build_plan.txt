@@ -38,10 +38,7 @@ email service
 	message emails
 	-happy birthday
 
-ActiveStorage -- researcher headshots
-
 Cache-ing
-	researcher can see participant?
 	site stats
 
 Frontend page list

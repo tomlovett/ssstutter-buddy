@@ -9,7 +9,7 @@ class User < ApplicationRecord
 
   validates :email, presence: true
   normalizes :email_address, with: ->(e) { e.strip.downcase }
-  validates :password, presence: true, length: { minimum: 6 }, if: :password_required?
+  validates :password, presence: true, length: { minimum: 8 }, if: :password_required?
   validates :first_name, presence: true
   validates :last_name, presence: true
 
@@ -17,7 +17,8 @@ class User < ApplicationRecord
 
   def as_json(options = {})
     super(options.merge(except: %i[password_digest activation_pin created_at updated_at]).merge(
-      methods: [:home_page]
+      methods: [:home_page],
+      include: %i[participant researcher]
     ))
   end
 

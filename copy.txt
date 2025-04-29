@@ -1,0 +1,68 @@
+FAQ
+    What is SSStutterBuddy?
+    Why do people need SSStutterBuddy?
+    How does it work?
+        Short bit with links to role-specific guides
+    Will people be able to find me on SSStutterBuddy?
+    No! Only registered users can even access the site, so this information is never publicly listed. Further, PWS cannot see the profiles of other PWS. 
+    Why should I participate in stuttering research?
+
+    Will I really get paid for participating in these studies?
+    Do I have to keep the money?
+    Can my child participate?
+    How many studies can I participate in?
+        As many as you like! There is no limit on the number of studies that you can participate, provided you participate in them only once. Reliability in research is very important, so if you are found participating in the same study multiple times you will be permanently banned.
+
+    What about the possibility of fraud? (People faking a stutter in order to get research money)
+    SSStutterBuddy has several protections against fraud. 
+
+About
+    SSStutterBuddy is a free online platform that connects people who stutter (PWS) with researchers who need study participants. 
+
+    You might be suprised, but the biggest impediment to stuttering research is usually not funding, research ideas, even technology -- it's finding enough PWS to participate in the study!
+    If your child are a PWS, you can support hard-working researchers as they advance our knowledge of stuttering's expression, causes, and treatment by particiating in studies.
+    As a nice bonus, most studies compensate participants for their time and effort. So you can do a good deed and get paid for it as well.
+
+    SSStutterBuddy is entirely free-to-use for researchers and PWS. We're not here to make money, we're here to make a difference.
+
+Existing FAQ
+    How does SSStutterBuddy protect my privacy?
+        SSStutterBuddy cares about protecting the privacy of our users. (And unlike most tech companies, we actually mean it!)
+        The only information SSStutterBuddy requires from you is your name, email, and town of residence.
+        SSStutterBuddy is a sealed environment. Only vetted researchers are able to view participants on the platform. There is no way for strangers or even other PWS to see who is on the platform.
+        Furthermore, your name and email will not be displayed to researchers unless you confirm interest in their study. Until then, they will only be able to see your anonymous handle and distance from their location.
+    How does SSStutterBuddy make money?
+        That's the neat part. It doesn't. SSStutterBuddy does not take any of the compensation given to study participants, nor does it charge researchers for posting studies.
+        Our mission is to help advance stuttering research. As such, we feel that any money earmarked for research should go either towards the PWS who participate in studies or the study itself, not a third-party application.
+    But building a web application is expensive. How will SSStutterBuddy do it without money?
+        The most expensive part of creating a new web application is not buying the technology, it’s paying the developers who write the code. SSStutterBuddy’s founder, Tom Lovett, is a professional web developer who has donated personal time to build this project.
+        If you would like to volunteer for the project, send an email to tom at tomlovett dot com. Technical skills are preferred, but anyone can help!
+    I live in ____, can I join SSStutterBuddy?
+        Yes! SSStutterBuddy is available for everyone all over the world. Our location-matching algorithm services 251 different countries!
+        The website itself is only available in English for now, but free translation services like Google Translate can be used until we support more.
+
+
+
+Participant explanation
+When you create a SB profile, we ask only for your name, email, and town of residence. This information is never shared publicly. 
+
+Connection dual email
+  Congratulations! We have a new connection. P.name is interested in participating in the study(link) titled “study.title.”
+
+if autosend
+Researcher has included this message ?and url for you:
+
+  You can use this email to start a conversation between the two of you to arrange participation in the study.
+
+Researcher new connection
+You have a new connection! You can view the connection here on SB 
+
+Participant guide
+Maybe making a Loom video
+
+Researcher guide
+
+
+FAQ
+Existing, plus “do I have to take the money? – Not necessarily. Most institutions strictly require researchers to hand over the 	advertised remuneration, even if the participant declines it.
+That said, you may have to take it but you don’t have to keep it. There’s nothing stopping you from passing it along to your grandma, your favorite nephew, or some kind of charity. 
