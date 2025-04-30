@@ -24,8 +24,8 @@ class Participant < ApplicationRecord
 
   def badges
     {
-      online: completed_studies.digital.count,
-      inperson: completed_studies.where(digital_friendly: false).count
+      # online: completed_studies.digital.count,
+      # inperson: completed_studies.where(digital_friendly: false).count
     }
   end
 

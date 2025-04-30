@@ -19,12 +19,6 @@ const ParticipantShow = ({ participant }) => (
       <div className="w-full lg:w-1/3 p-6 mb-2 rounded-md bg-blue-50">
         <h2 className="font-bold mb-4 text-2xl">Your profile</h2>
         <div className="my-2 flex items-center gap-4">
-          <Avatar size="lg">
-            <AvatarImage src="https://i.pravatar.cc/300" alt="@pravatar" />
-            <AvatarFallback>
-              {participant.first_name} {participant.last_name}
-            </AvatarFallback>
-          </Avatar>
           <div className="flex flex-col">
             <p>
               {participant.first_name} {participant.last_name}

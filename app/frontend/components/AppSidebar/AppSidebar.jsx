@@ -24,7 +24,7 @@ const AppSidebar = () => {
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>ssstutter buddy</SidebarGroupLabel>
+          <SidebarGroupLabel>SSStutterBuddy</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map(item => (

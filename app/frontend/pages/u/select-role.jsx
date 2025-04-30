@@ -3,7 +3,7 @@ import { postRequest } from '@/lib/api'
 import { router } from '@inertiajs/react'
 import { toast } from 'sonner'
 
-const SelectRolePage = () => {
+const SelectRolePage = ({ user }) => {
   const [role, setRole] = useState('')
 
   const handleParticipantClick = () =>
@@ -31,9 +31,10 @@ const SelectRolePage = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4">
-      <h1 className="text-3xl font-bold mb-8">
-        Select The Role For Your Account
-      </h1>
+      <h2 className="text-3xl font-bold mb-8">
+        Select The Role For This Account
+      </h2>
+      <p className="text-sm mb-8">{user.email}</p>
 
       <div className="flex flex-col md:flex-row gap-8 w-full max-w-4xl">
         {/* Participant Button */}

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  # allow_unauthenticated_access, only: %i[new create]
+  allow_unauthenticated_access only: %i[new create]
 
   # GET /u/1
   def show
@@ -20,7 +20,7 @@ class UsersController < ApplicationController
 
   # GET /u/1/select-role
   def select_role
-    if Current.user.participant || Current.user.researcher
+    if Current.user.participant? || Current.user.researcher?
       redirect_to edit_user_path(Current.user)
     else
       render inertia: 'u/select-role', props: { user: Current.user }
@@ -34,10 +34,10 @@ class UsersController < ApplicationController
     case role
     when 'participant'
       Current.user.create_participant!
-      render json: { participant: Current.user.participant }
+      redirect_to Current.user.home_page
     when 'researcher'
       Current.user.create_researcher!
-      render json: { researcher: Current.user.researcher }
+      redirect_to Current.user.home_page
     else
       head :unprocessable_entity
     end
@@ -45,10 +45,11 @@ class UsersController < ApplicationController
 
   # POST /signup
   def create
-    Current.user = User.new(user_params)
+    @user = User.new(user_params)
 
-    if Current.user.save
-      redirect_to select_role_user_path(Current.user)
+    if @user.save
+      start_new_session_for(@user)
+      redirect_to "/u/#{@user.id}/select-role"
     else
       render inertia: 'u/signup', status: :unprocessable_entity
     end
@@ -77,7 +78,6 @@ class UsersController < ApplicationController
       :last_name,
       :email,
       :password,
-      :password_digest,
       :password_confirmation
     )
   end

@@ -61,6 +61,7 @@ Participant guide
 Maybe making a Loom video
 
 Researcher guide
+    -We use badges to show how many studies a user has completed
 
 
 FAQ

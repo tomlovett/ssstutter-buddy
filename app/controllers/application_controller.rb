@@ -9,4 +9,8 @@ class ApplicationController < ActionController::Base
   end
 
   skip_forgery_protection
+
+  def current_user
+    Current.user
+  end
 end

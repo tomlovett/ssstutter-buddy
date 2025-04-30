@@ -19,21 +19,14 @@ class P::ParticipantsController < P::BaseController
 
   # GET /p/participants/1
   def show
-    return redirect_to '/p' unless allowed_to?(:show?, @participant)
+    return redirect_to '/p' unless allowed_to?(:view?, @participant)
 
     render inertia: 'p/Participants/show', props: { participant: @participant.as_json }
   end
 
-  # GET /p/participants/new
-  def new
-    @participant = Participant.new(user: Current.user)
-
-    render inertia: 'p/Participants/edit', props: { participant: @participant.as_json }
-  end
-
   # GET /p/participants/1/edit
   def edit
-    return redirect_to "/p/participants/#{@participant.id}" unless allowed_to?(:edit?, @participant)
+    return redirect_to "/p/participants/#{@participant.id}" unless allowed_to?(:update?, @participant)
 
     render inertia: 'p/Participants/edit', props: { participant: @participant.as_json }
   end
@@ -56,10 +49,6 @@ class P::ParticipantsController < P::BaseController
   end
 
   private
-
-  def redirect_if_unauthorized(action, redirect_path)
-    redirect_to redirect_path unless allowed_to?(action, @participant)
-  end
 
   def set_participant
     @participant = Participant.find(params[:id])

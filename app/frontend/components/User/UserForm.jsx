@@ -22,6 +22,16 @@ const formFieldData = [
     placeholder: 'Email',
     type: 'email',
   },
+  {
+    name: 'password',
+    placeholder: 'Password',
+    type: 'password',
+  },
+  {
+    name: 'passwordConfirmation',
+    placeholder: 'Confirm Password',
+    type: 'password',
+  },
 ]
 
 const UserForm = ({ user, onSave }) => {
@@ -31,6 +41,8 @@ const UserForm = ({ user, onSave }) => {
       firstName: user.first_name || '',
       lastName: user.last_name || '',
       email: user.email || '',
+      password: '',
+      passwordConfirmation: '',
     },
   })
 
@@ -64,8 +76,15 @@ const UserForm = ({ user, onSave }) => {
           <div className="space-y-4 text-sm text-gray-600">
             <div>
               <Label>
-                If you will be signing up as a researcher and a participant, use
-                two separate email addresses to create two separate accounts.
+                If you plan to sign up as both researcher <b>and</b>{' '}
+                participant, use two separate email addresses to create two
+                separate accounts.
+              </Label>
+              <br />
+              <br />
+              <Label>
+                If you are signing up as a researcher, please use the email
+                address from your institution.
               </Label>
             </div>
           </div>

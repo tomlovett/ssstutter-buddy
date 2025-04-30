@@ -18,7 +18,7 @@ const Layout = ({ children }) => {
     </div>
   )
 
-  if (!user.id) {
+  if (!user || (!user.participant && !user.researcher)) {
     return <UnAuthedLayout />
   }
 

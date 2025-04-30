@@ -1,4 +1,4 @@
-import { Calendar, Home, Inbox, LogOut, Plus, Settings } from 'lucide-react'
+import { Calendar, Home, Inbox, LogOut, Plus, Settings, UserRound } from 'lucide-react'
 import {
   Sidebar,
   SidebarContent,
@@ -22,17 +22,18 @@ const AppSidebar = ({ user }) => {
       icon: Home,
     },
     {
-      title: 'Studies',
+      title: 'View studies',
       url: '/p/',
       icon: Inbox,
     },
+    { title: 'My profile', url: `/p/participants/${user.participant.id}`, icon: UserRound },
     {
       title: 'My connections',
       url: '#',
       icon: Calendar,
     },
     {
-      title: 'Account',
+      title: 'Account settings',
       url: `/u/${user.id}/edit`,
       icon: Settings,
     },
@@ -61,21 +62,21 @@ const AppSidebar = ({ user }) => {
     },
   ]
 
-  const items = user.participant ? participantItems : researcherItems
+  const menuItems = user.participant ? participantItems : researcherItems
 
   return (
     <Sidebar collapsible="none">
       <SidebarHeader />
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-2xl font-bold text-black mb-2">SSStutterBuddy</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map(item => (
+              {menuItems.map(item => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url} className="flex items-center gap-2">
-                      <item.icon className="h-4 w-4" />
+                    <a href={item.url} className="flex items-center gap-2 text-black">
+                      <item.icon className="h-4 w-4 text-blue-500" />
                       <span>{item.title}</span>
                     </a>
                   </SidebarMenuButton>
@@ -87,8 +88,8 @@ const AppSidebar = ({ user }) => {
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenuButton asChild>
-          <a href={`/logout`} className="flex items-center gap-2">
-            <LogOut className="h-4 w-4" />
+          <a href={`/logout`} className="flex items-center gap-2 text-black">
+            <LogOut className="h-4 w-4 text-blue-500" />
             <span>Logout</span>
           </a>
         </SidebarMenuButton>
