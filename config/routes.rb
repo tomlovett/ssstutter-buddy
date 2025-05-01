@@ -1,6 +1,14 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  inertia 'about' => 'Placeholder/about'
+  inertia 'faq' => 'Placeholder/FAQ'
+  inertia 'researchers' => 'Placeholder/researchers'
+  inertia 'participants' => 'Placeholder/participants'
+
+  # if Rails.env.production?
+  inertia '/' => 'Placeholder/home'
+  # else
   resources :passwords, param: :token
   # Authentication routes
   get '/login', to: 'sessions#new'
@@ -45,4 +53,5 @@ Rails.application.routes.draw do
   scope :api do
     post '/location', to: 'api#location'
   end
+  # end
 end

@@ -4,22 +4,36 @@ import { Head, usePage } from '@inertiajs/react'
 import { Toaster } from '@/components/ui/sonner'
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import SideNavbar from '@/components/SideNavbar'
+import PublicLayout from '@/components/Layout/PublicLayout'
 
 const Layout = ({ children }) => {
   const {
     props: { user },
   } = usePage()
 
-  const UnAuthedLayout = () => (
-    <div>
-      <Head />
-      <main className="p-6 justify-center">{children}</main>
-      <Toaster />
-    </div>
-  )
+  const publicRoutes = ['/', '/about', '/faq', '/researchers', '/participants']
+  const isPublicRoute = publicRoutes.includes(window.location.pathname)
 
-  if (!user || (!user.participant && !user.researcher)) {
-    return <UnAuthedLayout />
+  if (isPublicRoute) {
+    return (
+      <div>
+        <Head />
+        <main className="flex-1 max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+          {children}
+        </main>
+      </div>
+    )
+  }
+
+  const userNotOnboarded = !user || (!user.participant && !user.researcher)
+  if (userNotOnboarded) {
+    return (
+      <div>
+        <Head />
+        <main className="p-6 justify-center">{children}</main>
+        <Toaster />
+      </div>
+    )
   }
 
   return (

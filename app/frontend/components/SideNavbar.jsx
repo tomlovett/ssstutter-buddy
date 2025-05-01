@@ -1,4 +1,12 @@
-import { Calendar, Home, Inbox, LogOut, Plus, Settings, UserRound } from 'lucide-react'
+import {
+  Calendar,
+  Home,
+  Inbox,
+  LogOut,
+  Plus,
+  Settings,
+  UserRound,
+} from 'lucide-react'
 import {
   Sidebar,
   SidebarContent,
@@ -26,7 +34,11 @@ const AppSidebar = ({ user }) => {
       url: '/p/',
       icon: Inbox,
     },
-    { title: 'My profile', url: `/p/participants/${user.participant.id}`, icon: UserRound },
+    {
+      title: 'My profile',
+      url: `/p/participants/${user.participant.id}`,
+      icon: UserRound,
+    },
     {
       title: 'My connections',
       url: '#',
@@ -69,13 +81,18 @@ const AppSidebar = ({ user }) => {
       <SidebarHeader />
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="text-2xl font-bold text-black mb-2">SSStutterBuddy</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-2xl font-bold text-black mb-2">
+            SSStutterBuddy
+          </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {menuItems.map(item => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url} className="flex items-center gap-2 text-black">
+                    <a
+                      href={item.url}
+                      className="flex items-center gap-2 text-black"
+                    >
                       <item.icon className="h-4 w-4 text-blue-500" />
                       <span>{item.title}</span>
                     </a>
