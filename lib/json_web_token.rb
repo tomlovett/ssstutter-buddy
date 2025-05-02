@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
 class JsonWebToken
-  HMAC_SECRET = Rails.application.secrets.secret_key_base
+  HMAC_SECRET = Rails.application.credentials.secret_key_base || ENV.fetch('SECRET_KEY_BASE', nil)
 
   def self.encode(payload, exp = 1.week.from_now)
     payload[:exp] = exp.to_i
-    JWT.encode(payload, Rails.application.secrets.secret_key_base)
+    JWT.encode(payload, HMAC_SECRET)
   end
 
   def self.decode(token)
-    body = JWT.decode(token, Rails.application.secrets.secret_key_base)[0]
+    body = JWT.decode(token, HMAC_SECRET)[0]
     ActiveSupport::HashWithIndifferentAccess.new body
   rescue JWT::DecodeError => e
     raise ExceptionHandler::InvalidToken, e.message
