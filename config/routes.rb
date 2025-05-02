@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  # inertia 'about' => 'Placeholder/about'
-  inertia 'faq' => 'Placeholder/FAQ'
-  inertia 'researchers' => 'Placeholder/researchers'
-  inertia 'participants' => 'Placeholder/participants'
+  # inertia 'about' => 'Public/about'
+  inertia 'faq' => 'Public/FAQ'
+  inertia 'researchers' => 'Public/researchers'
+  inertia 'participants' => 'Public/participants'
 
   # if Rails.env.production?
-  inertia '/' => 'Placeholder/home'
+  inertia '/' => 'Public/home'
   # else
   resources :passwords, param: :token
   # Authentication routes
