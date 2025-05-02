@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  inertia 'about' => 'Placeholder/about'
+  # inertia 'about' => 'Placeholder/about'
   inertia 'faq' => 'Placeholder/FAQ'
   inertia 'researchers' => 'Placeholder/researchers'
   inertia 'participants' => 'Placeholder/participants'

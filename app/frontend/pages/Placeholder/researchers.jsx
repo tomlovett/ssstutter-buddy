@@ -19,8 +19,8 @@ const Researchers = () => {
                 <div className="mt-4 text-gray-600">
                   <ul className="list-disc pl-5 space-y-2">
                     <li>
-                      Post your study with information with details about its
-                      location, methodologies, and other relevant information
+                      Post your study with details about its location,
+                      methodologies, and other relevant information
                     </li>
                     <li>
                       If your study is conducted in-person, SSStutterBuddy will
@@ -29,7 +29,7 @@ const Researchers = () => {
                     </li>
                     <li>
                       If your study is conducted online, it will be posted in
-                      the "Digital-Friendly" section, and will be included in
+                      the \"Digital-Friendly\" section, and will be included in
                       the weekly digest of online studies
                     </li>
                     <li>
@@ -38,8 +38,7 @@ const Researchers = () => {
                       you
                     </li>
                     <li>
-                      You arrange the study completion directly with the
-                      Participant
+                      You arrange study completion directly with the Participant
                     </li>
                   </ul>
                 </div>

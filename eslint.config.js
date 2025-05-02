@@ -35,6 +35,7 @@ export default [
           destructuredArrayIgnorePattern: '^_',
         },
       ],
+      'react/no-unescaped-entities': ['error', { forbid: ['>', '}'] }],
       'react/prop-types': 'off',
       'react/react-in-jsx-scope': 'off',
     },

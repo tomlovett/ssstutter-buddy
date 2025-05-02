@@ -16,8 +16,7 @@ emails
 		weekly digest
 			user.digest_opt_out
 
-Landing page
-	restructure with pretty-fied Cursor code
+Add ThemeProvider: https://ui.shadcn.com/docs/dark-mode/next
 
 image uploading for researcher profiles
 	add upload file

@@ -4,7 +4,6 @@ import { Head, usePage } from '@inertiajs/react'
 import { Toaster } from '@/components/ui/sonner'
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import SideNavbar from '@/components/SideNavbar'
-import PublicLayout from '@/components/Layout/PublicLayout'
 
 const Layout = ({ children }) => {
   const {

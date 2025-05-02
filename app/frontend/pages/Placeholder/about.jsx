@@ -18,7 +18,7 @@ const About = () => {
               lives and advance knowledge.
             </p>
             <p className="mt-4 text-gray-600">
-              Whether you're a researcher looking to conduct studies or a
+              Whether you\'re a researcher looking to conduct studies or a
               participant interested in contributing to research, we provide the
               tools and support you need to make meaningful connections.
             </p>
