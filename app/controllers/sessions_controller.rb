@@ -6,7 +6,7 @@ class SessionsController < ApplicationController
     redirect_to new_session_url, alert: 'Try again later.'
   }
 
-  # skip_before_action :authenticate_request
+  # skip_before_action :require_authentication
 
   # GET /login
   def new
