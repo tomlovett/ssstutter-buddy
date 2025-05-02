@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class OmniauthCallbacksController < ApplicationController
-  skip_before_action :authenticate_request
+  # skip_before_action :require_authentication
 
   def google_oauth2
     @user = User.from_omniauth(request.env['omniauth.auth'])
