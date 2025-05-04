@@ -9,6 +9,7 @@ Study
     autosend_url
     autosend_message
     paused
+    published == datetime
 
 Location
     extract from Participant and Study

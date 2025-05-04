@@ -36,7 +36,7 @@ const AppSidebar = ({ user }) => {
     },
     {
       title: 'My profile',
-      url: `/p/participants/${user.participant.id}`,
+      url: `/p/participants/${user?.participant?.id}`,
       icon: UserRound,
     },
     {

@@ -30,6 +30,8 @@ Rails.application.routes.draw do
   post '/signup', to: 'users#create'
   get '/u/:id/select-role', to: 'users#select_role'
   post '/u/:id/select-role', to: 'users#select_role_action'
+  get '/await-confirmation', to: 'users#await_confirmation'
+  get '/await-confirmation/resend-confirmation', to: 'users#resend_confirmation'
 
   namespace :p do
     get '/', to: '/p/participants#index'

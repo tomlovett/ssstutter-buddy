@@ -1,6 +1,8 @@
 user signup flow
-	split out UserForm into signup and user/edit
+	confirmation email not firing
 	verify emails firing, verify flow from one page to the next
+
+add mobile-friendly layout
 
 frontend navigation
 	side navbar
@@ -33,6 +35,12 @@ go over and add styling
 
 overnight jobs
 	arrange digest
+	admin digest
+		total user counts
+		new participant profiles
+		new researcher profiles
+		new connections
+		active studies
 	-check snoozes
 
 -less important-

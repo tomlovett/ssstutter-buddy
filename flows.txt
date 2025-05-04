@@ -1,0 +1,24 @@
+-User-
+Sign up
+Edit profile/settings
+Route to R/P creation
+Confirm account via email
+
+
+
+-Researcher-
+Post a study
+Publish that study
+    requires study.published column -- datetime
+Be notified when a P expresses interest
+Give/mark feedback on P who connected with the study
+Take down study
+
+
+
+-Participant-
+View online studies
+View studies within their area
+View researcher information
+Express interest in a study
+Can browse site on mobile

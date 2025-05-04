@@ -11,10 +11,20 @@ class AuthenticationController < ApplicationController
 
   # GET /confirm
   def confirm
+    @user = User.find_by(activation_pin: params[:pin])
+
+    return redirect_to '/await-confirmation', alert: 'Invalid confirmation link.' if @user.nil?
+
     @user.update(confirmed_at: Time.current, activation_pin: nil)
     start_new_session_for @user
 
-    redirect_to @user.home_page, notice: 'Email confirmed!'
+    redirect_url = if @user.participant?
+                     "/p/participants/#{@user.participant.id}/edit"
+                   else
+                     "/r/researchers/#{@user.researcher.id}/edit"
+                   end
+
+    redirect_to "#{redirect_url}?confirmed=true", notice: 'Account confirmed!'
   end
 
   # GET /reset-password/:activation_pin

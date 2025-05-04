@@ -16,10 +16,7 @@ const sendCreateRequest = async userValues => {
     return
   }
 
-  const body = { user: userValues }
-  console.log(body)
-
-  postRequest('/signup', body)
+  postRequest('/signup', userValues)
     .then(res => res.json())
     .then(jsonData => {
       console.log(jsonData)

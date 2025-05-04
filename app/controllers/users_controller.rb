@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  allow_unauthenticated_access only: %i[new create]
+  allow_unauthenticated_access only: %i[new create await_confirmation resend_confirmation]
 
   # GET /u/1
   def show
@@ -31,16 +31,17 @@ class UsersController < ApplicationController
   def select_role_action
     role = params[:role]
 
-    case role
-    when 'participant'
+    return head :unprocessable_entity unless role.in?(%w[participant researcher])
+
+    if role == 'participant'
       Current.user.create_participant!
-      redirect_to Current.user.home_page
-    when 'researcher'
-      Current.user.create_researcher!
-      redirect_to Current.user.home_page
     else
-      head :unprocessable_entity
+      Current.user.create_researcher!
     end
+
+    UserMailer.with(user: Current.user).confirmation_email.deliver_later
+
+    redirect_to '/await-confirmation'
   end
 
   # POST /signup
@@ -51,6 +52,7 @@ class UsersController < ApplicationController
       start_new_session_for(@user)
       redirect_to "/u/#{@user.id}/select-role"
     else
+      pp @user.errors.full_messages
       render inertia: 'u/signup', status: :unprocessable_entity
     end
   end
@@ -70,10 +72,29 @@ class UsersController < ApplicationController
     head :no_content
   end
 
+  # GET /await-confirmation
+  def await_confirmation
+    render inertia: 'u/await_confirmation'
+  end
+
+  # GET /await-confirmation/resend-confirmation
+  def resend_confirmation
+    email = params[:email] || Current.user&.email
+
+    return if email.blank?
+
+    user = User.find_by(email:)
+
+    return if user.blank?
+
+    UserMailer.with(user:).confirmation_email.deliver_later
+    redirect_to '/await-confirmation', notice: 'Confirmation email sent.'
+  end
+
   private
 
   def user_params
-    params.fetch(:user).permit(
+    params.permit(
       :first_name,
       :last_name,
       :email,
