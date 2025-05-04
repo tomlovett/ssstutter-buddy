@@ -39,7 +39,7 @@ class Study < ApplicationRecord
 
   def status
     return 'paused' if paused?
-    return 'draft' if !published?
+    return 'draft' unless published?
     return 'closed' if closed?
 
     'published'

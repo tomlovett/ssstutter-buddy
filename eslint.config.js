@@ -32,6 +32,7 @@ export default [
         {
           varsIgnorePattern: '^_',
           argsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_',
           destructuredArrayIgnorePattern: '^_',
         },
       ],

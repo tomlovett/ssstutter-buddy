@@ -1,10 +1,9 @@
 import { Link } from '@inertiajs/react'
 
-import ConnectionsTable from 'components/Researcher/ConnectionsTable'
 import StudyTable from 'components/Researcher/StudyTable'
 import { Button } from '@/components/ui/button'
 
-const ResearcherHome = ({ researcher, studies, active_connections }) => (
+const ResearcherHome = ({ researcher, studies }) => (
   <div>
     <h3>Welcome, {researcher.first_name}</h3>
     <p>
@@ -20,13 +19,6 @@ const ResearcherHome = ({ researcher, studies, active_connections }) => (
       studies={studies}
       nullStatement="You don't have any active studies"
     />
-    <br />
-
-    {/*<h5>Active Connections</h5>
-    <ConnectionsTable
-      connections={active_connections}
-      nullStatement="You don't have any active connections"
-    /> */}
   </div>
 )
 

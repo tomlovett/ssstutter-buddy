@@ -4,7 +4,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 
 import { Form } from '@/components/ui/form'
 import { Label } from '@/components/ui/label'
-import Select from '@/components/ui/custom/select'
 import FormInput from '@/components/ui/custom/formInput'
 import UserSchema from '@/schemas/User'
 

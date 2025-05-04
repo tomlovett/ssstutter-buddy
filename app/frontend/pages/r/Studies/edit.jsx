@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
-import { Link, router } from '@inertiajs/react'
+import { Link } from '@inertiajs/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import LocationTool from '@/components/lib/LocationTool'

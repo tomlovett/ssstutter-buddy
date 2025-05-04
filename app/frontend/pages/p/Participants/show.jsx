@@ -11,8 +11,6 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-
 const ParticipantShow = ({ participant }) => (
   <>
     <header className="flex flex-col lg:flex-row gap-4 mb-4">

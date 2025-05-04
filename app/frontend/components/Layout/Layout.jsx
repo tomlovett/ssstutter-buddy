@@ -2,7 +2,7 @@ import React from 'react'
 import { Head, usePage } from '@inertiajs/react'
 
 import { Toaster } from '@/components/ui/sonner'
-import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
+import { SidebarProvider } from '@/components/ui/sidebar'
 import SideNavbar from '@/components/SideNavbar'
 
 const Layout = ({ children }) => {
@@ -42,7 +42,7 @@ const Layout = ({ children }) => {
         <div className="flex-1">
           <Head />
           <main className="p-6 overflow-y-auto h-full">
-            {false && <SidebarTrigger />}
+            {/* <SidebarTrigger /> */}
             {children}
           </main>
           <Toaster />

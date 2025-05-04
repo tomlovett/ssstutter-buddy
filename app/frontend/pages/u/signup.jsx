@@ -1,4 +1,4 @@
-import { router, Link } from '@inertiajs/react'
+import { Link } from '@inertiajs/react'
 import { toast } from 'sonner'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
