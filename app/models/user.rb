@@ -7,8 +7,8 @@ class User < ApplicationRecord
   has_one :participant, required: false, dependent: :destroy
   has_one :researcher, required: false, dependent: :destroy
 
-  # validates :email, presence: true, uniqueness: true,
-  # format: { with: URI::MailTo::EMAIL_REGEXP }
+  validates :email, presence: true, uniqueness: true,
+                    format: { with: URI::MailTo::EMAIL_REGEXP }
   normalizes :email, with: ->(e) { e.strip.downcase }
   validates :password, presence: true, length: { minimum: 8 }, if: :password_required?
   validates :first_name, presence: true
