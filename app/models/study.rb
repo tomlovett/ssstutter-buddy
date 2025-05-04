@@ -37,8 +37,12 @@ class Study < ApplicationRecord
     digital_only? ? 'Online' : "#{city}, #{state}"
   end
 
-  def display_remuneration
-    remuneration.zero? ? 'Gratis' : "#{remuneration}$"
+  def status
+    return 'paused' if paused?
+    return 'draft' if !published?
+    return 'closed' if closed?
+
+    'published'
   end
 
   def timeline
@@ -48,6 +52,18 @@ class Study < ApplicationRecord
       "#{total_hours} #{total_hours == 1 ? 'hour' : 'total hours'} in #{total_sessions} sessions \
       over the course of #{duration}"
     end
+  end
+
+  def paused?
+    paused_at.present?
+  end
+
+  def published?
+    published_at.present?
+  end
+
+  def closed?
+    closed_at.present?
   end
 
   def open?

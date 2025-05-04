@@ -3,7 +3,9 @@ Sign up
 Edit profile/settings
 Route to R/P creation
 Confirm account via email
-
+    -- should would, have to verify emails sent
+Reset password
+    not sure
 
 
 -Researcher-

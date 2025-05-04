@@ -6,10 +6,11 @@ User
     digest_opt_out
 
 Study
-    autosend_url
-    autosend_message
-    paused
-    published == datetime
+    √ autosend_url
+    √ autosend_message
+    √ paused_at
+    √ published_at == datetime
+    √ closed_at
 
 Location
     extract from Participant and Study
