@@ -1,9 +1,9 @@
 User
     generation_ip
     blacklisted
-	remove email_address
-	add index to email
-    digest_opt_out
+	√ remove email_address
+	√ full add index to email
+    √ digest_opt_out
 
 Study
     √ autosend_url

@@ -1,15 +1,14 @@
-import { SideBarLayout } from '@/components/Layout/SideBarLayout'
-import { formatBirthday, formatLocation } from '@/lib/utils'
-import { Separator } from '@/components/ui/separator'
-import { Button } from '@/components/ui/button'
 import { Mail, Cake, MapPin, LandPlot, UserPen } from 'lucide-react'
 
+import { Button } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
+import { formatBirthday, formatLocation } from '@/lib/utils'
 
 const ParticipantShow = ({ participant }) => (
   <>
@@ -86,8 +85,6 @@ const ParticipantShow = ({ participant }) => (
   </>
 )
 
-ParticipantShow.layout = page => (
-  <SideBarLayout title="Profile">{page}</SideBarLayout>
-)
+// ParticipantShow.layout = page => <SideBarLayout title="Profile">{page}</SideBarLayout>
 
 export default ParticipantShow

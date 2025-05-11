@@ -10,6 +10,9 @@ frontend navigation
 		verify functionality on mobile
 		fix user edit page being squished on one side
 
+cleanup
+	researcher not rendering professional name
+
 emails
 	new connection
 		?: separate P/R or shared?

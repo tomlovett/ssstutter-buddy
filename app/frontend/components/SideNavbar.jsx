@@ -20,7 +20,7 @@ import {
   SidebarGroupContent,
 } from '@/components/ui/sidebar'
 
-// TODO: add argumen for making it short for mobile
+// TODO: add argument for making it short for mobile
 
 const AppSidebar = ({ user }) => {
   const participantItems = [
@@ -66,6 +66,11 @@ const AppSidebar = ({ user }) => {
       title: 'New study',
       url: '/r/studies/new',
       icon: Plus,
+    },
+    {
+      title: 'My profile',
+      url: `/r/researchers/${user?.researcher?.id}`,
+      icon: UserRound,
     },
     {
       title: 'Account',

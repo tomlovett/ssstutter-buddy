@@ -37,10 +37,18 @@ const Layout = ({ children }) => {
 
   return (
     <SidebarProvider>
-      <div className="flex h-screen">
+      <div className="flex h-screen w-full">
         <SideNavbar user={user} />
         <div className="flex-1">
-          <Head />
+          <Head title="SSStutterBuddy" />
+          <div className="bg-gray-100 p-4">
+            <strong>SSStutterBuddy is still in early beta.</strong>
+            <br />
+            Please be patient with any unsightly formatting and report any bugs
+            you encounter to tom@tomlovett.com
+            <br />
+            Thank you for your patience and thank you for being here!
+          </div>
           <main className="p-6 overflow-y-auto h-full">
             {/* <SidebarTrigger /> */}
             {children}
