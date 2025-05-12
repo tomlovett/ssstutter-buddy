@@ -42,10 +42,10 @@ const Layout = ({ children }) => {
         <div className="flex-1">
           <Head title="SSStutterBuddy" />
           <div className="bg-gray-100 p-4">
-            <strong>SSStutterBuddy is still in early beta.</strong>
+            <strong>SSStutterBuddy is still in early beta</strong>, please be
+            patient.
             <br />
-            Please be patient with any unsightly formatting and report any bugs
-            you encounter to tom@tomlovett.com
+            Please report any bugs or issues to tom@tomlovett.com
             <br />
             Thank you for your patience and thank you for being here!
           </div>

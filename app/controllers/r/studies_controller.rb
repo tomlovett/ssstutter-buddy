@@ -5,22 +5,37 @@ class R::StudiesController < R::BaseController
 
   # GET /r/studies
   def index
-    @studies = Current.user.researcher.studies
+    active_studies = Current.user.researcher.studies.active
+    draft_studies = Current.user.researcher.studies.draft
+    paused_studies = Current.user.researcher.studies.paused
+    closed_count = Current.user.researcher.studies.closed.count
+
+    render inertia: 'r/Studies/index', props: { active_studies:, draft_studies:, paused_studies:, closed_count: }
   end
 
   # GET /r/studies/1
   def show
-    return redirect_to '/r' unless allowed_to?(:show?, @study)
+    return redirect_to '/r' unless allowed_to?(:view?, @study)
 
-    connections = @study.connections.order(updated_at: :desc).map(&:as_json)
+    active_connections = @study.connections.includes(:participant).order(updated_at: :desc).active.map(&:as_json)
+    invitations = @study.connections.includes(:participant).order(updated_at: :desc).invited.map(&:as_json)
+    completed_connections = @study.connections.includes(:participant).order(updated_at: :desc).completed.map(&:as_json)
+    declined_count = @study.connections.includes(:participant).declined.count
 
-    render inertia: 'r/Studies/show', props: { study: @study.as_json, connections: }
+    render inertia: 'r/Studies/show',
+           props: { study: @study.as_json, active_connections:, invitations:, completed_connections:,
+                    declined_count: }
+  end
+
+  # GET /r/studies/closed
+  def closed
+    render inertia: 'r/Studies/closed', props: { studies: Current.user.researcher.studies.closed }
   end
 
   # GET /r/studies/new
   def new
     @study = Study.new(
-      researcher_id: 1,
+      researcher: Current.user.researcher,
       total_sessions: 1,
       total_hours: 1
     )

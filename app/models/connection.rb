@@ -14,17 +14,20 @@ class Connection < ApplicationRecord
   STUDY_COMPLETED = 'study completed'
   DROPPED_OUT = 'dropped out'
   FOLLOWUP_COMPLETED = 'followup completed'
+  # hidden -- remote-people
 
   STATUSES_COMPLETED = [INVITATION_DECLINED, NOT_INTERESTED, STUDY_COMPLETED, DROPPED_OUT, FOLLOWUP_COMPLETED].freeze
-  STATUSES_IN_PROGRESS = [INVITED, INVITATION_ACCEPTED, INTERESTED, STUDY_BEGAN].freeze
+  STATUSES_IN_PROGRESS = [INVITATION_ACCEPTED, INTERESTED, STUDY_BEGAN].freeze
   STATUSES = [
     INVITATION_DECLINED, STUDY_COMPLETED, DROPPED_OUT, FOLLOWUP_COMPLETED,
     INVITED, INVITATION_ACCEPTED, INTERESTED, STUDY_BEGAN
   ].freeze
 
   scope :invited, -> { where(status: INVITED) }
+  scope :accepted, -> { where(status: [INVITATION_ACCEPTED, INTERESTED]) }
+  scope :declined, -> { where(status: INVITATION_DECLINED) }
   scope :completed, -> { where(status: STATUSES_COMPLETED) }
-  scope :active, -> { where(status: STATUSES_IN_PROGRESS) }
+  scope :active, -> { where(status: STUDY_BEGAN) }
   scope :rejected, -> { where(status: [INVITATION_DECLINED, NOT_INTERESTED]) }
   scope :not_rejected, -> { where.not(status: [INVITATION_DECLINED, NOT_INTERESTED]) }
 

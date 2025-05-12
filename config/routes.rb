@@ -47,7 +47,11 @@ Rails.application.routes.draw do
     get '/', to: '/r/researchers#home'
     resources :researchers, except: :index
 
-    resources :studies
+    resources :studies do
+      collection do
+        get 'closed'
+      end
+    end
     resources :participants, only: [:show]
   end
 

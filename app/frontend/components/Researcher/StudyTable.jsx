@@ -7,47 +7,50 @@ import {
   TableRow,
 } from '@ui/table'
 
-const formatDate = dateObj => new Date(dateObj).toDateString().slice(0, -4)
+const formatDate = dateObj =>
+  dateObj ? new Date(dateObj).toDateString().slice(3, -4) : '---'
 
 const StudyTable = ({ studies, nullStatement }) => {
-  const formattedDates = ({ open_date, close_date }) =>
-    `${formatDate(open_date)} -- ${formatDate(close_date)}`
-
-  const EmptyRow = () => (
-    <TableRow>
-      <TableCell className="text-muted-foreground">{nullStatement}</TableCell>
-    </TableRow>
+  const EmptyTable = () => (
+    <TableBody>
+      <TableRow>
+        <TableCell className="text-muted-foreground">{nullStatement}</TableCell>
+      </TableRow>
+    </TableBody>
   )
 
-  const TableHeaderRow = () => (
+  const HeaderRow = () => (
     <TableHeader>
-      <TableRow>
+      <TableRow className="hover:bg-transparent cursor-default">
         <TableHead>Study Name</TableHead>
-        <TableHead>Active Connections</TableHead>
-        <TableHead>Completed Connections</TableHead>
-        <TableHead>Study Dates</TableHead>
+        <TableHead>Published</TableHead>
+        <TableHead>Paused</TableHead>
+        <TableHead>Closed</TableHead>
       </TableRow>
     </TableHeader>
   )
 
   const StudySlice = ({ study }) => (
-    <TableRow className="even:bg-muted">
+    <TableRow
+      className="even:bg-muted group relative hover:bg-accent/50 transition-colors cursor-pointer"
+      onClick={() => (window.location.href = `/r/studies/${study.id}`)}
+    >
       <TableCell>{study.title}</TableCell>
-      <TableCell>study connections count</TableCell>
-      <TableCell>completed connections</TableCell>
-      <TableCell>{formattedDates(study)}</TableCell>
+      <TableCell>{formatDate(study.published_at)}</TableCell>
+      <TableCell>{formatDate(study.paused_at)}</TableCell>
+      <TableCell>{formatDate(study.closed_at)}</TableCell>
     </TableRow>
   )
 
-  return (
+  return studies.length == 0 ? (
+    <EmptyTable />
+  ) : (
     <Table>
-      {studies.length > 0 && <TableHeaderRow />}
+      <HeaderRow />
       <TableBody>
-        {studies.length == 0 ? (
-          <EmptyRow />
-        ) : (
-          studies.map(study => <StudySlice study={study} key={study.id} />)
-        )}
+        {studies.map(study => (
+          <StudySlice study={study} key={study.id} />
+        ))}
       </TableBody>
     </Table>
   )

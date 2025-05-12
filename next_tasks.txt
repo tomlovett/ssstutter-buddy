@@ -4,14 +4,12 @@ user signup flow
 
 add mobile-friendly layout
 
-frontend navigation
-	side navbar
-		figure out routes to use
-		verify functionality on mobile
-		fix user edit page being squished on one side
-
 cleanup
 	researcher not rendering professional name
+
+preview components
+	study short view in studies/edit
+	participant slice on participants/edit
 
 emails
 	new connection
@@ -27,10 +25,12 @@ image uploading for researcher profiles
 	add upload file
 	display
 
-Researcher marking participant complete
+researcher feedback on participant
+	dropdown for statuses
+	Researcher marking participant complete
 	if digital friendly -> ask if they came completed it in-person
 
-set up ActiveMailer
+set up prod ActiveMailer
 	basic dev config/infrastructure
 	DevOps logistics and config
 
@@ -49,5 +49,3 @@ overnight jobs
 -less important-
 
 add "snooze" option to connection
-
-change title to match page

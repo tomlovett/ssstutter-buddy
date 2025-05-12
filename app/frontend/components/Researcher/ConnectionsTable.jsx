@@ -22,10 +22,16 @@ import { MANAGE_STATUSES } from '@/lib/connections'
 import { capitalize, formatDate } from '@/lib/utils'
 
 const ConnectionsTable = ({ connections, nullStatement }) => {
-  const EmptyRow = () => (
-    <TableRow>
-      <TableCell className="text-muted-foreground">{nullStatement}</TableCell>
-    </TableRow>
+  const EmptyTable = () => (
+    <Table>
+      <TableBody>
+        <TableRow>
+          <TableCell className="text-muted-foreground">
+            {nullStatement}
+          </TableCell>
+        </TableRow>
+      </TableBody>
+    </Table>
   )
 
   const TableHeaderRow = () => (
@@ -85,17 +91,15 @@ const ConnectionsTable = ({ connections, nullStatement }) => {
     </TableRow>
   )
 
-  return (
+  return connections.length === 0 ? (
+    <EmptyTable />
+  ) : (
     <Table>
       {connections.length > 0 && <TableHeaderRow />}
       <TableBody>
-        {connections.length == 0 ? (
-          <EmptyRow />
-        ) : (
-          connections.map(connection => (
-            <ConnectionSlice connection={connection} key={connection.id} />
-          ))
-        )}
+        {connections.map(connection => (
+          <ConnectionSlice connection={connection} key={connection.id} />
+        ))}
       </TableBody>
     </Table>
   )
