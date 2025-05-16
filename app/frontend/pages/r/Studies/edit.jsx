@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { Link } from '@inertiajs/react'
@@ -13,8 +14,9 @@ import FormTextarea from '@/components/ui/custom/formTextarea'
 import { putRequest } from '@/lib/api'
 import {
   ageRange,
-  displayLocation,
+  displayLocationShort,
   displayRemuneration,
+  validateStudy,
   timeline,
   status,
   statusText,
@@ -82,6 +84,7 @@ const METHODOLOGIES = [
 ]
 
 const StudyEdit = ({ study }) => {
+  const [errors, setErrors] = useState([])
   const form = useForm({
     resolver: zodResolver(StudyInProgressSchema),
     defaultValues: {
@@ -107,6 +110,13 @@ const StudyEdit = ({ study }) => {
   const watchedStudy = form.watch()
 
   const saveStudy = async studyValues => {
+    const { isValid, errors } = validateStudy(studyValues)
+    setErrors(errors)
+
+    if (!isValid) {
+      return
+    }
+
     try {
       await putRequest(`/r/studies/${study.id}`, studyValues)
       toast.success('Changes saved!')
@@ -124,7 +134,6 @@ const StudyEdit = ({ study }) => {
   }
 
   const saveLocationChanges = locationData => {
-    console.log('saveLocationChanges', locationData)
     const parsedData = {
       country: locationData.country?.symbol,
       state: locationData.state?.symbol,
@@ -192,9 +201,25 @@ const StudyEdit = ({ study }) => {
     </div>
   )
 
+  const ErrorMessages = () =>
+    errors.length > 0 && (
+      <div className="border border-orange-500 rounded-md p-4 m-4">
+        <p>
+          More information is required to publish this study. Please fill out
+          the following fields:
+        </p>
+        <ul className="list-disc list-inside">
+          {errors.map(error => (
+            <li key={error}>{error}</li>
+          ))}
+        </ul>
+      </div>
+    )
+
   return (
     <>
       <StatusRow />
+      <ErrorMessages />
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(saveFormChanges)}
@@ -220,18 +245,18 @@ const StudyEdit = ({ study }) => {
             )
           )}
 
-          <p>Location: {displayLocation(watchedStudy)}</p>
+          <p>Location: {displayLocationShort(watchedStudy)}</p>
 
+          <FormCheckbox
+            key="digital_only"
+            name="digital_only"
+            title="This study must be completed online"
+            form={form}
+          />
           <FormCheckbox
             key="digital_friendly"
             name="digital_friendly"
             title="This study can be done online"
-            form={form}
-          />
-          <FormCheckbox
-            key="digital_only"
-            name="digital_only"
-            title="This study can ONLY be done online"
             form={form}
           />
 

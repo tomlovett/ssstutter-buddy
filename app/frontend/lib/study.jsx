@@ -1,4 +1,46 @@
-import { capitalize } from '@/lib/utils'
+import { camelToReadable, capitalize } from '@/lib/utils'
+
+export const validateStudy = study => {
+  const errors = []
+
+  const requiredFields = [
+    'title',
+    'short_desc',
+    'long_desc',
+    'remuneration',
+    'total_hours',
+    'total_sessions',
+    'duration',
+    'methodologies',
+  ]
+
+  requiredFields.forEach(field => {
+    if (study[field] === null || study[field] === undefined) {
+      errors.push(`${camelToReadable(field)} is required`)
+    }
+  })
+
+  const { digital_only, digital_friendly, city, state, country } = study
+
+  if (digital_friendly) {
+    if (!city || !state || !country) {
+      errors.push(
+        'Physical location must be set if the study is digital friendly'
+      )
+    }
+  } else if (!digital_only) {
+    if (!city || !state || !country) {
+      errors.push(
+        'Physical location must be set if the study is not digital only or digital friendly'
+      )
+    }
+  }
+
+  return {
+    isValid: errors.length === 0,
+    errors,
+  }
+}
 
 const calcNullCityState = (city, state) => {
   if (typeof city == 'string') {
@@ -8,7 +50,7 @@ const calcNullCityState = (city, state) => {
   return !city?.name && !state?.name
 }
 
-export const displayLocation = ({
+export const displayLocationShort = ({
   digital_only,
   digital_friendly,
   city,

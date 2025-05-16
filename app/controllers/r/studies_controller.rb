@@ -16,6 +16,7 @@ class R::StudiesController < R::BaseController
   # GET /r/studies/1
   def show
     return redirect_to '/r' unless allowed_to?(:view?, @study)
+    return redirect_to "/r/studies/#{@study.id}/edit" if @study.published_at.blank?
 
     active_connections = @study.connections.includes(:participant).order(updated_at: :desc).active.map(&:as_json)
     invitations = @study.connections.includes(:participant).order(updated_at: :desc).invited.map(&:as_json)

@@ -16,7 +16,7 @@ import { Button } from '@/components/ui/button'
 import { postRequest } from '@/lib/api'
 import { formatDate } from '@/lib/utils'
 import {
-  displayLocation,
+  displayLocationShort,
   displayMethodologies,
   displayRemuneration,
   timeline,
@@ -79,7 +79,7 @@ const StudyShow = ({ study, researcher, connection }) => {
       <p>
         {formatDate(study.open_date) + ' - ' + formatDate(study.close_date)}
       </p>
-      <p>{displayLocation(study)}</p>
+      <p>{displayLocationShort(study)}</p>
       <p>{displayMethodologies(study)}</p>
       <p>{timeline(study)}</p>
       <p>Remuneration: {displayRemuneration(study)}</p>

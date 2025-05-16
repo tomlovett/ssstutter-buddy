@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import {
   ageRange,
-  displayLocation,
+  displayLocationShort,
   displayMethodologies,
   displayRemuneration,
   timeline,
@@ -39,7 +39,7 @@ const StudyShow = ({
         </p>
         <p key="location" className="text-foreground">
           <span className="font-medium">Location:</span>{' '}
-          {displayLocation(study)}
+          {displayLocationShort(study)}
         </p>
         <p key="timeline" className="text-foreground">
           <span className="font-medium">Timeline:</span> {timeline(study)}

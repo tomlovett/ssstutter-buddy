@@ -6,6 +6,10 @@ add mobile-friendly layout
 
 cleanup
 	StudySlice, participants slice
+	Study: Must be online, Must be in-person, Can be done O || I-P
+		convert to select; handle logic elsewhere
+		tooltip: "Ignore documents/forms that need to be filled out online. This references the actual study itself"
+		for now: clear location if digital_only	
 
 preview components
 	study short view on right side of studies/edit
@@ -59,6 +63,9 @@ overnight jobs
 	when done, the R marks the P complete, giving the P another badge (which helps R feel more confidence should they want to do a fully-digital study)
 
 -less important-
+
+Study table does not allow "open in new tab"
+	convert to Link component
 
 add "snooze" option to connection
 

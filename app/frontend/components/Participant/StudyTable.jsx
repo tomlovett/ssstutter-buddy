@@ -9,7 +9,7 @@ import {
 } from '@ui/table'
 import {
   ageRange,
-  displayLocation,
+  displayLocationShort,
   displayMethodologies,
   timeline,
 } from '@/lib/study'
@@ -42,7 +42,7 @@ const StudyTable = ({ studies, nullStatement }) => {
       <TableCell key="methodologies">{displayMethodologies(study)}</TableCell>
       <TableCell key="ageRange">{ageRange(study)}</TableCell>
       <TableCell key="timeline">{timeline(study)}</TableCell>
-      <TableCell key="location">{displayLocation(study)}</TableCell>
+      <TableCell key="location">{displayLocationShort(study)}</TableCell>
       <TableCell key="view">
         <Link href={`/p/studies/${study.id}`}>
           <u>View</u>

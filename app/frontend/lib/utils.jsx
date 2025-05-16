@@ -1,6 +1,9 @@
 import { clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
+export const camelToReadable = str =>
+  capitalize(str.replace(/([A-Z])/g, ' $1').replace('_', ' '))
+
 export const cn = (...inputs) => {
   return twMerge(clsx(inputs))
 }
