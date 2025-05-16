@@ -11,14 +11,6 @@ const formatDate = dateObj =>
   dateObj ? new Date(dateObj).toDateString().slice(3, -4) : '---'
 
 const StudyTable = ({ studies, nullStatement }) => {
-  const EmptyTable = () => (
-    <TableBody>
-      <TableRow>
-        <TableCell className="text-muted-foreground">{nullStatement}</TableCell>
-      </TableRow>
-    </TableBody>
-  )
-
   const HeaderRow = () => (
     <TableHeader>
       <TableRow className="hover:bg-transparent cursor-default">
@@ -42,17 +34,26 @@ const StudyTable = ({ studies, nullStatement }) => {
     </TableRow>
   )
 
-  return studies.length == 0 ? (
-    <EmptyTable />
-  ) : (
-    <Table>
-      <HeaderRow />
-      <TableBody>
-        {studies.map(study => (
-          <StudySlice study={study} key={study.id} />
-        ))}
-      </TableBody>
-    </Table>
+  return (
+    <div className="rounded-md border">
+      <Table>
+        <HeaderRow />
+        <TableBody>
+          {studies.length === 0 ? (
+            <TableRow>
+              <TableCell
+                colSpan={4}
+                className="text-muted-foreground text-center"
+              >
+                {nullStatement}
+              </TableCell>
+            </TableRow>
+          ) : (
+            studies.map(study => <StudySlice study={study} key={study.id} />)
+          )}
+        </TableBody>
+      </Table>
+    </div>
   )
 }
 

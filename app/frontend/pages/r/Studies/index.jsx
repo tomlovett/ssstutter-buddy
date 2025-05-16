@@ -1,6 +1,6 @@
 import { Link } from '@inertiajs/react'
 import StudyTable from 'components/Researcher/StudyTable'
-import { Button } from '@/components/ui/button'
+import { CreateStudyModal } from 'components/Researcher/CreateStudyModal'
 
 const StudiesIndex = ({
   active_studies,
@@ -8,20 +8,16 @@ const StudiesIndex = ({
   paused_studies,
   closed_count,
 }) => (
-  <div>
-    <div className="flex items-center justify-between mb-4">
-      <h2>Your Studies</h2>
-      <Button className="bg-blue-500 hover:bg-blue-600">
-        <Link href="/r/studies/new" className="text-white">
-          Post New Study
-        </Link>
-      </Button>
+  <div className="container mx-auto py-6">
+    <div className="flex items-center justify-between mb-6">
+      <h1 className="text-2xl font-semibold">Your Studies</h1>
+      <CreateStudyModal />
     </div>
 
-    <div className="space-y-8">
+    <section className="space-y-8">
       <section>
-        <div className="flex items-center justify-between mb-2">
-          <h3>Active Studies</h3>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-medium">Active Studies</h2>
           <Link
             href="/r/studies/closed"
             className="text-blue-500 hover:text-blue-600"
@@ -35,26 +31,22 @@ const StudiesIndex = ({
         />
       </section>
 
-      <hr className="border-gray-400" />
-
       <section>
-        <h3>Draft Studies</h3>
+        <h2 className="text-xl font-medium mb-4">Draft Studies</h2>
         <StudyTable
           studies={draft_studies}
           nullStatement="You don't have any draft studies"
         />
       </section>
 
-      <hr className="border-gray-400" />
-
       <section>
-        <h3>Paused Studies</h3>
+        <h2 className="text-xl font-medium mb-4">Paused Studies</h2>
         <StudyTable
           studies={paused_studies}
           nullStatement="You don't have any paused studies"
         />
       </section>
-    </div>
+    </section>
   </div>
 )
 

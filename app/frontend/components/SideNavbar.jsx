@@ -3,7 +3,6 @@ import {
   Home,
   Inbox,
   LogOut,
-  Plus,
   Settings,
   UserRound,
 } from 'lucide-react'
@@ -62,11 +61,11 @@ const AppSidebar = ({ user }) => {
       url: '/r/studies',
       icon: Inbox,
     },
-    {
-      title: 'New study',
-      url: '/r/studies/new',
-      icon: Plus,
-    },
+    // {
+    //   title: 'New study',
+    //   url: '/r/studies/new',
+    //   icon: Plus,
+    // },
     {
       title: 'My profile',
       url: `/r/researchers/${user?.researcher?.id}`,
