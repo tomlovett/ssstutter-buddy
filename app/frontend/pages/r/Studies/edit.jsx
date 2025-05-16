@@ -10,12 +10,14 @@ import FormCheckbox from '@/components/ui/custom/formCheckbox'
 import FormCheckboxes from '@/components/ui/custom/formCheckboxes'
 import FormInput from '@/components/ui/custom/formInput'
 import FormTextarea from '@/components/ui/custom/formTextarea'
-import { sendRequest } from '@/lib/api'
+import { putRequest } from '@/lib/api'
 import {
   ageRange,
   displayLocation,
   displayRemuneration,
   timeline,
+  status,
+  statusText,
 } from '@/lib/study'
 import StudyInProgressSchema from '@/schemas/StudyInProgress'
 
@@ -105,21 +107,13 @@ const StudyEdit = ({ study }) => {
   const watchedStudy = form.watch()
 
   const saveStudy = async studyValues => {
-    const method = study.id ? 'PUT' : 'POST'
-    const path = study.id ? `/r/studies/${study.id}` : '/r/studies'
-
-    await sendRequest(path, method, studyValues)
-      .then(res => res.json())
-      .then(study => {
-        if (study.id) {
-          toast('Changes saved!')
-        } else {
-          console.log(study)
-          // dsplay errors on page, because toast is too short
-          // but realistically, the backend does not currently validate this
-          toast(JSON.stringify(study))
-        }
-      })
+    try {
+      await putRequest(`/r/studies/${study.id}`, studyValues)
+      toast.success('Changes saved!')
+    } catch (_error) {
+      console.log(_error)
+      toast.error('Failed to update study')
+    }
   }
 
   const saveFormChanges = formValues => {
@@ -130,6 +124,7 @@ const StudyEdit = ({ study }) => {
   }
 
   const saveLocationChanges = locationData => {
+    console.log('saveLocationChanges', locationData)
     const parsedData = {
       country: locationData.country?.symbol,
       state: locationData.state?.symbol,
@@ -139,45 +134,67 @@ const StudyEdit = ({ study }) => {
     saveStudy(parsedData)
   }
 
-  // publish -> start_date
-  // canPublish check with prinout
-
   // validateCanPublish
 
-  const draftStudy = {
-    text: 'Study is still in private draft mode.',
-    buttonText: 'Publish Study',
-  }
-  const activeStudy = {
-    text: 'Study is actively accepting participants.',
-    buttonText: 'Close Study',
-  }
-  const closedStudy = {
-    text: 'Study has been closed.',
-    buttonText: 'Re-open study',
-  }
+  const StatusButtons = () => {
+    let displayList = {}
 
-  const PublishCloseButton = ({ study }) => {
-    let dataSource
-    if (!study.start_date) {
-      dataSource = draftStudy
-    } else if (study.start_date && !study.close_date) {
-      dataSource = activeStudy
-    } else {
-      dataSource = closedStudy
+    switch (status(study)) {
+      case 'draft':
+        displayList = { publish: true }
+        break
+      case 'active':
+        displayList = { pause: true, close: true }
+        break
+      case 'closed':
+        displayList = { reopen: true }
+        break
+      case 'paused':
+        displayList = { resume: true, close: true }
+        break
     }
 
     return (
       <>
-        {dataSource.text} -- {dataSource.buttonText}
+        {displayList.publish && (
+          <Button onClick={() => saveStudy({ published_at: new Date() })}>
+            Publish
+          </Button>
+        )}
+        {displayList.pause && (
+          <Button onClick={() => saveStudy({ paused_at: new Date() })}>
+            Pause
+          </Button>
+        )}
+        {displayList.resume && (
+          <Button onClick={() => saveStudy({ paused_at: null })}>Resume</Button>
+        )}
+        {displayList.close && (
+          <Button onClick={() => saveStudy({ closed_at: new Date() })}>
+            Close
+          </Button>
+        )}
+        {displayList.reopen && (
+          <Button
+            onClick={() => saveStudy({ closed_at: null, paused_at: null })}
+          >
+            Reopen
+          </Button>
+        )}
       </>
     )
   }
 
+  const StatusRow = () => (
+    <div className="flex items-center gap-4 border border-gray-200 justify-end p-4 rounded-md">
+      <span className="text-sm text-foreground">{statusText(study)}</span>
+      <StatusButtons />
+    </div>
+  )
+
   return (
     <>
-      <h3>Edit Study</h3>
-      <PublishCloseButton study={study} />
+      <StatusRow />
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(saveFormChanges)}
@@ -266,12 +283,14 @@ const StudyEdit = ({ study }) => {
           />
 
           <FormMessage />
-          <Link href={`/r/studies/${study.id}/edit`} as="button">
-            Discard Changes
-          </Link>
-          <Button key="submit" type="submit">
-            Save Changes
-          </Button>
+          <div className="flex gap-4">
+            <Link href={`/r/studies/${study.id}/edit`} as="button">
+              Discard Changes
+            </Link>
+            <Button key="submit" type="submit">
+              Save Changes
+            </Button>
+          </div>
         </form>
       </Form>
     </>

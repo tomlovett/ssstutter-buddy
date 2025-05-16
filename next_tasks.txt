@@ -5,10 +5,10 @@ user signup flow
 add mobile-friendly layout
 
 cleanup
-	researcher not rendering professional name
+	StudySlice, participants slice
 
 preview components
-	study short view in studies/edit
+	study short view on right side of studies/edit
 	participant slice on participants/edit
 
 emails
@@ -29,12 +29,14 @@ researcher feedback on participant
 	dropdown for statuses
 	Researcher marking participant complete
 	if digital friendly -> ask if they came completed it in-person
+		"I interacted with this participant in-person or over video conference and can confirm their stutter"
 
 set up prod ActiveMailer
 	basic dev config/infrastructure
 	DevOps logistics and config
 
 go over and add styling
+	r/studiess show
 
 overnight jobs
 	arrange digest
@@ -46,6 +48,19 @@ overnight jobs
 		active studies
 	-check snoozes
 
+/tour progression
+	We have two roles: P & R
+	-p creates profile
+	R posts a new study near P
+	invites sent out to P; R can see the anonymous invitation
+	P decides whether or not they're interested
+	if no, data is kept private, nothing more happens
+	if yes, an email is sent to P & R to connect. P&R coordinate a time to complete the study offline
+	when done, the R marks the P complete, giving the P another badge (which helps R feel more confidence should they want to do a fully-digital study)
+
 -less important-
 
 add "snooze" option to connection
+
+add tests
+	write some, Cursor-abstract out from there

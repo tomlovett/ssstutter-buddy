@@ -45,26 +45,22 @@ class R::StudiesController < R::BaseController
 
   # GET /r/studies/1/edit
   def edit
-    return redirect_to "/r/studies/#{params[:id]}" unless allowed_to?(:edit?, @study)
+    return redirect_to "/r/studies/#{params[:id]}" unless allowed_to?(:update?, @study)
 
     render inertia: 'r/Studies/edit', props: { study: @study.as_json }
   end
 
   # POST /r/studies
   def create
-    @study = Study.new(study_params)
+    @study = Study.create!(study_params.merge(researcher: Current.user.researcher))
 
-    if @study.save
-      render json: @study.as_json, status: :created
-    else
-      render json: @study.errors.as_json, status: :unprocessable_entity
-    end
+    redirect_to "/r/studies/#{@study.id}/edit"
   end
 
   # PATCH/PUT /r/studies/1
   def update
     if allowed_to?(:update?, @study) && @study.update(study_params)
-      render json: @study.as_json, status: :created
+      redirect_to "/r/studies/#{@study.id}", status: :see_other
     else
       render json: @study.errors.as_json, status: :unprocessable_entity
     end
@@ -90,8 +86,9 @@ class R::StudiesController < R::BaseController
       :title,
       :short_desc,
       :long_desc,
-      :open_date,
-      :close_date,
+      :published_at,
+      :paused_at,
+      :closed_at,
       :methodologies,
       :min_age,
       :max_age,

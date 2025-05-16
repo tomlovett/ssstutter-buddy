@@ -1,7 +1,9 @@
 import { useState } from 'react'
+import { Link } from '@inertiajs/react'
 
 import ConnectionsTable from '@/components/Researcher/ConnectionsTable'
 import InvitationsTable from '@/components/Researcher/InvitationsTable'
+import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import {
@@ -23,13 +25,33 @@ const StudyShow = ({
 
   const StudyDetails = ({ study }) => (
     <>
-      <p key="short_desc">Short description: {study.short_desc}</p>
-      <p key="long_desc">Long description: {study.long_desc}</p>
-      <p key="methodologies">Methodologies: {displayMethodologies(study)}</p>
-      <p key="location">Location: {displayLocation(study)}</p>
-      <p key="timeline">Timeline: {timeline(study)}</p>
-      <p key="ageRange">Age range: {ageRange(study)}</p>
-      <p key="remuneration">Est. remuneration: {displayRemuneration(study)}</p>
+      <p key="short_desc" className="text-sm text-foreground mb-2">
+        <span className="font-medium">Short description:</span>{' '}
+        {study.short_desc}
+      </p>
+      <p key="long_desc" className="text-sm text-foreground mb-4">
+        <span className="font-medium">Long description:</span> {study.long_desc}
+      </p>
+      <div className="grid grid-cols-2 gap-4 text-sm">
+        <p key="methodologies" className="text-foreground">
+          <span className="font-medium">Methodologies:</span>{' '}
+          {displayMethodologies(study)}
+        </p>
+        <p key="location" className="text-foreground">
+          <span className="font-medium">Location:</span>{' '}
+          {displayLocation(study)}
+        </p>
+        <p key="timeline" className="text-foreground">
+          <span className="font-medium">Timeline:</span> {timeline(study)}
+        </p>
+        <p key="ageRange" className="text-foreground">
+          <span className="font-medium">Age range:</span> {ageRange(study)}
+        </p>
+        <p key="remuneration" className="text-foreground">
+          <span className="font-medium">Est. remuneration:</span>{' '}
+          {displayRemuneration(study)}
+        </p>
+      </div>
     </>
   )
 
@@ -45,10 +67,19 @@ const StudyShow = ({
     />
   )
 
+  const filtered_connections = active_connections.filter(connection =>
+    connection.pin?.toString().startsWith(activePin)
+  )
+
   return (
     <div className="space-y-8">
       <div>
-        <h2 className="text-2xl font-bold">{study.title}</h2>
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-2xl font-bold">{study.title}</h2>
+          <Button asChild>
+            <Link href={`/r/studies/${study.id}/edit`}>Edit</Link>
+          </Button>
+        </div>
         <StudyDetails study={study} />
       </div>
 
@@ -62,7 +93,7 @@ const StudyShow = ({
         </div>
 
         <ConnectionsTable
-          connections={active_connections}
+          connections={filtered_connections}
           nullStatement="No connections for this study yet."
         />
       </section>

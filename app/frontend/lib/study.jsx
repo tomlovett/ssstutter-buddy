@@ -63,3 +63,28 @@ export const ageRange = ({ min_age, max_age }) => {
     return `${max_age} and under`
   }
 }
+
+export const status = study => {
+  if (!study.published_at) {
+    return 'draft'
+  } else if (study.closed_at) {
+    return 'closed'
+  } else if (study.paused_at) {
+    return 'paused'
+  } else {
+    return 'active'
+  }
+}
+
+export const statusText = study => {
+  switch (status(study)) {
+    case 'draft':
+      return 'Study is in private draft mode.'
+    case 'active':
+      return 'Study is actively accepting participants.'
+    case 'closed':
+      return 'Study has been closed.'
+    case 'paused':
+      return 'Study is paused.'
+  }
+}

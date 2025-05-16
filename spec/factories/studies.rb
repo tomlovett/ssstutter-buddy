@@ -43,5 +43,5 @@ def gen_methodologies
   end_array = []
   types = Study::METHODOLOGIES.dup.shuffle
   rand(2..7).times { end_array << types.pop }
-  end_array.join(',')
+  end_array.join(', ')
 end
