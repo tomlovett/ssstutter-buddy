@@ -1,13 +1,51 @@
 import { Link } from '@inertiajs/react'
 import { toast } from 'sonner'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 
-import ParticipantForm from '@/components/Participant/ParticipantForm'
+import { Button } from '@/components/ui/button'
+import { Form, FormMessage } from '@/components/ui/form'
+import Select from '@/components/ui/custom/select'
+import FormInput from '@/components/ui/custom/formInput'
 import LocationTool from '@/components/lib/LocationTool'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { putRequest } from '@/lib/api'
+import { isUnderEighteen } from '@/lib/participant'
+import ParticipantSchema from '@/schemas/Participant'
+
+const codenameDescription =
+  'The name that will be displayed to researchers before you have connected with them'
+const underEighteenWarning =
+  'Warning: For legal reasons, participants under the age of eighteen must have their accounts managed by their parent or legal guardian. By continuing, you acknolwedge that this account is managed by an adult'
+
+const formFieldData = [
+  {
+    name: 'codename',
+    placeholder: 'Codename',
+    label: 'Codename',
+    desc: codenameDescription,
+  },
+]
+
+const genderValues = [
+  { key: 'Female', value: 'f' },
+  { key: 'Male', value: 'm' },
+]
 
 const ParticipantEdit = ({ participant }) => {
+  const form = useForm({
+    resolver: zodResolver(ParticipantSchema),
+    defaultValues: {
+      codename: participant?.codename ?? '',
+      birthdate: participant?.birthdate ?? '',
+      defaultDistance: participant?.default_distance ?? 100,
+      gender: participant?.gender ?? '',
+    },
+  })
+
+  const watchedBirthdate = form.watch('birthdate')
+
   const saveLocationChanges = locationData => {
     const parsedData = {
       country: locationData.country?.symbol,
@@ -85,18 +123,67 @@ const ParticipantEdit = ({ participant }) => {
             <h2 className="text-lg font-medium text-gray-900 mb-4">
               Participant Information
             </h2>
-            <ParticipantForm
-              participant={participant}
-              onSave={participantValues =>
-                saveParticipantChanges(participantValues)
-              }
-            />
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(saveParticipantChanges)}>
+                <div className="space-y-6">
+                  {formFieldData.map(({ name, label, placeholder, desc }) => (
+                    <FormInput
+                      key={name}
+                      form={form}
+                      name={name}
+                      label={label}
+                      placeholder={placeholder}
+                      desc={desc}
+                      className="w-full"
+                    />
+                  ))}
+                  <Select
+                    form={form}
+                    name="gender"
+                    label="Biological Gender"
+                    placeholder="Gender"
+                    options={genderValues}
+                    className="w-full"
+                  />
+                  <FormInput
+                    form={form}
+                    name="birthdate"
+                    label="Date of Birth"
+                    placeholder="YYYY-MM-DD"
+                    disabled={!!participant.id}
+                    className="w-full max-w-[200px]"
+                  />
+                  {watchedBirthdate && isUnderEighteen(watchedBirthdate) && (
+                    <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-md">
+                      <p className="text-yellow-800 text-sm">
+                        {underEighteenWarning}
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                <FormMessage className="text-red-600 text-sm" />
+
+                <div className="flex items-center gap-4 pt-4 border-t justify-end">
+                  <Link
+                    href={`/p/participants/${participant.id}/edit`}
+                    className="px-6 py-2 text-gray-600 hover:text-gray-800 transition-colors"
+                  >
+                    Cancel
+                  </Link>
+                  <Button
+                    type="submit"
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md transition-colors"
+                  >
+                    Save Changes
+                  </Button>
+                </div>
+              </form>
+            </Form>
           </div>
 
           <div className="border-t pt-6">
-            <h2 className="text-lg font-medium text-gray-900 mb-4">
-              Location Information
-            </h2>
+            <h2 className="text-lg font-medium text-gray-900 mb-4">Location</h2>
             <LocationTool
               country={participant.country}
               state={participant.state}
