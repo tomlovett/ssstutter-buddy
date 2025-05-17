@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { MapPin, X, QuestionMarkCircledIcon } from 'lucide-react'
+import { MapPin, X, CircleHelp } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { ComboBox } from '@/components/ui/combobox'
@@ -155,10 +155,10 @@ const LocationTool = ({ country, state, city, onSave }) => {
     <Tooltip>
       <TooltipTrigger className="flex items-center gap-1">
         Don't see your state or city?
-        <QuestionMarkCircledIcon className="h-4 w-4" />
+        <CircleHelp className="h-4 w-4" />
       </TooltipTrigger>
       <TooltipContent className="bg-gray-100 text-gray-700">
-        Send an email to support@ssstutterbuddy.com and we'll add it for you.
+        Send an email to support@ssstutterbuddy.com and we'll add it for you!
       </TooltipContent>
     </Tooltip>
   )

@@ -204,6 +204,7 @@ const ParticipantEdit = ({ participant }) => {
               <div className="bg-white border border-gray-200 rounded-md p-4">
                 <p className="text-gray-600">
                   Researcher/ParticipantSlice participant=participant
+                  {/* nickname, age/gender distance from */}
                 </p>
               </div>
             </div>
