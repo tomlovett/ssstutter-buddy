@@ -6,6 +6,7 @@ const ResearcherSchema = z.object({
   research_interests: z.string().min(1),
   university_profile_url: z.string().min(1),
   bio: z.string().min(1),
+  headshot: z.any(),
 })
 
 export default ResearcherSchema

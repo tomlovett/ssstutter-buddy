@@ -1,15 +1,18 @@
 user signup flow
-	confirmation email not firing
+	FE still goes through "confirm email" flow, but not sure if emails still pick up with the rest of the flow
 	verify emails firing, verify flow from one page to the next
 
 add mobile-friendly layout
 
 cleanup
+	pass through each page in Pages directories and update
 	StudySlice, participants slice
 	Study: Must be online, Must be in-person, Can be done O || I-P
 		convert to select; handle logic elsewhere
 		tooltip: "Ignore documents/forms that need to be filled out online. This references the actual study itself"
 		for now: clear location if digital_only	
+	Study: bottom half of fields separated into input and display columns
+	Researcher: professional_position?
 
 preview components
 	study short view on right side of studies/edit

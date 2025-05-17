@@ -10,7 +10,20 @@ class Researcher < ApplicationRecord
   delegate :first_name, :last_name, :full_name, :email, to: :user
 
   def as_json(options = {})
-    super.merge({ first_name:, last_name:, email:, professional_name: })
+    headshot_url = if headshot.attached?
+                     Rails.application.routes.url_helpers
+                          .rails_blob_path(headshot, only_path: true)
+                   end
+
+    super.merge(
+      {
+        first_name:,
+        last_name:,
+        email:,
+        professional_name:,
+        headshot_url:
+      }
+    )
   end
 
   def professional_name

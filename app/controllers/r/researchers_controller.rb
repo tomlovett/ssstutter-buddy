@@ -34,7 +34,7 @@ class R::ResearchersController < R::BaseController
 
   # GET /r/researchers/1/edit
   def edit
-    return redirect_to "/r/researchers/#{params[:id]}" unless allowed_to?(:edit?, @researcher)
+    return redirect_to "/r/researchers/#{params[:id]}" unless allowed_to?(:update?, @researcher)
 
     render inertia: 'r/Researchers/edit', props: { researcher: @researcher.as_json }
   end
@@ -43,7 +43,10 @@ class R::ResearchersController < R::BaseController
   def update
     return head :unauthorized unless allowed_to?(:update?, @researcher)
 
-    if @researcher.update(researcher_params) && attach_headshot_if_present
+    headshot = researcher_params[:headshot]
+    researcher_data = researcher_params.except(:headshot)
+
+    if @researcher.update(researcher_data) && attach_headshot_if_present(headshot)
       head :ok
     else
       head :unprocessable_entity
@@ -60,8 +63,10 @@ class R::ResearchersController < R::BaseController
 
   private
 
-  def attach_headshot_if_present
-    @researcher.headshot.attach(params[:headshot]) if params[:headshot].present?
+  def attach_headshot_if_present(headshot)
+    return true if headshot.blank?
+
+    @researcher.headshot.attach(headshot)
   end
 
   def set_researcher

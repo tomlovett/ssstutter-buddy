@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 
-const FormInput = ({ form, name, placeholder, desc, type }) => (
+const FormInput = ({ form, name, placeholder, desc, type, onChange }) => (
   <FormField
     control={form.control}
     name={name}
@@ -16,7 +16,16 @@ const FormInput = ({ form, name, placeholder, desc, type }) => (
       <FormItem>
         <FormLabel>{placeholder}</FormLabel>
         <FormControl>
-          <Input placeholder={placeholder} type={type} {...field} />
+          {type === 'file' ? (
+            <Input
+              type="file"
+              placeholder={placeholder}
+              onChange={onChange}
+              accept={field.accept}
+            />
+          ) : (
+            <Input placeholder={placeholder} type={type} {...field} />
+          )}
         </FormControl>
         {!!desc && <FormDescription>{desc}</FormDescription>}
         <FormMessage />
