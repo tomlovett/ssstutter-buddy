@@ -28,10 +28,6 @@ emails
 
 Add ThemeProvider: https://ui.shadcn.com/docs/dark-mode/next
 
-image uploading for researcher profiles
-	add upload file
-	display
-
 researcher feedback on participant
 	dropdown for statuses
 	Researcher marking participant complete

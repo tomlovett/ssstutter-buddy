@@ -5,7 +5,10 @@ class P::ResearchersController < P::BaseController
 
   # GET /p/researchers/1
   def show
-    render inertia: 'p/Researchers/show', props: { researcher: @researcher.as_json }
+    researcher = @researcher.as_json
+    studies = @researcher.studies.where.not(published_at: nil)
+
+    render inertia: 'p/Researchers/show', props: { researcher:, studies: }
   end
 
   private
