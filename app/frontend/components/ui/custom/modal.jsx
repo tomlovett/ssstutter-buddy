@@ -17,6 +17,7 @@ const Modal = ({
   buttonText,
   modalTitle,
   modalBody,
+  tooltip,
   enableSave,
   onClickCancel,
   onClickSave,
@@ -34,15 +35,21 @@ const Modal = ({
         <Button variant="outline">{buttonText}</Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
-        <AlertDialogHeader>
+        <AlertDialogHeader className="pb-4">
           <VisuallyHidden>
             <AlertDialogTitle>{modalTitle}</AlertDialogTitle>
           </VisuallyHidden>
           <AlertDialogDescription>{modalBody}</AlertDialogDescription>
         </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel onClick={onClickCancel}>Cancel</AlertDialogCancel>
-          <SaveButton />
+        <div className="h-4 border-b border-gray-400" />
+        <AlertDialogFooter className="flex justify-between items-center">
+          <div className="flex-1">{tooltip}</div>
+          <div className="flex gap-2">
+            <AlertDialogCancel onClick={onClickCancel}>
+              Cancel
+            </AlertDialogCancel>
+            <SaveButton />
+          </div>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

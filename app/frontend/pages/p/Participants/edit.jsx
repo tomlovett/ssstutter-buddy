@@ -16,8 +16,6 @@ import ParticipantSchema from '@/schemas/Participant'
 
 const codenameDescription =
   'The name that will be displayed to researchers before you have connected with them'
-const underEighteenWarning =
-  'Warning: For legal reasons, participants under the age of eighteen must have their accounts managed by their parent or legal guardian. By continuing, you acknolwedge that this account is managed by an adult'
 
 const formFieldData = [
   {
@@ -123,6 +121,16 @@ const ParticipantEdit = ({ participant }) => {
             <h2 className="text-lg font-medium text-gray-900 mb-4">
               Participant Information
             </h2>
+
+            <div className="py-4">
+              <LocationTool
+                country={participant.country}
+                state={participant.state}
+                city={participant.city}
+                onSave={locationValues => saveLocationChanges(locationValues)}
+              />
+            </div>
+
             <Form {...form}>
               <form onSubmit={form.handleSubmit(saveParticipantChanges)}>
                 <div className="space-y-6">
@@ -156,7 +164,13 @@ const ParticipantEdit = ({ participant }) => {
                   {watchedBirthdate && isUnderEighteen(watchedBirthdate) && (
                     <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-md">
                       <p className="text-yellow-800 text-sm">
-                        {underEighteenWarning}
+                        For legal reasons, participants under the age of
+                        eighteen must have their accounts managed by their
+                        parent or legal guardian.
+                        <br />
+                        <br />
+                        By continuing, you acknolwedge that this account is
+                        managed by an adult
                       </p>
                     </div>
                   )}
@@ -180,16 +194,6 @@ const ParticipantEdit = ({ participant }) => {
                 </div>
               </form>
             </Form>
-          </div>
-
-          <div className="border-t pt-6">
-            <h2 className="text-lg font-medium text-gray-900 mb-4">Location</h2>
-            <LocationTool
-              country={participant.country}
-              state={participant.state}
-              city={participant.city}
-              onSave={locationValues => saveLocationChanges(locationValues)}
-            />
           </div>
 
           <div className="border-t pt-6">
