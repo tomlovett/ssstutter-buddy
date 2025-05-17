@@ -1,4 +1,3 @@
-import { Link } from '@inertiajs/react'
 import {
   Table,
   TableBody,
@@ -18,51 +17,52 @@ import { formatDate } from '@/lib/utils'
 const StudyTable = ({ studies, nullStatement }) => {
   const EmptyRow = () => (
     <TableRow>
-      <TableCell className="text-muted-foreground">{nullStatement}</TableCell>
+      <TableCell colSpan={7} className="text-muted-foreground text-center">
+        {nullStatement}
+      </TableCell>
     </TableRow>
   )
 
   const TableHeaderRow = () => (
     <TableHeader>
-      <TableRow>
-        <TableHead key="title">Study Name</TableHead>
-        <TableHead key="methodologies">Methodologies</TableHead>
-        <TableHead key="ageRange">Age Range</TableHead>
-        <TableHead key="timeline">Estimated Commitment</TableHead>
-        <TableHead key="location">Location</TableHead>
-        <TableHead key="link">Link</TableHead>
-        <TableHead key="posted">Posted</TableHead>
+      <TableRow className="hover:bg-transparent cursor-default">
+        <TableHead>Study Name</TableHead>
+        <TableHead>Methodologies</TableHead>
+        <TableHead>Age Range</TableHead>
+        <TableHead>Estimated Commitment</TableHead>
+        <TableHead>Location</TableHead>
+        <TableHead>Posted</TableHead>
       </TableRow>
     </TableHeader>
   )
 
   const StudySlice = ({ study }) => (
-    <TableRow className="even:bg-muted">
-      <TableCell key="title">{study.title}</TableCell>
-      <TableCell key="methodologies">{displayMethodologies(study)}</TableCell>
-      <TableCell key="ageRange">{ageRange(study)}</TableCell>
-      <TableCell key="timeline">{timeline(study)}</TableCell>
-      <TableCell key="location">{displayLocationShort(study)}</TableCell>
-      <TableCell key="view">
-        <Link href={`/p/studies/${study.id}`}>
-          <u>View</u>
-        </Link>
-      </TableCell>
-      <TableCell key="date">{formatDate(study.created_at)}</TableCell>
+    <TableRow
+      className="even:bg-muted group relative hover:bg-accent/50 transition-colors cursor-pointer"
+      onClick={() => (window.location.href = `/p/studies/${study.id}`)}
+    >
+      <TableCell>{study.title}</TableCell>
+      <TableCell>{displayMethodologies(study)}</TableCell>
+      <TableCell>{ageRange(study)}</TableCell>
+      <TableCell>{timeline(study)}</TableCell>
+      <TableCell>{displayLocationShort(study)}</TableCell>
+      <TableCell>{formatDate(study.created_at)}</TableCell>
     </TableRow>
   )
 
   return (
-    <Table>
-      {studies.length > 0 && <TableHeaderRow />}
-      <TableBody>
-        {studies.length == 0 ? (
-          <EmptyRow />
-        ) : (
-          studies.map(study => <StudySlice study={study} key={study.id} />)
-        )}
-      </TableBody>
-    </Table>
+    <div className="rounded-md border">
+      <Table>
+        {studies.length > 0 && <TableHeaderRow />}
+        <TableBody>
+          {studies.length === 0 ? (
+            <EmptyRow />
+          ) : (
+            studies.map(study => <StudySlice study={study} key={study.id} />)
+          )}
+        </TableBody>
+      </Table>
+    </div>
   )
 }
 

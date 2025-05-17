@@ -8,13 +8,21 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 
-const FormInput = ({ form, name, placeholder, desc, type, onChange }) => (
+const FormInput = ({
+  form,
+  name,
+  label,
+  placeholder,
+  desc,
+  type,
+  onChange,
+}) => (
   <FormField
     control={form.control}
     name={name}
     render={({ field }) => (
       <FormItem>
-        <FormLabel>{placeholder}</FormLabel>
+        <FormLabel>{label}</FormLabel>
         <FormControl>
           {type === 'file' ? (
             <Input

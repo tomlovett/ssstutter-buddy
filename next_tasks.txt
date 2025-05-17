@@ -13,6 +13,7 @@ cleanup
 		for now: clear location if digital_only	
 	Study: bottom half of fields separated into input and display columns
 	Researcher: professional_position?
+	Participant: default study distance => 100
 
 preview components
 	study short view on right side of studies/edit
