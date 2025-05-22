@@ -27,6 +27,10 @@ emails
 		weekly digest
 			user.digest_opt_out
 
+P/R must complete profile in order to do actual work
+	show notice on p/r edit page if incomplete
+	redirect logic?  most of app other than /u/ routes, right?
+
 Add ThemeProvider: https://ui.shadcn.com/docs/dark-mode/next
 
 researcher feedback on participant

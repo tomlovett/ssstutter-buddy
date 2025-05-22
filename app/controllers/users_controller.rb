@@ -41,6 +41,7 @@ class UsersController < ApplicationController
 
     UserMailer.with(user: Current.user).confirmation_email.deliver_later
 
+    terminate_session
     redirect_to '/await-confirmation'
   end
 
@@ -52,7 +53,6 @@ class UsersController < ApplicationController
       start_new_session_for(@user)
       redirect_to "/u/#{@user.id}/select-role"
     else
-      pp @user.errors.full_messages
       render inertia: 'u/signup', status: :unprocessable_entity
     end
   end

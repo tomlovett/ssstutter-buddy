@@ -55,7 +55,7 @@ class AuthenticationController < ApplicationController
   def reset_password_action
     if @user.update(params.permit(:password, :password_confirmation))
       # reset the activation pin
-      @user.assign_activation_pin!
+      @user.update(activation_pin: nil)
 
       redirect_to login_path, notice: 'Password has been reset.'
     else
