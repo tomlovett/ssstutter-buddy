@@ -35,7 +35,7 @@ const formFieldData = [
 
 const MAX_IMAGE_SIZE = 1000 // pixels
 
-const ResearcherEdit = ({ researcher }) => {
+const ResearcherEdit = ({ researcher, is_complete }) => {
   const [previewUrl, setPreviewUrl] = useState(null)
   const [imageError, setImageError] = useState(null)
 
@@ -136,6 +136,14 @@ const ResearcherEdit = ({ researcher }) => {
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-[80%]">
+      {!is_complete && (
+        <div className="flex text-center justify-center items-center mb-4 bg-yellow-100 p-4 rounded-md">
+          <p className="text-md">
+            Please complete your profile in order to start recruiting
+            participants.
+          </p>
+        </div>
+      )}
       <h3 className="text-2xl font-bold mb-4">
         {researcher.professional_name}
       </h3>

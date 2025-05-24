@@ -10,7 +10,21 @@ class Participant < ApplicationRecord
   after_validation :geocode, if: ->(obj) { obj.city.present? && obj.city_changed? }
 
   def as_json(options = {})
-    super.merge({ first_name:, last_name:, email:, badges: }).merge(VerifiedAddress.new(self).as_json)
+    super.merge({ first_name:, last_name:, codename:, email:, badges: }).merge(VerifiedAddress.new(self).as_json)
+  end
+
+  def complete?
+    [
+      first_name,
+      last_name,
+      codename,
+      email,
+      city,
+      state,
+      country,
+      birthdate,
+      gender
+    ].none?(&:nil?)
   end
 
   def address

@@ -28,7 +28,9 @@ class P::ParticipantsController < P::BaseController
   def edit
     return redirect_to "/p/participants/#{@participant.id}" unless allowed_to?(:update?, @participant)
 
-    render inertia: 'p/Participants/edit', props: { participant: @participant.as_json }
+    props = { participant: @participant.as_json, is_complete: @participant.complete? }
+
+    render inertia: 'p/Participants/edit', props:
   end
 
   # PATCH/PUT /p/participants/1

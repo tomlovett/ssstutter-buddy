@@ -36,7 +36,7 @@ class R::ResearchersController < R::BaseController
   def edit
     return redirect_to "/r/researchers/#{params[:id]}" unless allowed_to?(:update?, @researcher)
 
-    render inertia: 'r/Researchers/edit', props: { researcher: @researcher.as_json }
+    render inertia: 'r/Researchers/edit', props: { researcher: @researcher.as_json, is_complete: @researcher.complete? }
   end
 
   # PATCH/PUT /r/researchers/1

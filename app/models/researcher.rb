@@ -26,6 +26,18 @@ class Researcher < ApplicationRecord
     )
   end
 
+  def complete?
+    [
+      first_name,
+      last_name,
+      email,
+      institution,
+      bio,
+      research_interests,
+      university_profile_url
+    ].none?(&:nil?)
+  end
+
   def professional_name
     titles.present? ? "#{full_name}, #{titles}" : full_name
   end

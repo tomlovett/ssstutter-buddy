@@ -43,9 +43,6 @@ set up prod ActiveMailer
 	basic dev config/infrastructure
 	DevOps logistics and config
 
-go over and add styling
-	r/studiess show
-
 overnight jobs
 	arrange digest
 	admin digest

@@ -31,7 +31,7 @@ const genderValues = [
   { key: 'Male', value: 'm' },
 ]
 
-const ParticipantEdit = ({ participant }) => {
+const ParticipantEdit = ({ participant, is_complete }) => {
   const form = useForm({
     resolver: zodResolver(ParticipantSchema),
     defaultValues: {
@@ -69,6 +69,14 @@ const ParticipantEdit = ({ participant }) => {
   return (
     <div className="ml-0 w-4/5 px-4 space-y-8">
       <div className="p-6 space-y-6">
+        {!is_complete && (
+          <div className="flex text-center justify-center items-center mb-4 bg-yellow-100 p-4 rounded-md">
+            <p className="text-md">
+              Please complete your profile in order to start participating in
+              studies.
+            </p>
+          </div>
+        )}
         <div className="border-b pb-4">
           <h1 className="text-2xl mb-2 font-semibold text-gray-900">
             Edit Participant Profile
