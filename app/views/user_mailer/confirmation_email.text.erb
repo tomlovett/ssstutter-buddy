@@ -4,7 +4,7 @@ Hi <%= @user.first_name %>,
 
 Thanks for signing up! To get started with SSStutterBuddy, please confirm your account by visiting this link:
 
-<%= @confirmation_url %>
+<%= "#{root_url}/#{@confirmation_url}" %>
 
 This confirmation link will expire in 10 minutes.
 

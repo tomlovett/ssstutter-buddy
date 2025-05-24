@@ -1,8 +1,12 @@
 user signup flow
-	FE still goes through "confirm email" flow, but not sure if emails still pick up with the rest of the flow
-	verify emails firing, verify flow from one page to the next
+	verify emails firing
 
-add mobile-friendly layout
+study publication logic
+	separate route?
+	triggers invitation emails
+	create PublishStudy service
+		can be re-used for un-pausing
+		-worried about query; well can do it in SQL; will prob need Cursor help.
 
 cleanup
 	pass through each page in Pages directories and update
@@ -31,6 +35,7 @@ emails
 Add ThemeProvider: https://ui.shadcn.com/docs/dark-mode/next
 
 researcher feedback on participant
+	ParticipantFeedback model; abstract out columns from connection
 	dropdown for statuses
 	Researcher marking participant complete
 	if digital friendly -> ask if they came completed it in-person
@@ -61,6 +66,8 @@ overnight jobs
 	when done, the R marks the P complete, giving the P another badge (which helps R feel more confidence should they want to do a fully-digital study)
 
 -less important-
+
+add mobile-friendly layout
 
 Study table does not allow "open in new tab"
 	convert to Link component

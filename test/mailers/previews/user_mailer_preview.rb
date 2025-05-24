@@ -9,10 +9,10 @@ class UserMailerPreview < ActionMailer::Preview
     UserMailer.with(user:).confirmation_email
   end
 
-  # Preview this email at http://localhost:3001/rails/mailers/user_mailer/password_reset_email
-  def password_reset_email
+  # Preview this email at http://localhost:3001/rails/mailers/user_mailer/forgot_password_email
+  def forgot_password_email
     user = FactoryBot.create(:user)
 
-    UserMailer.with(user:).password_reset_email
+    UserMailer.with(user:).forgot_password_email
   end
 end

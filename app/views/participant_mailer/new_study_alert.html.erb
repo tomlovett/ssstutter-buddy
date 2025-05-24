@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.5; color: #333; max-width: 900px; margin: 20px auto; padding: 20px;">
+    <div style="text-align: center; margin-bottom: 30px;">
+      <h1 style="margin: 0;">A new study has been posted near you!</h1>
+      <p style="font-size: 16px; margin-bottom: 20px;">
+        Read more about this study below. If you are interested, or to read more, click the button below.
+      </p>
+    </div>
+
+    <div style="background-color: #f8fafc; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+      <h2 style="color: #1e40af; margin-top: 0;"><%= @study.title %></h2>
+      
+      <p style="font-size: 16px; margin-bottom: 20px;"><%= @study.short_desc %></p>
+
+      <div style="margin-bottom: 20px;">
+        <ul style="list-style: none; padding: 0; margin: 0;">
+          <li style="margin-bottom: 8px;">
+            <strong>Researcher:</strong> <%= @study.researcher.user.first_name %> <%= @study.researcher.user.last_name %>
+          </li>
+          <li style="margin-bottom: 8px;">
+            <strong>Location:</strong> <%= @study.digital_only? ? 'Online' : @study.address %>
+          </li>
+          <li style="margin-bottom: 8px;">
+            <strong>Time Commitment:</strong> <%= @study.timeline %>
+          </li>
+          <li style="margin-bottom: 8px;">
+            <strong>Age Range:</strong> <%= @study.age_range %>
+          </li>
+          <li style="margin-bottom: 8px;">
+            <strong>Compensation:</strong> $<%= @study.remuneration %>
+          </li>
+        </ul>
+      </div>
+
+      <div style="text-align: center;">
+        <a href="<%= p_study_url(@study) %>" style="display: inline-block; background-color: #2563eb; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: 500;">
+          View Study Details
+        </a>
+      </div>
+    </div>
+
+    <div style="font-size: 14px; color: #64748b; text-align: center; margin-top: 30px;">
+      <p>You received this email because you're registered as a participant on StutterBuddy.</p>
+    </div>
+  </body>
+</html> 

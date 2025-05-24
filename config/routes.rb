@@ -48,6 +48,9 @@ Rails.application.routes.draw do
     resources :researchers, except: :index
 
     resources :studies do
+      member do
+        post 'publish'
+      end
       collection do
         get 'closed'
       end

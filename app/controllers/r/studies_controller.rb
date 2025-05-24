@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class R::StudiesController < R::BaseController
-  before_action :set_study, only: %i[show edit update destroy]
+  before_action :set_study, only: %i[show edit update destroy publish]
 
   # GET /r/studies
   def index
@@ -73,6 +73,21 @@ class R::StudiesController < R::BaseController
 
     @study.destroy
     redirect_to studies_url, notice: 'Success!', status: :created
+  end
+
+  # POST /r/studies/1/publish
+  def publish
+    return head :unprocessable_entity unless @study.present? && allowed_to?(:update?, @study)
+    unless @study.published_at.nil? || (@study.published_at.present? && @study.paused_at.nil?)
+      return head :unprocessable_entity
+    end
+
+    if PublishStudy.new(study: @study, study_params:).call
+      redirect_to "/r/studies/#{@study.id}", notice: 'Study published successfully!'
+    else
+      redirect_to "/r/studies/#{@study.id}/edit",
+                  alert: 'Unable to publish study. Please check all required fields are filled out.'
+    end
   end
 
   private

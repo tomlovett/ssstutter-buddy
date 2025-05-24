@@ -11,7 +11,7 @@ import FormCheckbox from '@/components/ui/custom/formCheckbox'
 import FormCheckboxes from '@/components/ui/custom/formCheckboxes'
 import FormInput from '@/components/ui/custom/formInput'
 import FormTextarea from '@/components/ui/custom/formTextarea'
-import { putRequest } from '@/lib/api'
+import { postRequest, putRequest } from '@/lib/api'
 import {
   ageRange,
   displayLocationShort,
@@ -126,6 +126,24 @@ const StudyEdit = ({ study }) => {
     }
   }
 
+  const publishStudy = async statusChange => {
+    const studyValues = watchedStudy.merge(statusChange)
+    const { isValid, errors } = validateStudy(studyValues)
+    setErrors(errors)
+
+    if (!isValid) {
+      return
+    }
+
+    try {
+      await postRequest(`/r/studies/${study.id}/publish`, studyValues)
+      toast.success('Study published!')
+    } catch (_error) {
+      console.log(_error)
+      toast.error('Failed to publish study')
+    }
+  }
+
   const saveFormChanges = formValues => {
     const refinedValues = Object.assign({}, formValues)
     refinedValues.methodologies = formValues.methodologies.join(',')
@@ -142,8 +160,6 @@ const StudyEdit = ({ study }) => {
 
     saveStudy(parsedData)
   }
-
-  // validateCanPublish
 
   const StatusButtons = () => {
     let displayList = {}
@@ -166,7 +182,7 @@ const StudyEdit = ({ study }) => {
     return (
       <>
         {displayList.publish && (
-          <Button onClick={() => saveStudy({ published_at: new Date() })}>
+          <Button onClick={() => publishStudy({ published_at: new Date() })}>
             Publish
           </Button>
         )}
@@ -176,7 +192,9 @@ const StudyEdit = ({ study }) => {
           </Button>
         )}
         {displayList.resume && (
-          <Button onClick={() => saveStudy({ paused_at: null })}>Resume</Button>
+          <Button onClick={() => publishStudy({ paused_at: null })}>
+            Resume
+          </Button>
         )}
         {displayList.close && (
           <Button onClick={() => saveStudy({ closed_at: new Date() })}>
@@ -185,7 +203,7 @@ const StudyEdit = ({ study }) => {
         )}
         {displayList.reopen && (
           <Button
-            onClick={() => saveStudy({ closed_at: null, paused_at: null })}
+            onClick={() => publishStudy({ closed_at: null, paused_at: null })}
           >
             Reopen
           </Button>
