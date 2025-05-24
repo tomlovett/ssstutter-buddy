@@ -7,31 +7,30 @@ Rails.application.routes.draw do
   get 'participants', to: 'public#participants'
   get '/', to: 'public#home'
 
-  # if Rails.env.production?
-  resources :passwords, param: :token
   # Authentication routes
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
   get '/logout', to: 'sessions#destroy'
   # get '/auth/:provider/callback', to: 'omniauth_callbacks#google_oauth2'
 
-  #  Routes for confirming email
-  get '/confirm', to: 'authentication#confirm'
-  post '/confirm', to: 'authentication#confirm_action'
-
-  #  Routes for forgot password
-  get '/forgot-password', to: 'authentication#forgot_password'
-  post '/forgot-password', to: 'authentication#forgot_password_action'
-  get '/reset-password', to: 'authentication#reset_password', param: :activation_pin
-  post '/reset-password', to: 'authentication#reset_password_action'
-
-  resources :users, except: %i[index new create], path: 'u'
+  # Signup flow
   get '/signup', to: 'users#new'
   post '/signup', to: 'users#create'
   get '/u/:id/select-role', to: 'users#select_role'
   post '/u/:id/select-role', to: 'users#select_role_action'
-  get '/await-confirmation', to: 'users#await_confirmation'
-  get '/await-confirmation/resend-confirmation', to: 'users#resend_confirmation'
+
+  #  Routes for confirming
+  get '/await-confirmation', to: 'authentication#await_confirmation'
+  get '/await-confirmation/resend-confirmation', to: 'authentication#resend_confirmation'
+  get '/confirm', to: 'authentication#confirm'
+
+  #  Routes for forgot password
+  get '/forgot-password', to: 'authentication#forgot_password'
+  post '/forgot-password', to: 'authentication#forgot_password_action'
+
+  resources :users, except: %i[index new create], path: 'u'
+  get '/reset-password', to: 'authentication#reset_password'
+  put '/reset-password', to: 'authentication#reset_password_action'
 
   namespace :p do
     get '/', to: '/p/participants#index'

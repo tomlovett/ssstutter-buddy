@@ -34,9 +34,7 @@ export default function ResetPassword({ user, redirect }) {
     putRequest(`/user/${user.id}`, data)
       .then(res => {
         if (res.status === 200) {
-          toast('Password reset successfully, logging you in...', {
-            duration: 3000,
-          })
+          toast.success('Password saved! successfully, logging you in...')
 
           setTimeout(() => {
             router.visit(redirect)
@@ -49,23 +47,16 @@ export default function ResetPassword({ user, redirect }) {
   }
 
   const showError = () =>
-    toast('There was an error resetting your password. Please try again.', {
-      duration: 5000,
-    })
+    toast.error('There was an error resetting your password. Please try again.')
 
   return (
     <>
       <Head title="Reset Password" />
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8">
-          <div>
-            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-              Reset your password
-            </h2>
-            <p className="mt-2 text-center text-sm text-gray-600">
-              {user.first_name}, please enter your new password below
-            </p>
-          </div>
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+            Change your password
+          </h2>
           <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
             <div className="rounded-md shadow-sm border border-gray-200 shadow-md">
               <div>
@@ -116,7 +107,7 @@ export default function ResetPassword({ user, redirect }) {
                 disabled={processing}
                 className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
               >
-                {processing ? 'Resetting...' : 'Reset Password'}
+                Change Password
               </button>
             </div>
           </form>

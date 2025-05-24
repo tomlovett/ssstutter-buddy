@@ -1,14 +1,12 @@
 import React from 'react'
 import { Head, usePage } from '@inertiajs/react'
+import { Toaster, toast } from 'sonner'
 
-import { Toaster } from '@/components/ui/sonner'
 import { SidebarProvider } from '@/components/ui/sidebar'
 import SideNavbar from '@/components/SideNavbar'
 
-const Layout = ({ children }) => {
-  const {
-    props: { user },
-  } = usePage()
+const Layout = ({ children, notice, alert }) => {
+  const { user } = usePage().props
 
   const publicRoutes = ['/', '/about', '/faq', '/researchers', '/participants']
   const isPublicRoute = publicRoutes.includes(window.location.pathname)
@@ -35,6 +33,14 @@ const Layout = ({ children }) => {
     )
   }
 
+  if (notice) {
+    toast.success(notice)
+  }
+
+  if (alert) {
+    toast.error(alert)
+  }
+
   return (
     <SidebarProvider>
       <div className="flex h-screen w-full">
@@ -53,7 +59,7 @@ const Layout = ({ children }) => {
             {/* <SidebarTrigger /> */}
             {children}
           </main>
-          <Toaster />
+          <Toaster duration={8000} />
         </div>
       </div>
     </SidebarProvider>

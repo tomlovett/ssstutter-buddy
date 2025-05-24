@@ -15,11 +15,13 @@ const FormInput = ({
   placeholder,
   desc,
   type,
+  disabled,
   onChange,
 }) => (
   <FormField
     control={form.control}
     name={name}
+    disabled={disabled}
     render={({ field }) => (
       <FormItem>
         <FormLabel>{label}</FormLabel>

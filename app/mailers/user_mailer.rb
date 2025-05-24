@@ -3,7 +3,7 @@
 class UserMailer < ApplicationMailer
   def confirmation_email
     @user = params[:user]
-    @confirmation_url = Rails.root.join("u/confirm?pin=#{@user.activation_pin}").to_s
+    @confirmation_url = Rails.root.join("/confirm?pin=#{@user.activation_pin}").to_s
 
     mail(
       to: @user.email,
@@ -13,7 +13,7 @@ class UserMailer < ApplicationMailer
 
   def password_reset_email
     @user = params[:user]
-    @reset_url = Rails.root.join("reset-password?token=#{@user.activation_pin}").to_s
+    @reset_url = Rails.root.join("/reset-password?token=#{@user.activation_pin}").to_s
 
     mail(
       to: @user.email,

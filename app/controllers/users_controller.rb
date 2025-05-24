@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  allow_unauthenticated_access only: %i[new create await_confirmation resend_confirmation]
+  allow_unauthenticated_access only: %i[new create]
 
   # GET /u/1
   def show
@@ -70,25 +70,6 @@ class UsersController < ApplicationController
   def destroy
     Current.user.destroy
     head :no_content
-  end
-
-  # GET /await-confirmation
-  def await_confirmation
-    render inertia: 'u/await_confirmation'
-  end
-
-  # GET /await-confirmation/resend-confirmation
-  def resend_confirmation
-    email = params[:email] || Current.user&.email
-
-    return if email.blank?
-
-    user = User.find_by(email:)
-
-    return if user.blank?
-
-    UserMailer.with(user:).confirmation_email.deliver_later
-    redirect_to '/await-confirmation', notice: 'Confirmation email sent.'
   end
 
   private

@@ -14,6 +14,7 @@ cleanup
 	Study: bottom half of fields separated into input and display columns
 	Researcher: professional_position?
 	Participant: default study distance => 100
+	does `toast` actually work?
 
 preview components
 	study short view on right side of studies/edit
@@ -26,10 +27,6 @@ emails
 		new study in your area
 		weekly digest
 			user.digest_opt_out
-
-P/R must complete profile in order to do actual work
-	show notice on p/r edit page if incomplete
-	redirect logic?  most of app other than /u/ routes, right?
 
 Add ThemeProvider: https://ui.shadcn.com/docs/dark-mode/next
 
