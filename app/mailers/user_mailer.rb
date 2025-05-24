@@ -11,7 +11,7 @@ class UserMailer < ApplicationMailer
     )
   end
 
-  def password_reset_email
+  def forgot_password_email
     @user = params[:user]
     @reset_url = Rails.root.join("/reset-password?token=#{@user.activation_pin}").to_s
 

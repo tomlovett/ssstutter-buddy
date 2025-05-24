@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 class AuthenticationController < ApplicationController
-  allow_unauthenticated_access except: %i[reset_password reset_password_action]
+  allow_unauthenticated_access except: %i[change_password change_password_action]
 
   # GET /await-confirmation
   def await_confirmation
-    render inertia: 'u/await_confirmation'
+    render inertia: 'u/await-confirmation'
   end
 
   # GET /await-confirmation/resend-confirmation
@@ -43,7 +43,7 @@ class AuthenticationController < ApplicationController
 
   # GET /forgot-password
   def forgot_password
-    render inertia: 'u/forgot_password'
+    render inertia: 'u/forgot-password'
   end
 
   # POST /forgot-password
@@ -52,22 +52,34 @@ class AuthenticationController < ApplicationController
       if user.confirmed_at.present?
         user.assign_activation_pin!
 
-        UserMailer.with(user: @user).password_reset_email.deliver_later
+        UserMailer.with(user:).forgot_password_email.deliver_later
       else
-        UserMailer.with(user: @user).confirmation_email.deliver_later
+        UserMailer.with(user:).confirmation_email.deliver_later
       end
     end
 
     redirect_to login_path, notice: 'Check your email for reset instructions.'
   end
 
-  # GET /reset-password
+  # GET /reset-password/:activation_pin
   def reset_password
-    render inertia: 'u/reset_password'
+    @user = User.find_by(activation_pin: params[:activation_pin])
+
+    return redirect_to forgot_password_path, alert: 'Invalid password reset link.' if @user.nil?
+
+    @user.update(activation_pin: nil)
+    start_new_session_for @user
+
+    redirect_to change_password_path, notice: 'Your password has been reset. Please enter a new one.'
   end
 
-  # PUT /reset-password
-  def reset_password_action
+  # GET /change-password
+  def change_password
+    render inertia: 'u/change-password'
+  end
+
+  # PUT /change-password
+  def change_password_action
     if Current.user.update(params.permit(:password, :password_confirmation))
       redirect_to Current.user.home_page, notice: 'Password has been changed!'
     else

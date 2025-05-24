@@ -50,6 +50,8 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
+      @user.assign_activation_pin!
+
       start_new_session_for(@user)
       redirect_to "/u/#{@user.id}/select-role"
     else

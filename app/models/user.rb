@@ -14,8 +14,6 @@ class User < ApplicationRecord
   validates :first_name, presence: true
   validates :last_name, presence: true
 
-  after_initialize { assign_activation_pin! }
-
   def as_json(options = {})
     super(options.merge(except: %i[password_digest activation_pin created_at updated_at]).merge(
       methods: [:home_page],
@@ -47,7 +45,7 @@ class User < ApplicationRecord
   end
 
   def assign_activation_pin!
-    self.activation_pin = PinGenerator.new.pin
+    update(activation_pin: PinGenerator.new.pin)
   end
 
   def researcher?

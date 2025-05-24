@@ -65,7 +65,7 @@ const EditUserPage = ({ user }) => {
             <div className="text-sm text-gray-600">
               <div className="flex justify-center">
                 <Link
-                  href="/reset-password"
+                  href="/change-password"
                   className="text-blue-500 hover:text-blue-600"
                 >
                   To change your password, click this link

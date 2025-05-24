@@ -27,10 +27,11 @@ Rails.application.routes.draw do
   #  Routes for forgot password
   get '/forgot-password', to: 'authentication#forgot_password'
   post '/forgot-password', to: 'authentication#forgot_password_action'
+  get '/reset-password', to: 'authentication#reset_password', param: :activation_pin
 
   resources :users, except: %i[index new create], path: 'u'
-  get '/reset-password', to: 'authentication#reset_password'
-  put '/reset-password', to: 'authentication#reset_password_action'
+  get '/change-password', to: 'authentication#change_password'
+  put '/change-password', to: 'authentication#change_password_action'
 
   namespace :p do
     get '/', to: '/p/participants#index'
