@@ -20,7 +20,7 @@ class P::ConnectionsController < P::BaseController
       study_id: params[:study_id]
     )
 
-    # trigger emails to Researcher and Participant
+    ConnectionMailer.with(connection: @connection).new_connection.deliver_later
 
     if @connection.save!
       head :created

@@ -33,11 +33,13 @@ class Study < ApplicationRecord
   end
 
   def address
-    [city, state, country].compact.join(', ')
+    digital_only? ? '' : [city, state, country].compact.join(', ')
   end
 
   def short_addr
-    digital_only? ? 'Online' : "#{city}, #{state}"
+    return 'Online' if digital_only?
+
+    digital_friendly? ? "Online / #{city}, #{state}" : "#{city}, #{state}, #{country}"
   end
 
   def status
