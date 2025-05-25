@@ -1,13 +1,6 @@
 user signup flow
 	verify emails firing
 
-study publication logic
-	separate route?
-	triggers invitation emails
-	create PublishStudy service
-		can be re-used for un-pausing
-		-worried about query; well can do it in SQL; will prob need Cursor help.
-
 cleanup
 	pass through each page in Pages directories and update
 	StudySlice, participants slice

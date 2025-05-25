@@ -15,3 +15,6 @@ Study
 Location
     extract from Participant and Study
     apply to User
+
+Participant
+    email_digest_opt_out
