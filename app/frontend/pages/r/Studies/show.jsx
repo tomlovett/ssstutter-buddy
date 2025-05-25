@@ -68,7 +68,7 @@ const StudyShow = ({
   )
 
   const filtered_connections = active_connections.filter(connection =>
-    connection.pin?.toString().startsWith(activePin)
+    connection.pin?.toString().includes(activePin)
   )
 
   return (

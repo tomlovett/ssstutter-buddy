@@ -4,7 +4,7 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.5; color: #333; max-width: 900px; margin: 20px auto; padding: 20px;">
-    <div style="text-align: left; margin-bottom: 30px;">
+    <div style="text-align: left; padding: 20px;">
       <h1 style="margin-bottom: 10px; text-align: center;">New connection!</h1>
       <p style="font-size: 16px; margin-bottom: 20px;">
         Congrats! <%= @participant.first_name %> has expressed interest in this study! 
@@ -14,6 +14,17 @@
       </p>
       <p style="font-size: 16px; margin-bottom: 20px;">
         <%= @researcher.first_name %> &mdash; CC'd on this email &mdash; will contact you soon to arrange completion of the study.
+      </p>
+    </div>
+
+    <div style="border-top: 1px solid #000000; margin: 20px 0;"></div>
+
+    <div style=" border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+      <p style="font-size: 16px; margin-bottom: 20px;">
+        Your PIN for this connection is <span style="font-family: monospace; text-decoration: underline;"><%= @connection.pin %></span>
+      </p>
+      <p style="font-size: 16px; margin-bottom: 20px;">
+        You may be aksed to enter this PIN to ensure your security and the quality of the data. 
       </p>
     </div>
 

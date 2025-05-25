@@ -51,11 +51,12 @@ class ConnectionMailerPreview < ActionMailer::Preview
       country: 'US'
     )
 
+    connection = FactoryBot.create(:connection, study:, participant:, researcher:)
     # Print debug info
     puts "Study: #{study.inspect}"
     puts "Participant: #{participant.inspect}"
     puts "Researcher: #{researcher.inspect}"
 
-    ConnectionMailer.with(study: study, participant: participant, researcher: researcher).new_connection
+    ConnectionMailer.with(connection:).new_connection
   end
 end

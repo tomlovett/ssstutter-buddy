@@ -26,7 +26,6 @@ preview components
 
 emails
 	P
-		new study in your area
 		weekly digest
 			user.digest_opt_out
 
