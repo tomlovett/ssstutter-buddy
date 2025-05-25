@@ -8,4 +8,11 @@ class ParticipantMailer < ApplicationMailer
 
     mail(to: @participant.email, subject: 'SSStutterBuddy: A new study for you!')
   end
+
+  def weekly_online_digest
+    @participant = params[:participant]
+    @studies = params[:studies]
+
+    mail(to: @participant.email, subject: 'SSStutterBuddy: Your Weekly Study Digest')
+  end
 end

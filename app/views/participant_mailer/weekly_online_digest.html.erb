@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.5; color: #333; max-width: 900px; margin: 20px auto; padding: 20px;">
+    <div style="text-align: center; margin-bottom: 30px;">
+      <h1 style="margin: 0;">Your Weekly Study Digest</h1>
+    </div>
+    <div style="text-align: left; margin-bottom: 30px;">
+      <p style="font-size: 16px; margin-bottom: 20px;">
+        Hi <%= @participant.first_name %>, here are the latest studies that might interest you.
+      </p>
+      <p>
+        You can click to view the individual studies or go <a href="https://stutterbuddy.com/p/studies/digital" style="color: #2563eb; text-decoration: underline;">here</a> to see all online studies.
+    </div>
+
+    <% if @studies.any? %>
+      <div style="margin-bottom: 30px;">
+        <ul style="list-style: none; padding: 0; margin: 0;">
+          <% @studies.each do |study| %>
+            <li style="background-color: #f8fafc; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+              <h2 style="color: #1e40af; margin-top: 0;">
+                <a href="<%= p_study_url(study) %>" style="color: #1e40af; text-decoration: none;">
+                  <%= study.title %>
+                </a>
+                </h2>
+              </div>
+
+              <p style="font-size: 16px; margin: 0 0 10px 0;"><%= study.short_desc %></p>
+
+              <div style="margin-bottom: 20px; display: flex; justify-content: space-between; align-items: flex-end;">
+                <div style="width: 70%;">
+                    <ul style="list-style: none; padding: 0; margin: 0; width: 70%;">
+                    <li style="margin-bottom: 8px;">
+                        <strong>Time Commitment:</strong> <%= study.timeline %>
+                    </li>
+                    <li style="margin-bottom: 8px;">
+                        <strong>Age Range:</strong> <%= study.age_range %>
+                    </li>
+                    <li style="margin-bottom: 8px;">
+                        <strong>Compensation:</strong> $<%= study.remuneration %>
+                    </li>
+                    </ul>
+                </div>
+                <div style="width: 30%; display: flex; justify-content: flex-end; align-items: flex-end; margin-right: 10px;">
+                    <a href="<%= p_study_url(study) %>" style="display: inline-block; background-color: #2563eb; color: white; padding: 4px 8px; text-decoration: none; border-radius: 6px; font-weight: 500">
+                        View Study
+                    </a>
+                </div>
+              </div>
+
+              <div style="text-align: center;">
+
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    <% else %>
+      <div style="text-align: center; padding: 40px; background-color: #f8fafc; border-radius: 8px;">
+        <p style="font-size: 16px; margin-bottom: 0;">
+          No new studies this week, but we're confident you'll see some next week!
+        </p>
+      </div>
+    <% end %>
+
+    <div style="font-size: 14px; color: #64748b; text-align: center; margin-top: 30px;">
+      <p>You received this email because you're registered as a participant on StutterBuddy.</p>
+      <p>
+        <a href="<%= edit_user_url(@participant.user) %>" style="color: #64748b; text-decoration: underline;">
+          Click here to manage your email preferences
+        </a>
+      </p>
+    </div>
+  </body>
+</html> 

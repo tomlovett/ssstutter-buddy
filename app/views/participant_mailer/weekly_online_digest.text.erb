@@ -1,0 +1,25 @@
+Your Weekly Study Digest
+
+Hi <%= @participant.first_name %>, here are the latest studies that might interest you.
+
+You can view individual studies below or visit https://stutterbuddy.com/p/studies/digital to see all online studies.
+
+<% if @studies.any? %>
+  <% @studies.each do |study| %>
+    <%= study.title %>
+    <%= study.short_desc %>
+
+    Time Commitment: <%= study.timeline %>
+    Age Range: <%= study.age_range %>
+    Compensation: $<%= study.remuneration %>
+
+    View Study: <%= p_study_url(study) %>
+   
+    --------------------------------
+  <% end %>
+<% else %>
+  No new studies this week, but we're confident you'll see some next week!
+<% end %>
+
+You received this email because you're registered as a participant on StutterBuddy.
+Manage your email preferences: <%= edit_user_url(@participant.user) %> 
