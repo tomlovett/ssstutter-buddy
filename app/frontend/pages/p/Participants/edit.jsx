@@ -3,6 +3,7 @@ import { toast } from 'sonner'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
+import ParticipantSlice from '@/components/Researcher/ParticipantSlice'
 import { Button } from '@/components/ui/button'
 import { Form, FormMessage } from '@/components/ui/form'
 import Select from '@/components/ui/custom/select'
@@ -13,18 +14,6 @@ import { Label } from '@/components/ui/label'
 import { putRequest } from '@/lib/api'
 import { isUnderEighteen } from '@/lib/participant'
 import ParticipantSchema from '@/schemas/Participant'
-
-const codenameDescription =
-  'The name that will be displayed to researchers before you have connected with them'
-
-const formFieldData = [
-  {
-    name: 'codename',
-    placeholder: 'Codename',
-    label: 'Codename',
-    desc: codenameDescription,
-  },
-]
 
 const genderValues = [
   { key: 'Female', value: 'f' },
@@ -42,7 +31,7 @@ const ParticipantEdit = ({ participant, is_complete }) => {
     },
   })
 
-  const watchedBirthdate = form.watch('birthdate')
+  const watchedParticipant = form.watch()
 
   const saveLocationChanges = locationData => {
     const parsedData = {
@@ -142,34 +131,32 @@ const ParticipantEdit = ({ participant, is_complete }) => {
             <Form {...form}>
               <form onSubmit={form.handleSubmit(saveParticipantChanges)}>
                 <div className="space-y-6">
-                  {formFieldData.map(({ name, label, placeholder, desc }) => (
-                    <FormInput
-                      key={name}
-                      form={form}
-                      name={name}
-                      label={label}
-                      placeholder={placeholder}
-                      desc={desc}
-                      className="w-full"
-                    />
-                  ))}
-                  <Select
-                    form={form}
-                    name="gender"
-                    label="Biological Gender"
-                    placeholder="Gender"
-                    options={genderValues}
-                    className="w-full"
-                  />
                   <FormInput
                     form={form}
-                    name="birthdate"
-                    label="Date of Birth"
-                    placeholder="YYYY-MM-DD"
-                    disabled={!!participant.id}
-                    className="w-full max-w-[200px]"
+                    name="codename"
+                    label="Codename"
+                    placeholder="Codename"
+                    desc="The name that will be displayed to researchers before you have connected with them"
+                    className="w-1/2"
                   />
-                  {watchedBirthdate && isUnderEighteen(watchedBirthdate) && (
+                  <div className="flex gap-4 mb-4">
+                    <Select
+                      form={form}
+                      name="gender"
+                      label="Biological Gender"
+                      placeholder="Gender"
+                      options={genderValues}
+                      className="w-full"
+                    />
+                    <FormInput
+                      form={form}
+                      name="birthdate"
+                      label="Date of Birth"
+                      placeholder="YYYY-MM-DD"
+                      className="w-full max-w-[200px]"
+                    />
+                  </div>
+                  {isUnderEighteen(watchedParticipant.birthdate) && (
                     <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-md">
                       <p className="text-yellow-800 text-sm">
                         For legal reasons, participants under the age of
@@ -206,14 +193,28 @@ const ParticipantEdit = ({ participant, is_complete }) => {
 
           <div className="border-t pt-6">
             <h2 className="text-lg font-medium text-gray-900 mb-4">
-              How researchers will see you:
+              How researchers see you
             </h2>
             <div className="bg-gray-50 rounded-lg p-4">
+              <p className="text-gray-600 mb-1">
+                If you <i>have not</i> connected with one of the researcher's
+                studies
+              </p>
               <div className="bg-white border border-gray-200 rounded-md p-4">
-                <p className="text-gray-600">
-                  Researcher/ParticipantSlice participant=participant
-                  {/* nickname, age/gender distance from */}
-                </p>
+                <ParticipantSlice
+                  participant={watchedParticipant}
+                  showFullInfo={false}
+                />
+              </div>
+              <br />
+              <p className="text-gray-600 mb-1">
+                When you <i>have</i> connected with the researcher
+              </p>
+              <div className="bg-white border border-gray-200 rounded-md p-4">
+                <ParticipantSlice
+                  participant={Object.assign(participant, watchedParticipant)}
+                  showFullInfo
+                />
               </div>
             </div>
           </div>

@@ -17,13 +17,14 @@ const FormInput = ({
   type,
   disabled,
   onChange,
+  className,
 }) => (
   <FormField
     control={form.control}
     name={name}
     disabled={disabled}
     render={({ field }) => (
-      <FormItem>
+      <FormItem className={className}>
         <FormLabel>{label}</FormLabel>
         <FormControl>
           {type === 'file' ? (

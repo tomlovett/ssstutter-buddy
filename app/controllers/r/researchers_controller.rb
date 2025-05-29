@@ -2,7 +2,7 @@
 
 class R::ResearchersController < R::BaseController
   before_action :set_researcher, only: %i[show edit update destroy]
-  skip_before_action :redirect_if_not_complete, only: [:edit]
+  skip_before_action :redirect_if_not_complete, only: %i[edit update]
 
   # GET /r
   def home
