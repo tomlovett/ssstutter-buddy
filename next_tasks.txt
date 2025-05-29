@@ -19,8 +19,7 @@ preview components
 
 emails
 	P
-		weekly digest
-			user.digest_opt_out
+		P.digest_opt_out
 
 Add ThemeProvider: https://ui.shadcn.com/docs/dark-mode/next
 
@@ -36,7 +35,6 @@ set up prod ActiveMailer
 	DevOps logistics and config
 
 overnight jobs
-	arrange digest
 	admin digest
 		total user counts
 		new participant profiles
