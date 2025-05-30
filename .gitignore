@@ -17,6 +17,9 @@
 !/log/.keep
 !/tmp/.keep
 
+# Environment overrides
+/config/_env.rb
+
 */logs
 */*.log
 */npm-debug.log*
