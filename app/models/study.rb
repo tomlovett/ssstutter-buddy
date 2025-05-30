@@ -14,6 +14,7 @@ class Study < ApplicationRecord
   scope :draft, -> { where('published_at IS NULL AND closed_at IS NULL') }
   scope :active, -> { where('published_at IS NOT NULL AND closed_at IS NULL AND paused_at IS NULL') }
   scope :paused, -> { where.not(paused_at: nil) }
+  scope :published, -> { where.not(published_at: nil) }
   scope :closed, -> { where.not(closed_at: nil) }
   scope :digital_friendly, -> { where(digital_friendly: true) }
 

@@ -33,4 +33,8 @@ class ApplicationPolicy < ActionPolicy::Base
   def participant?
     user.participant?
   end
+
+  def admin?
+    ENV['ADMIN_EMAILS'].split(',').include?(user.email)
+  end
 end

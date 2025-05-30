@@ -1,0 +1,9 @@
+@layer components {
+  .stats-label-cell {
+    @apply font-medium text-gray-700 bg-gray-50;
+  }
+
+  .stats-number-cell {
+    @apply text-right font-mono tabular-nums;
+  }
+}
