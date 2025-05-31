@@ -1,4 +1,4 @@
-import { Link } from '@inertiajs/react'
+import { Link, router } from '@inertiajs/react'
 import { toast } from 'sonner'
 
 import {
@@ -20,6 +20,8 @@ import {
   displayRemuneration,
   timeline,
 } from '@/lib/study'
+import { status } from '@/lib/study'
+import { Loader2 } from 'lucide-react'
 
 const StudyShow = ({ study, researcher, connection }) => {
   const publishedDate = new Date(study.published_at).toLocaleDateString(
@@ -43,7 +45,7 @@ const StudyShow = ({ study, researcher, connection }) => {
         toast('Success! Check your email', { duration: 7000 })
       } else {
         toast(
-          'Uh oh! There was an error. Refresh the page, or email SSStutterBuddy if the problem persists',
+          'Uh oh! There was an error. Try refreshing the page, or email SSStutterBuddy if the problem persists',
           { duration: 10000 }
         )
       }
@@ -96,55 +98,105 @@ const StudyShow = ({ study, researcher, connection }) => {
     </AlertDialog>
   )
 
-  return (
-    <>
-      <div className="max-w-3xl mx-auto p-6">
-        <h3 className="text-2xl font-bold mb-4">{study.title}</h3>
-        <div className="mb-6 text-right">
-          Led by{' '}
-          <Link
-            href={`/p/researchers/${researcher.id}`}
-            className="text-primary hover:underline font-medium"
-          >
-            {researcher.professional_name}
-          </Link>
-          <p>{researcher.institution}</p>
-        </div>
+  if (status(study) === 'paused' || status(study) === 'draft') {
+    setTimeout(() => {
+      router.visit('/p')
+    }, 7500)
 
-        <div className="space-y-3 mb-8">
-          <p className="text-right">Published {publishedDate}</p>
-          <p>Location: {displayLocationShort(study)}</p>
-          <p>Methodologies: {displayMethodologies(study)}</p>
-          <p>Timeline: {timeline(study)}</p>
-          <p>
-            <span className="font-medium">Estimated remuneration:</span>{' '}
-            <span>{displayRemuneration(study)}</span>
-          </p>
+    return (
+      <div className="container mx-auto w-1/2 px-4 py-16 shadow-md border rounded-lg">
+        <h3 className="text-2xl font-bold mb-4 text-center">
+          Study not accepting participants
+        </h3>
+        <p className="text-center mb-12">
+          This study is not currently accepting participants. Check back later.
+          <br />
+          <br />
+          You will now be redirected.
+        </p>
+        <div className="flex justify-center mb-12">
+          <Loader2 className="w-10 h-10 animate-spin" />
         </div>
-
-        <div className="prose max-w-none mb-8">
-          <p>{study.long_desc}</p>
-        </div>
-
-        <div className="flex justify-center">
-          {connection?.id &&
-            (connection.status == 'not_interested' ? (
-              <p>
-                You declined interest in this study. Change your mind?{' '}
-                <ExpressInterest />
-              </p>
-            ) : (
-              <Button disabled>Connected</Button>
-            ))}
-          {!connection?.id && (
-            <div className="flex gap-8 justify-between">
-              <NotInterested />
-              <ExpressInterest />
-            </div>
-          )}
+        <div className="flex justify-center mb-12">
+          <Button onClick={() => router.visit('/p')}>Okay</Button>
         </div>
       </div>
-    </>
+    )
+  }
+
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <h3 className="text-2xl font-bold mb-4">{study.title}</h3>
+
+      <div className="grid grid-cols-3 gap-4">
+        <div className="col-span-2">
+          <div className="mb-4 ml-2">
+            <p className="text-lg mb-2">
+              Led by{' '}
+              <Link
+                href={`/p/researchers/${researcher.id}`}
+                className="text-primary hover:underline font-medium"
+              >
+                {researcher.professional_name}
+              </Link>{' '}
+              of {researcher.institution}
+            </p>
+          </div>
+
+          <div className="space-y-3 mb-8">
+            <p className="text-gray-600">Published {publishedDate}</p>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <h3 className="text-lg mb-2">Study Details</h3>
+                <ul className="space-y-2 ml-2">
+                  <li>
+                    <span className="font-medium">Location:</span>{' '}
+                    {displayLocationShort(study)}
+                  </li>
+                  <li>
+                    <span className="font-medium">Methodologies:</span>{' '}
+                    {displayMethodologies(study)}
+                  </li>
+                  <li>
+                    <span className="font-medium">Timeline:</span>{' '}
+                    {timeline(study)}
+                  </li>
+                  <li>
+                    <span className="font-medium">Estimated remuneration:</span>{' '}
+                    {displayRemuneration(study)}
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div className="prose max-w-none mb-8">
+            <h3 className="text-lg mb-2">Study Description</h3>
+            <p className="ml-2">{study.long_desc}</p>
+          </div>
+
+          <div className="flex justify-center gap-4">
+            {connection?.id ? (
+              connection.status === 'not_interested' ? (
+                <div className="text-center">
+                  <p className="mb-4">
+                    You declined interest in this study. Change your mind?
+                  </p>
+                  <ExpressInterest />
+                </div>
+              ) : (
+                <Button disabled>Connected</Button>
+              )
+            ) : (
+              <div className="flex gap-4">
+                <NotInterested />
+                <ExpressInterest />
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }
 
