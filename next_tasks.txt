@@ -17,8 +17,6 @@ preview components
 
 participant explanation for why not interested
 
-digital studies page
-
 emails
 	P
 		P.digest_opt_out
@@ -56,6 +54,8 @@ overnight jobs
 	when done, the R marks the P complete, giving the P another badge (which helps R feel more confidence should they want to do a fully-digital study)
 
 -less important-
+
+/team page
 
 extract classes into scss files
 

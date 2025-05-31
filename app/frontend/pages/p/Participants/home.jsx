@@ -1,3 +1,4 @@
+import { Link } from '@inertiajs/react'
 import StudyTable from 'components/Participant/StudyTable'
 
 const ParticipantHome = ({
@@ -33,7 +34,7 @@ const ParticipantHome = ({
       />
       <br />
 
-      <a href="#">View Fully-Online Studies</a>
+      <Link href="/p/digital-studies">View Fully-Online Studies</Link>
     </>
   )
 }
