@@ -17,7 +17,8 @@ class P::ConnectionsController < P::BaseController
 
     @connection = Connection.create(
       participant: @participant,
-      study_id: params[:study_id]
+      study_id: params[:study_id],
+      status: params[:status]
     )
 
     ConnectionMailer.with(connection: @connection).new_connection.deliver_later

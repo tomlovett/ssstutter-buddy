@@ -13,8 +13,7 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
-import { postRequest } from '@/lib/api'
-import { formatDate } from '@/lib/utils'
+import { postRequest, putRequest } from '@/lib/api'
 import {
   displayLocationShort,
   displayMethodologies,
@@ -23,11 +22,25 @@ import {
 } from '@/lib/study'
 
 const StudyShow = ({ study, researcher, connection }) => {
-  const body = { study_id: study.id }
-  const postCreateConnection = () => {
-    postRequest('/p/connections', body).then(res => {
-      if (res.status == '201') {
-        toast('Success! Check your email', { duration: 5000 })
+  const publishedDate = new Date(study.published_at).toLocaleDateString(
+    'en-US',
+    {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    }
+  )
+
+  const upsertConnection = (status = 'interested') => {
+    const body = { study_id: study.id, status }
+
+    const request = connection?.id
+      ? putRequest(`/p/connections/${connection.id}`, body)
+      : postRequest('/p/connections', body)
+
+    request.then(res => {
+      if (res.status === '200' || res.status === '201') {
+        toast('Success! Check your email', { duration: 7000 })
       } else {
         toast(
           'Uh oh! There was an error. Refresh the page, or email SSStutterBuddy if the problem persists',
@@ -38,7 +51,7 @@ const StudyShow = ({ study, researcher, connection }) => {
   }
 
   const ExpressInterest = () => (
-    <AlertDialog>
+    <AlertDialog key="express-interest">
       <AlertDialogTrigger asChild>
         <Button>Express Interest</Button>
       </AlertDialogTrigger>
@@ -52,7 +65,7 @@ const StudyShow = ({ study, researcher, connection }) => {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={postCreateConnection}>
+          <AlertDialogAction onClick={upsertConnection}>
             Confirm
           </AlertDialogAction>
         </AlertDialogFooter>
@@ -60,31 +73,77 @@ const StudyShow = ({ study, researcher, connection }) => {
     </AlertDialog>
   )
 
-  const StudyButton = () =>
-    connection?.id ? (
-      <p>You are connected to this study</p>
-    ) : (
-      <ExpressInterest />
-    )
+  const NotInterested = () => (
+    <AlertDialog key="not-interested">
+      <AlertDialogTrigger asChild>
+        <Button variant="outline">Not Interested</Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogTitle>Not interested?</AlertDialogTitle>
+        <AlertDialogHeader>
+          <AlertDialogDescription>
+            Is this study not a good fit for you?
+            {/* Add input to leave explanation */}
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction onClick={() => upsertConnection('not_interested')}>
+            Confirm
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  )
 
   return (
     <>
-      <h3>{study.title}</h3>
-      <p>
-        <Link href={`/p/researchers/${researcher.id}`}>
-          {researcher.professional_name}
-        </Link>
-      </p>
-      <p>{researcher.institution}</p>
-      <p>
-        {formatDate(study.open_date) + ' - ' + formatDate(study.close_date)}
-      </p>
-      <p>{displayLocationShort(study)}</p>
-      <p>{displayMethodologies(study)}</p>
-      <p>{timeline(study)}</p>
-      <p>Remuneration: {displayRemuneration(study)}</p>
-      <p>{study.long_desc}</p>
-      <StudyButton />
+      <div className="max-w-3xl mx-auto p-6">
+        <h3 className="text-2xl font-bold mb-4">{study.title}</h3>
+        <div className="mb-6 text-right">
+          Led by{' '}
+          <Link
+            href={`/p/researchers/${researcher.id}`}
+            className="text-primary hover:underline font-medium"
+          >
+            {researcher.professional_name}
+          </Link>
+          <p>{researcher.institution}</p>
+        </div>
+
+        <div className="space-y-3 mb-8">
+          <p className="text-right">Published {publishedDate}</p>
+          <p>Location: {displayLocationShort(study)}</p>
+          <p>Methodologies: {displayMethodologies(study)}</p>
+          <p>Timeline: {timeline(study)}</p>
+          <p>
+            <span className="font-medium">Estimated remuneration:</span>{' '}
+            <span>{displayRemuneration(study)}</span>
+          </p>
+        </div>
+
+        <div className="prose max-w-none mb-8">
+          <p>{study.long_desc}</p>
+        </div>
+
+        <div className="flex justify-center">
+          {connection?.id &&
+            (connection.status == 'not_interested' ? (
+              <p>
+                You declined interest in this study. Change your mind?{' '}
+                <ExpressInterest />
+              </p>
+            ) : (
+              <Button disabled>Connected</Button>
+            ))}
+          {!connection?.id && (
+            <div className="flex gap-8 justify-between">
+              <NotInterested />
+              <ExpressInterest />
+            </div>
+          )}
+        </div>
+      </div>
     </>
   )
 }
