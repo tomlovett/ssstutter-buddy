@@ -1,5 +1,6 @@
+// Calendar,
 import {
-  Calendar,
+  Computer,
   Home,
   Inbox,
   LogOut,
@@ -34,15 +35,20 @@ const AppSidebar = ({ user }) => {
       icon: Inbox,
     },
     {
+      title: 'Digital studies',
+      url: '/p/digital-studies',
+      icon: Computer,
+    },
+    {
       title: 'My profile',
       url: `/p/participants/${user?.participant?.id}`,
       icon: UserRound,
     },
-    {
-      title: 'My connections',
-      url: '#',
-      icon: Calendar,
-    },
+    // {
+    //   title: 'My connections',
+    //   url: '#',
+    //   icon: Calendar,
+    // },
     {
       title: 'Account settings',
       url: `/u/${user.id}/edit`,

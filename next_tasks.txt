@@ -17,6 +17,8 @@ preview components
 
 participant explanation for why not interested
 
+digital studies page
+
 emails
 	P
 		P.digest_opt_out

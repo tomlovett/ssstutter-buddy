@@ -8,12 +8,22 @@ class P::StudiesController < P::BaseController
     @studies = Study.all
   end
 
+  # GET /p/digital-studies
   def digital_studies
     existing_study_connections = Connection.where(participant: @participant).pluck(:study_id)
-    untouched_digital_studies = Study.digital_friendly.where.not(id: existing_study_connections).order(:created_at)
+    untouched_digital_studies = Study.digital_friendly
+                                     .where.not(id: existing_study_connections)
+                                     .order(:created_at)
+                                     .page(params[:page])
+                                     .per(25)
 
     props = {
-      studies: untouched_digital_studies.order(:created_at)
+      studies: untouched_digital_studies,
+      pagination: {
+        current_page: untouched_digital_studies.current_page,
+        total_pages: untouched_digital_studies.total_pages,
+        total_count: untouched_digital_studies.total_count
+      }
     }
 
     render inertia: 'p/Studies/digital', props:

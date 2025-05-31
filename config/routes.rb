@@ -42,7 +42,7 @@ Rails.application.routes.draw do
     resources :participants, except: %i[index create]
 
     resources :researchers, only: :show
-    get '/studies/digital', to: 'studies#digital_studies'
+    get '/digital-studies', to: 'studies#digital_studies'
     resources :studies, only: %i[index show]
   end
 
