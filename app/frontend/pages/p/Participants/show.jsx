@@ -1,7 +1,7 @@
-import { Mail, Cake, MapPin, LandPlot, UserPen } from 'lucide-react'
+import { Link } from '@inertiajs/react'
+import { Cake, MapPin } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
 import {
   Tooltip,
   TooltipContent,
@@ -9,21 +9,21 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { formatBirthday, formatLocation } from '@/lib/utils'
+import ParticipantPreview from '@/components/Participant/ParticipantPreview'
 
 const ParticipantShow = ({ participant }) => (
-  <>
-    <header className="flex flex-col lg:flex-row gap-4 mb-4">
-      <div className="w-full lg:w-1/3 p-6 mb-2 rounded-md bg-blue-50">
-        <h2 className="font-bold mb-4 text-2xl">Your profile</h2>
-        <div className="my-2 flex items-center gap-4">
-          <div className="flex flex-col">
-            <p>
-              {participant.first_name} {participant.last_name}
-            </p>
+  <div className="container mx-auto px-4 py-8">
+    <h3 className="text-2xl font-bold mb-4">Your Participant Profile</h3>
+
+    <div className="grid grid-cols-3 gap-4">
+      <div className="col-span-2">
+        <div className="mb-4 ml-2">
+          <p className="text-lg mb-2">
+            {participant.first_name} {participant.last_name}
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger>
-                  <span className="text-sm text-gray-500">
+                  <span className="text-sm text-gray-500 ml-2">
                     @{participant.codename}
                   </span>
                 </TooltipTrigger>
@@ -32,59 +32,51 @@ const ParticipantShow = ({ participant }) => (
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
+          </p>
+          <p className="text-gray-600">{participant.email}</p>
+        </div>
+
+        <div className="space-y-3 mb-8">
+          <div className="flex justify-between items-start">
+            <div>
+              <h3 className="text-lg mb-2">Account Details</h3>
+              <ul className="space-y-2 ml-2">
+                <li className="flex items-center gap-2">
+                  <MapPin className="w-4 h-4" />
+                  <span className="font-medium">Location:</span>{' '}
+                  {formatLocation(
+                    participant.country,
+                    participant.state,
+                    participant.city
+                  )}
+                </li>
+                <li className="flex items-center gap-2">
+                  <Cake className="w-4 h-4" />
+                  <span className="font-medium">Birthday:</span>{' '}
+                  {formatBirthday(participant.birthdate)}
+                </li>
+                {/* <li className="flex items-center gap-2">
+                  <span className="font-medium">Default distance setting:</span>{' '}
+                  {participant.default_distance} miles
+                </li> */}
+              </ul>
+            </div>
+            <div className="self-end">
+              <Button asChild className="flex items-center gap-2">
+                <Link href={`/p/participants/${participant.id}/edit`}>
+                  Edit Profile
+                </Link>
+              </Button>
+            </div>
           </div>
         </div>
 
-        <div className="my-4">
-          <a href="Researcher/ParticipantSlice participant=participant">
-            how researchers see you
-          </a>
+        <div className="border-t pt-6">
+          <ParticipantPreview participant={participant} />
         </div>
       </div>
-      <div className="w-full lg:w-2/3 p-6 mb-2 rounded-md bg-gray-100 drop-shadow-md">
-        <div className="flex justify-between">
-          <h3 className="font-semibold mb-4">Account details</h3>
-          <Button
-            href="#"
-            className="rounded-lg lg:rounded-md"
-            name="edit my info"
-          >
-            <UserPen className="inline-block" />
-            <span className="hidden lg:inline-block">edit my info</span>
-          </Button>
-        </div>
-        <ul className="list-none list-inside flex flex-col gap-2">
-          <li>
-            <Mail className="inline-block mr-4" />
-            {participant.email}
-          </li>
-          <li>
-            <Cake className="inline-block mr-4" />{' '}
-            {formatBirthday(participant.birthdate)}
-          </li>
-          <li>
-            <MapPin className="inline-block mr-4" />
-            {formatLocation(
-              participant.country,
-              participant.state,
-              participant.city
-            )}
-          </li>
-          <li>
-            <LandPlot className="inline-block mr-4" />
-            <span className="font-semibold">
-              Default distance setting:
-            </span>{' '}
-            {participant.default_distance} miles
-          </li>
-        </ul>
-      </div>
-    </header>
-
-    <Separator />
-  </>
+    </div>
+  </div>
 )
-
-// ParticipantShow.layout = page => <SideBarLayout title="Profile">{page}</SideBarLayout>
 
 export default ParticipantShow

@@ -3,7 +3,7 @@ import { toast } from 'sonner'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import ParticipantSlice from '@/components/Researcher/ParticipantSlice'
+import ParticipantPreview from '@/components/Participant/ParticipantPreview'
 import { Button } from '@/components/ui/button'
 import { Form, FormMessage } from '@/components/ui/form'
 import Select from '@/components/ui/custom/select'
@@ -176,7 +176,7 @@ const ParticipantEdit = ({ participant, is_complete }) => {
                 <div className="flex items-center gap-4 pt-4 border-t justify-end">
                   <Link
                     href={`/p/participants/${participant.id}/edit`}
-                    className="px-6 py-2 text-gray-600 hover:text-gray-800 transition-colors"
+                    className="px-6 py-2 text-gray-600 hover:text-gray-800 transition-colors border border-gray-300 rounded-md"
                   >
                     Cancel
                   </Link>
@@ -192,31 +192,9 @@ const ParticipantEdit = ({ participant, is_complete }) => {
           </div>
 
           <div className="border-t pt-6">
-            <h2 className="text-lg font-medium text-gray-900 mb-4">
-              How researchers see you
-            </h2>
-            <div className="bg-gray-50 rounded-lg p-4">
-              <p className="text-gray-600 mb-1">
-                If you <i>have not</i> connected with one of the researcher's
-                studies
-              </p>
-              <div className="bg-white border border-gray-200 rounded-md p-4">
-                <ParticipantSlice
-                  participant={watchedParticipant}
-                  showFullInfo={false}
-                />
-              </div>
-              <br />
-              <p className="text-gray-600 mb-1">
-                When you <i>have</i> connected with the researcher
-              </p>
-              <div className="bg-white border border-gray-200 rounded-md p-4">
-                <ParticipantSlice
-                  participant={Object.assign(participant, watchedParticipant)}
-                  showFullInfo
-                />
-              </div>
-            </div>
+            <ParticipantPreview
+              participant={Object.assign(participant, watchedParticipant)}
+            />
           </div>
         </div>
       </div>
