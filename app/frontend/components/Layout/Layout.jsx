@@ -3,7 +3,7 @@ import { Head, usePage } from '@inertiajs/react'
 import { Toaster, toast } from 'sonner'
 
 import { SidebarProvider } from '@/components/ui/sidebar'
-import SideNavbar from '@/components/SideNavbar'
+import SideNavbar from '@/components/Layout/SideNavbar'
 
 const Layout = ({ children, notice, alert }) => {
   const { user } = usePage().props

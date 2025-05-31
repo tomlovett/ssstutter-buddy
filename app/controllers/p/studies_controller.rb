@@ -26,7 +26,7 @@ class P::StudiesController < P::BaseController
       }
     }
 
-    render inertia: 'p/Studies/digital', props:
+    render inertia: 'p/Studies/digital-studies', props:
   end
 
   # GET /p/studies/1
