@@ -5,9 +5,7 @@ class ConnectionMailerPreview < ActionMailer::Preview
   # Preview this email at http://localhost:3001/rails/mailers/connection_mailer/new_connection
   def new_connection
     # Create a researcher with a user account
-    researcher_user = FactoryBot.create(:user,
-                                        first_name: 'Sarah',
-                                        last_name: 'Johnson')
+    researcher_user = FactoryBot.create(:user)
     researcher = FactoryBot.create(:researcher,
                                    user: researcher_user,
                                    institution: 'Boston University',
@@ -38,11 +36,7 @@ class ConnectionMailerPreview < ActionMailer::Preview
     )
 
     # Create a participant with a user account
-    participant_user = FactoryBot.create(
-      :user,
-      first_name: 'Michael',
-      last_name: 'Chen'
-    )
+    participant_user = FactoryBot.create(:user)
     participant = FactoryBot.create(
       :participant,
       user: participant_user,

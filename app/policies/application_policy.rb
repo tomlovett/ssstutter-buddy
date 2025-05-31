@@ -35,6 +35,6 @@ class ApplicationPolicy < ActionPolicy::Base
   end
 
   def admin?
-    ENV['ADMIN_EMAILS'].split(',').include?(user.email)
+    Rails.env.development? || ENV['ADMIN_EMAILS'].split(',').include?(user.email)
   end
 end

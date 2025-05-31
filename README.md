@@ -25,6 +25,7 @@ sudo chmod +x setup_environment.sh
 Apply local ENV changes to `config/_env.rb`. This file is gitignored and changes will not be committed to version control.
 
 Add your email to the admin list by setting:
+
 ```ruby
 ENV['ADMIN_EMAILS'] = 'your.email@example.com, another.email@example.com'
 ```

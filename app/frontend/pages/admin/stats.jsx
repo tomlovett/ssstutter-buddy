@@ -1,5 +1,3 @@
-import '@/styles/admin.css'
-
 const AdminStats = ({
   users_count,
   participants_count,

@@ -56,6 +56,10 @@ class User < ApplicationRecord
     participant.present?
   end
 
+  def admin?
+    Rails.env.development? || ENV['ADMIN_EMAILS'].split(',').include?(email)
+  end
+
   private
 
   def password_required?

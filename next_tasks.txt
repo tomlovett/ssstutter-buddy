@@ -11,11 +11,9 @@ cleanup
 	Study: bottom half of fields separated into input and display columns
 	Researcher: professional_position?
 	Participant: default study distance => 100
-	does `toast` actually work?
 
 preview components
 	study short view on right side of studies/edit
-	participant slice on participants/edit
 
 emails
 	P
@@ -55,7 +53,7 @@ overnight jobs
 
 -less important-
 
-add mobile-friendly layout
+extract classes into scss files
 
 Study table does not allow "open in new tab"
 	convert to Link component
