@@ -18,3 +18,30 @@ Location
 
 Participant
     email_digest_opt_out
+    X etiology
+    X handednes
+
+Connection
+    x participant_rating
+    x invitation_response -> interested
+    started_at
+    completed_at
+    decline_feedback: string
+        dropdown, with other; other starts with OTHER
+
+ParticipantFeedback
+    connection 
+        OR
+    researcher
+    participant
+    study
+    concerns
+    inperson_verification
+    completed_digitally
+
+ParticipantMetadata
+    etiology: text
+    speech_therapy_history: text
+    handedness: string
+    pref_age_display: string (enum)
+    pref_name_reveal

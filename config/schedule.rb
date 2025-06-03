@@ -5,6 +5,6 @@ set :environment, Rails.env
 set :output, 'log/whenever.log'
 
 # Run the weekly online digest every Tuesday at 2am
-every :tuesday, at: '2:00 am' do
+every :tuesday, at: '11:00 am' do
   runner 'WeeklyOnlineDigestJob.perform_later'
 end

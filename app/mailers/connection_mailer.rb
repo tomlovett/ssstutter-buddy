@@ -7,7 +7,7 @@ class ConnectionMailer < ApplicationMailer
     @participant = @connection.participant
     @researcher = @study.researcher
 
-    subject = "StutterBuddy: New Study Connection - #{@study.title}"
+    subject = "SSStutterBuddy: New Study Connection - #{@study.title}"
 
     mail(to: [@participant.email, @researcher.email], subject:)
   end

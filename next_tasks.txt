@@ -21,8 +21,6 @@ emails
 	P
 		P.digest_opt_out
 
-Add ThemeProvider: https://ui.shadcn.com/docs/dark-mode/next
-
 researcher feedback on participant
 	ParticipantFeedback model; abstract out columns from connection
 	dropdown for statuses
@@ -35,10 +33,11 @@ set up prod ActiveMailer
 	DevOps logistics and config
 
 overnight jobs
+	participant_digest
 	admin digest
 		total user counts
 		new participant profiles
-		new researcher profiles
+		new researcher profiles: show name and email
 		new connections
 		active studies
 	-check snoozes
@@ -55,11 +54,18 @@ overnight jobs
 
 -less important-
 
+ParticipantMetadata
+	migrations
+	text fields for etiology, speech speech_therapy_history
+	pref_age_display and pref_name_reveal with functionality updates
+
 /team page
+
+Add ThemeProvider: https://ui.shadcn.com/docs/dark-mode/next
 
 extract classes into scss files
 
-Study table does not allow "open in new tab"
+Study table does not allow "open in new tab" (verify)
 	convert to Link component
 
 add "snooze" option to connection
