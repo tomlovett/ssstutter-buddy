@@ -25,30 +25,22 @@ class ParticipantMailerPreview < ActionMailer::Preview
 
     participant = FactoryBot.create(
       :participant,
-      user: FactoryBot.create(:user, first_name: 'John', last_name: 'Doe'),
       city: 'Cambridge',
       state: 'MA',
       country: 'US'
     )
-
-    puts "study: #{study.inspect}"
-    puts "participant: #{participant.inspect}"
 
     ParticipantMailer.with(study: study, participant: participant).new_study_alert
   end
 
   # Preview this email at http://localhost:3001/rails/mailers/participant_mailer/weekly_online_digest
   def weekly_online_digest
-    # Create a researcher with a user account
-    researcher_user = FactoryBot.create(:user)
     researcher = FactoryBot.create(
       :researcher,
-      user: researcher_user,
       institution: 'Boston University',
       titles: 'CCC-SLP'
     )
 
-    # Create some studies
     studies = [
       FactoryBot.create(
         :study,
@@ -90,10 +82,8 @@ class ParticipantMailerPreview < ActionMailer::Preview
       )
     ]
 
-    # Create a participant
     participant = FactoryBot.create(
       :participant,
-      user: FactoryBot.create(:user, first_name: 'Michael', last_name: 'Chen'),
       city: 'Cambridge',
       state: 'MA',
       country: 'US'

@@ -4,17 +4,15 @@
 class ConnectionMailerPreview < ActionMailer::Preview
   # Preview this email at http://localhost:3001/rails/mailers/connection_mailer/new_connection
   def new_connection
-    # Create a researcher with a user account
-    researcher_user = FactoryBot.create(:user)
-    researcher = FactoryBot.create(:researcher,
-                                   user: researcher_user,
-                                   institution: 'Boston University',
-                                   titles: 'CCC-SLP')
+    researcher = FactoryBot.create(
+      :researcher,
+      institution: 'Boston University',
+      titles: 'CCC-SLP'
+    )
 
-    # Create a study
     study = FactoryBot.create(
       :study,
-      researcher: researcher,
+      researcher:,
       title: 'Understanding Speech Patterns in Adults Who Stutter',
       short_desc: 'A comprehensive study examining speech patterns and communication strategies \
      in adults who stutter across different social contexts.',
@@ -35,21 +33,15 @@ class ConnectionMailerPreview < ActionMailer::Preview
       max_age: nil
     )
 
-    # Create a participant with a user account
-    participant_user = FactoryBot.create(:user)
     participant = FactoryBot.create(
       :participant,
-      user: participant_user,
+      user:,
       city: 'Cambridge',
       state: 'MA',
       country: 'US'
     )
 
     connection = FactoryBot.create(:connection, study:, participant:, researcher:)
-    # Print debug info
-    puts "Study: #{study.inspect}"
-    puts "Participant: #{participant.inspect}"
-    puts "Researcher: #{researcher.inspect}"
 
     ConnectionMailer.with(connection:).new_connection
   end

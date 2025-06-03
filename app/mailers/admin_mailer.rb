@@ -10,4 +10,16 @@ class AdminMailer < ApplicationMailer
       subject: "SSStutterBuddy Weekly Statistics - #{@date}"
     )
   end
+
+  def new_researchers
+    @researchers = params[:researchers]
+    @date = Time.current.strftime('%B %d, %Y')
+    @count = @researchers.count
+
+    mail(
+      #   to: ENV['ADMIN_EMAILS'].split(','),
+      to: 'gma.dsf.om@gmail.com',
+      subject: "SB: #{@count} New Researcher#{@count == 1 ? '' : 's'} - #{@date}"
+    )
+  end
 end

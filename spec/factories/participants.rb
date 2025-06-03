@@ -2,6 +2,8 @@
 
 FactoryBot.define do
   factory :participant do
+    user
+
     codename { Faker::Lorem.words(number: 3).join(' ') }
     city { Faker::Address.city }
     state { Faker::Address.state_abbr }
@@ -12,7 +14,6 @@ FactoryBot.define do
     etiology { 'developmental' }
     default_reveal { false }
     default_distance { rand(25..100) }
-    user
   end
 
   trait :non_american do

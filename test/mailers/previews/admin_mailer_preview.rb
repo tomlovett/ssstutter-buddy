@@ -3,7 +3,6 @@
 class AdminMailerPreview < ActionMailer::Preview
   def weekly_stats
     # http://localhost:3001/rails/mailers/admin_mailer/weekly_stats
-    # Sample data that mimics the structure of real stats
     stats_data = {
       users_count: 150,
       participants_count: 120,
@@ -30,5 +29,18 @@ class AdminMailerPreview < ActionMailer::Preview
     }
 
     AdminMailer.with(stats_data:).weekly_stats
+  end
+
+  def new_researchers
+    # http://localhost:3001/rails/mailers/admin_mailer/new_researchers
+    researchers = [
+      FactoryBot.create(:researcher, university_profile_url: 'https://university.edu/profiles/jane-smith',
+                                     created_at: 2.hours.ago),
+      FactoryBot.create(:researcher, university_profile_url: nil, created_at: 5.hours.ago),
+      FactoryBot.create(:researcher, university_profile_url: 'https://research.edu/faculty/maria-garcia',
+                                     created_at: 12.hours.ago)
+    ]
+
+    AdminMailer.with(researchers:).new_researchers
   end
 end

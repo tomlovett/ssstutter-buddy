@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    <style>
+      body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+      .container { max-width: 800px; margin: 2rem auto; padding: 20px; }
+      h1 { color: #2563eb; margin-bottom: 20px; }
+      h3 { color: #4b5563; margin-top: 30px; margin-bottom: 10px; }
+      table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+      th, td { padding: 8px; text-align: left; border-bottom: 1px solid #e5e7eb; }
+      th { background-color: #f9fafb; font-weight: normal; color: #6b7280; }
+      .researcher-name { font-weight: bold; }
+      .researcher-email { color: #6b7280; }
+      .researcher-time { font-family: monospace; color: #059669; }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1 style="text-align: center;">New Researchers</h1>
+      <h3 style="text-align: end;"><%= @date %></h3>
+
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Institution</th>
+          <th>Email</th>
+          <th>Complete?</th>
+        </tr>
+        <% @researchers.each do |researcher| %>
+          <tr>
+            <td class="researcher-name">
+              <% if researcher.university_profile_url.present? %>
+                <a href="<%= researcher.university_profile_url %>" target="_blank"><%= researcher.user.full_name %></a>
+              <% else %>
+                <%= researcher.user.full_name %>
+              <% end %>
+            </td>
+            <td class="researcher-institution"><%= researcher.institution %></td>
+            <td class="researcher-email"><%= researcher.user.email %></td>
+            <td ><%= researcher.complete? ? 'Yes' : 'No' %></td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+  </body>
+</html> 
