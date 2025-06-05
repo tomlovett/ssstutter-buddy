@@ -1,6 +1,7 @@
 User
     generation_ip
     blacklisted
+        requires "naughty list" page
 	√ remove email_address
 	√ full add index to email
     √ digest_opt_out
@@ -19,22 +20,22 @@ Location
 Participant
     email_digest_opt_out
     X etiology
-    X handednes
+    X handedness
 
 Connection
     x participant_rating
     x invitation_response -> interested
     started_at
     completed_at
+    dropped_out_at
     decline_feedback: string
         dropdown, with other; other starts with OTHER
 
 ParticipantFeedback
-    connection 
-        OR
     researcher
     participant
     study
+    [doubt]
     concerns
     inperson_verification
     completed_digitally

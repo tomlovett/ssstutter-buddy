@@ -47,22 +47,24 @@ const ConnectionsTable = ({ connections, nullStatement }) => {
     </TableHeader>
   )
 
-  const updateStatus = async (connection, status) =>
-    await putRequest(`/p/connections/${connection.id}`, { status }).then(
-      res => {
-        const msg =
-          res.status == '200'
-            ? 'Changes saved!'
-            : 'Uh oh, there was an error! Please refresh the page and try again.'
+  const updateStudyStatus = async (connection, studyStatus) =>
+    await putRequest(`/p/connections/${connection.id}`, {
+      study_status: studyStatus,
+    }).then(res => {
+      const msg =
+        res.status == '200'
+          ? 'Changes saved!'
+          : 'Uh oh, there was an error! Please refresh the page and try again.'
 
-        toast(msg)
-      }
-    )
+      toast(msg)
+    })
 
-  const StatusDropdown = ({ connection }) => (
-    <Select onValueChange={newStatus => updateStatus(connection, newStatus)}>
+  const StudyStatusDropdown = ({ connection }) => (
+    <Select
+      onValueChange={newStatus => updateStudyStatus(connection, newStatus)}
+    >
       <SelectTrigger className="w-[180px]">
-        <SelectValue placeholder={capitalize(connection.status)} />
+        <SelectValue placeholder={capitalize(connection.study_status)} />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
@@ -86,7 +88,7 @@ const ConnectionsTable = ({ connections, nullStatement }) => {
         {connection.pin}
       </TableCell>
       <TableCell>
-        <StatusDropdown connection={connection} />
+        <StudyStatusDropdown connection={connection} />
       </TableCell>
     </TableRow>
   )

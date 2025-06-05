@@ -7,6 +7,7 @@ class ParticipantPolicy < ApplicationPolicy
 
   private
 
+  # not sure
   def connected?
     user.researcher.connected_participant_ids.include?(record.id)
   end

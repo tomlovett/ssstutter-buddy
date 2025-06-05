@@ -43,7 +43,7 @@ const DigitalStudies = ({ studies, pagination }) => {
 
       <StudyTable
         studies={studies}
-        nullStatement="There are currently no digital studies, or you have already connected to all of them"
+        nullStatement="There are currently no digital studies, or you have already responded to all of them"
       />
 
       {total_pages > 1 && <PaginationControls />}

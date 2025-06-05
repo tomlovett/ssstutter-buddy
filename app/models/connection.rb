@@ -5,38 +5,34 @@ class Connection < ApplicationRecord
   belongs_to :study
   has_one :researcher, through: :study
 
+  # Invitation statuses
+  INVITED = 'invited'
+  ACCEPTED = 'accepted'
+  DECLINED = 'declined'
   INTERESTED = 'interested'
   NOT_INTERESTED = 'not interested'
-  INVITED = 'invited'
-  INVITATION_ACCEPTED = 'invitation accepted'
-  INVITATION_DECLINED = 'invitation declined'
+
+  # Study statuses
+  CONNECTED = 'connected'
   STUDY_BEGAN = 'study began'
   STUDY_COMPLETED = 'study completed'
+  ON_HOLD = 'on hold'
   DROPPED_OUT = 'dropped out'
   FOLLOWUP_COMPLETED = 'followup completed'
-  # hidden -- remote-people
 
-  STATUSES_COMPLETED = [INVITATION_DECLINED, NOT_INTERESTED, STUDY_COMPLETED, DROPPED_OUT, FOLLOWUP_COMPLETED].freeze
-  STATUSES_IN_PROGRESS = [INVITATION_ACCEPTED, INTERESTED, STUDY_BEGAN].freeze
-  STATUSES = [
-    INVITATION_DECLINED, STUDY_COMPLETED, DROPPED_OUT, FOLLOWUP_COMPLETED,
-    INVITED, INVITATION_ACCEPTED, INTERESTED, STUDY_BEGAN
-  ].freeze
+  STATUSES_COMPLETED = [STUDY_COMPLETED, DROPPED_OUT, FOLLOWUP_COMPLETED].freeze
 
-  scope :invited, -> { where(status: INVITED) }
-  scope :accepted, -> { where(status: [INVITATION_ACCEPTED, INTERESTED]) }
-  scope :declined, -> { where(status: INVITATION_DECLINED) }
-  scope :completed, -> { where(status: STATUSES_COMPLETED) }
-  scope :active, -> { where(status: STUDY_BEGAN) }
-  scope :rejected, -> { where(status: [INVITATION_DECLINED, NOT_INTERESTED]) }
-  scope :not_rejected, -> { where.not(status: [INVITATION_DECLINED, NOT_INTERESTED]) }
+  scope :invited, -> { where(invitation_status: INVITED) }
+  scope :accepted, -> { where(invitation_status: [ACCEPTED, INTERESTED]) }
+  scope :declined, -> { where(invitation_status: [DECLINED, NOT_INTERESTED]) }
+  scope :completed, -> { where(study_status: STATUSES_COMPLETED) }
 
   validates :pin, length: { is: 6 }
 
   before_validation { assign_pin! if pin.blank? }
 
   def display_participant_name?
-    [INVITED, NOT_INTERESTED, INVITATION_DECLINED].exclude?(status)
+    [ACCEPTED, INTERESTED].include?(invitation_status)
   end
 
   def as_json(options = {})

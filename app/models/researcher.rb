@@ -43,7 +43,7 @@ class Researcher < ApplicationRecord
   end
 
   def connected_participant_ids
-    connections.not_rejected.pluck(:participant_id).uniq
+    connections.accepted.pluck(:participant_id).uniq
   end
 
   def active_connections

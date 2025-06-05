@@ -21,6 +21,7 @@ import {
   timeline,
 } from '@/lib/study'
 import { status } from '@/lib/study'
+import { isConnected } from '@/lib/connections'
 import { Loader2 } from 'lucide-react'
 
 const StudyShow = ({ study, researcher, connection }) => {
@@ -34,7 +35,7 @@ const StudyShow = ({ study, researcher, connection }) => {
   )
 
   const upsertConnection = (status = 'interested') => {
-    const body = { study_id: study.id, status }
+    const body = { study_id: study.id, invitation_status: status }
 
     const request = connection?.id
       ? putRequest(`/p/connections/${connection.id}`, body)
@@ -42,7 +43,7 @@ const StudyShow = ({ study, researcher, connection }) => {
 
     request.then(res => {
       if (res.status === '200' || res.status === '201') {
-        toast('Success! Check your email', { duration: 7000 })
+        toast('Success!', { duration: 7000 })
       } else {
         toast(
           'Uh oh! There was an error. Try refreshing the page, or email SSStutterBuddy if the problem persists',
@@ -177,15 +178,15 @@ const StudyShow = ({ study, researcher, connection }) => {
 
           <div className="flex justify-center gap-4">
             {connection?.id ? (
-              connection.status === 'not_interested' ? (
+              isConnected(connection) ? (
+                <Button disabled>Connected</Button>
+              ) : (
                 <div className="text-center">
                   <p className="mb-4">
                     You declined interest in this study. Change your mind?
                   </p>
                   <ExpressInterest />
                 </div>
-              ) : (
-                <Button disabled>Connected</Button>
               )
             ) : (
               <div className="flex gap-4">

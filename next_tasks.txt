@@ -17,9 +17,9 @@ preview components
 
 participant explanation for why not interested
 
-emails
-	P
-		P.digest_opt_out
+participant.digest_opt_out
+	migration and input option
+	add linbe to email: go to your settings (please be patient, we're a volunteer non-profit)
 
 researcher feedback on participant
 	ParticipantFeedback model; abstract out columns from connection
@@ -32,16 +32,6 @@ set up prod ActiveMailer
 	basic dev config/infrastructure
 	DevOps logistics and config
 
-overnight jobs
-	participant_digest
-	admin digest
-		total user counts
-		new participant profiles
-		new researcher profiles: show name and email
-		new connections
-		active studies
-	-check snoozes
-
 /tour progression
 	We have two roles: P & R
 	-p creates profile
@@ -52,7 +42,28 @@ overnight jobs
 	if yes, an email is sent to P & R to connect. P&R coordinate a time to complete the study offline
 	when done, the R marks the P complete, giving the P another badge (which helps R feel more confidence should they want to do a fully-digital study)
 
+prod testing
+	deploy master to Heroku
+	add hidden no-cursor link
+	add email gatekeep
+		if prod? -> return unless email include ENV['greenlight_emails]
+		set greenlight_emails -> tomlovett6,sdsmitadas
+
+set up SB.com with similar setup to and aliases as tomlovett.com
+
+do we store original path when a user comes in unauth'd?
+
 -less important-
+
+blacklist functionality
+	verify against blacklisted_ips
+	check for blacklist presence on signup
+	show them the naughty page
+		[make them feel bad]
+		Sanctity of this data is very important to us. And, on a personal level, we have great contempt who will fake having a speech impediment in order to swindle money from researchers.
+			If you are guilty and have been caught, we ask you to not sign up for SB again, and to re-consider your life choices.
+		If you think this was done in error, please send an email to support@ssstutterbuddy.com and we will follow up with you.
+	-if a blacklisted user tries to sign in, record the IP
 
 ParticipantMetadata
 	migrations

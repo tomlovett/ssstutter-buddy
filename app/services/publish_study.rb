@@ -29,7 +29,7 @@ class PublishStudy
       Connection.create!(
         study: @study,
         participant:,
-        status: :invited
+        invitation_status: :invited
       )
 
       ParticipantMailer.with(study: @study, participant:).new_study_alert.deliver_later

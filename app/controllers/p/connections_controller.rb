@@ -18,10 +18,13 @@ class P::ConnectionsController < P::BaseController
     @connection = Connection.create(
       participant: @participant,
       study_id: params[:study_id],
-      status: params[:status]
+      invitation_status: params[:invitation_status]
     )
 
-    ConnectionMailer.with(connection: @connection).new_connection.deliver_later
+    if [Connection::ACCEPTED, Connection::INTERESTED].include?(params[:invitation_status])
+      @connection.study_status = Connection::CONNECTED
+      ConnectionMailer.with(connection: @connection).new_connection.deliver_later
+    end
 
     if @connection.save!
       head :created
@@ -32,6 +35,10 @@ class P::ConnectionsController < P::BaseController
 
   # PATCH/PUT /p/connections/1
   def update
+    if study.invitation_status == Connection::INVITED && params[:invitation_status] == Connection::ACCEPTED
+      ConnectionMailer.with(connection: @connection).new_connection.deliver_later
+    end
+
     if allowed_to?(:update?, @connection) && @connection.update(connection_params)
       head :ok
     else
@@ -50,6 +57,6 @@ class P::ConnectionsController < P::BaseController
   end
 
   def connection_params
-    params.permit(:study_id, :status)
+    params.permit(:study_id, :study_status, :invitation_status)
   end
 end

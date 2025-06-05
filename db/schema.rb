@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_04_214722) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_04_214723) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -43,14 +43,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_04_214722) do
   end
 
   create_table "connections", force: :cascade do |t|
-    t.string "invitation_response"
+    t.string "invitation_status"
     t.integer "participant_rating"
     t.integer "study_id", null: false
     t.integer "participant_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "pin", default: ""
-    t.string "status", default: ""
+    t.string "study_status", default: ""
     t.text "participant_feedback"
     t.index ["participant_id"], name: "index_connections_on_participant_id"
     t.index ["study_id"], name: "index_connections_on_study_id"
@@ -124,6 +124,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_04_214722) do
     t.datetime "paused_at"
     t.datetime "published_at"
     t.datetime "closed_at"
+    t.text "autosend_url"
+    t.text "autosend_message"
     t.index ["latitude", "longitude"], name: "index_studies_on_latitude_and_longitude"
     t.index ["researcher_id"], name: "index_studies_on_researcher_id"
   end

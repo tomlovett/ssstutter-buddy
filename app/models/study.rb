@@ -60,22 +60,6 @@ class Study < ApplicationRecord
     end
   end
 
-  def paused?
-    paused_at.present?
-  end
-
-  def published?
-    published_at.present?
-  end
-
-  def closed?
-    closed_at.present?
-  end
-
-  def open?
-    Time.zone.today.between?(start_date, end_date)
-  end
-
   def age_range
     return 'All ages' unless min_age? || max_age?
 
