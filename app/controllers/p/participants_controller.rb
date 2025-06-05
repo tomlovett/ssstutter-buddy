@@ -68,7 +68,8 @@ class P::ParticipantsController < P::BaseController
       :default_distance,
       :city,
       :state,
-      :country
+      :country,
+      :weekly_digest_opt_out
     )
   end
 end

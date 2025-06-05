@@ -24,7 +24,7 @@ Participant
 
 Connection
     x participant_rating
-    x invitation_response -> interested
+    √ invitation_response
     started_at
     completed_at
     dropped_out_at

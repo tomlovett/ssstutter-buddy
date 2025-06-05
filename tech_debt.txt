@@ -1,0 +1,3 @@
+Extract Invitation from connection
+Extract ParticipantMetadata from Participant
+

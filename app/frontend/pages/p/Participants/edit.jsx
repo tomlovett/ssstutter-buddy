@@ -14,6 +14,13 @@ import { Label } from '@/components/ui/label'
 import { putRequest } from '@/lib/api'
 import { isUnderEighteen } from '@/lib/participant'
 import ParticipantSchema from '@/schemas/Participant'
+import {
+  FormField,
+  FormItem,
+  FormControl,
+  FormLabel,
+} from '@/components/ui/form'
+import { Checkbox } from '@/components/ui/checkbox'
 
 const genderValues = [
   { key: 'Female', value: 'f' },
@@ -28,6 +35,7 @@ const ParticipantEdit = ({ participant, is_complete }) => {
       birthdate: participant?.birthdate ?? '',
       defaultDistance: participant?.default_distance ?? 100,
       gender: participant?.gender ?? '',
+      weekly_digest_opt_out: participant?.weekly_digest_opt_out ?? false,
     },
   })
 
@@ -169,6 +177,26 @@ const ParticipantEdit = ({ participant, is_complete }) => {
                       </p>
                     </div>
                   )}
+                </div>
+
+                <div className="flex items-center gap-2 mt-4 mb-4">
+                  <FormField
+                    control={form.control}
+                    name="weekly_digest_opt_out"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                        <FormLabel>
+                          Opt me out of the weekly digest emails
+                        </FormLabel>
+                      </FormItem>
+                    )}
+                  />
                 </div>
 
                 <FormMessage className="text-red-600 text-sm" />

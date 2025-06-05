@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_04_214723) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_05_021923) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -72,6 +72,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_04_214723) do
     t.string "state"
     t.float "latitude"
     t.float "longitude"
+    t.boolean "weekly_digest_opt_out", default: false, null: false
     t.index ["latitude", "longitude"], name: "index_participants_on_latitude_and_longitude"
     t.index ["user_id"], name: "index_participants_on_user_id"
   end

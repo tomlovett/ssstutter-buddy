@@ -9,6 +9,7 @@ const ParticipantSchema = z.object({
   birthdate: z.coerce.date({
     required_error: 'A date of birth is required.',
   }),
+  weekly_digest_opt_out: z.boolean().default(false),
 })
 
 export default ParticipantSchema
