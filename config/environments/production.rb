@@ -61,14 +61,16 @@ Rails.application.configure do
   # Set host to be used by links generated in mailer templates.
   config.action_mailer.default_url_options = { host: 'ssstutterbuddy.com' }
 
-  # Specify outgoing SMTP server. Remember to add smtp/* credentials via rails credentials:edit.
-  # config.action_mailer.smtp_settings = {
-  #   user_name: Rails.application.credentials.dig(:smtp, :user_name),
-  #   password: Rails.application.credentials.dig(:smtp, :password),
-  #   address: "smtp.ssstutterbuddy.com",
-  #   port: 587,
-  #   authentication: :plain
-  # }
+  # Configure Mailer To Go SMTP settings
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address: ENV.fetch('MAILERTOGO_SMTP_HOST', nil),
+    port: ENV.fetch('MAILERTOGO_SMTP_PORT', nil),
+    user_name: ENV.fetch('MAILERTOGO_SMTP_USER', nil),
+    password: ENV.fetch('MAILERTOGO_SMTP_PASSWORD', nil),
+    authentication: :plain,
+    enable_starttls_auto: true
+  }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
