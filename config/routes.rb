@@ -11,7 +11,6 @@ Rails.application.routes.draw do
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
   get '/logout', to: 'sessions#destroy'
-  # get '/auth/:provider/callback', to: 'omniauth_callbacks#google_oauth2'
 
   # Signup flow
   get '/signup', to: 'users#new'
@@ -64,5 +63,6 @@ Rails.application.routes.draw do
   scope :api do
     post '/location', to: 'api#location'
   end
-  # end
+
+  get '*path', to: redirect('/')
 end
