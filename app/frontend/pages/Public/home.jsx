@@ -34,20 +34,14 @@ const Home = () => {
               PWS. We're not here to make money,{' '}
               <b>we're here to make a difference</b>
             </p>
-            <p className="mt-4 text-gray-600 text-center text-lg underline">
-              SSStutterBuddy launches Summer 2025
-            </p>
-            <br />
-            <p className="mt-4 text-gray-600 text-center">
-              Fill out this brief{' '}
+            <div className="mt-8 flex justify-center gap-4">
               <a
-                href="https://forms.gle/iYjiV8Uzc9oQMAeS8"
-                className="hover:text-gray-900"
+                href="/signup"
+                className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700"
               >
-                Google Form
-              </a>{' '}
-              to get notified when we launch. Or, read more below.
-            </p>
+                Sign up today!
+              </a>
+            </div>
           </div>
           <br />
         </div>
