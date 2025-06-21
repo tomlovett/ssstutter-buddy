@@ -1,3 +1,8 @@
+prod checklist
+	registration emails
+	geocoding
+	study emails
+
 user signup flow
 	verify emails firing
 
@@ -17,10 +22,6 @@ preview components
 
 participant explanation for why not interested
 
-participant.digest_opt_out
-	migration and input option
-	add linbe to email: go to your settings (please be patient, we're a volunteer non-profit)
-
 researcher feedback on participant
 	ParticipantFeedback model; abstract out columns from connection
 	dropdown for statuses
@@ -29,8 +30,9 @@ researcher feedback on participant
 		"I interacted with this participant in-person or over video conference and can confirm their stutter"
 
 set up prod ActiveMailer
-	basic dev config/infrastructure
-	DevOps logistics and config
+	√ basic dev config/infrastructure
+	√ DevOps logistics and config
+	verify
 
 /tour progression
 	We have two roles: P & R
@@ -41,13 +43,6 @@ set up prod ActiveMailer
 	if no, data is kept private, nothing more happens
 	if yes, an email is sent to P & R to connect. P&R coordinate a time to complete the study offline
 	when done, the R marks the P complete, giving the P another badge (which helps R feel more confidence should they want to do a fully-digital study)
-
-prod testing
-	deploy master to Heroku
-	add hidden no-cursor link
-	add email gatekeep
-		if prod? -> return unless email include ENV['greenlight_emails]
-		set greenlight_emails -> tomlovett6,sdsmitadas
 
 set up SB.com with similar setup to and aliases as tomlovett.com
 

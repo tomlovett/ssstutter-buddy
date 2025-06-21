@@ -65,8 +65,8 @@ const FAQ = () => (
               </AccordionTrigger>
               <AccordionContent className="px-4 pb-5">
                 <p className="text-gray-600 whitespace-pre-line text-left">
-                  That\'s the neat part.{' '}
-                  <span className="font-semibold">It doesn\'t.</span>{' '}
+                  That's the neat part.{' '}
+                  <span className="font-semibold">It doesn't.</span>{' '}
                   SSStutterBuddy does not take any of the compensation given to
                   study participants, nor does it charge researchers for posting
                   studies.
@@ -90,11 +90,11 @@ const FAQ = () => (
                   The most expensive part of creating a new web application is
                   not the technology,{' '}
                   <span className="font-semibold">
-                    it\'s paying the developers who write the code.
+                    it's paying the developers who write the code.
                   </span>
                   <br />
                   <br />
-                  SSStutterBuddy\'s founder, Tom Lovett, is a professional web
+                  SSStutterBuddy's founder, Tom Lovett, is a professional web
                   developer who has donated his time to build this project.
                   Other tech professionals have also donated their time to help
                   build the project.
@@ -135,10 +135,10 @@ const FAQ = () => (
                 <p className="text-gray-600 whitespace-pre-line text-left">
                   Most institutions require that researchers <i>give</i> you the
                   advertised remuneration. That said, you may have to take it
-                  but you don\'t have to keep it.
+                  but you don't have to keep it.
                   <br />
                   <br />
-                  There\'s nothing stopping you from passing it along to your
+                  There's nothing stopping you from passing it along to your
                   grandma, your favorite nephew, or a charity.
                 </p>
               </AccordionContent>
