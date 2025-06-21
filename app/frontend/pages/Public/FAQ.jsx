@@ -4,7 +4,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion'
-import PublicFooter from '@/components/Layout/PublicFooter'
 
 const FAQ = () => (
   <div className="min-h-screen bg-gray-100">
@@ -148,7 +147,6 @@ const FAQ = () => (
         </div>
       </div>
     </div>
-    <PublicFooter />
   </div>
 )
 

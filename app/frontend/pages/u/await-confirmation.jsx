@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { toast } from 'sonner'
 
-import PublicFooter from '@/components/Layout/PublicFooter'
 
 const AwaitConfirmation = () => {
   const [email, setEmail] = useState('')
@@ -51,7 +50,6 @@ const AwaitConfirmation = () => {
           </div>
         </div>
       </div>
-      <PublicFooter />
     </div>
   )
 }

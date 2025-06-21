@@ -1,5 +1,5 @@
 import React from 'react'
-import { Head, usePage } from '@inertiajs/react'
+import { Head, usePage, Link } from '@inertiajs/react'
 import { Toaster, toast } from 'sonner'
 
 import { SidebarProvider } from '@/components/ui/sidebar'
@@ -13,11 +13,31 @@ const Layout = ({ children, notice, alert }) => {
 
   if (isPublicRoute) {
     return (
-      <div>
+      <div className="flex flex-col items-stretch min-h-dvh overflow-y-auto">
         <Head />
-        <main className="flex-1 max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <header className="sticky top-0 flex justify-between items-center py-8 lg:py-4 px-6 md:px-10 z-50 w-full">
+          <nav>
+            <Link href="/" className="hover:text-blue-900">
+              <h1 className='text-blue-500 text-xl'>SSStutterBuddy</h1>
+            </Link>
+          </nav>
+        </header>
+        <main className="relative self-center px-6 md:px-10 w-full lg:max-w-5xl lg:mx-auto">
           {children}
         </main>
+        <Toaster />
+        <footer className="mt-auto py-6">
+          <div className="flex  gap-10 w-full py-4 px-6 md:px-10 border-t border-gray-200">           
+            <Link href="/faq" className="hover:text-yellow-900">
+              FAQ
+            </Link>
+            <Link href="/participants" className="hover:text-gray-900">
+              PWS
+            </Link>
+            <Link href="/researchers" className="hover:text-gray-900">
+              Researchers
+            </Link></div>
+        </footer>
       </div>
     )
   }

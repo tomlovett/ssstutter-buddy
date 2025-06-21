@@ -4,8 +4,10 @@
 
 @custom-variant dark (&:is(.dark *));
 
-:root {
-  --radius: 0.75rem;
+
+@layer base {
+  :root {
+  --radius: 0.65rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.141 0.005 285.823);
   --card: oklch(1 0 0);
@@ -73,6 +75,8 @@
   --sidebar-ring: oklch(0.488 0.243 264.376);
 }
 
+
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -111,17 +115,61 @@
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar: var(--sidebar);
 }
-
-@layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply w-full h-full bg-background text-foreground text-[1rem] antialiased;
   }
+
+h2, h3, h4, h5, h6 {
+    @apply font-semibold text-foreground;
+  }
+
+  h1 {
+    @apply scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance;
+  }
+  h2 {
+    @apply text-3xl lg:text-2xl ;
+  }
+  h3 {
+    @apply text-2xl lg:text-xl;
+  }
+  h4 {
+    @apply text-lg;
+  }
+  h5 {
+    @apply text-base;
+  }
+  h6 {
+    @apply text-sm;
+  }
+
+  p {
+    @apply leading-7 [&:not(:first-child)]:mt-6 w-full lg:max-w-[95%] mb-[1rem];
+  }
+
+  blockquote {
+    @apply mt-6 border-l-2 pl-6 italic;
+  }
+
+  .lead {
+    @apply text-muted-foreground text-xl;
+  }
+
+  strong,b{
+    @apply font-semibold text-[1.1rem];
+  }
+
   a {
-    @apply text-blue-700 hover:text-blue-500;
+    @apply font-semibold text-blue-900 hover:text-blue-500;
   }
+
+  footer {
+    @apply font-normal text-black mt-4;
+  }
+
+
   :root {
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -154,3 +202,4 @@
     @apply text-right font-mono tabular-nums;
   }
 }
+

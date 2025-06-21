@@ -11,6 +11,7 @@ export default defineConfig({
     alias: {
       '@': path.resolve('./app/frontend'),
       components: path.resolve('./app/frontend/components'),
+      assets: path.resolve('./app/frontend/assets'),
       '@ui': path.resolve('./app/frontend/components/ui'),
       pages: path.resolve('./app/frontend/pages'),
     },
