@@ -1,5 +1,3 @@
-import PublicFooter from '@/components/Layout/PublicFooter'
-
 const Participants = () => {
   return (
     <div className="min-h-screen bg-gray-100">
@@ -75,7 +73,6 @@ const Participants = () => {
           </div>
         </div>
       </div>
-      <PublicFooter />
     </div>
   )
 }
