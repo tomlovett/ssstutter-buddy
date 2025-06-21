@@ -26,7 +26,7 @@ const Home = () => {
           most studies compensate participants for their time and effort. So you
           can <b>do a good deed and get paid for it as well!</b>
         </p>
-        <p className="self-center lg:self-start">
+        <p className="lead self-center lg:self-start">
           You might be surprised, but the biggest impediment to stuttering
           research is usually not funding, research ideas, even technology —
           it's finding enough PWS to participate in the study!
