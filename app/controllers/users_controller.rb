@@ -39,25 +39,25 @@ class UsersController < ApplicationController
       Current.user.create_researcher!
     end
 
-    UserMailer.with(user: Current.user).confirmation_email.deliver_later
+    redirect_to Current.user.home_page
 
-    terminate_session
-    redirect_to '/await-confirmation'
+    # # TODO: un-comment once email service is working
+    # UserMailer.with(user: Current.user).confirmation_email.deliver_later
+
+    # terminate_session
+    # redirect_to '/await-confirmation'
   end
 
   # POST /signup
   def create
-    pp user_params.to_h
     @user = User.new(user_params)
 
-    
     if @user.save
       @user.assign_activation_pin!
-      
+
       start_new_session_for(@user)
       redirect_to "/u/#{@user.id}/select-role"
     else
-      pp @user.errors.full_messages
       render inertia: 'u/signup', status: :unprocessable_entity
     end
   end

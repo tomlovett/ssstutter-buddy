@@ -66,7 +66,7 @@ gem 'factory_bot_rails'
 # gem "image_processing", "~> 1.2"
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
-gem "rack-cors"
+gem 'rack-cors'
 
 # Fixes ActiveLogger issue 1/31/25 -- https://github.com/facebook/react-native/issues/48746
 gem 'concurrent-ruby', '1.3.4'
