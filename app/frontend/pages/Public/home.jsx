@@ -38,8 +38,16 @@ const Home = () => {
               <a
                 href="/signup"
                 className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700"
+                key="signup"
               >
                 Sign up today!
+              </a>
+              <a
+                href="/login"
+                className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700"
+                key="login"
+              >
+                Login
               </a>
             </div>
           </div>

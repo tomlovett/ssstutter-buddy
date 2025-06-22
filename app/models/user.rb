@@ -36,8 +36,6 @@ class User < ApplicationRecord
   end
 
   def home_page
-    return '/' if Rails.env.production?
-
     return '/p' if participant.present?
     return '/r' if researcher.present?
 
