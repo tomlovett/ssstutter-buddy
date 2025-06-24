@@ -32,8 +32,7 @@ class Participant < ApplicationRecord
   end
 
   def nearby_studies
-    Study.limit(3)
-    # study where within distace_pref, no connection, active/not closed
+    Study.near([latitude, longitude], 100).order(created_at: :desc)
   end
 
   def badges
