@@ -274,7 +274,7 @@ const StudyEdit = ({ study }) => {
           <FormCheckbox
             key="digital_friendly"
             name="digital_friendly"
-            title="This study can be done online"
+            title="This study can be done online or in-person"
             form={form}
           />
 

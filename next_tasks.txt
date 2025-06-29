@@ -48,6 +48,12 @@ set up SB.com with similar setup to and aliases as tomlovett.com
 
 do we store original path when a user comes in unauth'd?
 
+"filter out declined studies" on digital-studies page
+
+extract Location table, allow multiple for studies
+
+Study: lead_researcher_id, AssociateResearcher table: researcher, study
+
 -less important-
 
 blacklist functionality
