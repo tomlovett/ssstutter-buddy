@@ -38,7 +38,8 @@ class R::StudiesController < R::BaseController
     @study = Study.create!(
       researcher: Current.user.researcher,
       total_sessions: 1,
-      total_hours: 1
+      total_hours: 1,
+      title: params[:title] || ''
     )
 
     redirect_to "/r/studies/#{@study.id}/edit"

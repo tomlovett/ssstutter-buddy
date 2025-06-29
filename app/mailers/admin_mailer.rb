@@ -19,7 +19,7 @@ class AdminMailer < ApplicationMailer
     mail(
       #   to: ENV['ADMIN_EMAILS'].split(','),
       to: 'gma.dsf.om@gmail.com',
-      subject: "SB: #{@count} New Researcher#{@count == 1 ? '' : 's'} - #{@date}"
+      subject: "SB: #{@count} New Researcher#{'s' unless @count == 1} - #{@date}"
     )
   end
 end

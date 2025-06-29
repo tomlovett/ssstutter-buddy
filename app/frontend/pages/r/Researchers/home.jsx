@@ -1,8 +1,6 @@
-import { Link } from '@inertiajs/react'
-
 import StudyTable from 'components/Researcher/StudyTable'
 import ConnectionsTable from 'components/Researcher/ConnectionsTable'
-import { Button } from '@/components/ui/button'
+import { CreateStudyModal } from 'components/Researcher/CreateStudyModal'
 
 const ResearcherHome = ({
   researcher,
@@ -13,11 +11,8 @@ const ResearcherHome = ({
   <div>
     <div className="flex items-center justify-between mb-4">
       <h3>Welcome, {researcher.first_name}</h3>
-      <Button className="bg-blue-500 hover:bg-blue-600">
-        <Link href="/r/studies/new" className="text-white">
-          Post New Study
-        </Link>
-      </Button>
+
+      <CreateStudyModal />
     </div>
 
     <h5>Active Studies</h5>
