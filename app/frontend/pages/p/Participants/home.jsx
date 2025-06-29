@@ -30,7 +30,7 @@ const ParticipantHome = ({
       <h4 className="underline">Studies Near You</h4>
       <StudyTable
         studies={nearby_studies}
-        nullStatement="There are no active studies near you /n If this continues, consider expanding your default distance"
+        nullStatement="There are currently no active studies near you."
       />
       <br />
 

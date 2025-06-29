@@ -111,6 +111,8 @@ const StudyShow = ({ study, researcher, connection }) => {
         </h3>
         <p className="text-center mb-12">
           This study is not currently accepting participants. Check back later.
+          Studies are very important to advancing the field of stuttering
+          research. Your commitment to participate is greatly appreciated.
           <br />
           <br />
           You will now be redirected.
