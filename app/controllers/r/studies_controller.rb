@@ -35,13 +35,14 @@ class R::StudiesController < R::BaseController
 
   # GET /r/studies/new
   def new
-    @study = Study.new(
+    @study = Study.create!(
       researcher: Current.user.researcher,
       total_sessions: 1,
       total_hours: 1
     )
 
-    render inertia: 'r/Studies/edit', props: { study: @study.as_json }
+    redirect_to "/r/studies/#{@study.id}/edit"
+    # render inertia: 'r/Studies/edit', props: { study: @study.as_json }
   end
 
   # GET /r/studies/1/edit
