@@ -119,15 +119,15 @@ const StudyEdit = ({ study }) => {
 
     try {
       await putRequest(`/r/studies/${study.id}`, studyValues)
-      toast.success('Changes saved!')
+      toast.success('Changes saved!', 6000)
     } catch (_error) {
       console.log(_error)
-      toast.error('Failed to update study')
+      toast.error('Failed to update study', 6000)
     }
   }
 
   const publishStudy = async statusChange => {
-    const studyValues = watchedStudy.merge(statusChange)
+    const studyValues = { ...watchedStudy, ...statusChange }
     const { isValid, errors } = validateStudy(studyValues)
     setErrors(errors)
 
@@ -137,10 +137,10 @@ const StudyEdit = ({ study }) => {
 
     try {
       await postRequest(`/r/studies/${study.id}/publish`, studyValues)
-      toast.success('Study published!')
+      toast.success('Study published!', 6000)
     } catch (_error) {
       console.log(_error)
-      toast.error('Failed to publish study')
+      toast.error('Failed to publish study', 6000)
     }
   }
 
@@ -326,9 +326,13 @@ const StudyEdit = ({ study }) => {
           />
 
           <FormMessage />
-          <div className="flex gap-4">
-            <Link href={`/r/studies/${study.id}/edit`} as="button">
-              Discard Changes
+          <div className="flex gap-4 justify-end">
+            <Link
+              href={`/r/studies/${study.id}/edit`}
+              as="button"
+              className="border-[0.5px] border-black px-4 py-2 rounded-md"
+            >
+              Discard Unsaved Changes
             </Link>
             <Button key="submit" type="submit">
               Save Changes
