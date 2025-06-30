@@ -15,12 +15,12 @@ class PublishStudy
       @study.update!(paused_at: nil, closed_at: nil)
     end
 
-    send_invtiation_emails unless @study.digital_only?
+    send_invitation_emails unless @study.digital_only?
   end
 
   private
 
-  def send_invtiation_emails
+  def send_invitation_emails
     existing_connections = @study.connections.pluck(:participant_id)
     participants = Participant.where.not(id: existing_connections).near(@study.address, 100)
 

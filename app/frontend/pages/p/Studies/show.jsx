@@ -21,7 +21,7 @@ import {
   timeline,
 } from '@/lib/study'
 import { status } from '@/lib/study'
-import { isConnected } from '@/lib/connections'
+import { hasMadeDecision } from '@/lib/connections'
 import { Loader2 } from 'lucide-react'
 
 const StudyShow = ({ study, researcher, connection }) => {
@@ -98,6 +98,33 @@ const StudyShow = ({ study, researcher, connection }) => {
       </AlertDialogContent>
     </AlertDialog>
   )
+
+  const ConnectionManagementButtons = () => {
+    // Participant has not been invited or has not made a decision, display both options
+    if (!connection || !hasMadeDecision(connection)) {
+      return (
+        <div className="flex gap-4">
+          <NotInterested />
+          <ExpressInterest />
+        </div>
+      )
+    }
+
+    if (['accepted', 'interested'].includes(connection.invitation_status)) {
+      // Participant has already accepted
+      return <Button disabled>Connected</Button>
+    } else {
+      // Participant has declined interest
+      return (
+        <div className="text-center">
+          <p className="mb-4">
+            You declined interest in this study. Change your mind?
+          </p>
+          <ExpressInterest />
+        </div>
+      )
+    }
+  }
 
   if (status(study) === 'paused' || status(study) === 'draft') {
     setTimeout(() => {
@@ -179,23 +206,7 @@ const StudyShow = ({ study, researcher, connection }) => {
           </div>
 
           <div className="flex justify-center gap-4">
-            {connection?.id ? (
-              isConnected(connection) ? (
-                <Button disabled>Connected</Button>
-              ) : (
-                <div className="text-center">
-                  <p className="mb-4">
-                    You declined interest in this study. Change your mind?
-                  </p>
-                  <ExpressInterest />
-                </div>
-              )
-            ) : (
-              <div className="flex gap-4">
-                <NotInterested />
-                <ExpressInterest />
-              </div>
-            )}
+            <ConnectionManagementButtons />
           </div>
         </div>
       </div>

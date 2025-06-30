@@ -36,8 +36,10 @@ export const MANAGE_STATUSES = [
 
 export const DECLINED_STATUSES = [NOT_INTERESTED, DECLINED]
 
-export const isConnected = connection =>
-  [ACCEPTED, INTERESTED].includes(connection.invitation_status)
+export const hasMadeDecision = connection =>
+  [ACCEPTED, INTERESTED, DECLINED, NOT_INTERESTED].includes(
+    connection.invitation_status
+  )
 
 // const STATUSES_COMPLETED = [
 //   INVITATION_DECLINED,
