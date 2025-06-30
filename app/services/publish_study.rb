@@ -45,7 +45,7 @@ class PublishStudy
   end
 
   def validate_required_fields
-    required_fields = %i[title short_desc long_desc methodologies total_hours total_sessions duration remuneration]
+    required_fields = %i[title short_desc long_desc methodologies total_hours total_sessions remuneration]
     required_fields.each do |field|
       @errors << "#{field.to_s.humanize} is required" if @study.send(field).blank?
     end
@@ -61,9 +61,11 @@ class PublishStudy
   end
 
   def validate_timeline
-    return if @study.total_hours.present? && @study.total_sessions.present? && @study.duration.present?
+    # Allow duration to be empty if total_sessions == 1
+    return if @study.total_hours.present? && @study.total_sessions.present? &&
+              (@study.total_sessions == 1 || @study.duration.present?)
 
-    @errors << 'Study timeline (total hours, sessions, and duration) must be specified'
+    @errors << 'Study timeline (total hours and sessions) must be specified'
   end
 
   def validate_age_range
