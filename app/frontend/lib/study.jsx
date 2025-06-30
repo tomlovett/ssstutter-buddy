@@ -9,8 +9,6 @@ export const validateStudy = study => {
     'long_desc',
     'remuneration',
     'total_hours',
-    'total_sessions',
-    'duration',
     'methodologies',
   ]
 
@@ -19,6 +17,12 @@ export const validateStudy = study => {
       errors.push(`${camelToReadable(field)} is required`)
     }
   })
+
+  if (!study.total_sessions) {
+    errors.push('Number of sessions is required')
+  } else if (study.total_sessions > 1 && !study.duration) {
+    errors.push('Duration is required if study requires multiple sessions')
+  }
 
   const { digital_only, digital_friendly, city, state, country } = study
 

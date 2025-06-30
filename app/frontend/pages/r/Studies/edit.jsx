@@ -110,13 +110,6 @@ const StudyEdit = ({ study }) => {
   const watchedStudy = form.watch()
 
   const saveStudy = async studyValues => {
-    const { isValid, errors } = validateStudy(studyValues)
-    setErrors(errors)
-
-    if (!isValid) {
-      return
-    }
-
     try {
       await putRequest(`/r/studies/${study.id}`, studyValues)
       toast.success('Changes saved!', 6000)
@@ -132,6 +125,7 @@ const StudyEdit = ({ study }) => {
     setErrors(errors)
 
     if (!isValid) {
+      toast.error('Please fill out all required fields', 10000)
       return
     }
 
