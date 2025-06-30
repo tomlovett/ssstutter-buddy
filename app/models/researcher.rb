@@ -47,6 +47,6 @@ class Researcher < ApplicationRecord
   end
 
   def active_connections
-    connections.where(study: studies).active
+    connections.where(study: studies).accepted
   end
 end

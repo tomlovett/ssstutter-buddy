@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
 class PublishStudy
-  def initialize(study:, study_params:)
+  def initialize(study:)
     @study = study
-    @study_params = study_params
     @errors = []
   end
 
@@ -11,9 +10,9 @@ class PublishStudy
     return false unless valid?
 
     if @study.published_at.nil?
-      @study.update!(@study_params.merge(published_at: Time.current))
+      @study.update!(published_at: Time.current)
     else
-      @study.update!(@study_params.merge(paused_at: nil, closed_at: nil))
+      @study.update!(paused_at: nil, closed_at: nil)
     end
 
     send_invtiation_emails unless @study.digital_only?
@@ -71,7 +70,7 @@ class PublishStudy
   def validate_age_range
     return unless @study.min_age.present? && @study.max_age.present?
 
-    return unless @study.min_age > @study.max_age
+    return unless @study.min_age > @study.max_age && @study.max_age != 0
 
     @errors << 'Minimum age cannot be greater than maximum age'
   end

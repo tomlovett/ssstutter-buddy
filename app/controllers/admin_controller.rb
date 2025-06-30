@@ -8,7 +8,7 @@ class AdminController < ApplicationController
     participants_count = Participant.count
     researchers_count = Researcher.count
     published_studies_count = Study.published.count
-    active_connections_count = Connection.active.count
+    active_connections_count = Connection.accepted.count
     completed_connections_count = Connection.completed.count
     digital_completed_connections_count = Connection.completed.joins(:study).where(study: { digital_only: true }).count
     digital_only_studies_count = Study.where(digital_only: true).count

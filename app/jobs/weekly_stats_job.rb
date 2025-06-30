@@ -19,7 +19,7 @@ class WeeklyStatsJob < ApplicationJob
       new_researchers_count: Researcher.where(created_at: 1.week.ago..).count,
       published_studies_count: Study.published.count,
       new_published_studies_count: Study.where(published_at: 1.week.ago..).count,
-      active_connections_count: Connection.active.count,
+      active_connections_count: Connection.accepted.count,
       completed_connections_count: Connection.completed.count,
       digital_completed_connections_count: Connection.completed
                                                      .joins(:study).where(study: { digital_only: true }).count,

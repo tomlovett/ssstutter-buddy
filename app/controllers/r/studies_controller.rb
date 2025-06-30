@@ -18,7 +18,7 @@ class R::StudiesController < R::BaseController
     return redirect_to '/r' unless allowed_to?(:view?, @study)
     return redirect_to "/r/studies/#{@study.id}/edit" if @study.published_at.blank?
 
-    active_connections = @study.connections.includes(:participant).order(updated_at: :desc).active.map(&:as_json)
+    active_connections = @study.connections.includes(:participant).order(updated_at: :desc).accepted.map(&:as_json)
     invitations = @study.connections.includes(:participant).order(updated_at: :desc).invited.map(&:as_json)
     completed_connections = @study.connections.includes(:participant).order(updated_at: :desc).completed.map(&:as_json)
     declined_count = @study.connections.includes(:participant).declined.count
@@ -79,12 +79,9 @@ class R::StudiesController < R::BaseController
 
   # POST /r/studies/1/publish
   def publish
-    return head :unprocessable_entity unless @study.present? && allowed_to?(:update?, @study)
-    unless @study.published_at.nil? || (@study.published_at.present? && @study.paused_at.nil?)
-      return head :unprocessable_entity
-    end
+    return head :unprocessable_entity unless @study.present? && can_publish?
 
-    if PublishStudy.new(study: @study, study_params:).call
+    if @study.update(study_params) && PublishStudy.new(study: @study).call
       redirect_to "/r/studies/#{@study.id}", notice: 'Study published successfully!'
     else
       redirect_to "/r/studies/#{@study.id}/edit",
@@ -96,6 +93,11 @@ class R::StudiesController < R::BaseController
 
   def set_study
     @study = Study.find(params[:id])
+  end
+
+  def can_publish?
+    (allowed_to?(:update?,
+                 @study) && @study.published_at.nil?) || (@study.published_at.present? && @study.paused_at.nil?)
   end
 
   def study_params
