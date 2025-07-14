@@ -17,6 +17,7 @@ const StudyInProgressSchema = z.object({
   remuneration: z.coerce.number().optional(),
   digital_friendly: z.coerce.boolean().optional(),
   digital_only: z.coerce.boolean().optional(),
+  flyer: z.any().optional(),
 })
 
 export default StudyInProgressSchema

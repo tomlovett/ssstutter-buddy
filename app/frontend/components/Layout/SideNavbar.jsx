@@ -63,7 +63,7 @@ const AppSidebar = ({ user }) => {
       icon: Home,
     },
     {
-      title: 'Studies',
+      title: 'My studies',
       url: '/r/studies',
       icon: Inbox,
     },

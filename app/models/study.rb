@@ -4,6 +4,8 @@ class Study < ApplicationRecord
   belongs_to :researcher
   has_many :connections, dependent: nil
 
+  has_one_attached :flyer
+
   validates :city, presence: true, unless: -> { :digital_only }
 
   after_validation :geocode, if: ->(obj) { obj.city.present? && obj.city_changed? }
@@ -30,7 +32,12 @@ class Study < ApplicationRecord
   ].freeze
 
   def as_json(options = {})
-    super.merge(VerifiedAddress.new(self).as_json)
+    flyer_url = if flyer.attached?
+                  Rails.application.routes.url_helpers
+                       .rails_blob_path(flyer, only_path: true)
+                end
+
+    super.merge(VerifiedAddress.new(self).as_json).merge({ flyer_url: })
   end
 
   def address

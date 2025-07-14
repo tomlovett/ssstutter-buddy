@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { Link } from '@inertiajs/react'
@@ -12,6 +12,13 @@ import FormCheckboxes from '@/components/ui/custom/formCheckboxes'
 import FormInput from '@/components/ui/custom/formInput'
 import FormTextarea from '@/components/ui/custom/formTextarea'
 import { postRequest, putRequest } from '@/lib/api'
+import {
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
 import {
   ageRange,
   displayLocationShort,
@@ -83,7 +90,11 @@ const METHODOLOGIES = [
   { id: 'Pharmaceutical trial', label: 'Pharmaceutical' },
 ]
 
+const MAX_IMAGE_SIZE = 1000 // pixels
+
 const StudyEdit = ({ study }) => {
+  const [previewUrl, setPreviewUrl] = useState(null)
+  const [imageError, setImageError] = useState(null)
   const [errors, setErrors] = useState([])
   const form = useForm({
     resolver: zodResolver(StudyInProgressSchema),
@@ -104,14 +115,87 @@ const StudyEdit = ({ study }) => {
       duration: study.duration || '',
       remuneration: study.remuneration || '',
       open_date: study.open_date || '',
+      flyer: undefined,
     },
   })
 
   const watchedStudy = form.watch()
 
-  const saveStudy = async studyValues => {
+  const validateImage = file => {
+    return new Promise((resolve, reject) => {
+      const img = new Image()
+      img.onload = () => {
+        if (img.width > MAX_IMAGE_SIZE || img.height > MAX_IMAGE_SIZE) {
+          reject(
+            `Image must be ${MAX_IMAGE_SIZE}x${MAX_IMAGE_SIZE} pixels or smaller`
+          )
+        } else {
+          resolve(true)
+        }
+      }
+      img.onerror = () => reject('Invalid image file')
+      img.src = URL.createObjectURL(file)
+    })
+  }
+
+  const handleImageChange = async e => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    setImageError(null)
+    setPreviewUrl(null)
+
     try {
-      await putRequest(`/r/studies/${study.id}`, studyValues)
+      await validateImage(file)
+      form.setValue('flyer', file, { shouldValidate: true })
+      setPreviewUrl(URL.createObjectURL(file))
+    } catch (error) {
+      setImageError(error)
+      form.setValue('flyer', undefined)
+      e.target.value = '' // Reset the file input
+    }
+  }
+
+  // Cleanup preview URL when component unmounts
+  useEffect(() => {
+    return () => {
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl)
+      }
+    }
+  }, [previewUrl])
+
+  const saveStudy = async studyValues => {
+    const formData = new FormData()
+
+    // Nest all form values under the 'study' key
+    Object.entries(studyValues).forEach(([key, value]) => {
+      if (key !== 'flyer' && value !== undefined) {
+        formData.append(`study[${key}]`, value)
+      }
+    })
+
+    const flyerFile = form.getValues('flyer')
+    if (flyerFile instanceof File) {
+      formData.append('study[flyer]', flyerFile)
+    }
+
+    try {
+      const response = await fetch(`/r/studies/${study.id}`, {
+        method: 'PUT',
+        body: formData,
+        headers: {
+          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]')
+            ?.content,
+          Accept: 'application/json',
+        },
+        credentials: 'same-origin',
+      })
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
       toast.success('Changes saved!', 6000)
     } catch (_error) {
       console.log(_error)
@@ -259,6 +343,8 @@ const StudyEdit = ({ study }) => {
 
           <p>Location: {displayLocationShort(watchedStudy)}</p>
 
+
+
           <FormCheckbox
             key="digital_only"
             name="digital_only"
@@ -318,6 +404,40 @@ const StudyEdit = ({ study }) => {
             placeholder={remuneration.placeholder}
             desc={remuneration.desc}
           />
+
+          <div className="space-y-2 w-1/3">
+            <FormField
+              control={form.control}
+              name="flyer"
+              render={() => (
+                <FormItem>
+                  <FormLabel>Flyer</FormLabel>
+                  <FormControl>
+                    <Input
+                      className="hover:cursor-pointer"
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageChange}
+                    />
+                  </FormControl>
+                  {imageError && (<p className="text-sm text-red-500">{imageError}</p>)}
+                  {previewUrl && (
+                    <div className="mt-2">
+                      <p className="text-sm text-muted-foreground mb-2">
+                        Preview:
+                      </p>
+                      <img
+                        src={previewUrl}
+                        alt="Flyer preview"
+                        className="w-32 h-32 object-cover rounded-md"
+                      />
+                    </div>
+                  )}
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
 
           <FormMessage />
           <div className="flex gap-4 justify-end">

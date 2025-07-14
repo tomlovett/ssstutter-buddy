@@ -119,7 +119,8 @@ class R::StudiesController < R::BaseController
       :total_sessions,
       :duration,
       :follow_up,
-      :remuneration
+      :remuneration,
+      :flyer
     )
   end
 end
