@@ -1,6 +1,12 @@
+extract StudyLocation component
+	in-person, online-only, hybrid
+	has logic that it must be one of those three
+	isValid, isTouched
+	model changes: (location_type) online, in_person, hybrid
+
 prod checklist
 	registration emails
-	geocoding
+	√ geocoding
 	study emails
 
 user signup flow

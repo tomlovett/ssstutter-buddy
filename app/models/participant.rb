@@ -2,7 +2,8 @@
 
 class Participant < ApplicationRecord
   belongs_to :user
-  has_many :connections, dependent: nil
+  has_many :connections, dependent: :nullify
+  has_one :location, dependent: :destroy
 
   delegate :first_name, :last_name, :email, to: :user
 
