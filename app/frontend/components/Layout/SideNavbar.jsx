@@ -30,7 +30,7 @@ const AppSidebar = ({ user }) => {
       icon: Home,
     },
     {
-      title: 'View studies',
+      title: 'Studies near me',
       url: '/p/',
       icon: Inbox,
     },

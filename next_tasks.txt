@@ -1,3 +1,7 @@
+√ extract Location model
+move all functionality to Location model
+	update API calls, update controller
+
 extract StudyLocation component
 	in-person, online-only, hybrid
 	has logic that it must be one of those three

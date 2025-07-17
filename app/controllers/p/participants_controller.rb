@@ -36,7 +36,8 @@ class P::ParticipantsController < P::BaseController
 
   # PATCH/PUT /p/participants/1
   def update
-    if allowed_to?(:update?, @participant) && @participant.update(participant_params)
+    if allowed_to?(:update?, @participant) &&
+       @participant.update(participant_params) && @participant.location.update(location_params)
       head :ok
     else
       head :unprocessable_entity
@@ -66,10 +67,15 @@ class P::ParticipantsController < P::BaseController
       :etiology,
       :default_reveal,
       :default_distance,
-      :city,
-      :state,
-      :country,
       :weekly_digest_opt_out
+    )
+  end
+
+  def location_params
+    params.fetch(:location).permit(
+      :country,
+      :state,
+      :city
     )
   end
 end

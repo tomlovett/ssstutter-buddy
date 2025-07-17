@@ -12,6 +12,8 @@ import {
 import { postRequest } from '@/lib/api'
 import countriesList from '@/lib/countriesList'
 
+// TODO: convert so that it takes in strings for city/state/country and then the componentqueries the API for the rest of the data
+
 const LocationTool = ({ country, state, city, onSave }) => {
   const [currentCountry, setCurrentCountry] = useState(country || {})
   const [currentState, setCurrentState] = useState(state || {})

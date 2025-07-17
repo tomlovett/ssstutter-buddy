@@ -12,9 +12,6 @@ FactoryBot.define do
     methodologies { gen_methodologies }
     min_age { 18 }
     max_age { nil }
-    city { Faker::Address.city }
-    state { Faker::Address.state_abbr }
-    country { 'US' }
     total_hours { rand(0.5..5).round(1) }
     total_sessions { rand(1..3).to_i }
     duration { "#{rand(1..5)} #{%w[days weeks months years].sample}" }
@@ -27,14 +24,27 @@ FactoryBot.define do
       follow_up { Faker::Lorem.sentence }
     end
 
-    trait :digital_friendly do
-      digital_friendly { true }
-      digital_only { false }
-    end
-
     trait :digital_only do
       digital_friendly { true }
       digital_only { true }
+    end
+
+    trait :in_person do
+      digital_friendly { false }
+      digital_only { false }
+
+      after(:create) do |study|
+        create(:location, study:)
+      end
+    end
+
+    trait :hybrid do
+      digital_friendly { true }
+      digital_only { false }
+
+      after(:create) do |study|
+        create(:location, study:)
+      end
     end
   end
 end

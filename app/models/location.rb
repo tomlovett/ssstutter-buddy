@@ -7,6 +7,10 @@ class Location < ApplicationRecord
   geocoded_by :address, if: ->(obj) { obj.city.present? && Rails.env.production? }
   after_validation :geocode, if: ->(obj) { obj.city.present? && obj.city_changed? && Rails.env.production? }
 
+  def as_json(options = {})
+    super.merge(VerifiedAddress.new(self).as_json)
+  end
+
   def address
     if city.present?
       [city, state, country].compact.join(', ')

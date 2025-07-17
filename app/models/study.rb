@@ -32,6 +32,7 @@ class Study < ApplicationRecord
 
   def as_json(options = {})
     super.merge(VerifiedAddress.new(self).as_json)
+    # super.merge(locations: locations.map(&:as_json))
   end
 
   def address

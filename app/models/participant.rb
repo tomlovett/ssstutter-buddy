@@ -11,21 +11,22 @@ class Participant < ApplicationRecord
   after_validation :geocode, if: ->(obj) { obj.city.present? && obj.city_changed? }
 
   def as_json(options = {})
-    super.merge({ first_name:, last_name:, codename:, email:, badges: }).merge(VerifiedAddress.new(self).as_json)
+    super.merge({ first_name:, last_name:, codename:, email:, location: location&.as_json })
   end
 
   def complete?
-    [
+    location_complete? && [
       first_name,
       last_name,
       codename,
       email,
-      city,
-      state,
-      country,
       birthdate,
       gender
     ].none?(&:nil?)
+  end
+
+  def location_complete?
+    location.present? && location.city.present? && location.state.present? && location.country.present?
   end
 
   def address
@@ -33,7 +34,9 @@ class Participant < ApplicationRecord
   end
 
   def nearby_studies
-    Study.near([latitude, longitude], 100).order(published_at: :desc)
+    return [] unless location_complete?
+
+    Study.near([location.latitude, location.longitude], 100).order(published_at: :desc)
   end
 
   def badges

@@ -43,9 +43,11 @@ const ParticipantEdit = ({ participant, is_complete }) => {
 
   const saveLocationChanges = locationData => {
     const parsedData = {
-      country: locationData.country?.symbol,
-      state: locationData.state?.symbol,
-      city: locationData.city?.symbol,
+      location: {
+        country: locationData.country?.symbol,
+        state: locationData.state?.symbol,
+        city: locationData.city?.symbol,
+      },
     }
 
     saveParticipantChanges(parsedData)
@@ -129,9 +131,9 @@ const ParticipantEdit = ({ participant, is_complete }) => {
 
             <div className="py-4">
               <LocationTool
-                country={participant.country}
-                state={participant.state}
-                city={participant.city}
+                country={participant.location.country}
+                state={participant.location.state}
+                city={participant.location.city}
                 onSave={locationValues => saveLocationChanges(locationValues)}
               />
             </div>

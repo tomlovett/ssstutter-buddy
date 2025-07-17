@@ -45,9 +45,9 @@ const ParticipantShow = ({ participant }) => (
                   <MapPin className="w-4 h-4" />
                   <span className="font-medium">Location:</span>{' '}
                   {formatLocation(
-                    participant.country,
-                    participant.state,
-                    participant.city
+                    participant.location.country,
+                    participant.location.state,
+                    participant.location.city
                   )}
                 </li>
                 <li className="flex items-center gap-2">

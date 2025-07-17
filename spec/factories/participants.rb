@@ -3,11 +3,9 @@
 FactoryBot.define do
   factory :participant do
     user
+    location
 
     codename { Faker::Lorem.words(number: 3).join(' ') }
-    city { Faker::Address.city }
-    state { Faker::Address.state_abbr }
-    country { 'US' }
     birthdate { Faker::Date.birthday(min_age: 18, max_age: 85) }
     gender { %w[m f].sample }
     handedness { %w[r l].sample }
