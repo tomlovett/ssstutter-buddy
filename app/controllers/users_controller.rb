@@ -35,6 +35,7 @@ class UsersController < ApplicationController
 
     if role == 'participant'
       Current.user.create_participant!
+      Current.user.participant.create_location!
     else
       Current.user.create_researcher!
     end
