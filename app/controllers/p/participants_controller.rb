@@ -36,12 +36,14 @@ class P::ParticipantsController < P::BaseController
 
   # PATCH/PUT /p/participants/1
   def update
-    if allowed_to?(:update?, @participant) &&
-       @participant.update(participant_params) && @participant.location.update(location_params)
-      head :ok
-    else
-      head :unprocessable_entity
-    end
+    return head :forbidden unless allowed_to?(:update?, @participant)
+
+    @participant.update(participant_params) if participant_params.present?
+    @participant.location.update(location_params) if location_params.present?
+
+    head :ok
+  rescue StandardError
+    head :unprocessable_entity
   end
 
   # DELETE /p/participants/1
@@ -72,7 +74,7 @@ class P::ParticipantsController < P::BaseController
   end
 
   def location_params
-    params.fetch(:location).permit(
+    params.fetch(:location, {}).permit(
       :country,
       :state,
       :city
