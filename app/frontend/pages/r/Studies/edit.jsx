@@ -288,8 +288,6 @@ const StudyEdit = ({ study }) => {
             <LocationTool
               location={watchedStudy.location}
               onSave={locationValues => {
-                console.log('locationValues: ', locationValues)
-                // Update the form with new location values
                 form.setValue('location', {
                   country: locationValues.country || '',
                   state: locationValues.state || '',

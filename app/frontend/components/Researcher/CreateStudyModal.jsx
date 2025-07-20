@@ -27,8 +27,6 @@ export function CreateStudyModal() {
       return
     }
 
-    console.log('Creating study with title:', title)
-
     try {
       await postRequest('/r/studies', { title })
 

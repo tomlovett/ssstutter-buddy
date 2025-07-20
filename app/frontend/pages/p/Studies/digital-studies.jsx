@@ -6,8 +6,6 @@ import { Button } from '@/components/ui/button'
 const DigitalStudies = ({ studies, pagination }) => {
   const { current_page, total_pages, total_count } = pagination
 
-  console.log(pagination)
-
   const PaginationControls = () => (
     <div className="mt-6 flex items-center justify-between mb-4">
       <div className="text-sm text-gray-700">

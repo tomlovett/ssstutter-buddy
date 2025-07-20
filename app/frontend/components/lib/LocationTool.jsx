@@ -19,17 +19,8 @@ const LocationTool = ({ location: { country, state, city }, onSave }) => {
   const [currentState, setCurrentState] = useState(state || '')
   const [currentCity, setCurrentCity] = useState(city || '')
 
-  console.log('location: ', location)
-  console.log('currentCountry: ', currentCountry)
-  console.log('currentState: ', currentState)
-  console.log('currentCity: ', currentCity)
-
   const [statesList, setStatesList] = useState([])
   const [citiesList, setCitiesList] = useState([])
-
-  console.log('countriesList: ', countriesList)
-  console.log('statesList: ', statesList)
-  console.log('citiesList: ', citiesList)
 
   let enableSave = false
   enableSave = currentCountry && currentState && currentCity
