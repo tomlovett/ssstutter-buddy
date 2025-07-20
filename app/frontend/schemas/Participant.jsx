@@ -10,6 +10,12 @@ const ParticipantSchema = z.object({
     required_error: 'A date of birth is required.',
   }),
   weekly_digest_opt_out: z.boolean().default(false),
+  location: z.object({
+    id: z.string().optional(),
+    country: z.string(),
+    state: z.string(),
+    city: z.string(),
+  }),
 })
 
 export default ParticipantSchema

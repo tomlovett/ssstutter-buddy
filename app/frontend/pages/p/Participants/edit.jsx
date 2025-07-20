@@ -36,6 +36,12 @@ const ParticipantEdit = ({ participant, is_complete }) => {
       defaultDistance: participant?.default_distance ?? 100,
       gender: participant?.gender ?? '',
       weekly_digest_opt_out: participant?.weekly_digest_opt_out ?? false,
+      location: {
+        id: participant?.location?.id ?? '',
+        country: participant?.location?.country ?? '',
+        state: participant?.location?.state ?? '',
+        city: participant?.location?.city ?? '',
+      },
     },
   })
 
@@ -45,10 +51,10 @@ const ParticipantEdit = ({ participant, is_complete }) => {
     const parsedData = {
       participant: {
         location_attributes: {
-          id: participant.location.id,
-          country: locationData.country?.symbol,
-          state: locationData.state?.symbol,
-          city: locationData.city?.symbol,
+          id: participant?.location?.id,
+          country: locationData.country,
+          state: locationData.state,
+          city: locationData.city,
         },
       },
     }
@@ -134,9 +140,7 @@ const ParticipantEdit = ({ participant, is_complete }) => {
 
             <div className="py-4">
               <LocationTool
-                country={participant.location.country}
-                state={participant.location.state}
-                city={participant.location.city}
+                location={participant.location}
                 onSave={locationValues => saveLocationChanges(locationValues)}
               />
             </div>

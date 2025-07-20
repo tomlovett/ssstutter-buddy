@@ -12,24 +12,33 @@ import {
 import { postRequest } from '@/lib/api'
 import countriesList from '@/lib/countriesList'
 
-// TODO: convert so that it takes in strings for city/state/country and then the componentqueries the API for the rest of the data
+// TODO: convert so that it takes in a Location record and then the component queries the API for the rest of the data
 
-const LocationTool = ({ country, state, city, onSave }) => {
-  const [currentCountry, setCurrentCountry] = useState(country || {})
-  const [currentState, setCurrentState] = useState(state || {})
-  const [currentCity, setCurrentCity] = useState(city || {})
+const LocationTool = ({ location: { country, state, city }, onSave }) => {
+  const [currentCountry, setCurrentCountry] = useState(country || '')
+  const [currentState, setCurrentState] = useState(state || '')
+  const [currentCity, setCurrentCity] = useState(city || '')
+
+  console.log('location: ', location)
+  console.log('currentCountry: ', currentCountry)
+  console.log('currentState: ', currentState)
+  console.log('currentCity: ', currentCity)
 
   const [statesList, setStatesList] = useState([])
   const [citiesList, setCitiesList] = useState([])
 
+  console.log('countriesList: ', countriesList)
+  console.log('statesList: ', statesList)
+  console.log('citiesList: ', citiesList)
+
   let enableSave = false
-  enableSave = currentCountry?.name && currentState?.name && currentCity?.name
+  enableSave = currentCountry && currentState && currentCity
 
   const refreshLocation = async () => {
     const body = {
-      country: currentCountry?.symbol || '',
-      state: currentState?.symbol || '',
-      city: currentCity?.symbol || '',
+      country: currentCountry || '',
+      state: currentState || '',
+      city: currentCity || '',
     }
 
     postRequest('/api/location', body)
@@ -76,9 +85,9 @@ const LocationTool = ({ country, state, city, onSave }) => {
     <div className="flex items-center gap-2 text-gray-600">
       <MapPin className="h-4 w-4" />
       <span>
-        {!currentCountry.name || !currentState.name || !currentCity.name
+        {!currentCountry || !currentState || !currentCity
           ? 'No Location Selected'
-          : `${currentCity.name}, ${currentState.name}, ${currentCountry.name}`}
+          : `${currentCity}, ${currentState}, ${currentCountry}`}
       </span>
     </div>
   )
@@ -94,15 +103,15 @@ const LocationTool = ({ country, state, city, onSave }) => {
             <ComboBox
               key="country"
               placeholder="Select a country"
-              selectedPair={currentCountry}
+              selectedItem={currentCountry}
               valuesList={countriesList}
-              onChange={pair => setCurrentCountry(pair)}
-              disabled={!!currentState?.name}
+              onChange={item => setCurrentCountry(item)}
+              disabled={!!currentState}
               className="w-full"
             />
           </div>
           <div className="flex justify-end w-[10%]">
-            {currentCountry?.name && <ClearFieldIcon onClick={clearCountry} />}
+            {currentCountry && <ClearFieldIcon onClick={clearCountry} />}
           </div>
         </div>
       </div>
@@ -116,15 +125,15 @@ const LocationTool = ({ country, state, city, onSave }) => {
             <ComboBox
               key="state"
               placeholder="Select a state/province"
-              selectedPair={currentState}
+              selectedItem={currentState}
               valuesList={statesList}
-              onChange={pair => setCurrentState(pair)}
-              disabled={!currentCountry?.name || currentCity?.name}
+              onChange={item => setCurrentState(item)}
+              disabled={!currentCountry || currentCity}
               className="w-full"
             />
           </div>
           <div className="flex justify-end w-[10%]">
-            {currentState?.name && <ClearFieldIcon onClick={clearState} />}
+            {currentState && <ClearFieldIcon onClick={clearState} />}
           </div>
         </div>
       </div>
@@ -138,15 +147,15 @@ const LocationTool = ({ country, state, city, onSave }) => {
             <ComboBox
               key="city"
               placeholder="Select a city"
-              selectedPair={currentCity}
+              selectedItem={currentCity}
               valuesList={citiesList}
-              onChange={pair => setCurrentCity(pair)}
-              disabled={!currentState?.name}
+              onChange={item => setCurrentCity(item)}
+              disabled={!currentState}
               className="w-full"
             />
           </div>
           <div className="flex justify-end w-[10%]">
-            {currentCity?.name && <ClearFieldIcon onClick={clearCity} />}
+            {currentCity && <ClearFieldIcon onClick={clearCity} />}
           </div>
         </div>
       </div>

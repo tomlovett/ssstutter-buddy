@@ -7,9 +7,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import LocationTool from '@/components/lib/LocationTool'
 import { Button } from '@/components/ui/button'
 import { Form, FormMessage } from '@/components/ui/form'
-import FormRadioGroup from '@/components/ui/custom/formRadioGroup'
 import FormCheckboxes from '@/components/ui/custom/formCheckboxes'
 import FormInput from '@/components/ui/custom/formInput'
+import FormRadioGroup from '@/components/ui/custom/formRadioGroup'
 import FormTextarea from '@/components/ui/custom/formTextarea'
 import { postRequest, putRequest } from '@/lib/api'
 import {
@@ -98,13 +98,13 @@ const StudyEdit = ({ study }) => {
       title: study.title || '',
       short_desc: study.short_desc || '',
       long_desc: study.long_desc || '',
-      location_type: study.location_type || '',
       methodologies: study.methodologies?.split(',') || [],
-      country: study.country || '',
-      state: study.state || '',
-      city: study.city || '',
-      digital_friendly: study.digital_friendly || false,
-      digital_only: study.digital_only || false,
+      location_type: study.location_type || '',
+      location: {
+        country: study.location?.country || '',
+        state: study.location?.state || '',
+        city: study.location?.city || '',
+      },
       min_age: study.min_age || 18,
       max_age: study.max_age || '',
       total_hours: study.total_hours || '',
@@ -146,21 +146,30 @@ const StudyEdit = ({ study }) => {
     }
   }
 
+  const formatLocationAttributes = refinedValues => {
+    // Transform location data to match the expected API format
+    if (refinedValues.location_type === 'digital' && !study.location) {
+      return null
+    }
+    let location_attributes = {
+      id: study.location?.id,
+      ...refinedValues.location,
+    }
+
+    if (refinedValues.location_type === 'digital') {
+      location_attributes._destroy = true
+    }
+    return location_attributes
+  }
+
   const saveFormChanges = formValues => {
     const refinedValues = Object.assign({}, formValues)
     refinedValues.methodologies = formValues.methodologies.join(',')
 
+    refinedValues.location_attributes = formatLocationAttributes(refinedValues)
+    delete refinedValues.location
+
     saveStudy(refinedValues)
-  }
-
-  const saveLocationChanges = locationData => {
-    const parsedData = {
-      country: locationData.country?.symbol,
-      state: locationData.state?.symbol,
-      city: locationData.city?.symbol,
-    }
-
-    saveStudy(parsedData)
   }
 
   const StatusButtons = () => {
@@ -275,13 +284,20 @@ const StudyEdit = ({ study }) => {
             items={LOCATION_TYPES}
           />
 
-          <LocationTool
-            disabled={watchedStudy.digital_only}
-            country={watchedStudy.country}
-            state={watchedStudy.state}
-            city={watchedStudy.city}
-            onSave={locationValues => saveLocationChanges(locationValues)}
-          />
+          {watchedStudy.location_type !== 'digital' && (
+            <LocationTool
+              location={watchedStudy.location}
+              onSave={locationValues => {
+                console.log('locationValues: ', locationValues)
+                // Update the form with new location values
+                form.setValue('location', {
+                  country: locationValues.country || '',
+                  state: locationValues.state || '',
+                  city: locationValues.city || '',
+                })
+              }}
+            />
+          )}
 
           <FormCheckboxes
             form={form}

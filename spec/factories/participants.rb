@@ -15,7 +15,10 @@ FactoryBot.define do
   end
 
   trait :non_american do
-    country { Faker::Address.country_code }
-    postal_code { Faker::Lorem.characters(number(5)) }
+    after(:create) do |participant|
+      participant.location.update!(
+        country: Faker::Address.country_code
+      )
+    end
   end
 end

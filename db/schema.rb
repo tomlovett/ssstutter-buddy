@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_17_023044) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_20_202344) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -73,7 +73,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_17_023044) do
 
   create_table "participants", force: :cascade do |t|
     t.string "codename"
-    t.string "country"
     t.date "birthdate"
     t.string "gender"
     t.string "handedness"
@@ -83,12 +82,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_17_023044) do
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "city"
-    t.string "state"
-    t.float "latitude"
-    t.float "longitude"
     t.boolean "weekly_digest_opt_out", default: false, null: false
-    t.index ["latitude", "longitude"], name: "index_participants_on_latitude_and_longitude"
     t.index ["user_id"], name: "index_participants_on_user_id"
   end
 
@@ -122,7 +116,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_17_023044) do
     t.string "methodologies"
     t.integer "min_age"
     t.integer "max_age"
-    t.string "country"
     t.float "total_hours"
     t.integer "total_sessions"
     t.string "duration"
@@ -131,19 +124,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_17_023044) do
     t.integer "researcher_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "city"
-    t.string "state"
-    t.float "latitude"
-    t.float "longitude"
-    t.boolean "digital_only", default: false, null: false
-    t.boolean "digital_friendly", default: false, null: false
     t.datetime "paused_at"
     t.datetime "published_at"
     t.datetime "closed_at"
     t.text "autosend_url"
     t.text "autosend_message"
     t.string "location_type", default: "in_person"
-    t.index ["latitude", "longitude"], name: "index_studies_on_latitude_and_longitude"
     t.index ["researcher_id"], name: "index_studies_on_researcher_id"
   end
 

@@ -111,16 +111,13 @@ class R::StudiesController < R::BaseController
       :methodologies,
       :min_age,
       :max_age,
-      :city,
-      :state,
-      :country,
       :total_hours,
       :total_sessions,
       :duration,
       :follow_up,
       :remuneration,
       :location_type,
-      location_attributes: %i[id city state country]
+      location_attributes: %i[id city state country _destroy _delete]
     )
   end
 end

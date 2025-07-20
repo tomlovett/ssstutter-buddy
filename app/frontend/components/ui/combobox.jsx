@@ -18,7 +18,7 @@ import {
 } from '@/components/ui/popover'
 
 export function ComboBox({
-  selectedPair,
+  selectedItem,
   valuesList,
   placeholder,
   disabled,
@@ -28,14 +28,16 @@ export function ComboBox({
 
   const ItemRow = ({ item }) => {
     const checkmarkOpacity =
-      selectedPair?.symbol === item.symbol ? 'opacity-100' : 'opacity-0'
+      selectedItem === item.symbol || selectedItem === item.name
+        ? 'opacity-100'
+        : 'opacity-0'
 
     return (
       <CommandItem
         key={item.symbol}
         value={item.name}
         onSelect={() => {
-          onChange(item)
+          onChange(item.symbol)
           setOpen(false)
         }}
       >
@@ -43,6 +45,12 @@ export function ComboBox({
         {item.name}
       </CommandItem>
     )
+  }
+
+  // return full name rather than symbol
+  const prettifyDisplay = item => {
+    const matchingItem = valuesList.find(v => v.symbol === item)
+    return matchingItem ? matchingItem.name : item
   }
 
   return (
@@ -55,7 +63,7 @@ export function ComboBox({
           className="w-[200px] justify-between"
           disabled={disabled}
         >
-          {selectedPair.name || placeholder}
+          {prettifyDisplay(selectedItem) || placeholder}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>

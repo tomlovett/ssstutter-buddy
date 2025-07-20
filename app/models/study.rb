@@ -5,7 +5,7 @@ class Study < ApplicationRecord
   has_many :connections, dependent: :nullify
   has_one :location, dependent: :destroy
 
-  accepts_nested_attributes_for :location, reject_if: :all_blank
+  accepts_nested_attributes_for :location, reject_if: :all_blank, allow_destroy: true
 
   scope :draft, -> { where('published_at IS NULL AND closed_at IS NULL') }
   scope :active, -> { where('published_at IS NOT NULL AND closed_at IS NULL AND paused_at IS NULL') }
@@ -31,24 +31,21 @@ class Study < ApplicationRecord
   IN_PERSON = 'in_person'
 
   def as_json(options = {})
-    # super.merge(VerifiedAddress.new(self).as_json)
-    # locations = self.locations
-
-    if location.nil?
-      super.merge(location: nil)
-    else
-      super.merge(location: location&.as_json)
-    end
+    super(options.merge(include: :location))
   end
 
   def address
-    digital_only? ? '' : [city, state, country].compact.join(', ')
+    return '' if location_type == DIGITAL || location.nil?
+
+    [location.city, location.state, location.country].compact.join(', ')
   end
 
   def short_addr
     return 'Online' if location_type == DIGITAL
+    return 'To be assigned' if location.nil?
 
-    location_type == HYBRID ? "Online / #{city}, #{state}" : "#{city}, #{state}, #{country}"
+    city_state = "#{location.city}, #{location.state}"
+    location_type == HYBRID ? "Online / #{city_state}" : "#{city_state}, #{location.country}"
   end
 
   def status
@@ -76,14 +73,5 @@ class Study < ApplicationRecord
     else
       "#{max_age} and under"
     end
-  end
-
-  private
-
-  def clear_location
-    self.city = nil
-    self.state = nil
-    self.country = nil
-    self.digital_friendly = true
   end
 end

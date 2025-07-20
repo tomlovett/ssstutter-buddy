@@ -3,19 +3,13 @@
 class P::StudiesController < P::BaseController
   before_action :set_study, only: %i[show]
 
-  # GET /p/studies
-  def index
-    @studies = Study.all
-  end
-
   # GET /p/digital-studies
   def digital_studies
     existing_study_connections = Connection.where(participant: @participant).pluck(:study_id)
     untouched_digital_studies = Study.digital_friendly
                                      .where.not(id: existing_study_connections)
-                                     .order(:created_at)
-                                     .page(params[:page])
-                                     .per(25)
+                                     .order(created_at: :desc)
+                                     .page(params[:page]).per(25)
 
     props = {
       studies: untouched_digital_studies,

@@ -51,12 +51,16 @@ class PublishStudy
   end
 
   def validate_location
-    return if @study.digital_only?
+    return if @study.location_type == Study::DIGITAL
 
-    location_fields = %i[city state country]
-    location_fields.each do |field|
-      @errors << "#{field.to_s.humanize} is required for in-person studies" if @study.send(field).blank?
+    if @study.location.nil?
+      @errors << 'Location is required for hybrid or in-person studies'
+      return
     end
+
+    return if @study.location.complete?
+
+    @errors << 'Location must include city, state, and country for hybrid or in-person studies'
   end
 
   def validate_timeline

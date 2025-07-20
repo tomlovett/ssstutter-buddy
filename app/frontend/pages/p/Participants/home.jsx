@@ -9,7 +9,7 @@ const ParticipantHome = ({
 }) => {
   return (
     <>
-      <h3>Welcome, {participant.user.first_name}!</h3>
+      <h3>Welcome, {participant.first_name}!</h3>
 
       {/* TODO: your badges */}
 

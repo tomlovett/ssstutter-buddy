@@ -54,16 +54,9 @@ export const displayLocationShort = ({ location_type, location }) => {
     return 'To be assigned'
   }
 
-  const { city, state } = location
-
-  let cityState =
-    typeof city == 'string'
-      ? `${city}, ${state}`
-      : `${city.name}, ${state.name}`
-
   return location_type === LOCATION_TYPES.HYBRID
-    ? `Online / ${cityState}`
-    : cityState
+    ? `Online / ${location.city}, ${location.state}`
+    : `${location.city}, ${location.state}`
 }
 
 export const displayRemuneration = ({ remuneration }) =>
