@@ -43,7 +43,6 @@ class R::StudiesController < R::BaseController
     )
 
     redirect_to "/r/studies/#{@study.id}/edit"
-    # render inertia: 'r/Studies/edit', props: { study: @study.as_json }
   end
 
   # GET /r/studies/1/edit
@@ -79,6 +78,7 @@ class R::StudiesController < R::BaseController
 
   # POST /r/studies/1/publish
   def publish
+    return head :unauthorized unless allowed_to?(:update?, @study)
     return head :unprocessable_entity unless @study.present? && can_publish?
 
     if @study.update(study_params) && PublishStudy.new(study: @study).call
@@ -118,7 +118,9 @@ class R::StudiesController < R::BaseController
       :total_sessions,
       :duration,
       :follow_up,
-      :remuneration
+      :remuneration,
+      :location_type,
+      location_attributes: %i[id city state country]
     )
   end
 end

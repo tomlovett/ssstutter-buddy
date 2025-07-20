@@ -1,5 +1,11 @@
 import { camelToReadable, capitalize } from '@/lib/utils'
 
+export const LOCATION_TYPES = {
+  DIGITAL: 'digital',
+  IN_PERSON: 'in_person',
+  HYBRID: 'hybrid',
+}
+
 export const validateStudy = study => {
   const errors = []
 
@@ -24,20 +30,13 @@ export const validateStudy = study => {
     errors.push('Duration is required if study requires multiple sessions')
   }
 
-  const { digital_only, digital_friendly, city, state, country } = study
-
-  if (digital_friendly) {
-    if (!city || !state || !country) {
-      errors.push(
-        'Physical location must be set if the study is digital friendly'
-      )
-    }
-  } else if (!digital_only) {
-    if (!city || !state || !country) {
-      errors.push(
-        'Physical location must be set if the study is not digital only or digital friendly'
-      )
-    }
+  if (
+    study.location_type !== LOCATION_TYPES.DIGITAL &&
+    (!study.location || !study.location?.city)
+  ) {
+    errors.push(
+      'A location must be set if the study can be completed in person'
+    )
   }
 
   return {
@@ -46,34 +45,25 @@ export const validateStudy = study => {
   }
 }
 
-const calcNullCityState = (city, state) => {
-  if (typeof city == 'string') {
-    return !city && !state
-  }
-
-  return !city?.name && !state?.name
-}
-
-export const displayLocationShort = ({
-  digital_only,
-  digital_friendly,
-  city,
-  state,
-}) => {
-  const nullCityState = calcNullCityState(city, state)
-  if (digital_only || (digital_friendly && nullCityState)) {
+export const displayLocationShort = ({ location_type, location }) => {
+  if (location_type === LOCATION_TYPES.DIGITAL) {
     return 'Online'
   }
 
-  if (!digital_only && !digital_friendly && nullCityState) {
-    return 'Not set'
+  if (!location || !location.city || !location.state) {
+    return 'To be assigned'
   }
 
-  const cityState =
+  const { city, state } = location
+
+  let cityState =
     typeof city == 'string'
       ? `${city}, ${state}`
       : `${city.name}, ${state.name}`
-  return digital_friendly ? `Online / ${cityState}` : cityState
+
+  return location_type === LOCATION_TYPES.HYBRID
+    ? `Online / ${cityState}`
+    : cityState
 }
 
 export const displayRemuneration = ({ remuneration }) =>
@@ -81,7 +71,7 @@ export const displayRemuneration = ({ remuneration }) =>
 
 export const displayMethodologies = ({ methodologies }) =>
   methodologies
-    .split(', ')
+    .split(',')
     .map(m => capitalize(m))
     .join(', ')
 

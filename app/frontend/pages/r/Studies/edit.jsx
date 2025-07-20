@@ -81,6 +81,13 @@ const METHODOLOGIES = [
   { id: 'Behavioral intervention', label: 'Behavioral Intervention' },
   { id: 'Genetic sample collection', label: 'Genetic Sample Collection' },
   { id: 'Pharmaceutical trial', label: 'Pharmaceutical' },
+  { id: 'Speaker Panel', label: 'Speaker Panel' },
+]
+
+const LOCATION_TYPES = [
+  { value: 'digital', label: 'Digital Only' },
+  { value: 'in_person', label: 'In-Person Only' },
+  { value: 'hybrid', label: 'Hybrid' },
 ]
 
 const StudyEdit = ({ study }) => {
@@ -91,6 +98,7 @@ const StudyEdit = ({ study }) => {
       title: study.title || '',
       short_desc: study.short_desc || '',
       long_desc: study.long_desc || '',
+      location_type: study.location_type || '',
       methodologies: study.methodologies?.split(',') || [],
       country: study.country || '',
       state: study.state || '',
@@ -259,17 +267,12 @@ const StudyEdit = ({ study }) => {
 
           <p>Location: {displayLocationShort(watchedStudy)}</p>
 
-          <FormCheckbox
-            key="digital_only"
-            name="digital_only"
-            title="This study must be completed online"
+          <FormRadioGroup
             form={form}
-          />
-          <FormCheckbox
-            key="digital_friendly"
-            name="digital_friendly"
-            title="This study can be done online or in-person"
-            form={form}
+            name="location_type"
+            title="Location Type"
+            subtitle="Select the type of location for this study"
+            items={LOCATION_TYPES}
           />
 
           <LocationTool

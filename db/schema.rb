@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_16_173534) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_17_023044) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -142,6 +142,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_16_173534) do
     t.datetime "closed_at"
     t.text "autosend_url"
     t.text "autosend_message"
+    t.string "location_type", default: "in_person"
     t.index ["latitude", "longitude"], name: "index_studies_on_latitude_and_longitude"
     t.index ["researcher_id"], name: "index_studies_on_researcher_id"
   end

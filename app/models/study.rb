@@ -5,19 +5,14 @@ class Study < ApplicationRecord
   has_many :connections, dependent: :nullify
   has_one :location, dependent: :destroy
 
-  validates :city, presence: true, unless: -> { :digital_only }
-
-  after_validation :geocode, if: ->(obj) { obj.city.present? && obj.city_changed? }
-  before_save :clear_location, if: :digital_only?
-
-  geocoded_by :address, unless: :digital_only
+  accepts_nested_attributes_for :location, reject_if: :all_blank
 
   scope :draft, -> { where('published_at IS NULL AND closed_at IS NULL') }
   scope :active, -> { where('published_at IS NOT NULL AND closed_at IS NULL AND paused_at IS NULL') }
   scope :paused, -> { where.not(paused_at: nil) }
   scope :published, -> { where.not(published_at: nil) }
   scope :closed, -> { where.not(closed_at: nil) }
-  scope :digital_friendly, -> { where(digital_friendly: true) }
+  scope :digital_friendly, -> { where(location_type: [HYBRID, DIGITAL]) }
 
   METHODOLOGIES = [
     'survey',
@@ -27,12 +22,23 @@ class Study < ApplicationRecord
     'speech intervention',
     'behavioral intervention',
     'genetic sample collection',
-    'pharmaceutical'
+    'pharmaceutical',
+    'speaker panel'
   ].freeze
 
+  DIGITAL = 'digital'
+  HYBRID = 'hybrid'
+  IN_PERSON = 'in_person'
+
   def as_json(options = {})
-    super.merge(VerifiedAddress.new(self).as_json)
-    # super.merge(locations: locations.map(&:as_json))
+    # super.merge(VerifiedAddress.new(self).as_json)
+    # locations = self.locations
+
+    if location.nil?
+      super.merge(location: nil)
+    else
+      super.merge(location: location&.as_json)
+    end
   end
 
   def address
@@ -40,9 +46,9 @@ class Study < ApplicationRecord
   end
 
   def short_addr
-    return 'Online' if digital_only?
+    return 'Online' if location_type == DIGITAL
 
-    digital_friendly? ? "Online / #{city}, #{state}" : "#{city}, #{state}, #{country}"
+    location_type == HYBRID ? "Online / #{city}, #{state}" : "#{city}, #{state}, #{country}"
   end
 
   def status
@@ -70,14 +76,6 @@ class Study < ApplicationRecord
     else
       "#{max_age} and under"
     end
-  end
-
-  def duration_number
-    duration.nil? ? '' : duration.split[0]
-  end
-
-  def duration_factor
-    duration.nil? ? '' : duration.split[1]
   end
 
   private
