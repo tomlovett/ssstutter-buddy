@@ -3,7 +3,7 @@
 class Study < ApplicationRecord
   belongs_to :researcher
   has_many :connections, dependent: :nullify
-  has_many :locations, dependent: :destroy
+  has_one :location, dependent: :destroy
 
   validates :city, presence: true, unless: -> { :digital_only }
 

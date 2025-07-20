@@ -96,8 +96,7 @@ class R::StudiesController < R::BaseController
   end
 
   def can_publish?
-    (allowed_to?(:update?,
-                 @study) && @study.published_at.nil?) || (@study.published_at.present? && @study.paused_at.nil?)
+    @study.published_at.nil? || (@study.published_at.present? && @study.paused_at.present?)
   end
 
   def study_params

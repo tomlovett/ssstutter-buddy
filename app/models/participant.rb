@@ -5,6 +5,8 @@ class Participant < ApplicationRecord
   has_many :connections, dependent: :nullify
   has_one :location, dependent: :destroy
 
+  accepts_nested_attributes_for :location, reject_if: :all_blank
+
   delegate :first_name, :last_name, :email, to: :user
 
   geocoded_by :address
@@ -15,7 +17,7 @@ class Participant < ApplicationRecord
   end
 
   def complete?
-    location_complete? && [
+    location.present? && location.complete? && [
       first_name,
       last_name,
       codename,
@@ -25,18 +27,14 @@ class Participant < ApplicationRecord
     ].none?(&:nil?)
   end
 
-  def location_complete?
-    location.present? && location.city.present? && location.state.present? && location.country.present?
-  end
-
-  def address
-    [city, state, country].compact.join(', ')
-  end
-
   def nearby_studies
-    return [] unless location_complete?
+    return [] unless location&.complete?
 
-    Study.near([location.latitude, location.longitude], 100).order(published_at: :desc)
+    # to_a syntax prevents an error when the scope is joined with the Study model
+    # which makes the query unable to find a "distance" column
+    nearby_locations = Location.has_study.near([location.latitude, location.longitude], 100).to_a.pluck(:id)
+
+    Study.active.includes(:location).where(location: { id: nearby_locations }).order(published_at: :desc)
   end
 
   def badges

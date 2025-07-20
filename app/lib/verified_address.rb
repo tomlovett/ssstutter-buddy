@@ -3,6 +3,7 @@
 require 'yaml'
 
 class VerifiedAddress
+  # this should be adapted to the Location model
   def initialize(loc_hash)
     @country = {}
     @state = {}

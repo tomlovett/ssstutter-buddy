@@ -38,12 +38,11 @@ class P::ParticipantsController < P::BaseController
   def update
     return head :forbidden unless allowed_to?(:update?, @participant)
 
-    @participant.update(participant_params) if participant_params.present?
-    @participant.location.update(location_params) if location_params.present?
-
-    head :ok
-  rescue StandardError
-    head :unprocessable_entity
+    if @participant.update(participant_params)
+      head :ok
+    else
+      head :unprocessable_entity
+    end
   end
 
   # DELETE /p/participants/1
@@ -69,15 +68,8 @@ class P::ParticipantsController < P::BaseController
       :etiology,
       :default_reveal,
       :default_distance,
-      :weekly_digest_opt_out
-    )
-  end
-
-  def location_params
-    params.fetch(:location, {}).permit(
-      :country,
-      :state,
-      :city
+      :weekly_digest_opt_out,
+      location_attributes: %i[id country state city]
     )
   end
 end

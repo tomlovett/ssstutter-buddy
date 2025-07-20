@@ -43,10 +43,13 @@ const ParticipantEdit = ({ participant, is_complete }) => {
 
   const saveLocationChanges = locationData => {
     const parsedData = {
-      location: {
-        country: locationData.country?.symbol,
-        state: locationData.state?.symbol,
-        city: locationData.city?.symbol,
+      participant: {
+        location_attributes: {
+          id: participant.location.id,
+          country: locationData.country?.symbol,
+          state: locationData.state?.symbol,
+          city: locationData.city?.symbol,
+        },
       },
     }
 
