@@ -41,4 +41,20 @@ export default [
       'react/react-in-jsx-scope': 'off',
     },
   },
+  {
+    files: [
+      '**/__tests__/**/*.{js,jsx}',
+      '**/__mocks__/**/*.{js,jsx}',
+      '**/jest.setup.cjs',
+    ],
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.jest,
+      },
+    },
+    rules: {
+      'no-undef': 'off',
+    },
+  },
 ]
