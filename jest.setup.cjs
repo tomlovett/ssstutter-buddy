@@ -1,5 +1,22 @@
 require('@testing-library/jest-dom')
 
+// Automatically inject React globally for JSX
+global.React = require('react')
+
+// Mock Inertia Head component
+jest.mock('@inertiajs/react', () => ({
+  ...jest.requireActual('@inertiajs/react'),
+  Head: ({ children }) => children,
+}))
+
+// Mock fetch function
+global.fetch = jest.fn(() =>
+  Promise.resolve({
+    status: 200,
+    json: () => Promise.resolve({}),
+  })
+)
+
 // Mock window.matchMedia
 Object.defineProperty(window, 'matchMedia', {
   writable: true,

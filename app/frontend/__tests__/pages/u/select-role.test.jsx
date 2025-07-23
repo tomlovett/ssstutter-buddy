@@ -1,14 +1,29 @@
 import React from 'react'
+import { render, screen } from '@testing-library/react'
 
 describe('User Select Role Page', () => {
-  test('can be imported', async () => {
-    try {
-      const { default: SelectRole } = await import('@/pages/u/select-role')
-      expect(SelectRole).toBeDefined()
-      expect(typeof SelectRole).toBe('function')
-    } catch (error) {
-      console.warn('Error importing User Select Role:', error.message)
-      expect(true).toBe(true) // Test passes even if import fails
-    }
+  test('renders without crashing', async () => {
+    const { default: SelectRole } = await import('@/pages/u/select-role')
+
+    // Mock user prop
+    const mockUser = { id: 1, email: 'test@example.com' }
+
+    render(<SelectRole user={mockUser} />)
+
+    // Check that the main heading is rendered
+    expect(
+      screen.getByText('Select The Role For This Account')
+    ).toBeInTheDocument()
+
+    // Check that user email is displayed
+    expect(screen.getByText('test@example.com')).toBeInTheDocument()
+
+    // Check that role buttons are present
+    expect(screen.getByText('Participant')).toBeInTheDocument()
+    expect(screen.getByText('Researcher')).toBeInTheDocument()
+
+    // Check that navigation buttons are present
+    expect(screen.getByText('Back')).toBeInTheDocument()
+    expect(screen.getByText('Next')).toBeInTheDocument()
   })
 })

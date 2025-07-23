@@ -1,16 +1,22 @@
 import React from 'react'
+import { render, screen } from '@testing-library/react'
 
 describe('User Forgot Password Page', () => {
-  test('can be imported', async () => {
-    try {
-      const { default: ForgotPassword } = await import(
-        '@/pages/u/forgot-password'
-      )
-      expect(ForgotPassword).toBeDefined()
-      expect(typeof ForgotPassword).toBe('function')
-    } catch (error) {
-      console.warn('Error importing User Forgot Password:', error.message)
-      expect(true).toBe(true) // Test passes even if import fails
-    }
+  test('renders without crashing', async () => {
+    const { default: ForgotPassword } = await import(
+      '@/pages/u/forgot-password'
+    )
+
+    render(<ForgotPassword />)
+
+    // Check that the main heading is rendered
+    expect(screen.getByText('Reset your password')).toBeInTheDocument()
+
+    // Check that form elements are present
+    expect(screen.getByPlaceholderText('Email')).toBeInTheDocument()
+    expect(screen.getByText('Send Reset Email')).toBeInTheDocument()
+
+    // Check that links are present
+    expect(screen.getByText('Back to login')).toBeInTheDocument()
   })
 })

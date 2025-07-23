@@ -1,15 +1,30 @@
 import React from 'react'
-import { testWithSuppressedWarnings } from '../../helpers/suppressWarnings'
+import { render, screen } from '@testing-library/react'
 
 describe('User Show Page', () => {
-  testWithSuppressedWarnings('can be imported', async () => {
-    try {
-      const { default: Show } = await import('@/pages/u/show')
-      expect(Show).toBeDefined()
-      expect(typeof Show).toBe('function')
-    } catch (error) {
-      // Silently handle import errors
-      expect(true).toBe(true) // Test passes even if import fails
+  test('renders without crashing', async () => {
+    const { default: Show } = await import('@/pages/u/show')
+
+    // Mock user prop
+    const mockUser = {
+      first_name: 'John',
+      last_name: 'Doe',
+      email: 'john@example.com',
     }
+
+    render(<Show user={mockUser} />)
+
+    // Check that the main heading is rendered
+    expect(screen.getByText('Hola Muchacho')).toBeInTheDocument()
+
+    // Check that form elements are present
+    expect(screen.getByDisplayValue('John')).toBeInTheDocument()
+    expect(screen.getByDisplayValue('Doe')).toBeInTheDocument()
+    expect(screen.getByDisplayValue('john@example.com')).toBeInTheDocument()
+
+    // Check that labels are present
+    expect(screen.getByText('First name')).toBeInTheDocument()
+    expect(screen.getByText('Last name')).toBeInTheDocument()
+    expect(screen.getByText('Email')).toBeInTheDocument()
   })
 })

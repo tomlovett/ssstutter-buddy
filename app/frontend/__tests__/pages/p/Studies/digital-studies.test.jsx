@@ -1,19 +1,25 @@
 import React from 'react'
+import { render, screen } from '@testing-library/react'
 
 describe('Participant Studies Digital Studies Page', () => {
-  test('can be imported', async () => {
-    try {
-      const { default: DigitalStudies } = await import(
-        '@/pages/p/Studies/digital-studies'
-      )
-      expect(DigitalStudies).toBeDefined()
-      expect(typeof DigitalStudies).toBe('function')
-    } catch (error) {
-      console.warn(
-        'Error importing Participant Studies Digital Studies:',
-        error.message
-      )
-      expect(true).toBe(true) // Test passes even if import fails
+  test('renders without crashing', async () => {
+    const { default: DigitalStudies } = await import(
+      '@/pages/p/Studies/digital-studies'
+    )
+
+    // Mock props
+    const mockProps = {
+      studies: [],
+      pagination: {
+        current_page: 1,
+        total_pages: 1,
+        total_count: 0,
+      },
     }
+
+    render(<DigitalStudies {...mockProps} />)
+
+    // Check that the main heading is rendered
+    expect(screen.getByText('Digital-Friendly Studies')).toBeInTheDocument()
   })
 })

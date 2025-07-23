@@ -1,16 +1,26 @@
 import React from 'react'
+import { render, screen } from '@testing-library/react'
 
 describe('Public Participants Page', () => {
-  test('can be imported', async () => {
-    try {
-      const { default: Participants } = await import(
-        '@/pages/Public/participants'
+  test('renders without crashing', async () => {
+    const { default: Participants } = await import(
+      '@/pages/Public/participants'
+    )
+
+    render(<Participants />)
+
+    // Check that the main heading is rendered
+    expect(screen.getByText('For People Who Stutter (PWS)')).toBeInTheDocument()
+
+    // Check that key content is present
+    expect(
+      screen.getByText(
+        /Participate in studies and contribute to meaningful research/
       )
-      expect(Participants).toBeDefined()
-      expect(typeof Participants).toBe('function')
-    } catch (error) {
-      console.warn('Error importing Public Participants:', error.message)
-      expect(true).toBe(true) // Test passes even if import fails
-    }
+    ).toBeInTheDocument()
+    expect(screen.getByText('How does it work?')).toBeInTheDocument()
+    expect(
+      screen.getByText('Why should I participate in studies?')
+    ).toBeInTheDocument()
   })
 })

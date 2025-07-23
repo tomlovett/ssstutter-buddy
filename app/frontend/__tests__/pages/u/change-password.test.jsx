@@ -1,16 +1,32 @@
 import React from 'react'
+import { render, screen } from '@testing-library/react'
 
 describe('User Change Password Page', () => {
-  test('can be imported', async () => {
-    try {
-      const { default: ChangePassword } = await import(
-        '@/pages/u/change-password'
-      )
-      expect(ChangePassword).toBeDefined()
-      expect(typeof ChangePassword).toBe('function')
-    } catch (error) {
-      console.warn('Error importing User Change Password:', error.message)
-      expect(true).toBe(true) // Test passes even if import fails
-    }
+  test('renders without crashing', async () => {
+    const { default: ChangePassword } = await import(
+      '@/pages/u/change-password'
+    )
+
+    // Mock user prop
+    const mockUser = { id: 1 }
+
+    render(<ChangePassword user={mockUser} />)
+
+    // Check that the main heading is rendered
+    expect(
+      screen.getByRole('heading', { name: 'Change Password' })
+    ).toBeInTheDocument()
+
+    // Check that form elements are present
+    expect(screen.getByPlaceholderText('New Password')).toBeInTheDocument()
+    expect(
+      screen.getByPlaceholderText('Confirm New Password')
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: 'Change Password' })
+    ).toBeInTheDocument()
+
+    // Check that links are present
+    expect(screen.getByText('Cancel')).toBeInTheDocument()
   })
 })

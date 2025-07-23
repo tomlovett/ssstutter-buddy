@@ -1,16 +1,23 @@
 import React from 'react'
+import { render, screen } from '@testing-library/react'
 
 describe('Public Researchers Page', () => {
-  test('can be imported', async () => {
-    try {
-      const { default: Researchers } = await import(
-        '@/pages/Public/researchers'
+  test('renders without crashing', async () => {
+    const { default: Researchers } = await import('@/pages/Public/researchers')
+
+    render(<Researchers />)
+
+    // Check that the main heading is rendered
+    expect(
+      screen.getByRole('heading', { name: 'For Researchers' })
+    ).toBeInTheDocument()
+
+    // Check that key content is present
+    expect(
+      screen.getByText(
+        /Connect directly with PWS who are interested in participating in studies/
       )
-      expect(Researchers).toBeDefined()
-      expect(typeof Researchers).toBe('function')
-    } catch (error) {
-      console.warn('Error importing Public Researchers:', error.message)
-      expect(true).toBe(true) // Test passes even if import fails
-    }
+    ).toBeInTheDocument()
+    expect(screen.getByText('How it works')).toBeInTheDocument()
   })
 })

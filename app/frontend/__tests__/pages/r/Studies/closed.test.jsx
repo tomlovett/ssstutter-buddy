@@ -1,14 +1,21 @@
 import React from 'react'
+import { render, screen } from '@testing-library/react'
 
 describe('Researcher Studies Closed Page', () => {
-  test('can be imported', async () => {
-    try {
-      const { default: Closed } = await import('@/pages/r/Studies/closed')
-      expect(Closed).toBeDefined()
-      expect(typeof Closed).toBe('function')
-    } catch (error) {
-      console.warn('Error importing Researcher Studies Closed:', error.message)
-      expect(true).toBe(true) // Test passes even if import fails
+  test('renders without crashing', async () => {
+    const { default: Closed } = await import('@/pages/r/Studies/closed')
+
+    // Mock props
+    const mockProps = {
+      studies: [],
     }
+
+    render(<Closed {...mockProps} />)
+
+    // Check that the main heading is rendered
+    expect(screen.getByText('Closed Studies')).toBeInTheDocument()
+
+    // Check that link is present
+    expect(screen.getByText('← Back to My Studies')).toBeInTheDocument()
   })
 })
