@@ -23,8 +23,38 @@ FactoryBot.define do
       follow_up { Faker::Lorem.sentence }
     end
 
-    trait :digital_only do
+    # Status related traits
+    trait :draft do
+      published_at { nil }
+      closed_at { nil }
+      paused_at { nil }
+    end
+
+    trait :active do
+      published_at { Time.current }
+      closed_at { nil }
+      paused_at { nil }
+    end
+
+    trait :paused do
+      published_at { Time.current }
+      closed_at { nil }
+      paused_at { Time.current }
+    end
+
+    trait :closed do
+      published_at { Time.current }
+      closed_at { Time.current }
+      paused_at { nil }
+    end
+
+    # Location-related traits
+    trait :digital do
       location_type { 'digital' }
+
+      after(:create) do |study|
+        study.update(location: nil)
+      end
     end
 
     trait :in_person do

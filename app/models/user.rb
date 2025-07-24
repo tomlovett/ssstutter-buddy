@@ -4,6 +4,7 @@ class User < ApplicationRecord
   has_secure_password
 
   has_many :sessions, dependent: :destroy
+  # User can be associated to a participant or researcher, but not both
   has_one :participant, required: false, dependent: :destroy
   has_one :researcher, required: false, dependent: :destroy
 
@@ -23,16 +24,6 @@ class User < ApplicationRecord
 
   def full_name
     "#{first_name} #{last_name}"
-  end
-
-  def self.from_omniauth(auth)
-    find_or_create_by(email: auth.info.email) do |user|
-      user.email = auth.info.email
-      user.password = SecureRandom.hex(15)
-      user.first_name = auth.info.first_name
-      user.last_name = auth.info.last_name
-      user.confirmed_at = Time.zone.now
-    end
   end
 
   def home_page

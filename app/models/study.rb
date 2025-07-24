@@ -60,8 +60,8 @@ class Study < ApplicationRecord
     if total_sessions == 1
       "#{total_hours} #{total_hours == 1 ? 'hour' : 'hours'} in one session"
     else
-      "#{total_hours} #{total_hours == 1 ? 'hour' : 'total hours'} in #{total_sessions} sessions \
-      over the course of #{duration}"
+      "#{total_hours} #{total_hours == 1 ? 'hour' : 'total hours'} in #{total_sessions} " \
+        "sessions over the course of #{duration}"
     end
   end
 
@@ -73,5 +73,17 @@ class Study < ApplicationRecord
     else
       "#{max_age} and under"
     end
+  end
+
+  def paused?
+    paused_at.present?
+  end
+
+  def published?
+    published_at.present?
+  end
+
+  def closed?
+    closed_at.present?
   end
 end
