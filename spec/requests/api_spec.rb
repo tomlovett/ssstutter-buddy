@@ -7,7 +7,7 @@ RSpec.describe 'Api' do
     let(:country) { nil }
     let(:state) { nil }
     let(:city) { nil }
-    let(:params) { { country:, state:, city: } }
+    let(:params) { { api: { country:, state:, city: } } }
 
     before { post '/api/location', params: params }
 

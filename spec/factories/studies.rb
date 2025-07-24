@@ -17,21 +17,18 @@ FactoryBot.define do
     duration { "#{rand(1..5)} #{%w[days weeks months years].sample}" }
     follow_up { nil }
     remuneration { rand(25..100) }
-    digital_friendly { rand > 0.6 }
-    digital_only { digital_friendly && rand > 0.7 }
+    location_type { %w[digital in_person hybrid].sample }
 
     trait :with_follow_up do
       follow_up { Faker::Lorem.sentence }
     end
 
     trait :digital_only do
-      digital_friendly { true }
-      digital_only { true }
+      location_type { 'digital' }
     end
 
     trait :in_person do
-      digital_friendly { false }
-      digital_only { false }
+      location_type { 'in_person' }
 
       after(:create) do |study|
         create(:location, study:)
@@ -39,8 +36,7 @@ FactoryBot.define do
     end
 
     trait :hybrid do
-      digital_friendly { true }
-      digital_only { false }
+      location_type { 'hybrid' }
 
       after(:create) do |study|
         create(:location, study:)

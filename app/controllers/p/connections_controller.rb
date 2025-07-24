@@ -6,8 +6,9 @@ class P::ConnectionsController < P::BaseController
 
   # GET /p/connections
   def index
-    render inertia 'p/Connections/index', props: {
-      connections: @participant.connections.as_json(include: :studies), participant:
+    render inertia: 'p/Connections/index', props: {
+      connections: @participant.connections.as_json(include: :studies),
+      participant: @participant.as_json
     }
   end
 
@@ -17,17 +18,17 @@ class P::ConnectionsController < P::BaseController
 
     @connection = Connection.create(
       participant: @participant,
-      study_id: params[:study_id],
-      invitation_status: params[:invitation_status]
+      study_id: connection_params[:study_id],
+      invitation_status: connection_params[:invitation_status]
     )
 
-    if [Connection::ACCEPTED, Connection::INTERESTED].include?(params[:invitation_status])
+    if [Connection::ACCEPTED, Connection::INTERESTED].include?(connection_params[:invitation_status])
       @connection.study_status = Connection::CONNECTED
       ConnectionMailer.with(connection: @connection).new_connection.deliver_later
     end
 
-    if @connection.save!
-      head :created
+    if @connection.save
+      redirect_to '/p/connections', status: :see_other
     else
       head :unprocessable_entity
     end
@@ -35,12 +36,15 @@ class P::ConnectionsController < P::BaseController
 
   # PATCH/PUT /p/connections/1
   def update
-    if study.invitation_status == Connection::INVITED && params[:invitation_status] == Connection::ACCEPTED
+    # Ensure the connection belongs to the current participant
+    return head :unauthorized unless @connection.participant_id == Current.user.participant.id
+
+    if @connection.invitation_status == Connection::INVITED && connection_params[:invitation_status] == Connection::ACCEPTED
       ConnectionMailer.with(connection: @connection).new_connection.deliver_later
     end
 
-    if allowed_to?(:update?, @connection) && @connection.update(connection_params)
-      head :ok
+    if @connection.update(connection_params)
+      redirect_to '/p/connections', status: :see_other
     else
       head :unprocessable_entity
     end
@@ -57,6 +61,11 @@ class P::ConnectionsController < P::BaseController
   end
 
   def connection_params
-    params.permit(:study_id, :study_status, :invitation_status)
+    # Handle both nested and flat parameter structures
+    if params[:connection]
+      params.require(:connection).permit(:study_id, :study_status, :invitation_status)
+    else
+      params.permit(:study_id, :study_status, :invitation_status)
+    end
   end
 end

@@ -2,6 +2,40 @@
 
 require 'rails_helper'
 
-RSpec.describe '/p/studies' do
-  pending "add some examples to (or delete) #{__FILE__}"
+RSpec.describe 'P::StudiesController' do
+  let(:participant) { create(:participant) }
+  let(:user) { participant.user }
+  let(:researcher) { create(:researcher) }
+  let(:study) { create(:study, researcher: researcher) }
+
+  before do
+    sign_in(user)
+  end
+
+  describe 'GET /p/studies' do
+    it 'returns a successful response' do
+      get '/p/studies'
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include('p/Studies/index')
+    end
+  end
+
+  describe 'GET /p/studies/:id' do
+    it 'returns a successful response' do
+      get "/p/studies/#{study.id}"
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include('p/Studies/show')
+    end
+  end
+
+  describe 'GET /p/digital-studies' do
+    it 'returns a successful response' do
+      get '/p/digital-studies'
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include('p/Studies/digital-studies')
+    end
+  end
 end

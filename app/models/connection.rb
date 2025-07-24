@@ -28,6 +28,8 @@ class Connection < ApplicationRecord
   scope :completed, -> { where(study_status: STATUSES_COMPLETED) }
 
   validates :pin, length: { is: 6 }
+  validates :invitation_status, inclusion: { in: [INVITED, ACCEPTED, DECLINED, INTERESTED, NOT_INTERESTED] },
+                                allow_nil: true
 
   before_validation { assign_pin! if pin.blank? }
 

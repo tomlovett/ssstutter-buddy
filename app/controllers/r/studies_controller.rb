@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class R::StudiesController < R::BaseController
-  before_action :set_study, only: %i[show edit update destroy publish]
+  before_action :set_study, only: %i[show edit update publish]
 
   # GET /r/studies
   def index
@@ -33,18 +33,6 @@ class R::StudiesController < R::BaseController
     render inertia: 'r/Studies/closed', props: { studies: Current.user.researcher.studies.closed }
   end
 
-  # GET /r/studies/new
-  def new
-    @study = Study.create!(
-      researcher: Current.user.researcher,
-      total_sessions: 1,
-      total_hours: 1,
-      title: params[:title] || ''
-    )
-
-    redirect_to "/r/studies/#{@study.id}/edit"
-  end
-
   # GET /r/studies/1/edit
   def edit
     return redirect_to "/r/studies/#{params[:id]}" unless allowed_to?(:update?, @study)
@@ -54,7 +42,7 @@ class R::StudiesController < R::BaseController
 
   # POST /r/studies
   def create
-    @study = Study.create!(study_params.merge(researcher: Current.user.researcher))
+    @study = Current.user.researcher.studies.create!(study_params)
 
     redirect_to "/r/studies/#{@study.id}/edit"
   end
@@ -66,14 +54,6 @@ class R::StudiesController < R::BaseController
     else
       render json: @study.errors.as_json, status: :unprocessable_entity
     end
-  end
-
-  # DELETE /r/studies/1
-  def destroy
-    return head :unauthorized unless allowed_to?(:destroy?, @study)
-
-    @study.destroy
-    redirect_to studies_url, notice: 'Success!', status: :created
   end
 
   # POST /r/studies/1/publish

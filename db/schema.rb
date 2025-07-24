@@ -124,6 +124,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_20_202344) do
     t.integer "researcher_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "digital_only", default: false, null: false
+    t.boolean "digital_friendly", default: false, null: false
     t.datetime "paused_at"
     t.datetime "published_at"
     t.datetime "closed_at"

@@ -91,7 +91,7 @@ const StudyShow = ({ study, researcher, connection }) => {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={() => upsertConnection('not_interested')}>
+          <AlertDialogAction onClick={() => upsertConnection('not interested')}>
             Confirm
           </AlertDialogAction>
         </AlertDialogFooter>

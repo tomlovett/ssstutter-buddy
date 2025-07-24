@@ -49,7 +49,7 @@ Rails.application.routes.draw do
     get '/', to: '/r/researchers#home'
     resources :researchers, except: :index
 
-    resources :studies do
+    resources :studies, except: [:destroy] do
       member do
         post 'publish'
       end
@@ -57,7 +57,7 @@ Rails.application.routes.draw do
         get 'closed'
       end
     end
-    resources :participants, only: [:show]
+    # resources :participants, only: [:show]
   end
 
   scope :api do
