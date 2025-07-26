@@ -14,10 +14,10 @@ class ConnectionMailerPreview < ActionMailer::Preview
       :study,
       researcher:,
       title: 'Understanding Speech Patterns in Adults Who Stutter',
-      short_desc: 'A comprehensive study examining speech patterns and communication strategies \
+      short_desc: 'A comprehensive study examining speech patterns and communication strategies
      in adults who stutter across different social contexts.',
-      long_desc: 'This study aims to understand how adults who stutter adapt their communication strategies \
-     in various social situations, including professional settings, casual conversations,\
+      long_desc: 'This study aims to understand how adults who stutter adapt their communication strategies
+     in various social situations, including professional settings, casual conversations,
        and public speaking scenarios.',
       methodologies: 'interview, survey',
       total_hours: 2,
@@ -29,7 +29,7 @@ class ConnectionMailerPreview < ActionMailer::Preview
       max_age: nil
     )
 
-    participant = FactoryBot.create(:participant, user:)
+    participant = FactoryBot.create(:participant)
 
     connection = FactoryBot.create(:connection, study:, participant:, researcher:)
 

@@ -30,7 +30,7 @@ class Participant < ApplicationRecord
     # `to_a` syntax prevents a SQL error where the scope is joined with the Study model
     nearby_locations = Location.has_study.near([location.latitude, location.longitude], 100).to_a.pluck(:id)
 
-    Study.active.includes(:location).where(location: { id: nearby_locations }).order(published_at: :desc)
+    Study.active.joins(:location).where(location: { id: nearby_locations }).order(published_at: :desc)
   end
 
   def badges

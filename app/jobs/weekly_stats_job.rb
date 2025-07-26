@@ -28,11 +28,11 @@ class WeeklyStatsJob < ApplicationJob
       digital_only_studies_count: Study.where(location_type: Study::DIGITAL).count,
       participants_by_country: Participant.joins(:location)
                                           .where.not(location: { country: nil })
-                                          .group('locations.country').count,
+                                          .group('location.country').count,
       studies_by_country: Study.joins(:location)
                                .where.not(published_at: nil)
                                .where.not(location: { country: nil })
-                               .group('locations.country').count
+                               .group('location.country').count
     }
   end
 end
