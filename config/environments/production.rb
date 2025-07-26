@@ -64,12 +64,15 @@ Rails.application.configure do
   # Configure Mailer To Go SMTP settings
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address: ENV.fetch('MAILERTOGO_SMTP_HOST', nil),
-    port: ENV.fetch('MAILERTOGO_SMTP_PORT', nil),
-    user_name: ENV.fetch('MAILERTOGO_SMTP_USER', nil),
-    password: ENV.fetch('MAILERTOGO_SMTP_PASSWORD', nil),
+    address: 'smtp.gmail.com',
+    port: 587,
+    domain: 'ssstutterbuddy.com',
+    user_name: ENV.fetch('SMTP_USERNAME', nil),
+    password: ENV.fetch('SMTP_PASSWORD', nil),
     authentication: :plain,
-    enable_starttls_auto: true
+    enable_starttls_auto: true,
+    open_timeout: 5,
+    read_timeout: 5
   }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
