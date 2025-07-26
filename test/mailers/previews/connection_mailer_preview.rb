@@ -24,22 +24,12 @@ class ConnectionMailerPreview < ActionMailer::Preview
       total_sessions: 1,
       duration: '2 weeks',
       remuneration: 50,
-      digital_friendly: true,
-      digital_only: false,
-      city: 'Boston',
-      state: 'MA',
-      country: 'US',
+      location_type: 'in_person',
       min_age: 18,
       max_age: nil
     )
 
-    participant = FactoryBot.create(
-      :participant,
-      user:,
-      city: 'Cambridge',
-      state: 'MA',
-      country: 'US'
-    )
+    participant = FactoryBot.create(:participant, user:)
 
     connection = FactoryBot.create(:connection, study:, participant:, researcher:)
 

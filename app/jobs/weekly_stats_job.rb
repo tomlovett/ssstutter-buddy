@@ -22,10 +22,17 @@ class WeeklyStatsJob < ApplicationJob
       active_connections_count: Connection.accepted.count,
       completed_connections_count: Connection.completed.count,
       digital_completed_connections_count: Connection.completed
-                                                     .joins(:study).where(study: { digital_only: true }).count,
-      digital_only_studies_count: Study.where(digital_only: true).count,
-      participants_by_country: Participant.where.not(country: nil).group(:country).count,
-      studies_by_country: Study.where.not(published_at: nil).where.not(country: nil).group(:country).count
+                                                     .joins(:study)
+                                                     .where(study: { location_type: Study::DIGITAL })
+                                                     .count,
+      digital_only_studies_count: Study.where(location_type: Study::DIGITAL).count,
+      participants_by_country: Participant.joins(:location)
+                                          .where.not(location: { country: nil })
+                                          .group('locations.country').count,
+      studies_by_country: Study.joins(:location)
+                               .where.not(published_at: nil)
+                               .where.not(location: { country: nil })
+                               .group('locations.country').count
     }
   end
 end

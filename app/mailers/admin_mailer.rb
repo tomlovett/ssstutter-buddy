@@ -6,7 +6,7 @@ class AdminMailer < ApplicationMailer
     @date = Time.current.strftime('%B %d, %Y')
 
     mail(
-      to: ENV['ADMIN_EMAILS'].split(','),
+      to: ENV.fetch('ADMIN_EMAILS', '').split(', '),
       subject: "SSStutterBuddy Weekly Statistics - #{@date}"
     )
   end
@@ -17,8 +17,7 @@ class AdminMailer < ApplicationMailer
     @count = @researchers.count
 
     mail(
-      #   to: ENV['ADMIN_EMAILS'].split(','),
-      to: 'gma.dsf.om@gmail.com',
+      to: ENV.fetch('ADMIN_EMAILS', '').split(', '),
       subject: "SB: #{@count} New Researcher#{'s' unless @count == 1} - #{@date}"
     )
   end

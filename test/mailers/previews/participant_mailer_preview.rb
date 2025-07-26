@@ -16,19 +16,10 @@ class ParticipantMailerPreview < ActionMailer::Preview
       total_sessions: 1,
       duration: '2 weeks',
       remuneration: 50,
-      digital_friendly: true,
-      digital_only: false,
-      city: 'Boston',
-      state: 'MA',
-      country: 'US'
+      location_type: 'in_person'
     )
 
-    participant = FactoryBot.create(
-      :participant,
-      city: 'Cambridge',
-      state: 'MA',
-      country: 'US'
-    )
+    participant = FactoryBot.create(:participant)
 
     ParticipantMailer.with(study: study, participant: participant).new_study_alert
   end
@@ -56,8 +47,7 @@ class ParticipantMailerPreview < ActionMailer::Preview
         total_sessions: 1,
         duration: '2 weeks',
         remuneration: 50,
-        digital_friendly: true,
-        digital_only: true,
+        location_type: 'digital',
         published_at: 2.days.ago
       ),
       FactoryBot.create(
@@ -73,21 +63,12 @@ class ParticipantMailerPreview < ActionMailer::Preview
         total_sessions: 2,
         duration: '3 weeks',
         remuneration: 75,
-        digital_friendly: true,
-        digital_only: false,
-        city: 'Boston',
-        state: 'MA',
-        country: 'US',
+        location_type: 'in_person',
         published_at: 1.day.ago
       )
     ]
 
-    participant = FactoryBot.create(
-      :participant,
-      city: 'Cambridge',
-      state: 'MA',
-      country: 'US'
-    )
+    participant = FactoryBot.create(:participant)
 
     ParticipantMailer.with(participant: participant, studies: studies).weekly_online_digest
   end

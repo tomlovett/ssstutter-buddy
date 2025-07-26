@@ -22,7 +22,7 @@
             <strong>Researcher:</strong> <%= @study.researcher.user.first_name %> <%= @study.researcher.user.last_name %>
           </li>
           <li style="margin-bottom: 8px;">
-            <strong>Location:</strong> <%= @study.digital_only? ? 'Online' : @study.address %>
+            <strong>Location:</strong> <%= @study.short_addr %>
           </li>
           <li style="margin-bottom: 8px;">
             <strong>Time Commitment:</strong> <%= @study.timeline %>
