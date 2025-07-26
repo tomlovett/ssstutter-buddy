@@ -51,7 +51,7 @@ const Layout = ({ children, notice, alert }) => {
             <strong>SSStutterBuddy is still in early beta</strong>, please be
             patient.
             <br />
-            Please report any bugs or issues to tom@ssstutterbuddy.com
+            Please report any bugs or issues to support@ssstutterbuddy.com
             <br />
             Thank you for your patience and thank you for being here!
           </div>

@@ -21,7 +21,7 @@ const PublicFooter = () => (
       </Link>
       {' | '}
       <Link href="/contact" className="hover:text-gray-900">
-        <a href="mailto:tom@ssstutterbuddy.com">Contact Us</a>
+        <a href="mailto:support@ssstutterbuddy.com">Contact Us</a>
       </Link>
     </div>
   </div>
