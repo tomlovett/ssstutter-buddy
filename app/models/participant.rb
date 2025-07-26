@@ -3,6 +3,7 @@
 class Participant < ApplicationRecord
   belongs_to :user
   has_many :connections, dependent: :nullify
+  has_many :invitations, dependent: :nullify
   has_one :location, dependent: :destroy
 
   accepts_nested_attributes_for :location, reject_if: :all_blank
@@ -38,10 +39,6 @@ class Participant < ApplicationRecord
       # online: completed_studies.digital.count,
       # inperson: completed_studies.where(digital_friendly: false).count
     }
-  end
-
-  def study_invitations
-    connections.invited
   end
 
   def completed_studies

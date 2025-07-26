@@ -5,18 +5,15 @@ FactoryBot.define do
     participant
     study
 
-    study_status { [Connection::CONNECTED, Connection::STUDY_BEGAN].sample }
-    invitation_status { [Connection::INVITED, Connection::ACCEPTED, Connection::INTERESTED].sample }
+    status { [Connection::CONNECTED, Connection::STUDY_BEGAN].sample }
     participant_rating { rand(1..5) }
 
     trait :in_progress do
-      study_status { [Connection::CONNECTED, Connection::STUDY_BEGAN].sample }
-      invitation_status { [Connection::ACCEPTED, Connection::INTERESTED].sample }
+      status { [Connection::CONNECTED, Connection::STUDY_BEGAN].sample }
     end
 
     trait :completed do
-      study_status { Connection::STATUSES_COMPLETED.sample }
-      invitation_status { Connection::ACCEPTED }
+      status { Connection::STATUSES_COMPLETED.sample }
     end
   end
 end

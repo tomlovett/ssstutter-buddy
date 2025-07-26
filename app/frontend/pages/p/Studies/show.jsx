@@ -34,7 +34,7 @@ const StudyShow = ({ study, researcher, connection }) => {
     }
   )
 
-  const upsertConnection = (status = 'interested') => {
+  const upsertConnection = ({ status = 'interested' }) => {
     const body = { study_id: study.id, invitation_status: status }
 
     const request = connection?.id

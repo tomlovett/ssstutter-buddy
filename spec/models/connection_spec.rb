@@ -17,12 +17,6 @@ RSpec.describe Connection do
         expect(connection).not_to be_valid
         expect(connection.errors[:pin]).to include('is the wrong length (should be 6 characters)')
       end
-
-      it 'validates invitation_status inclusion' do
-        connection = build(:connection, invitation_status: 'invalid_status')
-        expect(connection).not_to be_valid
-        expect(connection.errors[:invitation_status]).to include('is not included in the list')
-      end
     end
   end
 
@@ -37,14 +31,6 @@ RSpec.describe Connection do
   end
 
   describe 'constants' do
-    it 'defines invitation statuses' do
-      expect(Connection::INVITED).to eq('invited')
-      expect(Connection::ACCEPTED).to eq('accepted')
-      expect(Connection::DECLINED).to eq('declined')
-      expect(Connection::INTERESTED).to eq('interested')
-      expect(Connection::NOT_INTERESTED).to eq('not interested')
-    end
-
     it 'defines basic study statuses' do
       expect(Connection::CONNECTED).to eq('connected')
       expect(Connection::STUDY_BEGAN).to eq('study began')
@@ -70,41 +56,9 @@ RSpec.describe Connection do
     let(:participant) { create(:participant) }
     let(:study) { create(:study) }
 
-    describe 'invitation status scopes' do
-      let!(:accepted_connection) { create(:connection, participant:, study:, invitation_status: Connection::ACCEPTED) }
-      let!(:declined_connection) { create(:connection, participant:, study:, invitation_status: Connection::DECLINED) }
-
-      describe '.invited' do
-        let!(:invited_connection) { create(:connection, participant:, study:, invitation_status: Connection::INVITED) }
-
-        it 'returns connections with invited status' do
-          expect(described_class.invited).to include(invited_connection)
-          expect(described_class.invited).not_to include(accepted_connection)
-        end
-      end
-
-      describe '.accepted' do
-        let!(:interested_connection) { create(:connection, participant:, study:, invitation_status: Connection::INTERESTED) }
-
-        it 'returns connections with accepted or interested status' do
-          expect(described_class.accepted).to include(accepted_connection, interested_connection)
-          expect(described_class.accepted).not_to include(declined_connection)
-        end
-      end
-
-      describe '.declined' do
-        let!(:not_interested_connection) { create(:connection, participant:, study:, invitation_status: Connection::NOT_INTERESTED) }
-
-        it 'returns connections with declined or not interested status' do
-          expect(described_class.declined).to include(declined_connection, not_interested_connection)
-          expect(described_class.declined).not_to include(accepted_connection)
-        end
-      end
-    end
-
     describe 'study status scopes' do
-      let!(:completed_connection) { create(:connection, participant:, study:, study_status: Connection::STUDY_COMPLETED) }
-      let!(:dropped_out_connection) { create(:connection, participant:, study:, study_status: Connection::DROPPED_OUT) }
+      let!(:completed_connection) { create(:connection, participant:, study:, status: Connection::STUDY_COMPLETED) }
+      let!(:dropped_out_connection) { create(:connection, participant:, study:, status: Connection::DROPPED_OUT) }
 
       describe '.completed' do
         it 'returns connections with completed study statuses' do
@@ -124,58 +78,22 @@ RSpec.describe Connection do
     end
   end
 
-  describe '#display_participant_name?' do
-    context 'when invitation_status is accepted' do
-      let(:connection) { create(:connection, invitation_status: Connection::ACCEPTED) }
-
-      it 'returns true' do
-        expect(connection.display_participant_name?).to be true
-      end
-    end
-
-    context 'when invitation_status is interested' do
-      let(:connection) { create(:connection, invitation_status: Connection::INTERESTED) }
-
-      it 'returns true' do
-        expect(connection.display_participant_name?).to be true
-      end
-    end
-
-    context 'when invitation_status is invited' do
-      let(:connection) { create(:connection, invitation_status: Connection::INVITED) }
-
-      it 'returns false' do
-        expect(connection.display_participant_name?).to be false
-      end
-    end
-
-    context 'when invitation_status is declined' do
-      let(:connection) { create(:connection, invitation_status: Connection::DECLINED) }
-
-      it 'returns false' do
-        expect(connection.display_participant_name?).to be false
-      end
-    end
-  end
-
   describe '#as_json' do
-    context 'when display_participant_name? is true' do
-      let(:connection) { create(:connection, invitation_status: Connection::ACCEPTED) }
+    let(:connection) { create(:connection) }
 
-      it 'includes participant name and email' do
-        json = connection.as_json
-        expect(json['name']).to eq("#{connection.participant.first_name} #{connection.participant.last_name}")
-        expect(json['email']).to eq(connection.participant.email)
-      end
+    it 'includes participant name and email for participants' do
+      allow(Current).to receive(:user).and_return(instance_double(User, participant?: true))
+
+      json = connection.as_json
+      expect(json['name']).to eq("#{connection.participant.first_name} #{connection.participant.last_name}")
+      expect(json['email']).to eq(connection.participant.email)
     end
 
-    context 'when display_participant_name? is false' do
-      let(:connection) { create(:connection, invitation_status: Connection::INVITED) }
+    it 'includes participant codename for non-participants' do
+      allow(Current).to receive(:user).and_return(instance_double(User, participant?: false))
 
-      it 'includes participant codename' do
-        json = connection.as_json
-        expect(json['name']).to eq(connection.participant.codename)
-      end
+      json = connection.as_json
+      expect(json['name']).to eq(connection.participant.codename)
     end
   end
 end

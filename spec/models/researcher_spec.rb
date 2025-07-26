@@ -121,28 +121,19 @@ RSpec.describe Researcher do
 
   describe '#connected_participant_ids' do
     let(:study) { create(:study, researcher:) }
-    let(:accepted_participant) { create(:participant) }
-    let(:interested_participant) { create(:participant) }
+    let(:connected_participant) { create(:participant) }
+    let(:second_connected_participant) { create(:participant) }
+    let(:not_connected_participant) { create(:participant) }
 
     before do
-      create(:connection, study:, participant: accepted_participant, invitation_status: Connection::ACCEPTED)
-      create(:connection, study:, participant: interested_participant, invitation_status: Connection::INTERESTED)
-      create(:connection, study:, invitation_status: Connection::DECLINED)
+      create(:connection, study:, participant: connected_participant, status: Connection::CONNECTED)
+      create(:connection, study:, participant: second_connected_participant, status: Connection::CONNECTED)
     end
 
-    it 'returns unique participant ids for accepted connections' do
+    it 'returns unique participant ids for accepted invitations' do
       connected_ids = researcher.connected_participant_ids
 
-      expect(connected_ids).to contain_exactly(accepted_participant.id, interested_participant.id)
-    end
-  end
-
-  describe '#active_connections' do
-    let(:study) { create(:study, researcher:) }
-    let(:connection) { create(:connection, study:, invitation_status: Connection::ACCEPTED) }
-
-    it 'returns accepted connections for researcher studies' do
-      expect(researcher.active_connections).to include(connection)
+      expect(connected_ids).to contain_exactly(connected_participant.id, second_connected_participant.id)
     end
   end
 end
