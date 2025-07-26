@@ -133,19 +133,9 @@ RSpec.describe Participant do
   #   end
   # end
 
-  describe '#study_invitations' do
-    let!(:accepted_connection) { create(:connection, participant:, invitation_status: Connection::ACCEPTED) }
-    let!(:invited_connection) { create(:connection, participant:, invitation_status: Connection::INVITED) }
-
-    it 'returns invited connections' do
-      expect(participant.study_invitations).to include(invited_connection)
-      expect(participant.study_invitations).not_to include(accepted_connection)
-    end
-  end
-
   describe '#completed_studies' do
-    let!(:completed_connection) { create(:connection, participant:, study_status: Connection::STUDY_COMPLETED) }
-    let!(:in_progress_connection) { create(:connection, participant:, study_status: Connection::STUDY_BEGAN) }
+    let!(:completed_connection) { create(:connection, participant:, status: Connection::STUDY_COMPLETED) }
+    let!(:in_progress_connection) { create(:connection, participant:, status: Connection::STUDY_BEGAN) }
 
     it 'returns completed connections' do
       expect(participant.completed_studies).to include(completed_connection)

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_20_202344) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_26_194517) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -43,17 +43,28 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_20_202344) do
   end
 
   create_table "connections", force: :cascade do |t|
-    t.string "invitation_status"
     t.integer "participant_rating"
     t.integer "study_id", null: false
     t.integer "participant_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "pin", default: ""
-    t.string "study_status", default: ""
+    t.string "status", default: ""
     t.text "participant_feedback"
     t.index ["participant_id"], name: "index_connections_on_participant_id"
     t.index ["study_id"], name: "index_connections_on_study_id"
+  end
+
+  create_table "invitations", force: :cascade do |t|
+    t.bigint "participant_id", null: false
+    t.bigint "study_id", null: false
+    t.string "status", default: "invited"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "status_explanation"
+    t.index ["participant_id", "study_id"], name: "index_invitations_on_participant_id_and_study_id", unique: true
+    t.index ["participant_id"], name: "index_invitations_on_participant_id"
+    t.index ["study_id"], name: "index_invitations_on_study_id"
   end
 
   create_table "locations", force: :cascade do |t|
@@ -153,6 +164,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_20_202344) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "connections", "participants"
   add_foreign_key "connections", "studies"
+  add_foreign_key "invitations", "participants"
+  add_foreign_key "invitations", "studies"
   add_foreign_key "locations", "participants"
   add_foreign_key "locations", "studies"
   add_foreign_key "participants", "users"

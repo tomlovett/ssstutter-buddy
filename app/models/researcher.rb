@@ -4,6 +4,7 @@ class Researcher < ApplicationRecord
   belongs_to :user
   has_many :studies, dependent: :nullify
   has_many :connections, through: :studies
+  has_many :invitations, through: :studies
 
   has_one_attached :headshot
 
@@ -43,10 +44,6 @@ class Researcher < ApplicationRecord
   end
 
   def connected_participant_ids
-    connections.accepted.pluck(:participant_id).uniq
-  end
-
-  def active_connections
-    connections.where(study: studies).accepted
+    connections.pluck(:participant_id).uniq
   end
 end
