@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_26_194517) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_26_205727) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -49,7 +49,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_26_194517) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "pin", default: ""
-    t.string "status", default: ""
+    t.string "status", default: "connected"
     t.text "participant_feedback"
     t.index ["participant_id"], name: "index_connections_on_participant_id"
     t.index ["study_id"], name: "index_connections_on_study_id"

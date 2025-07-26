@@ -1,15 +1,15 @@
-const AdminStats = ({
+export default function Stats({
   users_count,
   participants_count,
   researchers_count,
   published_studies_count,
-  active_connections_count,
+  total_connections,
   completed_connections_count,
   digital_completed_connections_count,
   digital_only_studies_count,
   participants_by_country,
-  studies_by_country,
-}) => {
+  studies_by_country
+}) {
   const LocationTable = ({ location_values }) => (
     <div className="mt-2 w-1/3">
       <table className="w-1/3 border-collapse [&_td]:border [&_td]:border-gray-300 [&_td]:p-2">
@@ -60,7 +60,7 @@ const AdminStats = ({
           </tr>
           <tr>
             <td className="stats-label-cell">Active Connections</td>
-            <td className="stats-number-cell">{active_connections_count}</td>
+            <td className="stats-number-cell">{total_connections}</td>
           </tr>
           <tr>
             <td className="stats-label-cell">Completed Connections</td>
@@ -83,5 +83,3 @@ const AdminStats = ({
     </div>
   )
 }
-
-export default AdminStats

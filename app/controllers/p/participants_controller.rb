@@ -10,7 +10,7 @@ class P::ParticipantsController < P::BaseController
 
     props = {
       participant: @participant.as_json(include: :user),
-      study_invitations: @participant.study_invitations.as_json(include: :study),
+      invitations: @participant.invitations.as_json(include: :study),
       connections: @participant.connections.as_json(include: :study),
       nearby_studies: @participant.nearby_studies
     }
