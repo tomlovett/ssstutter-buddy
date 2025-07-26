@@ -42,6 +42,9 @@ Rails/I18nLocaleTexts:
 Rails/Output:
   Enabled: false
 
+RSpec/ExampleLength:
+  Max: 10
+
 RSpec/NestedGroups:
   Enabled: false
 
