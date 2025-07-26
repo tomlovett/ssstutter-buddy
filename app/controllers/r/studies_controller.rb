@@ -18,10 +18,10 @@ class R::StudiesController < R::BaseController
     return redirect_to '/r' unless allowed_to?(:view?, @study)
     return redirect_to "/r/studies/#{@study.id}/edit" if @study.published_at.blank?
 
-    active_connections = @study.connections.includes(:participant).order(updated_at: :desc).accepted.map(&:as_json)
-    invitations = @study.connections.includes(:participant).order(updated_at: :desc).invited.map(&:as_json)
+    active_connections = @study.connections.includes(:participant).order(updated_at: :desc).map(&:as_json)
+    invitations = @study.invitations.includes(:participant).order(updated_at: :desc).as_json
     completed_connections = @study.connections.includes(:participant).order(updated_at: :desc).completed.map(&:as_json)
-    declined_count = @study.connections.includes(:participant).declined.count
+    declined_count = @study.invitations.declined.count
 
     render inertia: 'r/Studies/show',
            props: { study: @study.as_json, active_connections:, invitations:, completed_connections:,

@@ -8,13 +8,13 @@ class R::ResearchersController < R::BaseController
   def home
     @researcher = Current.user.researcher
 
-    new_connections = @researcher.connections.accepted.order(updated_at: :desc).as_json
-    in_progress_connections = @researcher.connections.accepted.order(updated_at: :desc).as_json
+    new_invitations = @researcher.invitations.accepted.order(updated_at: :desc).as_json
+    in_progress_connections = @researcher.connections.order(updated_at: :desc).as_json
 
     props = {
       researcher: @researcher.as_json,
       studies: @researcher.studies.as_json,
-      new_connections:,
+      new_invitations:,
       in_progress_connections:
     }
 
