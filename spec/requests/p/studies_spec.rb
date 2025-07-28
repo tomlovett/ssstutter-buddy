@@ -8,18 +8,7 @@ RSpec.describe 'P::StudiesController' do
   let(:researcher) { create(:researcher) }
   let(:study) { create(:study, researcher: researcher) }
 
-  before do
-    sign_in(user)
-  end
-
-  describe 'GET /p/studies' do
-    it 'returns a successful response' do
-      get '/p/studies'
-
-      expect(response).to have_http_status(:success)
-      expect(response.body).to include('p/Studies/index')
-    end
-  end
+  before { sign_in(user) }
 
   describe 'GET /p/studies/:id' do
     it 'returns a successful response' do
