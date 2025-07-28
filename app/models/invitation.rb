@@ -20,13 +20,13 @@ class Invitation < ApplicationRecord
   validates :participant_id, uniqueness: { scope: :study_id }
 
   def display_participant_name?
-    [ACCEPTED, INTERESTED].include?(status)
+    (Current.user&.participant&.id == participant.id) || [ACCEPTED, INTERESTED].include?(status)
   end
 
   def as_json(options = {})
     attrs = attributes.dup
 
-    if Current.user.participant? && display_participant_name?
+    if display_participant_name?
       attrs['name'] = "#{participant.first_name} #{participant.last_name}"
       attrs['email'] = participant.email
     else

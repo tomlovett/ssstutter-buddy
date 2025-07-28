@@ -23,19 +23,6 @@ class Connection < ApplicationRecord
 
   before_validation { assign_pin! if pin.blank? }
 
-  def as_json(options = {})
-    attrs = attributes.dup
-
-    if Current.user.participant?
-      attrs['name'] = "#{participant.first_name} #{participant.last_name}"
-      attrs['email'] = participant.email
-    else
-      attrs['name'] = participant.codename
-    end
-
-    super.merge(attrs)
-  end
-
   private
 
   def assign_pin!

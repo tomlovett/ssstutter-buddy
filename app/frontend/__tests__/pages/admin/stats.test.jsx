@@ -15,8 +15,8 @@ describe('Admin Stats Page', () => {
       completed_connections_count: 5,
       digital_completed_connections_count: 3,
       digital_only_studies_count: 8,
-      participants_by_country: { 'United States': 30, 'Canada': 20 },
-      studies_by_country: { 'United States': 8, 'Canada': 2 }
+      participants_by_country: { 'United States': 30, Canada: 20 },
+      studies_by_country: { 'United States': 8, Canada: 2 },
     }
 
     render(<Stats {...mockProps} />)

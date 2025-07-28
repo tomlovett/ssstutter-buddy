@@ -8,7 +8,7 @@ export default function Stats({
   digital_completed_connections_count,
   digital_only_studies_count,
   participants_by_country,
-  studies_by_country
+  studies_by_country,
 }) {
   const LocationTable = ({ location_values }) => (
     <div className="mt-2 w-1/3">
