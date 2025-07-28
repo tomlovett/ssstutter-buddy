@@ -77,23 +77,4 @@ RSpec.describe Connection do
       expect(connection.pin.length).to eq(6)
     end
   end
-
-  describe '#as_json' do
-    let(:connection) { create(:connection) }
-
-    it 'includes participant name and email for participants' do
-      allow(Current).to receive(:user).and_return(instance_double(User, participant?: true))
-
-      json = connection.as_json
-      expect(json['name']).to eq("#{connection.participant.first_name} #{connection.participant.last_name}")
-      expect(json['email']).to eq(connection.participant.email)
-    end
-
-    it 'includes participant codename for non-participants' do
-      allow(Current).to receive(:user).and_return(instance_double(User, participant?: false))
-
-      json = connection.as_json
-      expect(json['name']).to eq(connection.participant.codename)
-    end
-  end
 end

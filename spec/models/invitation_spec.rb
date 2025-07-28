@@ -82,33 +82,49 @@ RSpec.describe Invitation do
     let(:invitation) { create(:invitation, status:) }
     let(:status) { Invitation::ACCEPTED }
 
-    context 'when status is accepted' do
-      it 'returns true' do
-        expect(invitation.display_participant_name?).to be true
-      end
-    end
+    context 'when the current user is the participant in question' do
+      let(:user) { create(:user, participant: invitation.participant) }
 
-    context 'when status is interested' do
-      let(:status) { Invitation::INTERESTED }
+      before { allow(Current).to receive(:user).and_return(user) }
 
       it 'returns true' do
         expect(invitation.display_participant_name?).to be true
       end
     end
 
-    context 'when status is invited' do
-      let(:status) { Invitation::INVITED }
+    context 'when the current user is not the participant in question' do
+      let(:user) { create(:researcher).user }
 
-      it 'returns false' do
-        expect(invitation.display_participant_name?).to be false
+      before { allow(Current).to receive(:user).and_return(user) }
+
+      context 'when status is accepted' do
+        it 'returns true' do
+          expect(invitation.display_participant_name?).to be true
+        end
       end
-    end
 
-    context 'when status is declined' do
-      let(:status) { Invitation::DECLINED }
+      context 'when status is interested' do
+        let(:status) { Invitation::INTERESTED }
 
-      it 'returns false' do
-        expect(invitation.display_participant_name?).to be false
+        it 'returns true' do
+          expect(invitation.display_participant_name?).to be true
+        end
+      end
+
+      context 'when status is invited' do
+        let(:status) { Invitation::INVITED }
+
+        it 'returns false' do
+          expect(invitation.display_participant_name?).to be false
+        end
+      end
+
+      context 'when status is declined' do
+        let(:status) { Invitation::DECLINED }
+
+        it 'returns false' do
+          expect(invitation.display_participant_name?).to be false
+        end
       end
     end
   end
@@ -117,30 +133,22 @@ RSpec.describe Invitation do
     context 'when display_participant_name? is true' do
       let(:invitation) { create(:invitation, status: Invitation::ACCEPTED) }
 
-      it 'includes participant name and email for participants' do
-        allow(Current).to receive(:user).and_return(instance_double(User, participant?: true))
+      before { allow(invitation).to receive(:display_participant_name?).and_return(true) }
 
+      it 'includes participant name and email for participants' do
         json = invitation.as_json
         expect(json['name']).to eq("#{invitation.participant.first_name} #{invitation.participant.last_name}")
         expect(json['email']).to eq(invitation.participant.email)
-      end
-
-      it 'includes participant codename for non-participants' do
-        allow(Current).to receive(:user).and_return(instance_double(User, participant?: false))
-
-        json = invitation.as_json
-        expect(json['name']).to eq(invitation.participant.codename)
       end
     end
 
     context 'when display_participant_name? is false' do
       let(:invitation) { create(:invitation, status: Invitation::INVITED) }
 
-      it 'includes participant codename' do
-        allow(Current).to receive(:user).and_return(instance_double(User, participant?: false))
+      before { allow(invitation).to receive(:display_participant_name?).and_return(false) }
 
-        json = invitation.as_json
-        expect(json['name']).to eq(invitation.participant.codename)
+      it 'includes participant codename' do
+        expect(invitation.as_json['name']).to eq(invitation.participant.codename)
       end
     end
   end
