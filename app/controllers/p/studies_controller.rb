@@ -3,29 +3,9 @@
 class P::StudiesController < P::BaseController
   before_action :set_study, only: %i[show]
 
-  # GET /p/studies
-  def index
-    existing_study_connections = Connection.where(participant: Current.user.participant).pluck(:study_id)
-    available_studies = Study.published
-                             .where.not(id: existing_study_connections)
-                             .order(created_at: :desc)
-                             .page(params[:page]).per(25)
-
-    props = {
-      studies: available_studies,
-      pagination: {
-        current_page: available_studies.current_page,
-        total_pages: available_studies.total_pages,
-        total_count: available_studies.total_count
-      }
-    }
-
-    render inertia: 'p/Studies/index', props:
-  end
-
   # GET /p/digital-studies
   def digital_studies
-    existing_study_connections = Connection.where(participant: @participant).pluck(:study_id)
+    existing_study_connections = Current.user.participant.connections.pluck(:study_id)
     untouched_digital_studies = Study.digital_friendly
                                      .where.not(id: existing_study_connections)
                                      .order(created_at: :desc)
@@ -33,6 +13,7 @@ class P::StudiesController < P::BaseController
 
     props = {
       studies: untouched_digital_studies,
+      invitations: Current.user.participant.invitations.map(&:as_json),
       pagination: {
         current_page: untouched_digital_studies.current_page,
         total_pages: untouched_digital_studies.total_pages,

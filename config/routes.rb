@@ -43,7 +43,7 @@ Rails.application.routes.draw do
 
     resources :researchers, only: :show
     get '/digital-studies', to: 'studies#digital_studies'
-    resources :studies, only: %i[index show]
+    resources :studies, only: %i[show]
   end
 
   namespace :r do
