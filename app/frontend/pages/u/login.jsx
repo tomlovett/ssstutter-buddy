@@ -91,6 +91,15 @@ const Login = () => {
             </div>
           </form>
         </Form>
+
+        <div className="text-center text-sm text-gray-600">
+          <Link
+            href="/home"
+            className="font-medium text-indigo-600 hover:text-indigo-500"
+          >
+            Back to homepage
+          </Link>
+        </div>
       </div>
     </div>
   )
