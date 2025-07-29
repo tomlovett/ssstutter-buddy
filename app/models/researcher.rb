@@ -13,7 +13,7 @@ class Researcher < ApplicationRecord
   def as_json(options = {})
     headshot_url = if headshot.attached?
                      Rails.application.routes.url_helpers
-                          .rails_blob_path(headshot, only_path: true)
+                       .rails_blob_path(headshot, only_path: true)
                    end
 
     super.merge(

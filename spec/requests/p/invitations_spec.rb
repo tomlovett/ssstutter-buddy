@@ -30,7 +30,7 @@ RSpec.describe 'P::InvitationsController' do
             expect do
               post '/p/invitations', params:
             end.to change(Connection, :count).by(1)
-                                             .and have_enqueued_mail(ConnectionMailer, :new_connection)
+              .and have_enqueued_mail(ConnectionMailer, :new_connection)
 
             expect(invitation.reload.status).to eq(Invitation::INTERESTED)
 
@@ -69,7 +69,7 @@ RSpec.describe 'P::InvitationsController' do
             expect do
               post '/p/invitations', params:
             end.to change(Connection, :count).by(1)
-                                             .and have_enqueued_mail(ConnectionMailer, :new_connection)
+              .and have_enqueued_mail(ConnectionMailer, :new_connection)
 
             expect(invitation.reload.status).to eq(Invitation::INTERESTED)
 
@@ -107,7 +107,7 @@ RSpec.describe 'P::InvitationsController' do
           expect do
             post '/p/invitations', params:
           end.to change(Connection, :count).by(1)
-                                           .and have_enqueued_mail(ConnectionMailer, :new_connection)
+            .and have_enqueued_mail(ConnectionMailer, :new_connection)
 
           expect(Invitation.last.status).to eq(Invitation::INTERESTED)
 

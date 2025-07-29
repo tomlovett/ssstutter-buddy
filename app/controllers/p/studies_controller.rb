@@ -7,9 +7,8 @@ class P::StudiesController < P::BaseController
   def digital_studies
     existing_study_connections = Current.user.participant.connections.pluck(:study_id)
     untouched_digital_studies = Study.digital_friendly.active
-                                     .where.not(id: existing_study_connections)
-                                     .order(created_at: :desc)
-                                     .page(params[:page]).per(25)
+      .where.not(id: existing_study_connections)
+      .order(created_at: :desc).page(params[:page]).per(25)
 
     props = {
       studies: untouched_digital_studies,

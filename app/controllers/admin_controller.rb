@@ -11,12 +11,12 @@ class AdminController < ApplicationController
     total_connections = Connection.count
     completed_connections_count = Connection.completed.count
     digital_completed_connections_count = Connection.completed.joins(:study)
-                                                    .where(study: { location_type: Study::DIGITAL }).count
+      .where(study: { location_type: Study::DIGITAL }).count
     digital_only_studies_count = Study.where(location_type: Study::DIGITAL).count
     participants_by_country = Participant.joins(:location).where.not(locations: { country: nil })
-                                         .group('locations.country').count
+      .group('locations.country').count
     studies_by_country = Study.joins(:location).where.not(published_at: nil).where.not(locations: { country: nil })
-                              .group('locations.country').count
+      .group('locations.country').count
 
     render inertia: 'admin/stats', props: {
       users_count:,

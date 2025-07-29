@@ -17,6 +17,9 @@ AllCops:
 
   TargetRubyVersion: 3.1
 
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
 Metrics/AbcSize:
   Enabled: false
 

@@ -5,8 +5,8 @@ class WeeklyOnlineDigestJob < ApplicationJob
 
   def perform
     studies = Study.where(digital_friendly: true, published: true)
-                   .where('published_at > ?', 1.week.ago)
-                   .order(published_at: :asc)
+      .where('published_at > ?', 1.week.ago)
+      .order(published_at: :asc)
 
     participants = Participant.where(email_digest_opt_out: false)
 
