@@ -6,12 +6,12 @@ class P::InvitationsController < P::BaseController
   # POST /p/invitations
   def create
     if @invitation.status == params[:status] && @invitation.status_explanation == params[:status_explanation]
-      return head :ok
+      return reload_study
     end
 
     if ['declined', 'not interested'].include?(params[:status])
       @invitation.update(status: params[:status], status_explanation: params[:status_explanation])
-      return head :ok
+      return reload_study
     end
 
     @invitation.update(status: params[:status], status_explanation: params[:status_explanation])
@@ -19,7 +19,7 @@ class P::InvitationsController < P::BaseController
     connection = Connection.create(participant_id: params[:participant_id], study_id: params[:study_id])
     ConnectionMailer.with(connection:).new_connection.deliver_later
 
-    redirect_to "/p/studies/#{params[:study_id]}"
+    reload_study
   end
 
   private
@@ -30,5 +30,9 @@ class P::InvitationsController < P::BaseController
 
   def set_invitation
     @invitation = Invitation.find_or_create_by(participant_id: params[:participant_id], study_id: params[:study_id])
+  end
+
+  def reload_study
+    redirect_to "/p/studies/#{params[:study_id]}"
   end
 end
