@@ -19,9 +19,6 @@ const sendCreateRequest = async userValues => {
   postRequest('/signup', userValues)
     .then(res => res.json())
     .then(jsonData => {
-      console.log(jsonData)
-      // dsplay errors on page, because toast is too short
-      // but realistically, the backend does not currently validate this
       toast(JSON.stringify(jsonData))
     })
 }

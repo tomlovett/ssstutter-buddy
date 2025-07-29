@@ -59,7 +59,7 @@ class UsersController < ApplicationController
       start_new_session_for(@user)
       redirect_to "/u/#{@user.id}/select-role"
     else
-      render inertia: 'u/signup', status: :unprocessable_entity
+      head :unprocessable_entity
     end
   end
 

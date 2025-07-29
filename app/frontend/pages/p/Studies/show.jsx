@@ -144,7 +144,6 @@ const StudyShow = ({ user, study, researcher, invitation }) => {
   )
 
   const ConnectionManagementButtons = () => {
-    console.log(invitation)
     // Participant has not been invited or has not made a decision, display both options
     if (!invitation || !hasMadeDecision(invitation)) {
       return (
