@@ -7,8 +7,9 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { formatDate } from '@/lib/utils'
+import { INVITED } from '@/lib/invitations'
 
-const InvitationsTable = ({ connections }) => {
+const InvitationsTable = ({ invitations }) => {
   const EmptyTable = () => (
     <Table>
       <TableBody>
@@ -31,22 +32,22 @@ const InvitationsTable = ({ connections }) => {
     </TableHeader>
   )
 
-  const InvitationRow = ({ connection }) => (
+  const InvitationRow = ({ invitation }) => (
     <TableRow className="even:bg-muted">
-      <TableCell>{connection.name}</TableCell>
-      <TableCell>{formatDate(connection.updated_at).substr(3)}</TableCell>
-      <TableCell>Invited</TableCell>
+      <TableCell>{invitation.name}</TableCell>
+      <TableCell>{formatDate(invitation.updated_at).substr(3)}</TableCell>
+      <TableCell>{INVITED}</TableCell>
     </TableRow>
   )
 
-  return connections.length === 0 ? (
+  return invitations.length === 0 ? (
     <EmptyTable />
   ) : (
-    <Table>
+    <Table className="rounded-md">
       <TableHeaderRow />
       <TableBody>
-        {connections.map(connection => (
-          <InvitationRow connection={connection} key={connection.id} />
+        {invitations.map(invitation => (
+          <InvitationRow invitation={invitation} key={invitation.id} />
         ))}
       </TableBody>
     </Table>

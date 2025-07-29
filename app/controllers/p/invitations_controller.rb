@@ -19,7 +19,7 @@ class P::InvitationsController < P::BaseController
     connection = Connection.create(participant_id: params[:participant_id], study_id: params[:study_id])
     ConnectionMailer.with(connection:).new_connection.deliver_later
 
-    head :ok
+    redirect_to "/p/studies/#{params[:study_id]}"
   end
 
   private

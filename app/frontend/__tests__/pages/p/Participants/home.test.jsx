@@ -8,7 +8,7 @@ describe('Participant Home Page', () => {
     // Mock props
     const mockProps = {
       participant: { first_name: 'John' },
-      study_invitations: [],
+      invitations: [],
       connections: [],
       nearby_studies: [],
     }

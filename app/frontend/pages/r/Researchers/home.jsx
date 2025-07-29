@@ -2,12 +2,7 @@ import StudyTable from 'components/Researcher/StudyTable'
 import ConnectionsTable from 'components/Researcher/ConnectionsTable'
 import { CreateStudyModal } from 'components/Researcher/CreateStudyModal'
 
-const ResearcherHome = ({
-  researcher,
-  studies,
-  new_connections,
-  in_progress_connections,
-}) => (
+const ResearcherHome = ({ researcher, studies, in_progress_connections }) => (
   <div>
     <div className="flex items-center justify-between mb-4">
       <h3>Welcome, {researcher.first_name}</h3>
@@ -19,14 +14,6 @@ const ResearcherHome = ({
     <StudyTable
       studies={studies}
       nullStatement="You don't have any active studies"
-    />
-
-    <hr className="my-4 border-gray-400" />
-
-    <h5>New Connections</h5>
-    <ConnectionsTable
-      connections={new_connections}
-      nullStatement="You don't have any new connections"
     />
 
     <hr className="my-4 border-gray-400" />

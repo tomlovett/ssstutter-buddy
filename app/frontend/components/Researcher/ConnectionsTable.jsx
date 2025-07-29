@@ -17,7 +17,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { putRequest } from '@/lib/api'
-import { MANAGE_STATUSES } from '@/lib/connections'
+import { CONNECTION_STATUSES } from '@/lib/connections'
 
 import { capitalize, formatDate } from '@/lib/utils'
 
@@ -47,28 +47,28 @@ const ConnectionsTable = ({ connections, nullStatement }) => {
     </TableHeader>
   )
 
-  const updateStudyStatus = async (connection, studyStatus) =>
-    await putRequest(`/p/connections/${connection.id}`, {
-      study_status: studyStatus,
-    }).then(res => {
-      const msg =
-        res.status == '200'
-          ? 'Changes saved!'
-          : 'Uh oh, there was an error! Please refresh the page and try again.'
+  const updateStudyStatus = async (connection, status) =>
+    await putRequest(`/r/connections/${connection.id}`, { status }).then(
+      res => {
+        const msg =
+          res.status == '200'
+            ? 'Changes saved!'
+            : 'Uh oh, there was an error! Please refresh the page and try again.'
 
-      toast(msg)
-    })
+        toast(msg)
+      }
+    )
 
-  const StudyStatusDropdown = ({ connection }) => (
+  const ConnectionStatusDropdown = ({ connection }) => (
     <Select
       onValueChange={newStatus => updateStudyStatus(connection, newStatus)}
     >
       <SelectTrigger className="w-[180px]">
-        <SelectValue placeholder={capitalize(connection.study_status)} />
+        <SelectValue placeholder={capitalize(connection.status)} />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          {MANAGE_STATUSES.map(status => (
+          {CONNECTION_STATUSES.map(status => (
             <SelectItem key={status} value={status}>
               {capitalize(status)}
             </SelectItem>
@@ -88,7 +88,7 @@ const ConnectionsTable = ({ connections, nullStatement }) => {
         {connection.pin}
       </TableCell>
       <TableCell>
-        <StudyStatusDropdown connection={connection} />
+        <ConnectionStatusDropdown connection={connection} />
       </TableCell>
     </TableRow>
   )
@@ -96,7 +96,7 @@ const ConnectionsTable = ({ connections, nullStatement }) => {
   return connections.length === 0 ? (
     <EmptyTable />
   ) : (
-    <Table>
+    <Table className="rounded-md">
       {connections.length > 0 && <TableHeaderRow />}
       <TableBody>
         {connections.map(connection => (

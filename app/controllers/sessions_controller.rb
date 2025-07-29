@@ -10,6 +10,10 @@ class SessionsController < ApplicationController
 
   # GET /login
   def new
+    Current.session ||= find_session_by_cookie
+
+    return redirect_to Current.user.home_page if Current.user.present?
+
     render inertia: 'u/login'
   end
 

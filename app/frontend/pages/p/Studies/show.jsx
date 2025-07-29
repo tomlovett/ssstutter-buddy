@@ -1,5 +1,7 @@
 import { Link, router } from '@inertiajs/react'
 import { toast } from 'sonner'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 import {
   AlertDialog,
@@ -13,7 +15,10 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
-import { postRequest, putRequest } from '@/lib/api'
+import { Form, FormMessage } from '@/components/ui/form'
+import FormTextarea from '@/components/ui/custom/formTextarea'
+import InvitationSchema from '@/schemas/Invitation'
+import { postRequest } from '@/lib/api'
 import {
   displayLocationShort,
   displayMethodologies,
@@ -21,10 +26,25 @@ import {
   timeline,
 } from '@/lib/study'
 import { status } from '@/lib/study'
-import { hasMadeDecision } from '@/lib/connections'
+import {
+  hasMadeDecision,
+  ACCEPTED,
+  INTERESTED,
+  NOT_INTERESTED,
+} from '@/lib/invitations'
 import { Loader2 } from 'lucide-react'
 
-const StudyShow = ({ study, researcher, connection }) => {
+const StudyShow = ({ user, study, researcher, invitation }) => {
+  const form = useForm({
+    resolver: zodResolver(InvitationSchema),
+    defaultValues: {
+      study_id: study.id,
+      participant_id: user.participant.id,
+      status: INTERESTED,
+      status_explanation: '',
+    },
+  })
+
   const publishedDate = new Date(study.published_at).toLocaleDateString(
     'en-US',
     {
@@ -34,16 +54,11 @@ const StudyShow = ({ study, researcher, connection }) => {
     }
   )
 
-  const upsertConnection = ({ status = 'interested' }) => {
-    const body = { study_id: study.id, invitation_status: status }
-
-    const request = connection?.id
-      ? putRequest(`/p/connections/${connection.id}`, body)
-      : postRequest('/p/connections', body)
-
-    request.then(res => {
-      if (res.status === '200' || res.status === '201') {
+  const onSubmit = data => {
+    postRequest('/p/invitations', data).then(res => {
+      if (res.ok) {
         toast('Success!', { duration: 7000 })
+        form.reset()
       } else {
         toast(
           'Uh oh! There was an error. Try refreshing the page, or email SSStutterBuddy if the problem persists',
@@ -67,8 +82,15 @@ const StudyShow = ({ study, researcher, connection }) => {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={upsertConnection}>
+          <AlertDialogCancel onClick={() => form.reset()}>
+            Cancel
+          </AlertDialogCancel>
+          <AlertDialogAction
+            onClick={() => {
+              form.setValue('status', INTERESTED)
+              form.handleSubmit(onSubmit)()
+            }}
+          >
             Confirm
           </AlertDialogAction>
         </AlertDialogFooter>
@@ -82,26 +104,49 @@ const StudyShow = ({ study, researcher, connection }) => {
         <Button variant="outline">Not Interested</Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
-        <AlertDialogTitle>Not interested?</AlertDialogTitle>
-        <AlertDialogHeader>
-          <AlertDialogDescription>
-            Is this study not a good fit for you?
-            {/* Add input to leave explanation */}
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={() => upsertConnection('not interested')}>
-            Confirm
-          </AlertDialogAction>
-        </AlertDialogFooter>
+        <AlertDialogTitle>
+          Is this study not a good fit for you?
+        </AlertDialogTitle>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <div>
+              <p className="text-sm text-muted-foreground mb-2">
+                Would you like to share why with the researcher?
+                <br />
+                <br />
+                (This may be read by a human being, so please be respectful.)
+              </p>
+              <FormTextarea
+                form={form}
+                name="status_explanation"
+                placeholder="Optional explanation..."
+                className="min-h-[100px] resize-none"
+              />
+              <FormMessage />
+            </div>
+            <AlertDialogFooter>
+              <AlertDialogCancel onClick={() => form.reset()}>
+                Cancel
+              </AlertDialogCancel>
+              <AlertDialogAction
+                type="submit"
+                onClick={() => {
+                  form.setValue('status', NOT_INTERESTED)
+                }}
+              >
+                Confirm
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </form>
+        </Form>
       </AlertDialogContent>
     </AlertDialog>
   )
 
   const ConnectionManagementButtons = () => {
+    console.log(invitation)
     // Participant has not been invited or has not made a decision, display both options
-    if (!connection || !hasMadeDecision(connection)) {
+    if (!invitation || !hasMadeDecision(invitation)) {
       return (
         <div className="flex gap-4">
           <NotInterested />
@@ -110,7 +155,7 @@ const StudyShow = ({ study, researcher, connection }) => {
       )
     }
 
-    if (['accepted', 'interested'].includes(connection.invitation_status)) {
+    if ([ACCEPTED, INTERESTED].includes(invitation.status)) {
       // Participant has already accepted
       return <Button disabled>Connected</Button>
     } else {

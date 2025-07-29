@@ -102,7 +102,7 @@ const StudyShow = ({
         <section>
           <h3 className="text-lg font-bold">Invitations</h3>
           <InvitationsTable
-            connections={invitations}
+            invitations={invitations}
             nullStatement="No participants currently in range for this study."
           />
         </section>
@@ -119,8 +119,8 @@ const StudyShow = ({
       <section>
         <h3 className="text-lg font-bold">Declined Connections</h3>
         <p className="text-sm text-gray-500">
-          {declined_count > 0 ? declined_count : 'No'} participants within range
-          have declined this study.
+          {declined_count > 0 ? declined_count : 'No'} participants have
+          declined this study.
         </p>
       </section>
     </div>
