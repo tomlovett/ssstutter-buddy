@@ -31,11 +31,17 @@ const FormInput = ({
             <Input
               type="file"
               placeholder={placeholder}
+              label={label}
               onChange={onChange}
               accept={field.accept}
             />
           ) : (
-            <Input placeholder={placeholder} type={type} {...field} />
+            <Input
+              placeholder={placeholder}
+              label={label}
+              type={type}
+              {...field}
+            />
           )}
         </FormControl>
         {!!desc && <FormDescription>{desc}</FormDescription>}

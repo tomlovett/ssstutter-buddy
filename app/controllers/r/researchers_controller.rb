@@ -8,14 +8,10 @@ class R::ResearchersController < R::BaseController
   def home
     @researcher = Current.user.researcher
 
-    new_connections = @researcher.invitations.accepted.order(updated_at: :desc).map(&:connection).as_json
-    in_progress_connections = @researcher.connections.order(updated_at: :desc).as_json
-
     props = {
       researcher: @researcher.as_json,
       studies: @researcher.studies.as_json,
-      new_connections:,
-      in_progress_connections:
+      in_progress_connections: @researcher.connections.order(updated_at: :desc).as_json
     }
 
     render inertia: 'r/Researchers/home', props:

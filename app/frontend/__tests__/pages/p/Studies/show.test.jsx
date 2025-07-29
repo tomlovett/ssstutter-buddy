@@ -7,6 +7,11 @@ describe('Participant Studies Show Page', () => {
 
     // Mock props
     const mockProps = {
+      user: {
+        participant: {
+          id: 1,
+        },
+      },
       study: {
         id: 1,
         title: 'Test Study',
@@ -26,7 +31,7 @@ describe('Participant Studies Show Page', () => {
         professional_name: 'Dr. John Doe',
         institution: 'University of Example',
       },
-      connection: null,
+      invitation: null,
     }
 
     render(<Show {...mockProps} />)

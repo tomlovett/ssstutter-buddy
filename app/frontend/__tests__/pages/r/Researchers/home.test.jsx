@@ -9,7 +9,6 @@ describe('Researcher Home Page', () => {
     const mockProps = {
       researcher: { first_name: 'John' },
       studies: [],
-      new_connections: [],
       in_progress_connections: [],
     }
 
@@ -20,7 +19,6 @@ describe('Researcher Home Page', () => {
 
     // Check that section headings are present
     expect(screen.getByText('Active Studies')).toBeInTheDocument()
-    expect(screen.getByText('New Connections')).toBeInTheDocument()
     expect(screen.getByText('In-Progress Connections')).toBeInTheDocument()
   })
 })

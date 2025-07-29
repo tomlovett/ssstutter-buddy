@@ -24,10 +24,8 @@ describe('Researcher Edit Page', () => {
       screen.getByPlaceholderText('Professional titles')
     ).toBeInTheDocument()
     expect(screen.getByPlaceholderText('Institutions')).toBeInTheDocument()
-    expect(
-      screen.getByPlaceholderText('Research Interests')
-    ).toBeInTheDocument()
-    expect(screen.getByPlaceholderText('Professional Bio')).toBeInTheDocument()
+    expect(screen.getByText('Research Interests')).toBeInTheDocument()
+    expect(screen.getByText('Professional Bio')).toBeInTheDocument()
     expect(screen.getByPlaceholderText('University URL')).toBeInTheDocument()
   })
 })

@@ -18,17 +18,21 @@ import {
 import { Input } from '@/components/ui/input'
 
 const formFieldData = [
-  { name: 'titles', placeholder: 'Professional titles' },
-  { name: 'institution', placeholder: 'Institutions' },
-  { name: 'research_interests', placeholder: 'Research Interests' },
+  {
+    name: 'titles',
+    label: 'Professional titles',
+    placeholder: 'e.g. SLP, PhD, etc.',
+  },
+  { name: 'institution', label: 'Institutions' },
+  { name: 'research_interests', label: 'Research Interests' },
   {
     name: 'bio',
-    placeholder: 'Professional Bio',
+    label: 'Professional Bio',
     desc: "Feel free to copy/paste directly from your institution's page",
   },
   {
     name: 'university_profile_url',
-    placeholder: 'University URL',
+    label: 'University URL',
     desc: "A link to your personal webpage or profile on your institution's website",
   },
 ]
@@ -161,12 +165,13 @@ const ResearcherEdit = ({ researcher, is_complete }) => {
           onSubmit={form.handleSubmit(saveResearcherChanges)}
           className="w-2/3 space-y-6"
         >
-          {formFieldData.map(({ name, placeholder, desc }) =>
+          {formFieldData.map(({ name, label, placeholder, desc }) =>
             ['bio', 'research_interests'].includes(name) ? (
               <FormTextarea
                 key={name}
                 form={form}
                 name={name}
+                label={label}
                 placeholder={placeholder}
                 desc={desc}
               />
@@ -175,6 +180,7 @@ const ResearcherEdit = ({ researcher, is_complete }) => {
                 key={name}
                 form={form}
                 name={name}
+                label={label}
                 placeholder={placeholder}
                 desc={desc}
               />

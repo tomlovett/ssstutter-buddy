@@ -3,7 +3,7 @@ import StudyTable from 'components/Participant/StudyTable'
 
 const ParticipantHome = ({
   participant,
-  study_invitations,
+  invitations,
   connections,
   nearby_studies,
 }) => {
@@ -15,7 +15,7 @@ const ParticipantHome = ({
 
       <h4 className="underline">Your Invitations</h4>
       <StudyTable
-        studies={study_invitations.map(c => c.study)}
+        studies={invitations.map(i => i.study)}
         nullStatement="You have no pending invitations"
       />
       <br />

@@ -254,12 +254,13 @@ const StudyEdit = ({ study }) => {
           onSubmit={form.handleSubmit(saveFormChanges)}
           className="w-2/3 space-y-6"
         >
-          {topFormFields.map(({ name, placeholder, desc }) =>
+          {topFormFields.map(({ name, label, placeholder, desc }) =>
             name == 'long_desc' ? (
               <FormTextarea
                 key={name}
                 form={form}
                 name={name}
+                label={label}
                 placeholder={placeholder}
                 desc={desc}
               />

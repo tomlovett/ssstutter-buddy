@@ -58,6 +58,7 @@ Rails.application.routes.draw do
         get 'closed'
       end
     end
+    resources :connections, only: [:update]
     # resources :participants, only: [:show]
   end
 
