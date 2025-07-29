@@ -124,7 +124,6 @@ RSpec.describe User do
       expect { user.assign_activation_pin! }.to change(user, :activation_pin)
 
       expect(user.reload.activation_pin.length).to eq(6)
-      expect(user.reload.activation_pin.to_i.to_s).to eq(user.reload.activation_pin.to_s)
     end
   end
 

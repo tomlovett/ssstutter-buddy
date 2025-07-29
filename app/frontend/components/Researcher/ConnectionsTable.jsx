@@ -47,11 +47,11 @@ const ConnectionsTable = ({ connections, nullStatement }) => {
     </TableHeader>
   )
 
-  const updateStudyStatus = async (connection, status) =>
+  const updateConnectionStatus = async (connection, status) =>
     await putRequest(`/r/connections/${connection.id}`, { status }).then(
       res => {
         const msg =
-          res.status == '200'
+          res.status == '204'
             ? 'Changes saved!'
             : 'Uh oh, there was an error! Please refresh the page and try again.'
 
@@ -61,7 +61,7 @@ const ConnectionsTable = ({ connections, nullStatement }) => {
 
   const ConnectionStatusDropdown = ({ connection }) => (
     <Select
-      onValueChange={newStatus => updateStudyStatus(connection, newStatus)}
+      onValueChange={newStatus => updateConnectionStatus(connection, newStatus)}
     >
       <SelectTrigger className="w-[180px]">
         <SelectValue placeholder={capitalize(connection.status)} />

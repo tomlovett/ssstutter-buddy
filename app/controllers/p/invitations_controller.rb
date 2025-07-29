@@ -9,7 +9,7 @@ class P::InvitationsController < P::BaseController
       return reload_study
     end
 
-    if ['declined', 'not interested'].include?(params[:status])
+    if [Invitation::DECLINED, Invitation::NOT_INTERESTED].include?(params[:status])
       @invitation.update(status: params[:status], status_explanation: params[:status_explanation])
       return reload_study
     end

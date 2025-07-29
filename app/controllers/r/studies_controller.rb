@@ -19,7 +19,7 @@ class R::StudiesController < R::BaseController
     return redirect_to "/r/studies/#{@study.id}/edit" if @study.published_at.blank?
 
     active_connections = @study.connections.includes(:participant).order(updated_at: :desc).map(&:as_json)
-    invitations = @study.invitations.includes(:participant).order(updated_at: :desc).as_json
+    invitations = @study.invitations.invited.includes(:participant).order(updated_at: :desc).as_json
     completed_connections = @study.connections.includes(:participant).order(updated_at: :desc).completed.map(&:as_json)
     declined_count = @study.invitations.declined.count
 
