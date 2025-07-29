@@ -23,7 +23,7 @@ class SessionsController < ApplicationController
       start_new_session_for user
       redirect_to user.home_page
     else
-      redirect_to login_path, alert: 'Try another email address or password.'
+      head :unauthorized, alert: 'Invalid email or password.'
     end
   end
 

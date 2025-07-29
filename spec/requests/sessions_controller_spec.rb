@@ -31,7 +31,7 @@ RSpec.describe 'SessionsController' do
           email: user.email,
           password: 'wrong_password'
         }
-        expect(response).to have_http_status(:redirect)
+        expect(response).to have_http_status(:unauthorized)
       end
     end
   end
