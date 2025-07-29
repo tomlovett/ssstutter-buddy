@@ -21,7 +21,7 @@ class SessionsController < ApplicationController
   def create
     if (user = User.authenticate_by(params.permit(:email, :password)))
       start_new_session_for user
-      redirect_to user.home_page
+      redirect_to session[:return_to_after_authenticating] || user.home_page
     else
       head :unauthorized, alert: 'Invalid email or password.'
     end
