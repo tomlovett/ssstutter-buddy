@@ -5,11 +5,6 @@ class ApiController < ApplicationController
 
   # POST /api/location
   def location
-    if location_params[:country].blank?
-      render json: { error: 'Country is required' }, status: :unprocessable_entity
-      return
-    end
-
     verified_address = VerifiedAddress.new(location_params).as_json
 
     render json: verified_address, status: :ok
