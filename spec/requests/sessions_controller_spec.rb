@@ -29,17 +29,32 @@ RSpec.describe 'SessionsController' do
       context 'when return_to_after_authenticating is set' do
         let(:user) { create(:participant).user }
 
-        it 'redirects to the return_to_after_authenticating url' do
-          # First, trigger the authentication requirement to set the session
-          get '/p/studies/19'
+        context 'when the return_to_after_authenticating url is valid' do
+          it 'redirects to the return_to_after_authenticating url' do
+            # First, trigger the authentication requirement to set the session
+            get '/p/studies/19'
 
-          # Now login with the session already set
-          post '/login', params: {
-            email: user.email,
-            password: user.password
-          }
+            # Now login with the session already set
+            post '/login', params: {
+              email: user.email,
+              password: user.password
+            }
 
-          expect(response).to redirect_to('/p/studies/19')
+            expect(response).to redirect_to('/p/studies/19')
+          end
+        end
+
+        context 'when the return_to_after_authenticating url is to logout' do
+          it 'redirects to the home page' do
+            get '/logout'
+
+            post '/login', params: {
+              email: user.email,
+              password: user.password
+            }
+
+            expect(response).to redirect_to(user.home_page)
+          end
         end
       end
     end

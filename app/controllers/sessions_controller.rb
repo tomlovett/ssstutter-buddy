@@ -21,7 +21,12 @@ class SessionsController < ApplicationController
   def create
     if (user = User.authenticate_by(params.permit(:email, :password)))
       start_new_session_for user
-      redirect_to session[:return_to_after_authenticating] || user.home_page
+
+      if valid_redirect_to?(session[:return_to_after_authenticating])
+        redirect_to session[:return_to_after_authenticating]
+      else
+        redirect_to user.home_page
+      end
     else
       head :unauthorized, alert: 'Invalid email or password.'
     end
@@ -31,5 +36,11 @@ class SessionsController < ApplicationController
   def destroy
     terminate_session
     redirect_to login_path
+  end
+
+  private
+
+  def valid_redirect_to?(redirect_to)
+    session[:return_to_after_authenticating].present? && ['/', '/logout'].exclude?(URI.parse(redirect_to).path)
   end
 end
