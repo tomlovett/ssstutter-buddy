@@ -2,6 +2,6 @@
 
 class StudyPolicy < ApplicationPolicy
   def owner?
-    record.researcher == user.researcher
+    record.researcher == user.researcher || admin?
   end
 end

@@ -2,7 +2,7 @@
 
 class ParticipantPolicy < ApplicationPolicy
   def view?
-    owner? || researcher?
+    owner? || researcher? || admin?
   end
 
   private

@@ -21,20 +21,20 @@ class ApplicationPolicy < ActionPolicy::Base
   end
 
   def owner?
-    record.user_id == user.id || record.id == user.id
+    record.user_id == user.id || record.id == user.id || admin?
   end
 
   private
 
   def researcher?
-    user.researcher?
+    user.researcher? || admin?
   end
 
   def participant?
-    user.participant?
+    user.participant? || admin?
   end
 
   def admin?
-    Rails.env.development? || ENV.fetch('ADMIN_EMAILS', '').split(', ').include?(user.email)
+    Rails.env.development? || user.admin?
   end
 end
