@@ -146,7 +146,11 @@ const ParticipantEdit = ({ participant, is_complete }) => {
             </div>
 
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(saveParticipantChanges)}>
+              <form
+                onSubmit={form.handleSubmit(data => {
+                  saveParticipantChanges({ participant: data })
+                })}
+              >
                 <div className="space-y-6">
                   <FormInput
                     form={form}
@@ -168,7 +172,7 @@ const ParticipantEdit = ({ participant, is_complete }) => {
                     <FormInput
                       form={form}
                       name="birthdate"
-                      label="Date of Birth"
+                      label="Date of Birth (YYYY-MM-DD)"
                       placeholder="YYYY-MM-DD"
                       className="w-full max-w-[200px]"
                     />

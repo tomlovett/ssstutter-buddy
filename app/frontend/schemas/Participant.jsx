@@ -11,7 +11,7 @@ const ParticipantSchema = z.object({
   }),
   weekly_digest_opt_out: z.boolean().default(false),
   location: z.object({
-    id: z.string().optional(),
+    id: z.coerce.string().optional(),
     country: z.string(),
     state: z.string(),
     city: z.string(),
