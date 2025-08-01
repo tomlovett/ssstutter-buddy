@@ -3,29 +3,44 @@
 require 'rails_helper'
 
 RSpec.describe 'ApiController' do
-  describe 'POST /api/location' do
-    let(:valid_params) do
-      {
-        api: {
-          country: 'US',
-          state: 'CA',
-          city: 'San Francisco'
-        }
-      }
+  describe 'POST /location' do
+    let(:country) { nil }
+    let(:state) { nil }
+    let(:city) { nil }
+    let(:params) { { api: { country:, state:, city: } } }
+
+    before { post '/api/location', params: params }
+
+    context 'when passed only a country' do
+      let(:country) { 'US' }
+
+      it 'returns a list of states and provinces for that country' do
+        expect(json['country']).to eq({ 'name' => 'United States', 'symbol' => 'US' })
+        expect(json['state']).to be_empty
+        expect(json['states_list']).not_to be_empty
+        expect(json['city']).to be_empty
+      end
     end
 
-    it 'returns JSON response' do
-      post '/api/location', params: valid_params
+    context 'when passed a country and city' do
+      let(:country) { 'US' }
+      let(:state) { 'MD' }
 
-      expect(response).to have_http_status(:success)
-      expect(response.content_type).to include('application/json')
+      it 'returns a list of cities' do
+        expect(json['country']).to eq({ 'name' => 'United States', 'symbol' => 'US' })
+        expect(json['state']).to eq({ 'name' => 'Maryland', 'symbol' => 'MD' })
+        expect(json['cities_list']).not_to be_empty
+        expect(json['city']).to be_empty
+      end
     end
 
-    context 'with invalid params' do
-      it 'returns an error' do
-        post '/api/location', params: { api: { country: '' } }
+    context 'when passed a complete list' do
+      let(:country) { 'US' }
+      let(:state) { 'MD' }
+      let(:city) { 'Bel Air' }
 
-        expect(response).to have_http_status(:unprocessable_entity)
+      it 'returns 204 no_content' do
+        expect(response).to have_http_status(:ok)
       end
     end
   end

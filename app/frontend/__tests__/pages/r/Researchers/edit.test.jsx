@@ -20,12 +20,10 @@ describe('Researcher Edit Page', () => {
     render(<Edit {...mockProps} />)
 
     // Check that form elements are present
-    expect(
-      screen.getByPlaceholderText('Professional titles')
-    ).toBeInTheDocument()
-    expect(screen.getByPlaceholderText('Institutions')).toBeInTheDocument()
+    expect(screen.getByText('Professional titles')).toBeInTheDocument()
+    expect(screen.getByText('Institutions')).toBeInTheDocument()
     expect(screen.getByText('Research Interests')).toBeInTheDocument()
     expect(screen.getByText('Professional Bio')).toBeInTheDocument()
-    expect(screen.getByPlaceholderText('University URL')).toBeInTheDocument()
+    expect(screen.getByText('University URL')).toBeInTheDocument()
   })
 })
