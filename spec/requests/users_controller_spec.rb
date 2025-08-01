@@ -41,7 +41,7 @@ RSpec.describe 'UsersController' do
 
     context 'with existing user invitation' do
       let!(:user_invitation) { create(:user_invitation, email: 'invited@example.com') }
-      let(:invited_params) do
+      let(:params) do
         {
           first_name: 'Jane',
           last_name: 'Smith',
@@ -53,7 +53,7 @@ RSpec.describe 'UsersController' do
 
       it 'accepts the user invitation when user signs up' do
         expect do
-          post '/signup', params: invited_params
+          post '/signup', params: params
         end.to change(User, :count).by(1)
 
         expect(user_invitation.reload.accepted_at).to be_present

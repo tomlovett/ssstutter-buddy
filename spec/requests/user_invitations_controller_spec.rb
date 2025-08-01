@@ -51,7 +51,7 @@ RSpec.describe UserInvitationsController do
       end
     end
 
-    context 'with duplicate email' do
+    context 'with existing user invitation record' do
       let(:duplicate_params) { { email: 'test@example.com' } }
 
       before { create(:user_invitation, email: 'test@example.com') }
@@ -59,6 +59,19 @@ RSpec.describe UserInvitationsController do
       it 'does not create a duplicate user invitation but returns ok status' do
         expect do
           post '/invite', params: duplicate_params
+        end.not_to change(UserInvitation, :count)
+
+        expect(UserInvitationMailer).not_to have_received(:with)
+        expect(response).to have_http_status(:ok)
+      end
+    end
+
+    context 'with existing user record' do
+      before { create(:user, email: 'test@example.com') }
+
+      it 'does not create a user invitation but returns ok status' do
+        expect do
+          post '/invite', params: { email: 'test@example.com' }
         end.not_to change(UserInvitation, :count)
 
         expect(UserInvitationMailer).not_to have_received(:with)

@@ -56,8 +56,7 @@ class UsersController < ApplicationController
     if @user.save
       @user.assign_activation_pin!
 
-      user_invitation = UserInvitation.pending.find_by(email: @user.email)
-      user_invitation&.update(accepted_at: Time.current)
+      UserInvitation.pending.find_by(email: @user.email)&.update(accepted_at: Time.current)
 
       start_new_session_for(@user)
       redirect_to "/u/#{@user.id}/select-role"
