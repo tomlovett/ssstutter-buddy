@@ -179,21 +179,12 @@ describe('Direct API Function Testing', () => {
 
 describe('API Error Handling', () => {
   test('should handle network errors', async () => {
-    // Suppress console.warn for this test since we're intentionally testing the catch-all handler
-    const originalWarn = console.warn
-    console.warn = jest.fn()
+    // Mock a network error by not setting up any handler
+    // This will cause the request to fail in a real environment
+    // In the test environment, MSW will catch it and return 404
 
-    try {
-      // Mock a network error by not setting up any handler
-      // This will cause the request to fail in a real environment
-      // In the test environment, MSW will catch it and return 404
-
-      const response = await getRequest('/api/nonexistent-endpoint')
-      expect(response.status).toBe(404)
-    } finally {
-      // Restore original console.warn
-      console.warn = originalWarn
-    }
+    const response = await getRequest('/api/nonexistent-endpoint')
+    expect(response.status).toBe(404)
   })
 
   test('should handle 404 errors', async () => {
