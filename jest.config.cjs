@@ -22,7 +22,14 @@ module.exports = {
     '<rootDir>/app/frontend/**/__tests__/**/*.{js,jsx,ts,tsx}',
     '<rootDir>/app/frontend/**/*.{test,spec}.{js,jsx,ts,tsx}',
   ],
-  testPathIgnorePatterns: ['/node_modules/', '/tmp/', '/dist/', '/helpers/'],
+  testPathIgnorePatterns: [
+    '/node_modules/',
+    '/tmp/',
+    '/dist/',
+    '/helpers/',
+    '/mocks/',
+    '/utils/',
+  ],
   collectCoverageFrom: [
     'app/frontend/**/*.{js,jsx}',
     '!app/frontend/**/*.d.ts',

@@ -137,13 +137,7 @@ const StudyEdit = ({ study }) => {
       return
     }
 
-    try {
-      await postRequest(`/r/studies/${study.id}/publish`, studyValues)
-      toast.success('Study published!', 6000)
-    } catch (_error) {
-      console.log(_error)
-      toast.error('Failed to publish study', 6000)
-    }
+    await postRequest(`/r/studies/${study.id}/publish`, studyValues)
   }
 
   const formatLocationAttributes = refinedValues => {
