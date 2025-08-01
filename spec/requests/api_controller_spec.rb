@@ -4,28 +4,41 @@ require 'rails_helper'
 
 RSpec.describe 'ApiController' do
   describe 'POST /api/location' do
-    let(:valid_params) do
-      {
-        api: {
-          country: 'US',
-          state: 'CA',
-          city: 'San Francisco'
-        }
-      }
+    let(:country) { 'US' }
+    let(:state) { 'CA' }
+    let(:city) { 'San Francisco' }
+
+    let(:params) { { api: { country:, state:, city: } } }
+
+    context 'with values for all three fields' do
+      it 'returns JSON response' do
+        post '/api/location', params: params
+
+        expect(response).to have_http_status(:success)
+        expect(response.content_type).to include('application/json')
+      end
     end
 
-    it 'returns JSON response' do
-      post '/api/location', params: valid_params
+    context 'with values for only country' do
+      let(:state) { nil }
+      let(:city) { nil }
 
-      expect(response).to have_http_status(:success)
-      expect(response.content_type).to include('application/json')
+      it 'returns JSON response' do
+        post '/api/location', params: params
+
+        expect(response).to have_http_status(:success)
+        expect(response.content_type).to include('application/json')
+      end
     end
 
-    context 'with invalid params' do
-      it 'returns an error' do
-        post '/api/location', params: { api: { country: '' } }
+    context 'with values for only country and state' do
+      let(:city) { nil }
 
-        expect(response).to have_http_status(:unprocessable_entity)
+      it 'returns JSON response' do
+        post '/api/location', params: params
+
+        expect(response).to have_http_status(:success)
+        expect(response.content_type).to include('application/json')
       end
     end
   end

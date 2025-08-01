@@ -100,3 +100,54 @@ export const mockConnectionsApi = (connections = []) => {
 export const mockStudiesApi = (studies = []) => {
   return mockApiResponse('GET', '/r/studies', { studies })
 }
+
+/**
+ * Helper to create a mock invitations API response
+ * @param {object} invitation - Invitation object
+ */
+export const mockInvitationsApi = (invitation = {}) => {
+  return mockApiResponse('POST', '/p/invitations', invitation)
+}
+
+/**
+ * Helper to create a mock participants API response
+ * @param {object} participant - Participant object
+ */
+export const mockParticipantsApi = (participant = {}) => {
+  return mockApiResponse('PUT', '/p/participants/1', participant)
+}
+
+/**
+ * Helper to create a mock users API response
+ * @param {object} user - User object
+ */
+export const mockUsersApi = (user = {}) => {
+  return mockApiResponse('PUT', '/u/1', user)
+}
+
+/**
+ * Helper to create a mock authentication API response
+ * @param {string} endpoint - Authentication endpoint
+ * @param {object} response - Response data
+ */
+export const mockAuthApi = (endpoint, response = {}) => {
+  return mockApiResponse('POST', endpoint, response)
+}
+
+/**
+ * Helper to create a mock researcher studies API response
+ * @param {string} method - HTTP method
+ * @param {string} endpoint - API endpoint
+ * @param {object} response - Response data
+ */
+export const mockResearcherStudiesApi = (method, endpoint, response = {}) => {
+  return mockApiResponse(method, endpoint, response)
+}
+
+/**
+ * Helper to create a mock connections API response for researchers
+ * @param {object} connection - Connection object
+ */
+export const mockResearcherConnectionsApi = (connection = {}) => {
+  return mockApiResponse('PUT', '/r/connections/1', connection)
+}
