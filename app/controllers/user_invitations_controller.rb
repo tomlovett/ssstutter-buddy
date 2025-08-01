@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 class UserInvitationsController < ApplicationController
+  def index
+    render inertia: 'invite', props: { user: Current.user }
+  end
+
   def create
     return head :unprocessable_entity unless params[:email]&.match?(URI::MailTo::EMAIL_REGEXP)
 

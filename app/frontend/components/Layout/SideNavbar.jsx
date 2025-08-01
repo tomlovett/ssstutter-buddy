@@ -6,6 +6,7 @@ import {
   LogOut,
   Settings,
   UserRound,
+  UserPlus,
 } from 'lucide-react'
 import {
   Sidebar,
@@ -40,6 +41,11 @@ const AppSidebar = ({ user }) => {
       icon: Computer,
     },
     {
+      title: 'Invite a friend',
+      url: '/invite',
+      icon: UserPlus,
+    },
+    {
       title: 'My profile',
       url: `/p/participants/${user?.participant?.id}`,
       icon: UserRound,
@@ -72,6 +78,11 @@ const AppSidebar = ({ user }) => {
     //   url: '/r/studies/new',
     //   icon: Plus,
     // },
+    {
+      title: 'Invite collaborators',
+      url: '/invite',
+      icon: UserPlus,
+    },
     {
       title: 'My profile',
       url: `/r/researchers/${user?.researcher?.id}`,
