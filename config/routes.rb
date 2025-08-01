@@ -29,6 +29,7 @@ Rails.application.routes.draw do
   get '/reset-password', to: 'authentication#reset_password', param: :activation_pin
 
   resources :users, except: %i[index new create], path: 'u'
+  resources :user_invitations, only: [:create]
   get '/change-password', to: 'authentication#change_password'
   put '/change-password', to: 'authentication#change_password_action'
 
