@@ -17,6 +17,10 @@ RSpec.describe UserInvitationsController do
   end
 
   describe 'POST /invite' do
+    let(:dummy_mailer) { instance_double(UserInvitationMailer, invitation_email: instance_double(ActionMailer::MessageDelivery, deliver_later: true)) }
+
+    before { allow(UserInvitationMailer).to receive(:with).and_return(dummy_mailer) }
+
     context 'with valid email' do
       let(:valid_params) { { email: 'test@example.com' } }
 
@@ -24,6 +28,11 @@ RSpec.describe UserInvitationsController do
         expect do
           post '/invite', params: valid_params
         end.to change(UserInvitation, :count).by(1)
+
+        expect(UserInvitationMailer).to have_received(:with).with(
+          recipient: 'test@example.com',
+          invited_by_name: user.full_name
+        )
 
         expect(UserInvitation.last.invited_by_id).to eq(user.id)
         expect(response).to have_http_status(:ok)
@@ -52,6 +61,7 @@ RSpec.describe UserInvitationsController do
           post '/invite', params: duplicate_params
         end.not_to change(UserInvitation, :count)
 
+        expect(UserInvitationMailer).not_to have_received(:with)
         expect(response).to have_http_status(:ok)
       end
     end

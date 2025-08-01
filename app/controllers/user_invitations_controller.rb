@@ -13,7 +13,10 @@ class UserInvitationsController < ApplicationController
     @user_invitation = UserInvitation.new(user_invitation_params.merge(invited_by_id: Current.user.id))
 
     if @user_invitation.save
-      # TODO: Send invitation email here
+      UserInvitationMailer.with(
+        recipient: @user_invitation.email,
+        invited_by_name: Current.user.full_name
+      ).invitation_email.deliver_later
     end
 
     head :ok
