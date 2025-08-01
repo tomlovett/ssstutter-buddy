@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-# Preview all emails at http://localhost:3001/rails/mailers/participant_mailer
+# Preview all emails at http://localhost:3000/rails/mailers/participant_mailer
 class ParticipantMailerPreview < ActionMailer::Preview
-  # Preview this email at http://localhost:3001/rails/mailers/participant_mailer/new_study_alert
+  # Preview this email at http://localhost:3000/rails/mailers/participant_mailer/new_study_alert
   def new_study_alert
     study = FactoryBot.create(
       :study,
@@ -24,7 +24,7 @@ class ParticipantMailerPreview < ActionMailer::Preview
     ParticipantMailer.with(study: study, participant: participant).new_study_alert
   end
 
-  # Preview this email at http://localhost:3001/rails/mailers/participant_mailer/weekly_online_digest
+  # Preview this email at http://localhost:3000/rails/mailers/participant_mailer/weekly_online_digest
   def weekly_online_digest
     researcher = FactoryBot.create(
       :researcher,
