@@ -25,18 +25,20 @@ const InvitePage = ({ user }) => {
 
   return (
     <div className="min-h-screen flex flex-col items-center p-4 w-full mx-auto mt-32">
-      <h1 className="text-2xl font-bold mb-6 text-center">Invite a Friend</h1>
+      <h1 className="text-2xl font-bold mb-6 text-center">
+        Invite a {user.researcher ? 'Colleague' : 'Friend'}
+      </h1>
       <p className="text-gray-600 mb-8 text-center w-1/3 mx-auto">
         Help us advance the pace of stuttering research!
         <br />
         <br />
         Enter a {user.researcher ? 'colleague' : 'friend'}'s email and we will
-        send them an invitation to join the platform.
+        send them an invitation on your behalf.
         <br />
         <br />
         {user.participant &&
-          'Invite as many people as you think would enjoy the platform.'}
-        We only send one invitation per email address.
+          'Invite as many people as you think would enjoy the platform. '}
+        We will only send one invitation per email address.
       </p>
       <Form {...form}>
         <form

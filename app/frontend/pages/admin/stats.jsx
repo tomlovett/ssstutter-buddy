@@ -9,6 +9,8 @@ export default function Stats({
   digital_only_studies_count,
   participants_by_country,
   studies_by_country,
+  invitations_count,
+  accepted_invitations_count,
 }) {
   const LocationTable = ({ location_values }) => (
     <div className="mt-2 w-1/3">
@@ -71,6 +73,14 @@ export default function Stats({
             <td className="stats-number-cell">
               {digital_completed_connections_count}
             </td>
+          </tr>
+          <tr>
+            <td className="stats-label-cell">Invitations</td>
+            <td className="stats-number-cell">{invitations_count}</td>
+          </tr>
+          <tr>
+            <td className="stats-label-cell">Accepted Invitations</td>
+            <td className="stats-number-cell">{accepted_invitations_count}</td>
           </tr>
         </tbody>
       </table>
