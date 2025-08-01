@@ -50,15 +50,15 @@ const LocationTool = ({ location: { country, state, city }, onSave }) => {
     setCurrentCity(city)
   }
 
-  const clearCity = () => setCurrentCity({})
+  const clearCity = () => setCurrentCity(null)
 
   const clearState = () => {
     clearCity()
-    setCurrentState({})
+    setCurrentState(null)
   }
   const clearCountry = () => {
     clearState()
-    setCurrentCountry({})
+    setCurrentCountry(null)
   }
 
   const ClearFieldIcon = ({ onClick }) => (
