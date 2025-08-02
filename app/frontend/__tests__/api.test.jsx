@@ -1,13 +1,13 @@
 import React from 'react'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { sendRequest, getRequest, postRequest, putRequest } from '../lib/api'
+import { sendRequest, getRequest, postRequest, putRequest } from '@/lib/api'
 import {
   mockApiResponse,
   mockApiError,
   mockLocationApi,
   mockConnectionsApi,
-} from './utils/api-test-utils'
+} from '@tests/utils/api-test-utils'
 
 // Test component that makes API calls
 const TestApiComponent = () => {
@@ -179,12 +179,21 @@ describe('Direct API Function Testing', () => {
 
 describe('API Error Handling', () => {
   test('should handle network errors', async () => {
-    // Mock a network error by not setting up any handler
-    // This will cause the request to fail in a real environment
-    // In the test environment, MSW will catch it and return 404
+    // Suppress console.warn for this test since we're intentionally testing the catch-all handler
+    const originalWarn = console.warn
+    console.warn = jest.fn()
 
-    const response = await getRequest('/api/nonexistent-endpoint')
-    expect(response.status).toBe(404)
+    try {
+      // Mock a network error by not setting up any handler
+      // This will cause the request to fail in a real environment
+      // In the test environment, MSW will catch it and return 404
+
+      const response = await getRequest('/api/nonexistent-endpoint')
+      expect(response.status).toBe(404)
+    } finally {
+      // Restore original console.warn
+      console.warn = originalWarn
+    }
   })
 
   test('should handle 404 errors', async () => {
