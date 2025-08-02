@@ -1,0 +1,239 @@
+# SSStutter Buddy Project Rules
+
+## Project Overview
+- Rails 8.0.0.rc1 backend with Ruby 3.3.3
+- React 19 frontend with Inertia.js
+- PostgreSQL database
+- ShadCN UI (built on Tailwind CSS) for styling
+- Comprehensive testing with RSpec and Jest
+- Authentication with JWT and OmniAuth
+
+## Ruby/Rails Conventions
+
+### Code Style
+- Follow RuboCop configuration in .rubocop.yml
+- Use frozen_string_literal: true at the top of all Ruby files
+- Use snake_case for methods and variables
+- Use PascalCase for classes and modules
+- Prefer single quotes for strings unless interpolation is needed
+- Use 2-space indentation
+- Include Authentication and Gatekeeping concerns in controllers where needed
+- Prefer object shorthand syntax: `{ var_name: }` instead of `{ var_name: var_name }`
+
+### Rails Patterns
+- Use concerns for shared functionality (see app/controllers/concerns/)
+- Use Current.user pattern for current user access
+- Use Inertia.js for server-side rendering with React
+- Use Action Policy for authorization
+- Use Factory Bot for test data
+- Use Geocoder for location services
+- Use Kaminari for pagination
+- `inertia_share` always passes `Current.user` as `user` to the frontend
+- The `user` object always includes its `participant` or `researcher` association
+
+### Database
+- Use PostgreSQL as the database
+- Follow Rails naming conventions for tables and columns
+- Use migrations for all database changes
+- Use seeds.rb for initial data
+
+## React/JavaScript Conventions
+
+### Code Style
+- Use ESLint configuration from eslint.config.js
+- Use Prettier for code formatting
+- Use functional components with hooks
+- Use JSX file extension for React components
+- Use camelCase for variables and functions
+- Use PascalCase for components
+- Prefer object shorthand syntax: `{ varName }` instead of `{ varName: varName }`
+- Use ES6 import/export syntax
+- Use named exports for components and utilities
+- Use default exports for pages and main components
+- Prefer absolute imports using aliases to simplify filepaths
+- Use relative imports only for closely related files in the same directory
+
+### React Patterns
+- Use Inertia.js for server-side rendering
+- Use React Hook Form for form handling
+- Use Zod for schema validation
+- Use ShadCN UI components (built on Radix UI) for accessibility
+- Use Tailwind CSS (via ShadCN) for styling
+- Use Lucide React for icons
+- Use Sonner for toast notifications
+
+### File Organization
+- Components in app/frontend/components/
+- Pages in app/frontend/pages/
+- Hooks in app/frontend/hooks/
+- Schemas in app/frontend/schemas/
+- Styles in app/frontend/styles/
+- Tests in app/frontend/__tests__/
+
+## Testing Conventions
+
+### General Testing
+- Use dynamically-generated dummy data rather than hard-coded values
+
+### Ruby/Rails Testing
+- Use RSpec for Ruby testing
+- Use Factory Bot for test data
+- Use Faker gem to generate dynamic dummy data
+- Use request specs for API testing
+- Use model specs for model testing
+- Use controller specs for controller testing
+- Use policy specs for authorization testing
+- Use contexts with cascading let statements to organize test data and scenarios
+- Use `before` blocks for setup operations, not within `it` blocks or expectations
+- Structure tests with descriptive contexts that build upon each other
+
+### JavaScript/React Testing
+- Use Jest for JavaScript testing
+- Use React Testing Library for component testing
+- Use MSW (Mock Service Worker) for API mocking
+- Use @testing-library/user-event for user interactions
+- Use @testing-library/jest-dom for custom matchers
+
+### Test Organization
+- Test files should mirror the source file structure
+- Use descriptive test names
+- Group related tests with describe blocks
+- Use beforeEach for setup
+- Use factories for test data
+
+## Security Guidelines
+
+### Authentication & Authorization
+- Use session-based authentication for web users (cookies and sessions)
+- Use Action Policy for authorization
+- Use bcrypt for password hashing
+- Validate all user inputs
+- Use strong parameters in controllers
+- Sanitize user data before database storage
+
+### Data Protection
+- Use bcrypt for password hashing
+- Use HTTPS in production
+- Validate and sanitize all inputs
+- Use CORS configuration appropriately
+- Follow Rails security best practices
+
+## Performance Guidelines
+
+### Ruby/Rails
+- Use includes/joins to avoid N+1 queries
+- Use counter caches where appropriate
+- Use background jobs for heavy operations
+- Use caching strategies (Redis when needed)
+- Use database indexes for frequently queried columns
+
+### React/JavaScript
+- Use React.memo for expensive components
+- Use useMemo and useCallback for expensive calculations
+- Lazy load components when appropriate
+- Optimize bundle size with code splitting
+- Use Vite for fast development builds
+
+## Development Workflow
+
+### Code Quality
+- Run RuboCop before committing Ruby code
+- Run ESLint before committing JavaScript code
+- Run Prettier for consistent formatting
+- Run `yarn test` for frontend tests, `yarn test:watch` for development
+- Write tests for new features
+- Update documentation as needed
+
+### Git Workflow
+- Use descriptive commit messages
+- Keep commits focused and atomic
+- Use feature branches for new development
+- Test thoroughly before merging
+
+## Project-Specific Patterns
+
+### User Types and Access Control
+- The application serves two distinct user types: Participants and Researchers
+- Each user account has only a Participant or a Researcher association, never both
+- A person may have separate accounts for different roles (e.g., one account as Researcher, another as Participant)
+- Researchers cannot participate in their own studies
+- Different areas and functionality are shown based on the user's association
+- Use Current.user pattern for current user access
+- Use sessions for user state management
+- Use admin? helper from ApplicationPolicy for admin access
+
+### Route Organization
+- User-related routes are namespaced under '/u/'
+- Participant functionality routes are namespaced under '/p/'
+- Researcher functionality routes are namespaced under '/r/'
+- Frontend pages and directories follow the same namespace structure
+
+### Route Access Control
+- Users must be logged in to access pages not in the "public" section
+- Users must have a participant association to access controllers in the participant directory ('/p/')
+- Users must have a researcher association to access controllers in the researcher directory ('/r/')
+- Use Gatekeeping concern methods (redirect_if_not_researcher, redirect_if_not_participant) for role-based redirects
+
+### Study Management
+- Use Study model for research studies
+- Use Connection model for study-participant relationships
+- Use Invitation model for study invitations
+- Support in-person, digital and hybrid (both) studies
+- Use email alerts to notify Participants when new in-person or hybrid studies are published in their area
+- Use email notifications when Connections are made between Researchers and Participants
+- Connections are created when Participants express interest in Studies
+
+### Location Services
+- Use Geocoder for address geocoding
+- Use Location model for address management
+- Support international locations with countries gem
+- Use verified addresses for reliability
+
+### File Organization
+- Keep frontend and backend code organized
+- Use consistent naming conventions
+- Group related functionality together
+- Use appropriate directory structure
+
+## Error Handling
+
+### Ruby/Rails
+- Use rescue blocks appropriately
+- Log errors with appropriate context
+- Return meaningful error messages
+- Use Rails error pages for production
+
+### React/JavaScript
+- Use try/catch for async operations
+- Handle loading and error states
+- Show user-friendly error messages
+- Use error boundaries for React errors
+
+## Documentation
+
+### Code Documentation
+- Use YARD for Ruby documentation
+- Use JSDoc for JavaScript documentation
+- Document complex business logic
+- Keep README.md updated
+
+### API Documentation
+- Document API endpoints
+- Include request/response examples
+- Document authentication requirements
+- Keep API documentation current
+
+## Deployment
+
+### Environment Configuration
+- Use environment variables for sensitive data
+- Use Rails credentials for secrets
+- Configure database properly for each environment
+- Use appropriate logging levels
+
+### Production Considerations
+- Use PostgreSQL in production
+- Configure proper CORS settings
+- Set up monitoring and logging
+- Use background job processing
+- Configure proper caching strategies

@@ -1,5 +1,6 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
+import { getSimpleMockUser } from '@tests/utils/mock-data'
 
 describe('User Change Password Page', () => {
   test('renders without crashing', async () => {
@@ -8,7 +9,7 @@ describe('User Change Password Page', () => {
     )
 
     // Mock user prop
-    const mockUser = { id: 1 }
+    const mockUser = getSimpleMockUser()
 
     render(<ChangePassword user={mockUser} />)
 

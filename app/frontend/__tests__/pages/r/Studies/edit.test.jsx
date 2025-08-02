@@ -1,9 +1,22 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
+import { mockApiResponse } from '@tests/utils/api-test-utils'
 
 describe('Researcher Studies Edit Page', () => {
   test('renders without crashing', async () => {
     const { default: Edit } = await import('@/pages/r/Studies/edit')
+
+    // Mock the location API call that LocationTool makes
+    mockApiResponse('POST', '/api/location', {
+      states_list: [
+        { name: 'California', symbol: 'CA' },
+        { name: 'Maryland', symbol: 'MD' },
+      ],
+      cities_list: [
+        { name: 'San Francisco', symbol: 'SF' },
+        { name: 'Los Angeles', symbol: 'LA' },
+      ],
+    })
 
     // Mock props
     const mockProps = {
@@ -24,6 +37,11 @@ describe('Researcher Studies Edit Page', () => {
     }
 
     render(<Edit {...mockProps} />)
+
+    // Wait for async operations to complete
+    await waitFor(() => {
+      expect(screen.getByPlaceholderText('Study Title')).toBeInTheDocument()
+    })
 
     // Check that form elements are present
     expect(screen.getByPlaceholderText('Study Title')).toBeInTheDocument()

@@ -13,6 +13,7 @@ export default defineConfig({
       components: path.resolve('./app/frontend/components'),
       '@ui': path.resolve('./app/frontend/components/ui'),
       pages: path.resolve('./app/frontend/pages'),
+      '@tests': path.resolve('./app/frontend/__tests__'),
     },
   },
 })

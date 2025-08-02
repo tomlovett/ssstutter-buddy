@@ -1,17 +1,13 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
+import { getSimpleMockUser } from '@tests/utils/mock-data'
 
 describe('User Edit Page', () => {
   test('renders without crashing', async () => {
     const { default: Edit } = await import('@/pages/u/edit')
 
     // Mock user prop
-    const mockUser = {
-      id: 1,
-      first_name: 'John',
-      last_name: 'Doe',
-      email: 'john@example.com',
-    }
+    const mockUser = getSimpleMockUser()
 
     render(<Edit user={mockUser} />)
 

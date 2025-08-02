@@ -20,9 +20,12 @@ const PublicFooter = () => (
         For Researchers
       </Link>
       {' | '}
-      <Link href="/contact" className="hover:text-gray-900">
-        <a href="mailto:support@ssstutterbuddy.com">Contact Us</a>
-      </Link>
+      <a
+        href="mailto:support@ssstutterbuddy.com"
+        className="hover:text-gray-900"
+      >
+        Contact Us
+      </a>
     </div>
   </div>
 )

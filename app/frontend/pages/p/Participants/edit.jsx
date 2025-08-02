@@ -1,5 +1,4 @@
 import { Link } from '@inertiajs/react'
-import { toast } from 'sonner'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
@@ -63,16 +62,7 @@ const ParticipantEdit = ({ participant, is_complete }) => {
   }
 
   const saveParticipantChanges = async changedValues =>
-    await putRequest(`/p/participants/${participant.id}`, changedValues).then(
-      res => {
-        const msg =
-          res.status == '200'
-            ? 'Changes saved!'
-            : 'Uh oh, there was an error! Be careful, your changes were not saved.'
-
-        toast(msg)
-      }
-    )
+    await putRequest(`/p/participants/${participant.id}`, changedValues)
 
   return (
     <div className="ml-0 w-4/5 px-4 space-y-8">

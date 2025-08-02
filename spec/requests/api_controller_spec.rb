@@ -3,18 +3,21 @@
 require 'rails_helper'
 
 RSpec.describe 'ApiController' do
-  describe 'POST /location' do
-    let(:country) { nil }
-    let(:state) { nil }
-    let(:city) { nil }
+  describe 'POST /api/location' do
+    let(:country) { 'US' }
+    let(:state) { 'MD' }
+    let(:city) { 'Baltimore' }
     let(:params) { { api: { country:, state:, city: } } }
 
-    before { post '/api/location', params: params }
-
     context 'when passed only a country' do
-      let(:country) { 'US' }
+      let(:state) { nil }
+      let(:city) { nil }
 
       it 'returns a list of states and provinces for that country' do
+        post '/api/location', params: params
+
+        expect(response).to have_http_status(:success)
+        expect(response.content_type).to include('application/json')
         expect(json['country']).to eq({ 'name' => 'United States', 'symbol' => 'US' })
         expect(json['state']).to be_empty
         expect(json['states_list']).not_to be_empty
@@ -22,11 +25,14 @@ RSpec.describe 'ApiController' do
       end
     end
 
-    context 'when passed a country and city' do
-      let(:country) { 'US' }
-      let(:state) { 'MD' }
+    context 'when passed a country and state' do
+      let(:city) { nil }
 
       it 'returns a list of cities' do
+        post '/api/location', params: params
+
+        expect(response).to have_http_status(:success)
+        expect(response.content_type).to include('application/json')
         expect(json['country']).to eq({ 'name' => 'United States', 'symbol' => 'US' })
         expect(json['state']).to eq({ 'name' => 'Maryland', 'symbol' => 'MD' })
         expect(json['cities_list']).not_to be_empty
@@ -35,12 +41,43 @@ RSpec.describe 'ApiController' do
     end
 
     context 'when passed a complete list' do
-      let(:country) { 'US' }
-      let(:state) { 'MD' }
-      let(:city) { 'Bel Air' }
+      it 'returns success status' do
+        post '/api/location', params: params
 
-      it 'returns 204 no_content' do
-        expect(response).to have_http_status(:ok)
+        expect(response).to have_http_status(:success)
+        expect(response.content_type).to include('application/json')
+      end
+    end
+
+    context 'with values for all three fields' do
+      it 'returns JSON response' do
+        post '/api/location', params: params
+
+        expect(response).to have_http_status(:success)
+        expect(response.content_type).to include('application/json')
+      end
+    end
+
+    context 'with values for only country' do
+      let(:state) { nil }
+      let(:city) { nil }
+
+      it 'returns JSON response' do
+        post '/api/location', params: params
+
+        expect(response).to have_http_status(:success)
+        expect(response.content_type).to include('application/json')
+      end
+    end
+
+    context 'with values for only country and state' do
+      let(:city) { nil }
+
+      it 'returns JSON response' do
+        post '/api/location', params: params
+
+        expect(response).to have_http_status(:success)
+        expect(response.content_type).to include('application/json')
       end
     end
   end

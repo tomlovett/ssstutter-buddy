@@ -27,11 +27,11 @@ class ApplicationPolicy < ActionPolicy::Base
   private
 
   def researcher?
-    user.researcher? || admin?
+    user.researcher?
   end
 
   def participant?
-    user.participant? || admin?
+    user.participant?
   end
 
   def admin?
