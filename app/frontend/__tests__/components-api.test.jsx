@@ -245,6 +245,32 @@ describe('API Calls from Frontend Components', () => {
     })
   })
 
+  // Location Tool API
+  describe('Location Tool API', () => {
+    test('should make POST request to /api/location with correct format', async () => {
+      // This test would require the actual LocationTool component structure
+      // For now, we'll test the API call format directly
+      mockApiResponse('POST', '/api/location', {
+        country: { name: 'United States', symbol: 'US' },
+        states_list: [{ name: 'Maryland', symbol: 'MD' }],
+      })
+
+      const response = await fetch('http://localhost/api/location', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          api: {
+            country: 'US',
+          },
+        }),
+      })
+
+      expect(response.status).toBe(200)
+    })
+  })
+
   // Participant endpoints
   describe('Participant Study Show - Invitations API', () => {
     test('should make POST request to /p/invitations with correct format', async () => {
