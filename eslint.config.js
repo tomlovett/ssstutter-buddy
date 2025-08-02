@@ -58,4 +58,13 @@ export default [
       'no-unused-vars': 'off',
     },
   },
+  {
+    files: ['playwright.config.js'],
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+      },
+    },
+  },
 ]

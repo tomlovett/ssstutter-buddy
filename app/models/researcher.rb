@@ -2,9 +2,9 @@
 
 class Researcher < ApplicationRecord
   belongs_to :user
-  has_many :studies, dependent: :nullify
-  has_many :connections, through: :studies
-  has_many :invitations, through: :studies
+  has_many :studies, dependent: :destroy
+  has_many :connections, through: :studies, dependent: :destroy
+  has_many :invitations, through: :studies, dependent: :destroy
 
   has_one_attached :headshot
 

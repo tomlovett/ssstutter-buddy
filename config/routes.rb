@@ -66,5 +66,9 @@ Rails.application.routes.draw do
     post '/location', to: 'api#location'
   end
 
+  # Test endpoints (available in development and test environments)
+  post '/test/seed', to: 'test/seeding#seed'
+  post '/test/cleanup', to: 'test/seeding#cleanup'
+
   get '*path', to: redirect('/')
 end

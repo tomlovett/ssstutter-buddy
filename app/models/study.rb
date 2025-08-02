@@ -2,8 +2,8 @@
 
 class Study < ApplicationRecord
   belongs_to :researcher
-  has_many :connections, dependent: :nullify
-  has_many :invitations, dependent: :nullify
+  has_many :connections, dependent: :destroy
+  has_many :invitations, dependent: :destroy
   has_one :location, dependent: :destroy
 
   accepts_nested_attributes_for :location, reject_if: :all_blank, allow_destroy: true

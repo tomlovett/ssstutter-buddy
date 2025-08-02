@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_26_205727) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_02_195349) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -166,8 +166,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_26_205727) do
   add_foreign_key "connections", "studies"
   add_foreign_key "invitations", "participants"
   add_foreign_key "invitations", "studies"
-  add_foreign_key "locations", "participants"
-  add_foreign_key "locations", "studies"
+  add_foreign_key "locations", "participants", on_delete: :cascade
+  add_foreign_key "locations", "studies", on_delete: :cascade
   add_foreign_key "participants", "users"
   add_foreign_key "researchers", "users"
   add_foreign_key "sessions", "users"
