@@ -1,12 +1,13 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
+import { getSimpleMockUser } from '@tests/utils/mock-data'
 
 describe('User Select Role Page', () => {
   test('renders without crashing', async () => {
     const { default: SelectRole } = await import('@/pages/u/select-role')
 
     // Mock user prop
-    const mockUser = { id: 1, email: 'test@example.com' }
+    const mockUser = getSimpleMockUser()
 
     render(<SelectRole user={mockUser} />)
 

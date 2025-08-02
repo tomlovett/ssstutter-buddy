@@ -2,24 +2,13 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 
 import { putRequest } from '@/lib/api'
-import { toast } from 'sonner'
 import { Form } from '@/components/ui/form'
 import FormInput from '@/components/ui/custom/formInput'
 import { Link } from '@inertiajs/react'
 
 const EditUserPage = ({ user }) => {
   const submitData = async formData => {
-    try {
-      await putRequest(`/u/${user.id}`, formData).then(res => {
-        if (res.status === 204) {
-          toast.success('Changes saved!')
-        } else {
-          toast.error('Failed to update profile')
-        }
-      })
-    } catch (_error) {
-      toast.error('Failed to update profile')
-    }
+    await putRequest(`/u/${user.id}`, formData)
   }
 
   const form = useForm({

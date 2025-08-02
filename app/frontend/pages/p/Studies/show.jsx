@@ -1,5 +1,4 @@
 import { Link, router } from '@inertiajs/react'
-import { toast } from 'sonner'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
@@ -57,13 +56,7 @@ const StudyShow = ({ user, study, researcher, invitation }) => {
   const onSubmit = data => {
     postRequest('/p/invitations', data).then(res => {
       if (res.ok) {
-        toast('Success!', { duration: 7000 })
         form.reset()
-      } else {
-        toast(
-          'Uh oh! There was an error. Try refreshing the page, or email SSStutterBuddy if the problem persists',
-          { duration: 10000 }
-        )
       }
     })
   }

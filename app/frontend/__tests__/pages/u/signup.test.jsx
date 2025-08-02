@@ -1,12 +1,13 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
+import { getEmptyMockUser } from '@tests/utils/mock-data'
 
 describe('User Signup Page', () => {
   test('renders without crashing', async () => {
     const { default: Signup } = await import('@/pages/u/signup')
 
     // Mock user prop
-    const mockUser = { first_name: '', last_name: '', email: '' }
+    const mockUser = getEmptyMockUser()
 
     render(<Signup user={mockUser} />)
 

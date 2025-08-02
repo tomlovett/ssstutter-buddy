@@ -9,6 +9,7 @@ module.exports = {
     '^@/lib/(.*)$': '<rootDir>/app/frontend/lib/$1',
     '^@/schemas/(.*)$': '<rootDir>/app/frontend/schemas/$1',
     '^@/pages/(.*)$': '<rootDir>/app/frontend/pages/$1',
+    '^@tests/(.*)$': '<rootDir>/app/frontend/__tests__/$1',
     // Handle aliased UI component imports
     '^@ui/(.*)$': '<rootDir>/app/frontend/components/ui/$1',
     // Handle relative component imports
@@ -22,7 +23,14 @@ module.exports = {
     '<rootDir>/app/frontend/**/__tests__/**/*.{js,jsx,ts,tsx}',
     '<rootDir>/app/frontend/**/*.{test,spec}.{js,jsx,ts,tsx}',
   ],
-  testPathIgnorePatterns: ['/node_modules/', '/tmp/', '/dist/', '/helpers/'],
+  testPathIgnorePatterns: [
+    '/node_modules/',
+    '/tmp/',
+    '/dist/',
+    '/helpers/',
+    '/mocks/',
+    '/utils/',
+  ],
   collectCoverageFrom: [
     'app/frontend/**/*.{js,jsx}',
     '!app/frontend/**/*.d.ts',

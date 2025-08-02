@@ -37,11 +37,11 @@ const Login = () => {
   })
 
   const onSubmit = async data => {
-    try {
-      await postRequest('/login', data)
-    } catch (_error) {
-      toast('Invalid email or password', { duration: 5000 })
-    }
+    await postRequest('/login', data).then(res => {
+      if (res.status === 401) {
+        toast.error('Invalid email or password', { duration: 10000 })
+      }
+    })
   }
 
   return (

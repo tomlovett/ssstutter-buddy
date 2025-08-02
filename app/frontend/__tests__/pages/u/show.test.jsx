@@ -1,16 +1,13 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
+import { getSimpleMockUser } from '@tests/utils/mock-data'
 
 describe('User Show Page', () => {
   test('renders without crashing', async () => {
     const { default: Show } = await import('@/pages/u/show')
 
     // Mock user prop
-    const mockUser = {
-      first_name: 'John',
-      last_name: 'Doe',
-      email: 'john@example.com',
-    }
+    const mockUser = getSimpleMockUser()
 
     render(<Show user={mockUser} />)
 
@@ -20,7 +17,7 @@ describe('User Show Page', () => {
     // Check that form elements are present
     expect(screen.getByDisplayValue('John')).toBeInTheDocument()
     expect(screen.getByDisplayValue('Doe')).toBeInTheDocument()
-    expect(screen.getByDisplayValue('john@example.com')).toBeInTheDocument()
+    expect(screen.getByDisplayValue('test@example.com')).toBeInTheDocument()
 
     // Check that labels are present
     expect(screen.getByText('First name')).toBeInTheDocument()
