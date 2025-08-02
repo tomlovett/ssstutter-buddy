@@ -31,7 +31,6 @@
 - `inertia_share` always passes `Current.user` as `user` to the frontend
 - The `user` object always includes its `participant` or `researcher` association
 
-
 ### Database
 - Use PostgreSQL as the database
 - Follow Rails naming conventions for tables and columns
@@ -72,6 +71,9 @@
 - Tests in app/frontend/__tests__/
 
 ## Testing Conventions
+
+### General Testing
+- Use dynamically-generated dummy data rather than hard-coded values
 
 ### Ruby/Rails Testing
 - Use RSpec for Ruby testing
@@ -138,6 +140,7 @@
 - Run RuboCop before committing Ruby code
 - Run ESLint before committing JavaScript code
 - Run Prettier for consistent formatting
+- Run `yarn test` for frontend tests, `yarn test:watch` for development
 - Write tests for new features
 - Update documentation as needed
 
@@ -151,28 +154,34 @@
 
 ### User Types and Access Control
 - The application serves two distinct user types: Participants and Researchers
-- Users have only a Participant or a Researcher association, never both
+- Each user account has only a Participant or a Researcher association, never both
+- A person may have separate accounts for different roles (e.g., one account as Researcher, another as Participant)
+- Researchers cannot participate in their own studies
 - Different areas and functionality are shown based on the user's association
 - Use Current.user pattern for current user access
 - Use sessions for user state management
+- Use admin? helper from ApplicationPolicy for admin access
 
 ### Route Organization
 - User-related routes are namespaced under '/u/'
 - Participant functionality routes are namespaced under '/p/'
 - Researcher functionality routes are namespaced under '/r/'
-- Frontend pages follow the same namespace structure
+- Frontend pages and directories follow the same namespace structure
 
 ### Route Access Control
 - Users must be logged in to access pages not in the "public" section
 - Users must have a participant association to access controllers in the participant directory ('/p/')
 - Users must have a researcher association to access controllers in the researcher directory ('/r/')
-- Use Gatekeeping concern methods for role-based redirects
+- Use Gatekeeping concern methods (redirect_if_not_researcher, redirect_if_not_participant) for role-based redirects
 
 ### Study Management
 - Use Study model for research studies
 - Use Connection model for study-participant relationships
 - Use Invitation model for study invitations
 - Support in-person, digital and hybrid (both) studies
+- Use email alerts to notify Participants when new in-person or hybrid studies are published in their area
+- Use email notifications when Connections are made between Researchers and Participants
+- Connections are created when Participants express interest in Studies
 
 ### Location Services
 - Use Geocoder for address geocoding

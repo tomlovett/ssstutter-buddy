@@ -23,10 +23,6 @@ gem 'puma', '~> 5.0'
 # importmap
 gem 'importmap-rails'
 
-# SCSS tools
-gem 'bootstrap'
-gem 'sassc-rails'
-
 gem 'sprockets-rails', require: 'sprockets/railtie'
 
 gem 'vite_rails'
@@ -40,10 +36,6 @@ gem 'action_policy'
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 gem 'bcrypt', '~> 3.1.7'
-gem 'jwt'
-gem 'omniauth'
-gem 'omniauth-google-oauth2'
-gem 'omniauth-rails_csrf_protection'
 
 # Pagination
 gem 'kaminari'
