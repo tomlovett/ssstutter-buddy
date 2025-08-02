@@ -9,6 +9,8 @@ export const loginUser = async (page, userData) => {
   await page.fill('input[name="email"]', userData.email)
   await page.fill('input[name="password"]', PASSWORD)
   await page.click('button[type="submit"]')
+
+  await expect(page).toHaveURL(/.*\/(p|r)$/)
 }
 
 export const signupNewUser = async (page, userData = {}) => {

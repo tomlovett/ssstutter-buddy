@@ -3,7 +3,7 @@
 require 'factory_bot_rails'
 
 desc 'Seed database with all required seed data'
-task seed_dev: [:environment] do
+task seed_db: [:environment] do
   puts ''
   puts '--- Seeding database ---'
 
@@ -17,7 +17,10 @@ task seed_dev: [:environment] do
 
   3.times do
     researcher = FactoryBot.create(:researcher)
-    FactoryBot.create_list(:study, 3, researcher:)
+
+    FactoryBot.create_list(:study, 2, :active, researcher:)
+    FactoryBot.create_list(:study, 2, :digital, :active, researcher:)
+    FactoryBot.create_list(:study, 2, :hybrid, :active, researcher:)
   end
 
   FactoryBot.create_list(:researcher, 3)

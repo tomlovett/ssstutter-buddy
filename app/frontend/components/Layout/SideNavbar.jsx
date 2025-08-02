@@ -29,11 +29,11 @@ const AppSidebar = ({ user }) => {
       url: user.home_page,
       icon: Home,
     },
-    {
-      title: 'Studies near me',
-      url: '/p/',
-      icon: Inbox,
-    },
+    // {
+    //   title: 'Studies near me',
+    //   url: '/p/',
+    //   icon: Inbox,
+    // },
     {
       title: 'Digital studies',
       url: '/p/digital-studies',

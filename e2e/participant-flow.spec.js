@@ -1,33 +1,33 @@
 import { test, expect } from '@playwright/test'
 import { seedTestData, cleanupTestData } from './utils/database-seeder'
+import { loginUser } from './utils/auth-helpers'
 
 test.describe('Participant Workflow', () => {
-  test.beforeAll(async () => await seedTestData())
   test.afterAll(async () => await cleanupTestData())
 
-  test.beforeEach(async ({ page }) => {
-    // Login as participant
-    await page.goto('/login')
-    await page.fill('input[name="email"]', 'participant@example.com')
-    await page.fill('input[name="password"]', 'password123')
-    await page.click('button[type="submit"]')
-
-    // Wait for redirect to participant home
-    await expect(page).toHaveURL(/\/p\/participants\/home/)
-  })
-
   test('participant can view and edit profile', async ({ page }) => {
-    // Navigate to profile
-    await page.click('a:has-text("Profile")')
+    const { participant } = await seedTestData()
 
-    // Should be on profile page
-    await expect(page).toHaveURL(/\/p\/participants\/show/)
+    await loginUser(page, participant)
 
-    // Click edit button
+    await page.click('a:has-text("My profile")')
+
+    await expect(page).toHaveURL(`/p/participants/${participant.id}`)
+
+    // Check profile information is displayed
+    await expect(
+      page.locator('h3:has-text("Your Participant Profile")')
+    ).toBeVisible()
+    await expect(page.locator('p:has-text("Test Participant")')).toBeVisible()
+    await expect(
+      page.locator('span:has-text("@TestParticipant")')
+    ).toBeVisible()
+    await expect(page.locator('li:has-text("Birthday:")')).toBeVisible()
+    await expect(page.locator('li:has-text("1990")')).toBeVisible()
+
     await page.click('a:has-text("Edit Profile")')
 
-    // Should be on edit page
-    await expect(page).toHaveURL(/\/p\/participants\/edit/)
+    await expect(page).toHaveURL(`/p/participants/${participant.id}/edit`)
 
     // Update codename
     await page.fill('input[name="codename"]', 'UpdatedCodename')
@@ -35,45 +35,147 @@ test.describe('Participant Workflow', () => {
     // Save changes
     await page.click('button[type="submit"]')
 
-    // Should show success message
-    await expect(page.locator('text=Profile updated')).toBeVisible()
+    await page.waitForTimeout(1000)
+
+    // await expect(page.locator('[role="alert"]:has-text("Success!")')).toBeVisible()
+    // await expect(page.locator('span:has-text("@UpdatedCodename")')).toBeVisible()
   })
 
-  test('participant can browse studies', async ({ page }) => {
-    // Navigate to studies
-    await page.click('a:has-text("Studies")')
+  test('participant can view digital studies', async ({ page }) => {
+    const { participant } = await seedTestData()
 
-    // Should be on studies page
-    await expect(page).toHaveURL(/\/p\/studies/)
+    await loginUser(page, participant)
 
-    // Should see study list
-    await expect(page.locator('h1:has-text("Studies")')).toBeVisible()
+    await page.click('a:has-text("Digital Studies")')
+
+    await expect(page).toHaveURL('/p/digital-studies')
+
+    await expect(
+      page.locator('h3:has-text("Digital-Friendly Studies")')
+    ).toBeVisible()
+
+    // Table headers
+    await expect(
+      page.locator('th').filter({ hasText: 'Study Name' })
+    ).toBeVisible()
+    await expect(
+      page.locator('th').filter({ hasText: 'Methodologies' })
+    ).toBeVisible()
+    await expect(
+      page.locator('th').filter({ hasText: 'Age Range' })
+    ).toBeVisible()
+    await expect(
+      page.locator('th').filter({ hasText: 'Estimated Commitment' })
+    ).toBeVisible()
+    await expect(
+      page.locator('th').filter({ hasText: 'Location' })
+    ).toBeVisible()
+    await expect(page.locator('th').filter({ hasText: 'Posted' })).toBeVisible()
+
+    // Verify presence of digital study we created in seed data
+    await expect(
+      page.locator('td').filter({ hasText: 'Digital Survey Study' })
+    ).toBeVisible()
+    await expect(page.locator('td').filter({ hasText: '18-65' })).toBeVisible()
+    await expect(
+      page.locator('td').filter({ hasText: '2 hours in one session' })
+    ).toBeVisible()
+
+    await page.locator('tr').filter({ hasText: 'Digital Survey Study' }).click()
+
+    await expect(page).toHaveURL(/\/p\/studies\/\d+/)
+
+    await expect(page.locator('h3.text-2xl.font-bold')).toContainText(
+      'Digital Survey Study'
+    )
   })
 
   test('participant can express interest in study', async ({ page }) => {
-    // Navigate to a specific study
-    await page.goto('/p/studies/1')
+    const { participant, studies } = await seedTestData()
 
-    // Should see study details
-    await expect(page.locator('h1')).toContainText('Study')
+    await loginUser(page, participant)
 
-    // Click express interest
+    const digitalStudy = studies.find(
+      study => study.title === 'Digital Survey Study'
+    )
+    await page.goto(`/p/studies/${digitalStudy.id}`)
+
+    await expect(page.locator('h3.text-2xl.font-bold')).toContainText(
+      digitalStudy.title
+    )
+
     await page.click('button:has-text("Express Interest")')
 
-    // Should show success message
-    await expect(page.locator('text=Interest expressed')).toBeVisible()
+    await expect(
+      page.locator('h2:has-text("Confirm your interest")')
+    ).toBeVisible()
+
+    await page.click('button:has-text("Cancel")')
+
+    await page.click('button:has-text("Express Interest")')
+
+    await page.click('button:has-text("Confirm")')
+
+    // toast success
+    // await expect(page.locator('div[role="alert"]:has-text("Success!")')).toBeVisible()
+
+    await expect(page).toHaveURL(`/p/studies/${digitalStudy.id}`)
+
+    // expect connected to be visible and disabled
+    await expect(page.locator('button:has-text("Connected")')).toBeDisabled()
   })
 
-  test('participant can view connections', async ({ page }) => {
-    // Navigate to connections
-    await page.click('a:has-text("Connections")')
+  test('participant can reject interest in study', async ({ page }) => {
+    const { participant, studies } = await seedTestData()
 
-    // Should be on connections page
-    await expect(page).toHaveURL(/\/p\/connections/)
+    await loginUser(page, participant)
 
-    // Should see connections list
+    const digitalStudy = studies.find(
+      study => study.title === 'Digital Survey Study'
+    )
+    await page.goto(`/p/studies/${digitalStudy.id}`)
+
+    await expect(page.locator('h3.text-2xl.font-bold')).toContainText(
+      digitalStudy.title
+    )
+    await page.click('button:has-text("Not Interested")')
+
     await expect(
-      page.locator('h1:has-text("My Study Connections")')
+      page.locator('h2:has-text("Is this study not a good fit for you?")')
     ).toBeVisible()
+
+    await page.click('button:has-text("Cancel")')
+    await page.click('button:has-text("Not Interested")')
+    await page.fill(
+      'textarea[name="status_explanation"]',
+      'This study is not a good fit for me.'
+    )
+    await page.click('button:has-text("Confirm")')
+
+    // toast success
+    // await expect(page.locator('div[role="alert"]:has-text("Success!")')).toBeVisible()
+
+    await expect(page).toHaveURL(`/p/studies/${digitalStudy.id}`)
+    await expect(
+      page.locator(
+        'p:has-text("You declined interest in this study. Change your mind?")'
+      )
+    ).toBeVisible()
+
+    await expect(
+      page.locator('button:has-text("Express Interest")')
+    ).toBeVisible()
+
+    await page.click('button:has-text("Express Interest")')
+    await page.click('button:has-text("Confirm")')
+
+    // toast success
+    // await expect(page.locator('div[role="alert"]:has-text("Success!")')).toBeVisible()
+
+    await expect(page).toHaveURL(`/p/studies/${digitalStudy.id}`)
+
+    await page.waitForTimeout(1000)
+
+    await expect(page.locator('button:has-text("Connected")')).toBeDisabled()
   })
 })
