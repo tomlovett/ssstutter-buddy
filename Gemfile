@@ -23,8 +23,6 @@ gem 'puma', '~> 5.0'
 # importmap
 gem 'importmap-rails'
 
-gem 'sprockets-rails', require: 'sprockets/railtie'
-
 gem 'vite_rails'
 
 gem 'inertia_rails'
