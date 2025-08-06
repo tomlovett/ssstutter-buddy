@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project uses **Playwright** for end-to-end testing, which provides excellent support for Rails/Inertia.js applications.
+This project uses **Playwright** for end-to-end testing, which provides excellent support for Rails/Inertia.js applications. The testing approach uses a database seeder to create test data and a special email prefix to identify and clean up test records.
 
 ## Quick Start
 
@@ -33,30 +33,62 @@ yarn test:e2e:debug
 
 ```
 e2e/
-├── auth.spec.ts              # Authentication flow tests
-├── participant-flow.spec.ts   # Participant workflow tests
-├── researcher-flow.spec.ts    # Researcher workflow tests
-├── factories/
-│   └── user-factory.ts       # Data factories (similar to Factory Bot)
-├── utils/
-│   ├── auth-helpers.ts       # Authentication utilities
-│   ├── test-data.ts          # Test data constants
-│   └── database-seeder.ts    # Database seeding utilities
-├── setup/
-│   └── seed-test-data.ts     # Test data setup
-└── examples/
-    └── factory-usage.spec.ts # Examples of using factories
+├── auth.spec.js              # Authentication flow tests
+├── participant-flow.spec.js   # Participant workflow tests
+├── researcher-flow.spec.js    # Researcher workflow tests
+└── utils/
+    ├── auth-helpers.js        # Authentication utilities
+    └── database-seeder.js     # Database seeding utilities
+```
+
+## Database Seeding Strategy
+
+### Test Data Management
+
+The E2E tests use a centralized database seeding approach:
+
+1. **Test Data Creation**: The `/test/seed` endpoint creates predefined test data. (It also verifies the connection to the local server instance)
+2. **Email Prefix**: All test users use the prefix `e2e_1658498146584_` in their email addresses
+3. **Cascading Cleanup**: Test data is cleaned up by deleting users with the email prefix, which triggers cascading deletes for all related records
+
+### Seeding Controller
+
+The `Test::SeedingController` creates the following test data:
+
+- **Participant**: User with participant profile and location
+- **Researcher**: User with researcher profile and institution details
+- **Admin User**: Admin-level user account
+- **Studies**: Multiple studies in different states (active, draft, paused, digital, in-person)
+
+### Database Seeder Utility
+
+```javascript
+import { seedTestData, cleanupTestData } from './utils/database-seeder'
+
+// Seed test data and get created records
+const { participant, researcher, studies } = await seedTestData()
+
+// Clean up all test data
+await cleanupTestData()
 ```
 
 ## Writing Tests
 
 ### Basic Test Structure
 
-```typescript
+```javascript
 import { test, expect } from '@playwright/test'
+import { seedTestData, cleanupTestData } from './utils/database-seeder'
+import { loginUser } from './utils/auth-helpers'
 
 test.describe('Feature Name', () => {
+  test.afterAll(async () => await cleanupTestData())
+
   test('should do something', async ({ page }) => {
+    const { participant } = await seedTestData()
+
+    await loginUser(page, participant)
+
     // Navigate to page
     await page.goto('/path')
 
@@ -73,122 +105,109 @@ test.describe('Feature Name', () => {
 
 ### Using Test Helpers
 
-```typescript
+```javascript
 import { test, expect } from '@playwright/test'
-import { AuthHelpers } from './utils/auth-helpers'
-import { TestUsers } from './utils/test-data'
+import { seedTestData, cleanupTestData } from './utils/database-seeder'
+import { loginUser, signupNewUser, selectRole } from './utils/auth-helpers'
 
-test.describe('Authenticated Flow', () => {
-  test('participant can access dashboard', async ({ page }) => {
-    const auth = new AuthHelpers(page)
+test.describe('Authentication Flow', () => {
+  test.afterAll(async () => await cleanupTestData())
 
-    // Login using helper
-    await auth.loginAsParticipant()
+  test('participant can log in with existing account', async ({ page }) => {
+    const { participant } = await seedTestData()
 
-    // Continue with test...
+    await loginUser(page, participant)
+
+    await expect(page).toHaveURL('/p')
   })
 })
 ```
 
-### Test Data
+### Authentication Helpers
 
-Use the factory system (similar to Factory Bot in Rails) from `factories/user-factory.ts`:
+The `auth-helpers.js` provides utilities for common authentication flows:
 
-```typescript
-import {
-  UserFactory,
-  StudyFactory,
-  LocationFactory,
-} from './factories/user-factory'
+```javascript
+// Login with existing user
+await loginUser(page, participant)
 
-test('create study', async ({ page }) => {
-  // Generate random data
-  const userData = UserFactory.createUser()
-  const studyData = StudyFactory.createStudy()
-
-  // Use in forms
-  await page.fill('input[name="title"]', studyData.title)
-  await page.fill('input[name="email"]', userData.email)
-  // ...
+// Sign up new user
+await signupNewUser(page, {
+  firstName: 'John',
+  lastName: 'Doe',
+  email: 'john@example.com',
 })
+
+// Select user role
+await selectRole(page, 'participant') // or 'researcher'
+
+// Logout
+await logout(page)
 ```
 
-#### Factory Methods Available
+## Test Data
 
-```typescript
-// User factories
-UserFactory.createUser() // Random user
-UserFactory.createParticipant() // Random participant
-UserFactory.createResearcher() // Random researcher
-UserFactory.createUserWithParticipant() // User + participant
-UserFactory.createUserWithResearcher() // User + researcher
-UserFactory.createTestUsers() // Predefined test users
+### Predefined Test Data
 
-// Study factories
-StudyFactory.createStudy() // Random study
-StudyFactory.createDraftStudy() // Draft study
-StudyFactory.createPublishedStudy() // Published study
-StudyFactory.createDigitalStudy() // Digital study
-StudyFactory.createInPersonStudy() // In-person study
-StudyFactory.createHybridStudy() // Hybrid study
+The seeding controller creates the following test data:
 
-// Location factories
-LocationFactory.createLocation() // Random location
-LocationFactory.createUSLocation() // US location
-LocationFactory.createDigitalLocation() // Digital location
-```
+#### Users
 
-#### Overriding Factory Data
+- **Participant**: `Test Participant` with codename `TestParticipant`
+- **Researcher**: `Dr. Test Researcher` from `Test University`
+- **Admin**: Admin user for administrative testing
 
-```typescript
-// Override specific fields
-const user = UserFactory.createUser({
-  email: 'specific@example.com',
-  first_name: 'Jane',
-})
+#### Studies
 
-const study = StudyFactory.createStudy({
-  title: 'Custom Study Title',
-  location_type: 'digital',
-})
+- **Digital Survey Study**: Active digital study with survey methodology
+- **In-Person Interview Study**: Active in-person study with interview methodology
+- **Draft Study**: Unpublished draft study
+- **Paused Study**: Temporarily paused study
+
+### Test Data Structure
+
+```javascript
+const { participant, researcher, admin_user, studies } = await seedTestData()
+
+// participant object contains:
+// - id, codename, birthdate, gender, user (with email, first_name, last_name)
+
+// researcher object contains:
+// - id, institution, research_interests, titles, user (with email, first_name, last_name)
+
+// studies array contains:
+// - id, title, short_desc, long_desc, methodologies, status, etc.
 ```
 
 ## Best Practices
 
 ### 1. Use Descriptive Test Names
 
-```typescript
+```javascript
 // Good
-test('user can sign up and complete participant onboarding', async ({ page }) => {
+test('participant can view and edit profile', async ({ page }) => {
 
 // Bad
-test('signup works', async ({ page }) => {
+test('profile works', async ({ page }) => {
 ```
 
-### 2. Use Page Object Pattern for Complex Flows
+### 2. Always Clean Up Test Data
 
-```typescript
-class ParticipantDashboard {
-  constructor(private page: Page) {}
+```javascript
+test.describe('Feature Name', () => {
+  test.afterAll(async () => await cleanupTestData())
 
-  async navigateToProfile() {
-    await this.page.click('a:has-text("Profile")')
-  }
-
-  async editCodename(newCodename: string) {
-    await this.page.fill('input[name="codename"]', newCodename)
-    await this.page.click('button[type="submit"]')
-  }
-}
+  // Your tests here...
+})
 ```
 
 ### 3. Use beforeEach for Common Setup
 
-```typescript
+```javascript
 test.describe('Participant Workflow', () => {
   test.beforeEach(async ({ page }) => {
-    const auth = new AuthHelpers(page)
-    await auth.loginAsParticipant()
+    const { participant } = await seedTestData()
+    await loginUser(page, participant)
   })
 
   test('can edit profile', async ({ page }) => {
@@ -199,7 +218,7 @@ test.describe('Participant Workflow', () => {
 
 ### 4. Handle Async Operations
 
-```typescript
+```javascript
 // Wait for navigation
 await expect(page).toHaveURL('/expected-path')
 
@@ -212,7 +231,7 @@ await page.waitForResponse(response => response.url().includes('/api/'))
 
 ## Configuration
 
-### Playwright Config (`playwright.config.ts`)
+### Playwright Config (`playwright.config.js`)
 
 - **Base URL**: `http://localhost:3000`
 - **Web Server**: Automatically starts `bin/dev`
@@ -259,7 +278,7 @@ Failed tests automatically generate:
 
 ### 4. Console Logs
 
-```typescript
+```javascript
 // Add logging to tests
 console.log('Current URL:', page.url())
 console.log('Element text:', await page.locator('h1').textContent())
@@ -293,6 +312,7 @@ jobs:
 2. **Element not found**: Check selectors and page structure
 3. **Network errors**: Ensure test server is running
 4. **Authentication issues**: Verify test user credentials
+5. **Test data not cleaned up**: Check that `cleanupTestData()` is called in `afterAll`
 
 ### Performance Tips
 
@@ -301,37 +321,29 @@ jobs:
 3. **Avoid `page.waitForTimeout()`** - use explicit waits instead
 4. **Run tests in parallel** when possible
 
-## Database Seeding
+## Database Seeding Details
 
-### Programmatic Seeding
+### Email Prefix System
 
-Use the `DatabaseSeeder` class to create test data programmatically:
+All test users are created with the email prefix `e2E_EMAIL_PREFIX = 'e2e_1658498146584_'`:
 
-```typescript
-import { DatabaseSeeder } from './utils/database-seeder'
-
-const seeder = new DatabaseSeeder()
-
-// Seed predefined test data
-await seeder.seedTestData()
-
-// Create random test data
-const randomData = await seeder.createRandomTestData(5)
-
-// Clean up test data
-await seeder.cleanupTestData()
+```ruby
+# In Test::SeedingController
+email: "#{E2E_EMAIL_PREFIX}_#{Faker::Internet.email}"
 ```
 
-### Rails Console Seeding
+### Cleanup Strategy
 
-For more efficient seeding, use the `RailsSeeder` class:
+Test data cleanup works by:
 
-```typescript
-import { RailsSeeder } from './utils/database-seeder'
+1. **Finding test users**: `User.where('email LIKE ?', "#{E2E_EMAIL_PREFIX}%")`
+2. **Cascading deletes**: Using `dependent: :destroy` relationships to clean up all related records
+3. **Automatic cleanup**: Called in test `afterAll` hooks
 
-// Seed via Rails console (faster than API calls)
-await RailsSeeder.seedViaRailsConsole()
-```
+### Seeding Endpoints
+
+- **POST `/test/seed`**: Creates test data and returns JSON with created records
+- **POST `/test/cleanup`**: Removes all test data by deleting users with email prefix
 
 ## Next Steps
 
@@ -339,5 +351,5 @@ await RailsSeeder.seedViaRailsConsole()
 2. **Implement visual regression testing**
 3. **Add performance testing**
 4. **Set up test reporting and analytics**
-5. **Create more specialized factories** for complex scenarios
-6. **Add factory traits** for different user states (verified, unverified, etc.)
+5. **Create more specialized test scenarios** for complex workflows
+6. **Add test data factories** for different user states (verified, unverified, etc.)

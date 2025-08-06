@@ -24,7 +24,6 @@ class Test::SeedingController < ApplicationController
   end
 
   def cleanup
-    # Clean up test data
     cleanup_test_data
 
     render json: { message: 'Test data cleaned up successfully' }
@@ -103,6 +102,8 @@ class Test::SeedingController < ApplicationController
       duration: '2 hours',
       remuneration: '$50'
     )
+
+    FactoryBot.create(:connection, :in_progress, study: Study.last, participant: @participant)
 
     # Create in-person study (active)
     @studies << FactoryBot.create(

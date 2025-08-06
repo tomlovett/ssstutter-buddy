@@ -39,7 +39,7 @@ class P::ParticipantsController < P::BaseController
     return head :forbidden unless allowed_to?(:update?, @participant)
 
     if @participant.update(participant_params)
-      head :ok
+      redirect_to "/p/participants/#{@participant.id}"
     else
       head :unprocessable_entity
     end

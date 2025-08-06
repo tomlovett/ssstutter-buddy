@@ -1,20 +1,30 @@
 import { test, expect } from '@playwright/test'
 import { seedTestData, cleanupTestData } from './utils/database-seeder'
 import { loginUser } from './utils/auth-helpers'
+import { expectToast } from './utils/toast-helper'
+
+// Store seeded data at module level for access across all tests
+let seededData
 
 test.describe('Participant Workflow', () => {
+  test.beforeEach(async ({ page }) => {
+    await cleanupTestData()
+
+    seededData = await seedTestData()
+
+    await loginUser(page, seededData.participant)
+  })
   test.afterAll(async () => await cleanupTestData())
 
   test('participant can view and edit profile', async ({ page }) => {
-    const { participant } = await seedTestData()
+    await expect(page).toHaveURL('/p')
 
-    await loginUser(page, participant)
+    const { participant } = seededData
 
     await page.click('a:has-text("My profile")')
 
     await expect(page).toHaveURL(`/p/participants/${participant.id}`)
 
-    // Check profile information is displayed
     await expect(
       page.locator('h3:has-text("Your Participant Profile")')
     ).toBeVisible()
@@ -29,23 +39,21 @@ test.describe('Participant Workflow', () => {
 
     await expect(page).toHaveURL(`/p/participants/${participant.id}/edit`)
 
-    // Update codename
     await page.fill('input[name="codename"]', 'UpdatedCodename')
 
-    // Save changes
     await page.click('button[type="submit"]')
 
     await page.waitForTimeout(1000)
+    await expectToast(page, 'Success!')
 
-    // await expect(page.locator('[role="alert"]:has-text("Success!")')).toBeVisible()
-    // await expect(page.locator('span:has-text("@UpdatedCodename")')).toBeVisible()
+    await expect(page).toHaveURL(`/p/participants/${participant.id}`)
+
+    await expect(
+      page.locator('span:has-text("@UpdatedCodename")')
+    ).toBeVisible()
   })
 
   test('participant can view digital studies', async ({ page }) => {
-    const { participant } = await seedTestData()
-
-    await loginUser(page, participant)
-
     await page.click('a:has-text("Digital Studies")')
 
     await expect(page).toHaveURL('/p/digital-studies')
@@ -91,9 +99,7 @@ test.describe('Participant Workflow', () => {
   })
 
   test('participant can express interest in study', async ({ page }) => {
-    const { participant, studies } = await seedTestData()
-
-    await loginUser(page, participant)
+    const { studies } = seededData
 
     const digitalStudy = studies.find(
       study => study.title === 'Digital Survey Study'
@@ -126,9 +132,7 @@ test.describe('Participant Workflow', () => {
   })
 
   test('participant can reject interest in study', async ({ page }) => {
-    const { participant, studies } = await seedTestData()
-
-    await loginUser(page, participant)
+    const { studies } = seededData
 
     const digitalStudy = studies.find(
       study => study.title === 'Digital Survey Study'

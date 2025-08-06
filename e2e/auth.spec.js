@@ -78,10 +78,8 @@ test.describe('Authentication Flow', () => {
     await signupNewUser(page)
     await selectRole(page, 'researcher')
 
-    // Should redirect to researcher setup
     await expect(page).toHaveURL(/\/r\/researchers\/\d+\/edit/)
 
-    // fill out researcher form
     await page.fill('input[name="institution"]', faker.company.name())
     await page.fill(
       'input[name="university_profile_url"]',
@@ -89,7 +87,6 @@ test.describe('Authentication Flow', () => {
     )
     await page.fill('textarea[name="bio"]', faker.lorem.paragraph())
 
-    // Submit form
     await page.click('button[type="submit"]')
 
     // await page.waitForSelector('div[role="alert"]', { state: 'visible' })

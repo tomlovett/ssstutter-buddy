@@ -81,7 +81,7 @@ const METHODOLOGIES = [
   { id: 'Behavioral intervention', label: 'Behavioral Intervention' },
   { id: 'Genetic sample collection', label: 'Genetic Sample Collection' },
   { id: 'Pharmaceutical trial', label: 'Pharmaceutical' },
-  { id: 'Speaker Panel', label: 'Speaker Panel' },
+  { id: 'Speaker panel', label: 'Speaker Panel' },
 ]
 
 const LOCATION_TYPES = [

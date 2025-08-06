@@ -23,6 +23,10 @@ class Connection < ApplicationRecord
 
   before_validation { assign_pin! if pin.blank? }
 
+  def as_json(options = {})
+    super.merge(participant: participant.as_json)
+  end
+
   private
 
   def assign_pin!
