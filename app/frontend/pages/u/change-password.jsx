@@ -2,25 +2,12 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import { Head } from '@inertiajs/react'
 import { putRequest } from '@/lib/api'
-import { toast } from 'sonner'
 import { Form } from '@/components/ui/form'
 import FormInput from '@/components/ui/custom/formInput'
 import { Link } from '@inertiajs/react'
 
 const ChangePasswordPage = ({ user }) => {
-  const submitData = async formData => {
-    try {
-      await putRequest('/change-password', formData).then(res => {
-        if (res.status === 204) {
-          toast.success('Password changed successfully!')
-        } else {
-          toast.error('Failed to change password')
-        }
-      })
-    } catch (_error) {
-      toast.error('Failed to change password')
-    }
-  }
+  const submitData = formData => putRequest('/change-password', formData)
 
   const form = useForm({
     defaultValues: {

@@ -57,14 +57,14 @@ RSpec.describe 'AuthenticationController' do
       post '/forgot-password', params: { email: user.email }
 
       expect(user.reload.activation_pin).to be_present
-      expect(response).to have_http_status(:redirect)
+      expect(response).to have_http_status(:ok)
     end
 
     context 'with invalid email' do
       it 'returns success' do
         post '/forgot-password', params: { email: 'invalid@example.com' }
 
-        expect(response).to have_http_status(:redirect)
+        expect(response).to have_http_status(:unprocessable_entity)
       end
     end
   end
@@ -73,7 +73,7 @@ RSpec.describe 'AuthenticationController' do
     before { user.update!(activation_pin: '123456') }
 
     it 'returns a successful response' do
-      get '/reset-password', params: { activation_pin: user.activation_pin }
+      get '/reset-password', params: { pin: user.activation_pin }
 
       expect(user.reload.activation_pin).to be_nil
       expect(response).to have_http_status(:redirect)

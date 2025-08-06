@@ -26,7 +26,7 @@ Rails.application.routes.draw do
   #  Routes for forgot password
   get '/forgot-password', to: 'authentication#forgot_password'
   post '/forgot-password', to: 'authentication#forgot_password_action'
-  get '/reset-password', to: 'authentication#reset_password', param: :activation_pin
+  get '/reset-password', to: 'authentication#reset_password', param: :pin
 
   resources :users, except: %i[index new create], path: 'u'
   get '/change-password', to: 'authentication#change_password'

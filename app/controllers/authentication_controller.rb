@@ -48,22 +48,28 @@ class AuthenticationController < ApplicationController
 
   # POST /forgot-password
   def forgot_password_action
-    if (user = User.find_by(email: params[:email]))
-      if user.confirmed_at.present?
-        user.assign_activation_pin!
+    return head :unprocessable_entity if params[:email].blank?
 
-        UserMailer.with(user:).forgot_password_email.deliver_later
-      else
-        UserMailer.with(user:).confirmation_email.deliver_later
-      end
-    end
+    user = User.find_by(email: params[:email])
 
-    redirect_to login_path, notice: 'Check your email for reset instructions.'
+    return head :unprocessable_entity if user.blank?
+
+    # if user.confirmed_at.present?
+    user.assign_activation_pin!
+
+    UserMailer.with(user:).forgot_password_email.deliver_later
+    # else
+    #   p "confirmation email sent to #{user.email}"
+    #   UserMailer.with(user:).confirmation_email.deliver_later
+    # end
+
+    # redirect_to login_path, notice: 'Check your email for reset instructions.'
+    head :ok
   end
 
-  # GET /reset-password/:activation_pin
+  # GET /reset-password/:pin
   def reset_password
-    @user = User.find_by(activation_pin: params[:activation_pin])
+    @user = User.find_by(activation_pin: params[:pin].to_s)
 
     return redirect_to forgot_password_path, alert: 'Invalid password reset link.' if @user.nil?
 
