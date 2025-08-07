@@ -61,6 +61,9 @@ Rails.application.configure do
   # Set host to be used by links generated in mailer templates.
   config.action_mailer.default_url_options = { host: 'ssstutterbuddy.com' }
 
+  # Set host for Active Storage URLs
+  config.active_storage.default_url_options = { host: 'ssstutterbuddy.com' }
+
   # Configure Mailer To Go SMTP settings
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {

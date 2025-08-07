@@ -68,6 +68,27 @@ RSpec.describe Researcher do
       expect(json).to have_key(:headshot_url)
       expect(json[:headshot_url]).to be_nil # headshot_url is nil when headshot is not attached
     end
+
+    context 'when headshot is attached' do
+      before do
+        researcher.headshot.attach(
+          io: Rails.root.join('spec/fixtures/files/test_image.jpg').open,
+          filename: 'test_image.jpg',
+          content_type: 'image/jpeg'
+        )
+      end
+
+      it 'includes headshot_url with direct URL' do
+        # Set host for URL generation
+        Rails.application.routes.default_url_options = { host: 'example.com' }
+
+        json = researcher.as_json
+
+        expect(json[:headshot_url]).to be_present
+        expect(json[:headshot_url]).to start_with('http')
+        expect(json[:headshot_url]).to include('rails/active_storage/blobs')
+      end
+    end
   end
 
   describe '#complete?' do
