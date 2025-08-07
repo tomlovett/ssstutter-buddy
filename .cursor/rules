@@ -7,6 +7,7 @@
 - ShadCN UI (built on Tailwind CSS) for styling
 - Comprehensive testing with RSpec and Jest
 - Authentication with JWT and OmniAuth
+- Documentationand reference files in /.documentation directory
 
 ## Ruby/Rails Conventions
 
@@ -41,6 +42,7 @@
 
 ### Code Style
 - Use ESLint configuration from eslint.config.js
+- Use ES6 and avoid TypeScript whenever possible
 - Use Prettier for code formatting
 - Use functional components with hooks
 - Use JSX file extension for React components

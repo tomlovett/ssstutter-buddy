@@ -9,7 +9,7 @@ FactoryBot.define do
     participant_rating { rand(1..5) }
 
     trait :in_progress do
-      status { [Connection::CONNECTED, Connection::STUDY_BEGAN].sample }
+      status { Connection::STUDY_BEGAN }
     end
 
     trait :completed do
