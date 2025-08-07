@@ -4,11 +4,7 @@ import { MapPin, X, CircleHelp } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { ComboBox } from '@/components/ui/combobox'
 import Modal from '@/components/ui/custom/modal'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui/tooltip'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { postRequest } from '@/lib/api'
 import countriesList from '@/lib/countriesList'
 
@@ -88,9 +84,7 @@ const LocationTool = ({ location: { country, state, city }, onSave }) => {
     <div className="space-y-4 pb-4">
       <div className="space-y-2">
         <div className="flex items-center gap-4">
-          <label className="w-[30%] text-sm font-medium text-gray-700 whitespace-nowrap">
-            Country
-          </label>
+          <label className="w-[30%] text-sm font-medium text-gray-700 whitespace-nowrap">Country</label>
           <div className="w-[60%]">
             <ComboBox
               key="country"
@@ -104,12 +98,7 @@ const LocationTool = ({ location: { country, state, city }, onSave }) => {
             />
           </div>
           <div className="flex justify-end w-[10%]">
-            {currentCountry && (
-              <ClearFieldIcon
-                onClick={clearCountry}
-                data-testid="clear-country"
-              />
-            )}
+            {currentCountry && <ClearFieldIcon onClick={clearCountry} data-testid="clear-country" />}
           </div>
         </div>
       </div>
@@ -132,18 +121,14 @@ const LocationTool = ({ location: { country, state, city }, onSave }) => {
             />
           </div>
           <div className="flex justify-end w-[10%]">
-            {currentState && (
-              <ClearFieldIcon onClick={clearState} data-testid="clear-state" />
-            )}
+            {currentState && <ClearFieldIcon onClick={clearState} data-testid="clear-state" />}
           </div>
         </div>
       </div>
 
       <div className="space-y-2">
         <div className="flex items-center gap-4">
-          <label className="w-[30%] text-sm font-medium text-gray-700 whitespace-nowrap">
-            City
-          </label>
+          <label className="w-[30%] text-sm font-medium text-gray-700 whitespace-nowrap">City</label>
           <div className="w-[60%]">
             <ComboBox
               key="city"
@@ -157,9 +142,7 @@ const LocationTool = ({ location: { country, state, city }, onSave }) => {
             />
           </div>
           <div className="flex justify-end w-[10%]">
-            {currentCity && (
-              <ClearFieldIcon onClick={clearCity} data-testid="clear-city" />
-            )}
+            {currentCity && <ClearFieldIcon onClick={clearCity} data-testid="clear-city" />}
           </div>
         </div>
       </div>

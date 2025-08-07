@@ -6,11 +6,9 @@ import { toast } from 'sonner'
 const SelectRolePage = ({ user }) => {
   const [role, setRole] = useState('')
 
-  const handleParticipantClick = () =>
-    setRole(role === 'participant' ? '' : 'participant')
+  const handleParticipantClick = () => setRole(role === 'participant' ? '' : 'participant')
 
-  const handleResearcherClick = () =>
-    setRole(role === 'researcher' ? '' : 'researcher')
+  const handleResearcherClick = () => setRole(role === 'researcher' ? '' : 'researcher')
 
   const handleNextClick = async () => {
     try {
@@ -31,9 +29,7 @@ const SelectRolePage = ({ user }) => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4">
-      <h2 className="text-3xl font-bold mb-8">
-        Select The Role For This Account
-      </h2>
+      <h2 className="text-3xl font-bold mb-8">Select The Role For This Account</h2>
       <p className="text-sm mb-8">{user.email}</p>
 
       <div className="flex flex-col md:flex-row gap-8 w-full max-w-4xl">
@@ -47,12 +43,11 @@ const SelectRolePage = ({ user }) => {
           </button>
           <div className="mt-4 p-4 bg-gray-100 rounded-lg">
             <p className="text-gray-700 text-justify">
-              You are a person who stutters (PWS) who is interested in
-              participating in research studies centered around stuttering.
+              You are a person who stutters (PWS) who is interested in participating in research studies
+              centered around stuttering.
               <br />
               <br />
-              You will use SSStutterBuddy to connect to research studies being
-              conducted near you or online.
+              You will use SSStutterBuddy to connect to research studies being conducted near you or online.
             </p>
           </div>
         </div>
@@ -67,16 +62,15 @@ const SelectRolePage = ({ user }) => {
           </button>
           <div className="mt-4 p-4 bg-gray-100 rounded-lg">
             <p className="text-gray-700 text-justify">
-              You are a researcher at an academic or therapeutic institution who
-              conducts research on stuttering.
+              You are a researcher at an academic or therapeutic institution who conducts research on
+              stuttering.
               <br />
               <br />
-              You will use SSStutterBuddy to connect with PWS who are interested
-              in participating in your studies.
+              You will use SSStutterBuddy to connect with PWS who are interested in participating in your
+              studies.
               <br />
               <br />
-              Please note: All new researcher accounts are manually reviewed by
-              the SSStutterBuddy team.
+              Please note: All new researcher accounts are manually reviewed by the SSStutterBuddy team.
             </p>
           </div>
         </div>
@@ -91,9 +85,7 @@ const SelectRolePage = ({ user }) => {
           onClick={handleNextClick}
           disabled={!role}
           className={`px-6 py-3 rounded-lg font-semibold transition-colors ${
-            role
-              ? 'bg-blue-500 hover:bg-blue-600 text-white'
-              : 'bg-blue-300 text-white cursor-not-allowed'
+            role ? 'bg-blue-500 hover:bg-blue-600 text-white' : 'bg-blue-300 text-white cursor-not-allowed'
           }`}
         >
           Next

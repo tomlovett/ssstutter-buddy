@@ -3,10 +3,7 @@ import { faker } from '@faker-js/faker'
 
 import { seedTestData, cleanupTestData } from './utils/database-seeder'
 import { loginUser, signupNewUser, selectRole } from './utils/auth-helpers'
-import {
-  setLocationAndSave,
-  expectLocationDisplay,
-} from './utils/location-tool-helper'
+import { setLocationAndSave, expectLocationDisplay } from './utils/location-tool-helper'
 
 test.describe('Authentication Flow', () => {
   test.afterAll(async () => await cleanupTestData())
@@ -43,10 +40,7 @@ test.describe('Authentication Flow', () => {
     await page.fill('input[name="codename"]', faker.lorem.words(3))
     await page.fill(
       'input[name="birthdate"]',
-      faker.date
-        .birthdate({ min: 18, max: 85, mode: 'age' })
-        .toISOString()
-        .split('T')[0]
+      faker.date.birthdate({ min: 18, max: 85, mode: 'age' }).toISOString().split('T')[0]
     )
 
     const gender = faker.helpers.arrayElement(['m', 'f'])
@@ -58,9 +52,7 @@ test.describe('Authentication Flow', () => {
       timeout: 5000,
     })
     const optionText = gender === 'm' ? 'Male' : 'Female'
-    await page.click(
-      `[role="listbox"] [role="option"]:has-text("${optionText}")`
-    )
+    await page.click(`[role="listbox"] [role="option"]:has-text("${optionText}")`)
 
     await setLocationAndSave(page, {
       country: 'United States',
@@ -88,10 +80,7 @@ test.describe('Authentication Flow', () => {
     await expect(page).toHaveURL(/\/r\/researchers\/\d+\/edit/)
 
     await page.fill('input[name="institution"]', faker.company.name())
-    await page.fill(
-      'input[name="university_profile_url"]',
-      faker.internet.url()
-    )
+    await page.fill('input[name="university_profile_url"]', faker.internet.url())
     await page.fill('textarea[name="bio"]', faker.lorem.paragraph())
 
     await page.click('button[type="submit"]')

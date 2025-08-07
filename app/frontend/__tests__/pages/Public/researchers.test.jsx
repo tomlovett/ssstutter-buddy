@@ -8,15 +8,11 @@ describe('Public Researchers Page', () => {
     render(<Researchers />)
 
     // Check that the main heading is rendered
-    expect(
-      screen.getByRole('heading', { name: 'For Researchers' })
-    ).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'For Researchers' })).toBeInTheDocument()
 
     // Check that key content is present
     expect(
-      screen.getByText(
-        /Connect directly with PWS who are interested in participating in studies/
-      )
+      screen.getByText(/Connect directly with PWS who are interested in participating in studies/)
     ).toBeInTheDocument()
     expect(screen.getByText('How it works')).toBeInTheDocument()
   })

@@ -20,15 +20,9 @@ const ParticipantSlice = ({ participant, showFullInfo = false }) => (
             <i>{participant.codename}</i>
           )}
         </td>
-        <td className="px-4 py-2 text-gray-600">
-          {showFullInfo ? participant.email : ''}
-        </td>
-        <td className="px-4 py-2 text-gray-600">
-          b. {participant.birthdate.slice(0, 4)}
-        </td>
-        <td className="px-4 py-2 text-gray-600">
-          {participant.gender.toUpperCase()}
-        </td>
+        <td className="px-4 py-2 text-gray-600">{showFullInfo ? participant.email : ''}</td>
+        <td className="px-4 py-2 text-gray-600">b. {participant.birthdate.slice(0, 4)}</td>
+        <td className="px-4 py-2 text-gray-600">{participant.gender.toUpperCase()}</td>
         <td className="px-4 py-2 text-gray-600">37 mi</td>
       </tr>
     </tbody>

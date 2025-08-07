@@ -18,14 +18,10 @@ describe('User Edit Page', () => {
     expect(screen.getByPlaceholderText('First Name')).toBeInTheDocument()
     expect(screen.getByPlaceholderText('Last Name')).toBeInTheDocument()
     expect(screen.getByPlaceholderText('Email')).toBeInTheDocument()
-    expect(
-      screen.getByRole('button', { name: 'Save Changes' })
-    ).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Save Changes' })).toBeInTheDocument()
 
     // Check that links are present
-    expect(
-      screen.getByText('To change your password, click this link')
-    ).toBeInTheDocument()
+    expect(screen.getByText('To change your password, click this link')).toBeInTheDocument()
     expect(screen.getByText('Cancel')).toBeInTheDocument()
   })
 })

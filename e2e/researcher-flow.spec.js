@@ -29,26 +29,19 @@ test.describe('Researcher Workflow', () => {
 
     // Wait for modal to be visible and check its content
     await expect(page.locator('[role="alertdialog"]')).toBeVisible()
-    await expect(page.locator('[role="alertdialog"] h2')).toContainText(
-      'Create New Study'
-    )
+    await expect(page.locator('[role="alertdialog"] h2')).toContainText('Create New Study')
     await expect(page.locator('input[id="title"]')).toBeVisible()
 
     await page.fill('input[id="title"]', 'New Test Study')
 
     // Click the Create Study button inside the modal
-    await page
-      .locator('[role="alertdialog"] button:has-text("Create Study")')
-      .click()
+    await page.locator('[role="alertdialog"] button:has-text("Create Study")').click()
 
     await expect(page).toHaveURL(/\/r\/studies\/\d+\/edit/)
 
     await page.fill('input[name="title"]', 'Newer Study Name')
     await page.fill('input[name="short_desc"]', 'A test study description')
-    await page.fill(
-      'textarea[name="long_desc"]',
-      'A detailed test study description'
-    )
+    await page.fill('textarea[name="long_desc"]', 'A detailed test study description')
 
     // Scroll to the Study timeline section to get to the right area of the page
     const timelineSection = page.locator('p:has-text("Study timeline:")')
@@ -85,9 +78,7 @@ test.describe('Researcher Workflow', () => {
     await page.evaluate(() => window.scrollTo(0, 0))
     await page.waitForTimeout(1000)
 
-    await expect(page.locator('input[name="title"]')).toHaveValue(
-      'Newer Study Name'
-    )
+    await expect(page.locator('input[name="title"]')).toHaveValue('Newer Study Name')
 
     // save and exit
     // await expect(page.locator('h1')).toContainText('Newer Study Name')
@@ -110,9 +101,7 @@ test.describe('Researcher Workflow', () => {
     await expect(page).toHaveURL(`/r/studies/${firstStudy.id}`)
   })
 
-  test('researcher can publish draft study that is ready to be published', async ({
-    page,
-  }) => {
+  test('researcher can publish draft study that is ready to be published', async ({ page }) => {
     const { studies } = seededData
     const draftStudy = studies.find(study => study.title === 'Draft Study')
 
@@ -125,30 +114,18 @@ test.describe('Researcher Workflow', () => {
     await expect(page).toHaveURL(`/r/studies/${draftStudy.id}`)
   })
 
-  test('with an active study, researcher can see and manage study participants', async ({
-    page,
-  }) => {
+  test('with an active study, researcher can see and manage study participants', async ({ page }) => {
     const { studies, participant } = seededData
-    const activeStudy = studies.find(
-      study => study.title === 'Digital Survey Study'
-    )
+    const activeStudy = studies.find(study => study.title === 'Digital Survey Study')
 
     await page.goto(`/r/studies/${activeStudy.id}`)
 
-    await expect(
-      page.locator('h3:has-text("Active Connections")')
-    ).toBeVisible()
+    await expect(page.locator('h3:has-text("Active Connections")')).toBeVisible()
     await expect(page.locator('h3:has-text("Invitations")')).toBeVisible()
-    await expect(
-      page.locator('h3:has-text("Completed Connections")')
-    ).toBeVisible()
-    await expect(
-      page.locator('h3:has-text("Declined Connections")')
-    ).toBeVisible()
+    await expect(page.locator('h3:has-text("Completed Connections")')).toBeVisible()
+    await expect(page.locator('h3:has-text("Declined Connections")')).toBeVisible()
 
-    const activeConnectionsTable = page.locator(
-      '[id="active-connections-table"]'
-    )
+    const activeConnectionsTable = page.locator('[id="active-connections-table"]')
     await expect(activeConnectionsTable).toBeVisible()
 
     const tableRows = activeConnectionsTable.locator('tbody tr')
@@ -160,14 +137,10 @@ test.describe('Researcher Workflow', () => {
 
     const statusDropdown = activeConnectionsTable.locator('[role="combobox"]')
     await expect(statusDropdown).toBeVisible()
-    await expect(page.locator('[data-slot="select-value"]')).toContainText(
-      'Study began'
-    )
+    await expect(page.locator('[data-slot="select-value"]')).toContainText('Study began')
 
     await statusDropdown.click()
-    await expect(
-      page.locator('[role="option"]:has-text("Study began")')
-    ).toBeVisible()
+    await expect(page.locator('[role="option"]:has-text("Study began")')).toBeVisible()
     await page.locator('[role="option"]:has-text("Study completed")').click()
 
     await expectToast(page, 'Changes saved!')

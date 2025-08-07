@@ -1,16 +1,5 @@
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-} from '@/components/ui/form'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
+import { FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 
 const CustomSelect = ({ form, name, placeholder, options }) => {
   const RenderSelect = ({ field, placeholder, options }) => (
@@ -38,13 +27,7 @@ const CustomSelect = ({ form, name, placeholder, options }) => {
       control={form.control}
       name={name}
       key={name}
-      render={({ field }) => (
-        <RenderSelect
-          field={field}
-          placeholder={placeholder}
-          options={options}
-        />
-      )}
+      render={({ field }) => <RenderSelect field={field} placeholder={placeholder} options={options} />}
     />
   )
 }

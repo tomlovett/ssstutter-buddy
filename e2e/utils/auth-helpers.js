@@ -15,27 +15,16 @@ export const loginUser = async (page, userData) => {
 
 export const signupNewUser = async (page, userData = {}) => {
   await page.goto('/signup')
-  await page.fill(
-    'input[name="firstName"]',
-    userData.firstName || faker.person.firstName()
-  )
-  await page.fill(
-    'input[name="lastName"]',
-    userData.lastName || faker.person.lastName()
-  )
-  await page.fill(
-    'input[name="email"]',
-    userData.email || `${E2E_EMAIL_PREFIX}_${faker.internet.email()}`
-  )
+  await page.fill('input[name="firstName"]', userData.firstName || faker.person.firstName())
+  await page.fill('input[name="lastName"]', userData.lastName || faker.person.lastName())
+  await page.fill('input[name="email"]', userData.email || `${E2E_EMAIL_PREFIX}_${faker.internet.email()}`)
   await page.fill('input[name="password"]', PASSWORD)
   await page.fill('input[name="passwordConfirmation"]', PASSWORD)
   await page.click('button[type="submit"]')
 }
 
 export const selectRole = async (page, role) => {
-  await page.click(
-    `button:has-text("${role.charAt(0).toUpperCase() + role.slice(1)}")`
-  )
+  await page.click(`button:has-text("${role.charAt(0).toUpperCase() + role.slice(1)}")`)
   await page.click('button:has-text("Next")')
 }
 

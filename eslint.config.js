@@ -5,12 +5,7 @@ import pluginReact from 'eslint-plugin-react'
 /** @type {import('eslint').Linter.Config[]} */
 export default [
   {
-    ignores: [
-      '**/node_modules/**',
-      '**/vendor/**',
-      '**/public/**',
-      '**/tmp/**',
-    ],
+    ignores: ['**/node_modules/**', '**/vendor/**', '**/public/**', '**/tmp/**'],
   },
   { languageOptions: { globals: globals.browser } },
   pluginJs.configs.recommended,
@@ -42,11 +37,7 @@ export default [
     },
   },
   {
-    files: [
-      '**/__tests__/**/*.{js,jsx}',
-      '**/__mocks__/**/*.{js,jsx}',
-      '**/jest.setup.cjs',
-    ],
+    files: ['**/__tests__/**/*.{js,jsx}', '**/__mocks__/**/*.{js,jsx}', '**/jest.setup.cjs'],
     languageOptions: {
       globals: {
         ...globals.browser,

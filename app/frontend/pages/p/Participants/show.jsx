@@ -2,12 +2,7 @@ import { Link } from '@inertiajs/react'
 import { Cake, MapPin } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { formatBirthday, formatLocation } from '@/lib/utils'
 import ParticipantPreview from '@/components/Participant/ParticipantPreview'
 
@@ -23,9 +18,7 @@ const ParticipantShow = ({ participant }) => (
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger>
-                  <span className="text-sm text-gray-500 ml-2">
-                    @{participant.codename}
-                  </span>
+                  <span className="text-sm text-gray-500 ml-2">@{participant.codename}</span>
                 </TooltipTrigger>
                 <TooltipContent>
                   <p>This is your codename</p>
@@ -52,8 +45,7 @@ const ParticipantShow = ({ participant }) => (
                 </li>
                 <li className="flex items-center gap-2">
                   <Cake className="w-4 h-4" />
-                  <span className="font-medium">Birthday:</span>{' '}
-                  {formatBirthday(participant.birthdate)}
+                  <span className="font-medium">Birthday:</span> {formatBirthday(participant.birthdate)}
                 </li>
                 {/* <li className="flex items-center gap-2">
                   <span className="font-medium">Default distance setting:</span>{' '}
@@ -63,9 +55,7 @@ const ParticipantShow = ({ participant }) => (
             </div>
             <div className="self-end">
               <Button asChild className="flex items-center gap-2">
-                <Link href={`/p/participants/${participant.id}/edit`}>
-                  Edit Profile
-                </Link>
+                <Link href={`/p/participants/${participant.id}/edit`}>Edit Profile</Link>
               </Button>
             </div>
           </div>

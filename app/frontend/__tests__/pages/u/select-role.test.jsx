@@ -12,9 +12,7 @@ describe('User Select Role Page', () => {
     render(<SelectRole user={mockUser} />)
 
     // Check that the main heading is rendered
-    expect(
-      screen.getByText('Select The Role For This Account')
-    ).toBeInTheDocument()
+    expect(screen.getByText('Select The Role For This Account')).toBeInTheDocument()
 
     // Check that user email is displayed
     expect(screen.getByText('test@example.com')).toBeInTheDocument()

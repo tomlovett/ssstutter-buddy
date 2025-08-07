@@ -21,9 +21,7 @@ describe('Researcher Edit Page', () => {
 
     // Check that form elements are present
 
-    expect(
-      screen.getByPlaceholderText('e.g. SLP, PhD, etc.')
-    ).toBeInTheDocument()
+    expect(screen.getByPlaceholderText('e.g. SLP, PhD, etc.')).toBeInTheDocument()
     expect(screen.getByText('Institutions')).toBeInTheDocument()
     expect(screen.getByText('Research Interests')).toBeInTheDocument()
     expect(screen.getByText('Professional Bio')).toBeInTheDocument()

@@ -13,15 +13,7 @@ import {
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
 
-const Modal = ({
-  buttonText,
-  modalTitle,
-  modalBody,
-  tooltip,
-  enableSave,
-  onClickCancel,
-  onClickSave,
-}) => {
+const Modal = ({ buttonText, modalTitle, modalBody, tooltip, enableSave, onClickCancel, onClickSave }) => {
   const SaveButton = () =>
     enableSave ? (
       <AlertDialogAction onClick={onClickSave}>Save Changes</AlertDialogAction>
@@ -45,9 +37,7 @@ const Modal = ({
         <AlertDialogFooter className="flex justify-between items-center">
           <div className="flex-1">{tooltip}</div>
           <div className="flex gap-2">
-            <AlertDialogCancel onClick={onClickCancel}>
-              Cancel
-            </AlertDialogCancel>
+            <AlertDialogCancel onClick={onClickCancel}>Cancel</AlertDialogCancel>
             <SaveButton />
           </div>
         </AlertDialogFooter>

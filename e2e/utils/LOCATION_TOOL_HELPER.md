@@ -158,13 +158,7 @@ await expectLocationDisplay(page, 'No Location Selected')
 
 ```javascript
 import { test, expect } from '@playwright/test'
-import {
-  openLocationTool,
-  setCountry,
-  setState,
-  setCity,
-  saveLocation,
-} from './utils/location-tool-helper'
+import { openLocationTool, setCountry, setState, setCity, saveLocation } from './utils/location-tool-helper'
 
 test('can set a location', async ({ page }) => {
   // Navigate to a page with LocationTool
@@ -187,11 +181,7 @@ test('can set a location', async ({ page }) => {
 
 ```javascript
 import { test, expect } from '@playwright/test'
-import {
-  setCompleteLocation,
-  setLocationAndSave,
-  expectLocationDisplay,
-} from './utils/location-tool-helper'
+import { setCompleteLocation, setLocationAndSave, expectLocationDisplay } from './utils/location-tool-helper'
 
 test('can set a complete location without saving', async ({ page }) => {
   // Navigate to a page with LocationTool

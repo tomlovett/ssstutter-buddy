@@ -53,10 +53,7 @@ const Login = () => {
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
             Or{' '}
-            <Link
-              href="/signup"
-              className="font-medium text-indigo-600 hover:text-indigo-500"
-            >
+            <Link href="/signup" className="font-medium text-indigo-600 hover:text-indigo-500">
               create a new account
             </Link>
           </p>
@@ -64,21 +61,12 @@ const Login = () => {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             {formFieldData.map(({ name, placeholder, type }) => (
-              <FormInput
-                key={name}
-                form={form}
-                name={name}
-                placeholder={placeholder}
-                type={type}
-              />
+              <FormInput key={name} form={form} name={name} placeholder={placeholder} type={type} />
             ))}
 
             <div className="flex items-center justify-end">
               <div className="text-sm">
-                <Link
-                  href="/forgot-password"
-                  className="font-medium text-indigo-600 hover:text-indigo-500"
-                >
+                <Link href="/forgot-password" className="font-medium text-indigo-600 hover:text-indigo-500">
                   Forgot your password?
                 </Link>
               </div>
@@ -93,10 +81,7 @@ const Login = () => {
         </Form>
 
         <div className="text-center text-sm text-gray-600">
-          <Link
-            href="/home"
-            className="font-medium text-indigo-600 hover:text-indigo-500"
-          >
+          <Link href="/home" className="font-medium text-indigo-600 hover:text-indigo-500">
             Back to homepage
           </Link>
         </div>

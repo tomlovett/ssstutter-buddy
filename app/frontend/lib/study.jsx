@@ -9,14 +9,7 @@ export const LOCATION_TYPES = {
 export const validateStudy = study => {
   const errors = []
 
-  const requiredFields = [
-    'title',
-    'short_desc',
-    'long_desc',
-    'remuneration',
-    'total_hours',
-    'methodologies',
-  ]
+  const requiredFields = ['title', 'short_desc', 'long_desc', 'remuneration', 'total_hours', 'methodologies']
 
   requiredFields.forEach(field => {
     if (study[field] === null || study[field] === undefined) {
@@ -30,13 +23,8 @@ export const validateStudy = study => {
     errors.push('Duration is required if study requires multiple sessions')
   }
 
-  if (
-    study.location_type !== LOCATION_TYPES.DIGITAL &&
-    (!study.location || !study.location?.city)
-  ) {
-    errors.push(
-      'A location must be set if the study can be completed in person'
-    )
+  if (study.location_type !== LOCATION_TYPES.DIGITAL && (!study.location || !study.location?.city)) {
+    errors.push('A location must be set if the study can be completed in person')
   }
 
   return {
@@ -73,9 +61,7 @@ export const displayHours = total_hours => {
     return '1 hour'
   }
 
-  return total_hours < 1
-    ? `${Number.parseInt(total_hours * 60)} minutes`
-    : `${total_hours} hours`
+  return total_hours < 1 ? `${Number.parseInt(total_hours * 60)} minutes` : `${total_hours} hours`
 }
 
 export const timeline = ({ total_hours, total_sessions, duration }) =>

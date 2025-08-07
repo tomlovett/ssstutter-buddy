@@ -22,15 +22,11 @@ const AwaitConfirmation = () => {
       <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <div className="text-center">
           <h1 className="text-4xl font-bold text-gray-900">Account created!</h1>
-          <p className="mt-4 text-xl text-gray-600">
-            Please check your email to complete your registration
-          </p>
+          <p className="mt-4 text-xl text-gray-600">Please check your email to complete your registration</p>
           <div className="mt-8 max-w-md mx-auto">
             <div className="bg-white shadow sm:rounded-lg">
               <div className="px-4 py-5 sm:p-6">
-                <h3 className="text-lg font-medium leading-6 text-gray-900">
-                  Didn't receive the email?
-                </h3>
+                <h3 className="text-lg font-medium leading-6 text-gray-900">Didn't receive the email?</h3>
                 <div className="mt-5">
                   <input
                     type="email"

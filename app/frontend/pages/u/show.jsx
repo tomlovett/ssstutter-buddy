@@ -1,10 +1,4 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@ui/card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@ui/card'
 import { Input } from '@ui/input'
 import { Label } from '@ui/label'
 
@@ -13,9 +7,7 @@ const UserShow = ({ user }) => {
     <Card className="w-1/2">
       <CardHeader>
         <CardTitle>
-          <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
-            Hola Muchacho
-          </h3>
+          <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">Hola Muchacho</h3>
         </CardTitle>
         <CardDescription>Make changes to your account here.</CardDescription>
       </CardHeader>

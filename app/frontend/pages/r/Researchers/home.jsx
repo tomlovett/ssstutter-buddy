@@ -11,10 +11,7 @@ const ResearcherHome = ({ researcher, studies, in_progress_connections }) => (
     </div>
 
     <h5>Active Studies</h5>
-    <StudyTable
-      studies={studies}
-      nullStatement="You don't have any active studies"
-    />
+    <StudyTable studies={studies} nullStatement="You don't have any active studies" />
 
     <hr className="my-4 border-gray-400" />
 

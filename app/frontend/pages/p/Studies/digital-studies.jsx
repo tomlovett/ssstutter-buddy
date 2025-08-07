@@ -9,23 +9,16 @@ const DigitalStudies = ({ studies, pagination }) => {
   const PaginationControls = () => (
     <div className="mt-6 flex items-center justify-between mb-4">
       <div className="text-sm text-gray-700">
-        Showing page {current_page} of {total_pages} ({total_count} total
-        studies)
+        Showing page {current_page} of {total_pages} ({total_count} total studies)
       </div>
       <div className="flex gap-2">
         <Button asChild disabled={current_page == 1}>
-          <Link
-            href={`/p/digital-studies?page=${current_page - 1}`}
-            preserveScroll
-          >
+          <Link href={`/p/digital-studies?page=${current_page - 1}`} preserveScroll>
             Previous
           </Link>
         </Button>
         <Button asChild disabled={current_page === total_pages}>
-          <Link
-            href={`/p/digital-studies?page=${current_page + 1}`}
-            preserveScroll
-          >
+          <Link href={`/p/digital-studies?page=${current_page + 1}`} preserveScroll>
             Next
           </Link>
         </Button>

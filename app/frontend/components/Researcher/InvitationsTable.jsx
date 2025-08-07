@@ -1,11 +1,4 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { formatDate } from '@/lib/utils'
 import { INVITED } from '@/lib/invitations'
 
@@ -14,9 +7,7 @@ const InvitationsTable = ({ invitations }) => {
     <Table>
       <TableBody>
         <TableRow>
-          <TableCell className="text-muted-foreground">
-            No participants found within range
-          </TableCell>
+          <TableCell className="text-muted-foreground">No participants found within range</TableCell>
         </TableRow>
       </TableBody>
     </Table>

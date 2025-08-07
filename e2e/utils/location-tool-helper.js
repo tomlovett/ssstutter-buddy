@@ -3,9 +3,7 @@ import { expect } from '@playwright/test'
 export const openLocationTool = async page => {
   await page.click('button:has-text("Edit Location")')
   await expect(page.locator('[role="alertdialog"]')).toBeVisible()
-  await expect(page.locator('[role="alertdialog"]')).toContainText(
-    'Location Selection'
-  )
+  await expect(page.locator('[role="alertdialog"]')).toContainText('Location Selection')
 }
 
 // Abstraction used for setCountry, setState, setCity
@@ -62,20 +60,15 @@ const clearComboBoxValue = async (page, testId) => {
 export const setCountry = async (page, countryName) =>
   await setComboBoxValue(page, 'country-combobox', countryName)
 
-export const setState = async (page, stateName) =>
-  await setComboBoxValue(page, 'state-combobox', stateName)
+export const setState = async (page, stateName) => await setComboBoxValue(page, 'state-combobox', stateName)
 
-export const setCity = async (page, cityName) =>
-  await setComboBoxValue(page, 'city-combobox', cityName)
+export const setCity = async (page, cityName) => await setComboBoxValue(page, 'city-combobox', cityName)
 
-export const clearCountry = async page =>
-  await clearComboBoxValue(page, 'clear-country')
+export const clearCountry = async page => await clearComboBoxValue(page, 'clear-country')
 
-export const clearState = async page =>
-  await clearComboBoxValue(page, 'clear-state')
+export const clearState = async page => await clearComboBoxValue(page, 'clear-state')
 
-export const clearCity = async page =>
-  await clearComboBoxValue(page, 'clear-city')
+export const clearCity = async page => await clearComboBoxValue(page, 'clear-city')
 
 export const saveLocation = async page => {
   await page.click('[role="alertdialog"] button:has-text("Save Changes")')
@@ -112,7 +105,5 @@ export const setLocationAndSave = async (page, { country, state, city }) => {
 
 // Verifies that the location is displayed correctly in the LocationTool component
 export const expectLocationDisplay = async (page, stringToMatch = '') => {
-  await expect(
-    page.locator('div.flex.items-center.gap-2.text-gray-600 span')
-  ).toContainText(stringToMatch)
+  await expect(page.locator('div.flex.items-center.gap-2.text-gray-600 span')).toContainText(stringToMatch)
 }
