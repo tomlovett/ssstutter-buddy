@@ -23,8 +23,6 @@ gem 'puma', '~> 5.0'
 # importmap
 gem 'importmap-rails'
 
-gem 'sprockets-rails', require: 'sprockets/railtie'
-
 gem 'vite_rails'
 
 gem 'inertia_rails'
@@ -83,4 +81,7 @@ end
 group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
+
+  # Email preview in development
+  gem 'letter_opener'
 end

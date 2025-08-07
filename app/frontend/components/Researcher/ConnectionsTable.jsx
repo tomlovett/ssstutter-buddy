@@ -21,9 +21,9 @@ import { CONNECTION_STATUSES } from '@/lib/connections'
 
 import { capitalize, formatDate } from '@/lib/utils'
 
-const ConnectionsTable = ({ connections, nullStatement }) => {
+const ConnectionsTable = ({ connections, nullStatement, id }) => {
   const EmptyTable = () => (
-    <Table>
+    <Table id={id || null}>
       <TableBody>
         <TableRow>
           <TableCell className="text-muted-foreground">
@@ -80,14 +80,20 @@ const ConnectionsTable = ({ connections, nullStatement }) => {
 
   const ConnectionSlice = ({ connection }) => (
     <TableRow className="even:bg-muted">
-      <TableCell>{connection.name}</TableCell>
-      <TableCell>{connection.email}</TableCell>
-      <TableCell>{formatDate(connection.created_at).substr(3)}</TableCell>
-      <TableCell>{formatDate(connection.updated_at).substr(3)}</TableCell>
-      <TableCell style={{ fontFamily: 'monospace' }}>
+      <TableCell key="name">
+        {connection.participant.first_name} {connection.participant.last_name}
+      </TableCell>
+      <TableCell key="email">{connection.email}</TableCell>
+      <TableCell key="created_at">
+        {formatDate(connection.created_at).substr(3)}
+      </TableCell>
+      <TableCell key="updated_at">
+        {formatDate(connection.updated_at).substr(3)}
+      </TableCell>
+      <TableCell key="pin" style={{ fontFamily: 'monospace' }}>
         {connection.pin}
       </TableCell>
-      <TableCell>
+      <TableCell key="status">
         <ConnectionStatusDropdown connection={connection} />
       </TableCell>
     </TableRow>
@@ -96,7 +102,7 @@ const ConnectionsTable = ({ connections, nullStatement }) => {
   return connections.length === 0 ? (
     <EmptyTable />
   ) : (
-    <Table className="rounded-md">
+    <Table className="rounded-md" id={id}>
       {connections.length > 0 && <TableHeaderRow />}
       <TableBody>
         {connections.map(connection => (

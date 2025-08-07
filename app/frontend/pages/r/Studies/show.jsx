@@ -93,6 +93,7 @@ const StudyShow = ({
         </div>
 
         <ConnectionsTable
+          id="active-connections-table"
           connections={filtered_connections}
           nullStatement="No connections for this study yet."
         />
@@ -102,6 +103,7 @@ const StudyShow = ({
         <section>
           <h3 className="text-lg font-bold">Invitations</h3>
           <InvitationsTable
+            id="invitations-table"
             invitations={invitations}
             nullStatement="No participants currently in range for this study."
           />
@@ -111,6 +113,7 @@ const StudyShow = ({
       <section>
         <h3 className="text-lg font-bold">Completed Connections</h3>
         <ConnectionsTable
+          id="completed-connections-table"
           connections={completed_connections}
           nullStatement="No completed connections for this study yet."
         />

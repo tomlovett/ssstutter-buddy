@@ -27,6 +27,7 @@
 */yarn-error.log*
 */pnpm-debug.log*
 */lerna-debug.log*
+test-results/
 
 # Ignore pidfiles, but keep the directory.
 /tmp/pids/*

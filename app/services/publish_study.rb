@@ -21,15 +21,18 @@ class PublishStudy
   private
 
   def send_invitation_emails
+    return if @study.digital_only?
+
     existing_connections = @study.connections.pluck(:participant_id)
-    participants = Participant.where.not(id: existing_connections).near(@study.address, 100)
+    existing_invitations = @study.invitations.pluck(:participant_id)
+    participants = Participant.joins(:location)
+      .where.not(location: nil)
+      .where.not(id: existing_connections)
+      .where.not(id: existing_invitations)
+      .near(@study.location.coordinates, 100)
 
     participants.each do |participant|
-      Connection.create!(
-        study: @study,
-        participant:,
-        invitation_status: :invited
-      )
+      Invitation.create!(study: @study, participant:, status: :invited)
 
       ParticipantMailer.with(study: @study, participant:).new_study_alert.deliver_later
     end
