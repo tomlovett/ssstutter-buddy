@@ -61,12 +61,13 @@ const LocationTool = ({ location: { country, state, city }, onSave }) => {
     setCurrentCountry(null)
   }
 
-  const ClearFieldIcon = ({ onClick }) => (
+  const ClearFieldIcon = ({ onClick, ...props }) => (
     <Button
       onClick={onClick}
       variant="ghost"
       size="icon"
       className="h-8 w-8 p-0 hover:bg-gray-100"
+      {...props}
     >
       <X className="h-4 w-4 text-orange-500 border border-orange-500 rounded-full" />
     </Button>
@@ -99,10 +100,16 @@ const LocationTool = ({ location: { country, state, city }, onSave }) => {
               onChange={item => setCurrentCountry(item)}
               disabled={!!currentState}
               className="w-full"
+              dataTestId="country-combobox"
             />
           </div>
           <div className="flex justify-end w-[10%]">
-            {currentCountry && <ClearFieldIcon onClick={clearCountry} />}
+            {currentCountry && (
+              <ClearFieldIcon
+                onClick={clearCountry}
+                data-testid="clear-country"
+              />
+            )}
           </div>
         </div>
       </div>
@@ -121,10 +128,13 @@ const LocationTool = ({ location: { country, state, city }, onSave }) => {
               onChange={item => setCurrentState(item)}
               disabled={!currentCountry || currentCity}
               className="w-full"
+              dataTestId="state-combobox"
             />
           </div>
           <div className="flex justify-end w-[10%]">
-            {currentState && <ClearFieldIcon onClick={clearState} />}
+            {currentState && (
+              <ClearFieldIcon onClick={clearState} data-testid="clear-state" />
+            )}
           </div>
         </div>
       </div>
@@ -143,10 +153,13 @@ const LocationTool = ({ location: { country, state, city }, onSave }) => {
               onChange={item => setCurrentCity(item)}
               disabled={!currentState}
               className="w-full"
+              dataTestId="city-combobox"
             />
           </div>
           <div className="flex justify-end w-[10%]">
-            {currentCity && <ClearFieldIcon onClick={clearCity} />}
+            {currentCity && (
+              <ClearFieldIcon onClick={clearCity} data-testid="clear-city" />
+            )}
           </div>
         </div>
       </div>

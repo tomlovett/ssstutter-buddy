@@ -2,6 +2,17 @@ import { test, expect } from '@playwright/test'
 import { seedTestData, cleanupTestData } from './utils/database-seeder'
 import { loginUser } from './utils/auth-helpers'
 import { expectToast } from './utils/toast-helper'
+import {
+  openLocationTool,
+  setCountry,
+  clearCountry,
+  setState,
+  clearState,
+  setCity,
+  clearCity,
+  saveLocation,
+  expectLocationDisplay,
+} from './utils/location-tool-helper'
 
 // Store seeded data at module level for access across all tests
 let seededData
@@ -51,6 +62,42 @@ test.describe('Participant Workflow', () => {
     await expect(
       page.locator('span:has-text("@UpdatedCodename")')
     ).toBeVisible()
+  })
+
+  test('participant can edit location using LocationTool', async ({ page }) => {
+    const { participant } = seededData
+
+    await page.click('a:has-text("My profile")')
+    await expect(page).toHaveURL(`/p/participants/${participant.id}`)
+
+    await page.click('a:has-text("Edit Profile")')
+    await expect(page).toHaveURL(`/p/participants/${participant.id}/edit`)
+
+    await openLocationTool(page)
+
+    await setCountry(page, 'United States')
+    await page.waitForTimeout(500)
+    await clearCountry(page)
+    await page.waitForTimeout(500)
+    await setCountry(page, 'United States')
+
+    await page.waitForTimeout(500)
+    await setState(page, 'Maryland')
+    await page.waitForTimeout(500)
+    await clearState(page)
+    await page.waitForTimeout(500)
+    await setState(page, 'Maryland')
+
+    await setCity(page, 'Baltimore')
+    await page.waitForTimeout(500)
+    await clearCity(page)
+    await page.waitForTimeout(500)
+    await setCity(page, 'Baltimore')
+    await page.waitForTimeout(500)
+
+    await saveLocation(page)
+
+    await expectLocationDisplay(page, 'Baltimore, MD, US')
   })
 
   test('participant can view digital studies', async ({ page }) => {

@@ -3,6 +3,10 @@ import { faker } from '@faker-js/faker'
 
 import { seedTestData, cleanupTestData } from './utils/database-seeder'
 import { loginUser, signupNewUser, selectRole } from './utils/auth-helpers'
+import {
+  setLocationAndSave,
+  expectLocationDisplay,
+} from './utils/location-tool-helper'
 
 test.describe('Authentication Flow', () => {
   test.afterAll(async () => await cleanupTestData())
@@ -47,10 +51,8 @@ test.describe('Authentication Flow', () => {
 
     const gender = faker.helpers.arrayElement(['m', 'f'])
 
-    // Click the gender select dropdown - target the first combobox in the form
     await page.locator('form button[role="combobox"]').first().click()
 
-    // Wait for dropdown and click the specific option
     await page.waitForSelector('[role="listbox"]', {
       state: 'visible',
       timeout: 5000,
@@ -60,7 +62,12 @@ test.describe('Authentication Flow', () => {
       `[role="listbox"] [role="option"]:has-text("${optionText}")`
     )
 
-    // Does not verify that the location is filled out
+    await setLocationAndSave(page, {
+      country: 'United States',
+      state: 'Maryland',
+      city: 'Baltimore',
+    })
+    await expectLocationDisplay(page, 'Baltimore, MD, US')
 
     await page.click('button[type="submit"]')
 

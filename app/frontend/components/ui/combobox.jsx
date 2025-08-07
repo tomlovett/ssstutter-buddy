@@ -23,6 +23,7 @@ export function ComboBox({
   placeholder,
   disabled,
   onChange,
+  dataTestId,
 }) {
   const [open, setOpen] = useState(false)
 
@@ -62,6 +63,7 @@ export function ComboBox({
           aria-expanded={open}
           className="w-[200px] justify-between"
           disabled={disabled}
+          data-testid={dataTestId}
         >
           {prettifyDisplay(selectedItem) || placeholder}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
