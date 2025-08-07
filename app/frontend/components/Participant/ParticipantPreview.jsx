@@ -2,9 +2,7 @@ import ParticipantSlice from '@/components/Researcher/ParticipantSlice'
 
 const ParticipantPreview = ({ participant }) => (
   <div>
-    <h2 className="text-lg font-medium text-gray-900 mb-4">
-      How researchers see you
-    </h2>
+    <h2 className="text-lg font-medium text-gray-900 mb-4">How researchers see you</h2>
     <div className="bg-gray-50 rounded-lg p-4">
       <p className="text-gray-600 mb-1">
         If you <i>have not</i> connected with one of the researcher's studies

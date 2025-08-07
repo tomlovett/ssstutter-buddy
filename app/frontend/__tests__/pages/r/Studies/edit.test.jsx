@@ -47,11 +47,7 @@ describe('Researcher Studies Edit Page', () => {
     expect(screen.getByPlaceholderText('Study Title')).toBeInTheDocument()
     expect(screen.getByPlaceholderText('Short Description')).toBeInTheDocument()
     expect(screen.getByPlaceholderText('Long Description')).toBeInTheDocument()
-    expect(
-      screen.getByPlaceholderText('Minimum allowable age of participants')
-    ).toBeInTheDocument()
-    expect(
-      screen.getByPlaceholderText('Maximum allowable age of participants')
-    ).toBeInTheDocument()
+    expect(screen.getByPlaceholderText('Minimum allowable age of participants')).toBeInTheDocument()
+    expect(screen.getByPlaceholderText('Maximum allowable age of participants')).toBeInTheDocument()
   })
 })

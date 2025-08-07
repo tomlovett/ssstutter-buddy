@@ -101,10 +101,7 @@ addEventListener('fetch', function (event) {
 
   // Opening the DevTools triggers the "only-if-cached" request
   // that cannot be handled by the worker. Bypass such requests.
-  if (
-    event.request.cache === 'only-if-cached' &&
-    event.request.mode !== 'same-origin'
-  ) {
+  if (event.request.cache === 'only-if-cached' && event.request.mode !== 'same-origin') {
     return
   }
 
@@ -290,10 +287,7 @@ function sendToClient(client, message, transferrables = []) {
       resolve(event.data)
     }
 
-    client.postMessage(message, [
-      channel.port2,
-      ...transferrables.filter(Boolean),
-    ])
+    client.postMessage(message, [channel.port2, ...transferrables.filter(Boolean)])
   })
 }
 

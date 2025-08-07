@@ -70,9 +70,7 @@ export default function Stats({
           </tr>
           <tr>
             <td className="stats-label-cell">Completed Digital Connections</td>
-            <td className="stats-number-cell">
-              {digital_completed_connections_count}
-            </td>
+            <td className="stats-number-cell">{digital_completed_connections_count}</td>
           </tr>
           <tr>
             <td className="stats-label-cell">Invitations</td>

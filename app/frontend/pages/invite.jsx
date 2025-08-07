@@ -32,26 +32,16 @@ const InvitePage = ({ user }) => {
         Help us advance the pace of stuttering research!
         <br />
         <br />
-        Enter a {user.researcher ? 'colleague' : 'friend'}'s email and we will
-        send them an invitation on your behalf.
+        Enter a {user.researcher ? 'colleague' : 'friend'}'s email and we will send them an invitation on your
+        behalf.
         <br />
         <br />
-        {user.participant &&
-          'Invite as many people as you think would enjoy the platform. '}
+        {user.participant && 'Invite as many people as you think would enjoy the platform. '}
         We will only send one invitation per email address.
       </p>
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(submitData)}
-          className="space-y-6 w-1/4 mx-auto"
-        >
-          <FormInput
-            key="email"
-            form={form}
-            name="email"
-            type="email"
-            placeholder="Email address"
-          />
+        <form onSubmit={form.handleSubmit(submitData)} className="space-y-6 w-1/4 mx-auto">
+          <FormInput key="email" form={form} name="email" type="email" placeholder="Email address" />
 
           <div className="flex gap-4 mt-8 w-1/2 mx-auto">
             <button

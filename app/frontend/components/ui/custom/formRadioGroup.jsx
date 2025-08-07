@@ -9,10 +9,7 @@ import {
 
 const FormRadioGroup = ({ form, name, title, subtitle, items, className }) => {
   const RadioItem = ({ field, item }) => (
-    <FormItem
-      key={item.value}
-      className="flex flex-row items-start space-x-3 space-y-0"
-    >
+    <FormItem key={item.value} className="flex flex-row items-start space-x-3 space-y-0">
       <FormControl>
         <input
           type="radio"

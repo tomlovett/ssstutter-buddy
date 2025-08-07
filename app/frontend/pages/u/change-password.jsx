@@ -21,14 +21,9 @@ const ChangePasswordPage = ({ user }) => {
       <Head title="Change Password" />
       <div className="min-h-screen flex flex-col items-center justify-center p-4">
         <div className="w-full max-w-md">
-          <h1 className="text-2xl font-bold mb-6 text-center">
-            Change Password
-          </h1>
+          <h1 className="text-2xl font-bold mb-6 text-center">Change Password</h1>
           <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(submitData)}
-              className="space-y-6"
-            >
+            <form onSubmit={form.handleSubmit(submitData)} className="space-y-6">
               <FormInput
                 key="password"
                 form={form}

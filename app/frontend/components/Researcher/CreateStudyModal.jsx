@@ -46,9 +46,7 @@ export function CreateStudyModal() {
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Create New Study</AlertDialogTitle>
-          <AlertDialogDescription>
-            Enter the title of your study.
-          </AlertDialogDescription>
+          <AlertDialogDescription>Enter the title of your study.</AlertDialogDescription>
         </AlertDialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid gap-2">

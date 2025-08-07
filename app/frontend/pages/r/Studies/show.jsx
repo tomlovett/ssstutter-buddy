@@ -14,32 +14,23 @@ import {
   timeline,
 } from '@/lib/study'
 
-const StudyShow = ({
-  study,
-  active_connections,
-  invitations,
-  completed_connections,
-  declined_count,
-}) => {
+const StudyShow = ({ study, active_connections, invitations, completed_connections, declined_count }) => {
   const [activePin, setActivePin] = useState('')
 
   const StudyDetails = ({ study }) => (
     <>
       <p key="short_desc" className="text-sm text-foreground mb-2">
-        <span className="font-medium">Short description:</span>{' '}
-        {study.short_desc}
+        <span className="font-medium">Short description:</span> {study.short_desc}
       </p>
       <p key="long_desc" className="text-sm text-foreground mb-4">
         <span className="font-medium">Long description:</span> {study.long_desc}
       </p>
       <div className="grid grid-cols-2 gap-4 text-sm">
         <p key="methodologies" className="text-foreground">
-          <span className="font-medium">Methodologies:</span>{' '}
-          {displayMethodologies(study)}
+          <span className="font-medium">Methodologies:</span> {displayMethodologies(study)}
         </p>
         <p key="location" className="text-foreground">
-          <span className="font-medium">Location:</span>{' '}
-          {displayLocationShort(study)}
+          <span className="font-medium">Location:</span> {displayLocationShort(study)}
         </p>
         <p key="timeline" className="text-foreground">
           <span className="font-medium">Timeline:</span> {timeline(study)}
@@ -48,8 +39,7 @@ const StudyShow = ({
           <span className="font-medium">Age range:</span> {ageRange(study)}
         </p>
         <p key="remuneration" className="text-foreground">
-          <span className="font-medium">Est. remuneration:</span>{' '}
-          {displayRemuneration(study)}
+          <span className="font-medium">Est. remuneration:</span> {displayRemuneration(study)}
         </p>
       </div>
     </>
@@ -122,8 +112,7 @@ const StudyShow = ({
       <section>
         <h3 className="text-lg font-bold">Declined Connections</h3>
         <p className="text-sm text-gray-500">
-          {declined_count > 0 ? declined_count : 'No'} participants have
-          declined this study.
+          {declined_count > 0 ? declined_count : 'No'} participants have declined this study.
         </p>
       </section>
     </div>

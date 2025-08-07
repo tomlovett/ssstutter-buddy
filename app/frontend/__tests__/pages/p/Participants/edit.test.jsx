@@ -49,9 +49,7 @@ describe('Participant Edit Page', () => {
     expect(screen.getByText('Edit Participant Profile')).toBeInTheDocument()
 
     // Check that key content is present
-    expect(
-      screen.getByText(/To edit your name or email, go to your/)
-    ).toBeInTheDocument()
+    expect(screen.getByText(/To edit your name or email, go to your/)).toBeInTheDocument()
     expect(screen.getByText('user profile')).toBeInTheDocument()
   })
 })

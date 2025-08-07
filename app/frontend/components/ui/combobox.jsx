@@ -11,27 +11,14 @@ import {
   CommandItem,
   CommandList,
 } from '@/components/ui/command'
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 
-export function ComboBox({
-  selectedItem,
-  valuesList,
-  placeholder,
-  disabled,
-  onChange,
-  dataTestId,
-}) {
+export function ComboBox({ selectedItem, valuesList, placeholder, disabled, onChange, dataTestId }) {
   const [open, setOpen] = useState(false)
 
   const ItemRow = ({ item }) => {
     const checkmarkOpacity =
-      selectedItem === item.symbol || selectedItem === item.name
-        ? 'opacity-100'
-        : 'opacity-0'
+      selectedItem === item.symbol || selectedItem === item.name ? 'opacity-100' : 'opacity-0'
 
     return (
       <CommandItem
@@ -75,8 +62,7 @@ export function ComboBox({
           <CommandList>
             <CommandEmpty>No matches found.</CommandEmpty>
             <CommandGroup>
-              {valuesList.length > 1 &&
-                valuesList.map(item => <ItemRow item={item} key={item.name} />)}
+              {valuesList.length > 1 && valuesList.map(item => <ItemRow item={item} key={item.name} />)}
               {/* TODO: clean up a React error that pops up when this is rendered */}
             </CommandGroup>
           </CommandList>

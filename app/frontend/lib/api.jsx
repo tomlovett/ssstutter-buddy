@@ -24,23 +24,18 @@ export const sendRequest = async (path, method, body = {}, headers = {}) => {
     delete options.body
   }
 
-  return await fetch(`${window.location.origin}${path}`, options).then(
-    response => {
-      if (response.ok) {
-        toast.success('Success!', { duration: 7000 })
-      } else {
-        toast.error(
-          'Uh oh, there was an error! Be careful, your changes were not saved.',
-          { duration: 10000 }
-        )
-      }
-
-      if (response.redirected) {
-        window.location.href = response.url
-      }
-      return response
+  return await fetch(`${window.location.origin}${path}`, options).then(response => {
+    if (response.ok) {
+      toast.success('Success!', { duration: 7000 })
+    } else {
+      toast.error('Uh oh, there was an error! Be careful, your changes were not saved.', { duration: 10000 })
     }
-  )
+
+    if (response.redirected) {
+      window.location.href = response.url
+    }
+    return response
+  })
 }
 
 export const getRequest = async (path, body = {}, headers = {}) =>
@@ -55,8 +50,5 @@ export const postRequest = async (path, body = {}, headers = {}) =>
 // convert camelCase keys to snake_case keys
 const formatOutgoingBody = body =>
   Object.fromEntries(
-    Object.entries(body).map(([key, value]) => [
-      key.replace(/([A-Z])/g, '_$1').toLowerCase(),
-      value,
-    ])
+    Object.entries(body).map(([key, value]) => [key.replace(/([A-Z])/g, '_$1').toLowerCase(), value])
   )

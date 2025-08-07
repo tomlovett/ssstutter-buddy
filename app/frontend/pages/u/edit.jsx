@@ -33,13 +33,7 @@ const EditUserPage = ({ user }) => {
               label="First Name"
             />
 
-            <FormInput
-              key="lastName"
-              form={form}
-              name="lastName"
-              placeholder="Last Name"
-              label="Last Name"
-            />
+            <FormInput key="lastName" form={form} name="lastName" placeholder="Last Name" label="Last Name" />
 
             <FormInput
               key="email"
@@ -53,10 +47,7 @@ const EditUserPage = ({ user }) => {
 
             <div className="text-sm text-gray-600">
               <div className="flex justify-center">
-                <Link
-                  href="/change-password"
-                  className="text-blue-500 hover:text-blue-600"
-                >
+                <Link href="/change-password" className="text-blue-500 hover:text-blue-600">
                   To change your password, click this link
                 </Link>
               </div>

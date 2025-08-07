@@ -11,9 +11,7 @@ describe('Public Home Page', () => {
     expect(screen.getByText('Welcome to SSStutterBuddy')).toBeInTheDocument()
 
     // Check that key content is present
-    expect(
-      screen.getByText(/SSStutterBuddy is a free, non-profit platform/)
-    ).toBeInTheDocument()
+    expect(screen.getByText(/SSStutterBuddy is a free, non-profit platform/)).toBeInTheDocument()
     expect(screen.getByText(/Sign up today!/)).toBeInTheDocument()
     expect(screen.getByText(/Login/)).toBeInTheDocument()
   })

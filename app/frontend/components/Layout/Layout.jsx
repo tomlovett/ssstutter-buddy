@@ -15,9 +15,7 @@ const Layout = ({ children, notice, alert }) => {
     return (
       <div>
         <Head />
-        <main className="flex-1 max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-          {children}
-        </main>
+        <main className="flex-1 max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">{children}</main>
       </div>
     )
   }
@@ -48,8 +46,7 @@ const Layout = ({ children, notice, alert }) => {
         <div className="flex-1">
           <Head title="SSStutterBuddy" />
           <div className="bg-gray-100 p-4">
-            <strong>SSStutterBuddy is still in early beta</strong>, please be
-            patient.
+            <strong>SSStutterBuddy is still in early beta</strong>, please be patient.
             <br />
             Please report any bugs or issues to support@ssstutterbuddy.com
             <br />

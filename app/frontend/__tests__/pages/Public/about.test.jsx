@@ -11,11 +11,7 @@ describe('Public About Page', () => {
     expect(screen.getByText('About Us')).toBeInTheDocument()
 
     // Check that key content is present
-    expect(
-      screen.getByText(/We are dedicated to facilitating meaningful research/)
-    ).toBeInTheDocument()
-    expect(
-      screen.getByText(/Our platform serves as a bridge/)
-    ).toBeInTheDocument()
+    expect(screen.getByText(/We are dedicated to facilitating meaningful research/)).toBeInTheDocument()
+    expect(screen.getByText(/Our platform serves as a bridge/)).toBeInTheDocument()
   })
 })

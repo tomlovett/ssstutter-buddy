@@ -1,13 +1,4 @@
-// Calendar,
-import {
-  Computer,
-  Home,
-  Inbox,
-  LogOut,
-  Settings,
-  UserRound,
-  UserPlus,
-} from 'lucide-react'
+import { Computer, Home, Inbox, LogOut, Settings, UserRound, UserPlus } from 'lucide-react'
 import {
   Sidebar,
   SidebarContent,
@@ -100,9 +91,7 @@ const AppSidebar = ({ user }) => {
   return (
     <Sidebar collapsible="none">
       <SidebarHeader className="m-0 p-2  bg-blue-500">
-        <SidebarGroupLabel className="text-2xl text-white mb-2">
-          SSStutterBuddy
-        </SidebarGroupLabel>
+        <SidebarGroupLabel className="text-2xl text-white mb-2">SSStutterBuddy</SidebarGroupLabel>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
@@ -111,10 +100,7 @@ const AppSidebar = ({ user }) => {
               {menuItems.map(item => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a
-                      href={item.url}
-                      className="flex items-center gap-2 text-black"
-                    >
+                    <a href={item.url} className="flex items-center gap-2 text-black">
                       <item.icon className="h-4 w-4 text-blue-500" />
                       <span>{item.title}</span>
                     </a>

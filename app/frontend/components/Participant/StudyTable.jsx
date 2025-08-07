@@ -1,17 +1,5 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@ui/table'
-import {
-  ageRange,
-  displayLocationShort,
-  displayMethodologies,
-  timeline,
-} from '@/lib/study'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@ui/table'
+import { ageRange, displayLocationShort, displayMethodologies, timeline } from '@/lib/study'
 import { formatDate } from '@/lib/utils'
 
 const StudyTable = ({ studies, nullStatement }) => {

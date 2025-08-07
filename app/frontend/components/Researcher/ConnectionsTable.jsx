@@ -1,13 +1,6 @@
 import { toast } from 'sonner'
 
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import {
   Select,
   SelectContent,
@@ -26,9 +19,7 @@ const ConnectionsTable = ({ connections, nullStatement, id }) => {
     <Table id={id || null}>
       <TableBody>
         <TableRow>
-          <TableCell className="text-muted-foreground">
-            {nullStatement}
-          </TableCell>
+          <TableCell className="text-muted-foreground">{nullStatement}</TableCell>
         </TableRow>
       </TableBody>
     </Table>
@@ -48,21 +39,17 @@ const ConnectionsTable = ({ connections, nullStatement, id }) => {
   )
 
   const updateConnectionStatus = async (connection, status) =>
-    await putRequest(`/r/connections/${connection.id}`, { status }).then(
-      res => {
-        const msg =
-          res.status == '204'
-            ? 'Changes saved!'
-            : 'Uh oh, there was an error! Please refresh the page and try again.'
+    await putRequest(`/r/connections/${connection.id}`, { status }).then(res => {
+      const msg =
+        res.status == '204'
+          ? 'Changes saved!'
+          : 'Uh oh, there was an error! Please refresh the page and try again.'
 
-        toast(msg)
-      }
-    )
+      toast(msg)
+    })
 
   const ConnectionStatusDropdown = ({ connection }) => (
-    <Select
-      onValueChange={newStatus => updateConnectionStatus(connection, newStatus)}
-    >
+    <Select onValueChange={newStatus => updateConnectionStatus(connection, newStatus)}>
       <SelectTrigger className="w-[180px]">
         <SelectValue placeholder={capitalize(connection.status)} />
       </SelectTrigger>
@@ -84,12 +71,8 @@ const ConnectionsTable = ({ connections, nullStatement, id }) => {
         {connection.participant.first_name} {connection.participant.last_name}
       </TableCell>
       <TableCell key="email">{connection.email}</TableCell>
-      <TableCell key="created_at">
-        {formatDate(connection.created_at).substr(3)}
-      </TableCell>
-      <TableCell key="updated_at">
-        {formatDate(connection.updated_at).substr(3)}
-      </TableCell>
+      <TableCell key="created_at">{formatDate(connection.created_at).substr(3)}</TableCell>
+      <TableCell key="updated_at">{formatDate(connection.updated_at).substr(3)}</TableCell>
       <TableCell key="pin" style={{ fontFamily: 'monospace' }}>
         {connection.pin}
       </TableCell>

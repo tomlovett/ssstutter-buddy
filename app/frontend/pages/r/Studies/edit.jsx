@@ -187,31 +187,13 @@ const StudyEdit = ({ study }) => {
     return (
       <>
         {displayList.publish && (
-          <Button onClick={() => publishStudy({ published_at: new Date() })}>
-            Publish
-          </Button>
+          <Button onClick={() => publishStudy({ published_at: new Date() })}>Publish</Button>
         )}
-        {displayList.pause && (
-          <Button onClick={() => saveStudy({ paused_at: new Date() })}>
-            Pause
-          </Button>
-        )}
-        {displayList.resume && (
-          <Button onClick={() => publishStudy({ paused_at: null })}>
-            Resume
-          </Button>
-        )}
-        {displayList.close && (
-          <Button onClick={() => saveStudy({ closed_at: new Date() })}>
-            Close
-          </Button>
-        )}
+        {displayList.pause && <Button onClick={() => saveStudy({ paused_at: new Date() })}>Pause</Button>}
+        {displayList.resume && <Button onClick={() => publishStudy({ paused_at: null })}>Resume</Button>}
+        {displayList.close && <Button onClick={() => saveStudy({ closed_at: new Date() })}>Close</Button>}
         {displayList.reopen && (
-          <Button
-            onClick={() => publishStudy({ closed_at: null, paused_at: null })}
-          >
-            Reopen
-          </Button>
+          <Button onClick={() => publishStudy({ closed_at: null, paused_at: null })}>Reopen</Button>
         )}
       </>
     )
@@ -227,10 +209,7 @@ const StudyEdit = ({ study }) => {
   const ErrorMessages = () =>
     errors.length > 0 && (
       <div className="border border-orange-500 rounded-md p-4 m-4">
-        <p>
-          More information is required to publish this study. Please fill out
-          the following fields:
-        </p>
+        <p>More information is required to publish this study. Please fill out the following fields:</p>
         <ul className="list-disc list-inside">
           {errors.map(error => (
             <li key={error}>{error}</li>
@@ -244,10 +223,7 @@ const StudyEdit = ({ study }) => {
       <StatusRow />
       <ErrorMessages />
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(saveFormChanges)}
-          className="w-2/3 space-y-6"
-        >
+        <form onSubmit={form.handleSubmit(saveFormChanges)} className="w-2/3 space-y-6">
           {topFormFields.map(({ name, label, placeholder, desc }) =>
             name == 'long_desc' ? (
               <FormTextarea
@@ -259,13 +235,7 @@ const StudyEdit = ({ study }) => {
                 desc={desc}
               />
             ) : (
-              <FormInput
-                key={name}
-                form={form}
-                name={name}
-                placeholder={placeholder}
-                desc={desc}
-              />
+              <FormInput key={name} form={form} name={name} placeholder={placeholder} desc={desc} />
             )
           )}
 
@@ -302,24 +272,12 @@ const StudyEdit = ({ study }) => {
 
           <p>Age Range: {ageRange(watchedStudy)}</p>
           {ageFields.map(({ name, placeholder, desc }) => (
-            <FormInput
-              key={name}
-              form={form}
-              name={name}
-              placeholder={placeholder}
-              desc={desc}
-            />
+            <FormInput key={name} form={form} name={name} placeholder={placeholder} desc={desc} />
           ))}
 
           <p>Study timeline: {timeline(watchedStudy)}</p>
           {timelineFields.map(({ name, placeholder, desc }) => (
-            <FormInput
-              key={name}
-              form={form}
-              name={name}
-              placeholder={placeholder}
-              desc={desc}
-            />
+            <FormInput key={name} form={form} name={name} placeholder={placeholder} desc={desc} />
           ))}
 
           <p>Estimated Remuneration: {displayRemuneration(watchedStudy)}</p>

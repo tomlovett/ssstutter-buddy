@@ -9,12 +9,7 @@ import { Form, FormMessage } from '@/components/ui/form'
 import FormInput from '@/components/ui/custom/formInput'
 import FormTextarea from '@/components/ui/custom/formTextarea'
 import ResearcherSchema from '@/schemas/Researcher'
-import {
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-} from '@/components/ui/form'
+import { FormField, FormItem, FormLabel, FormControl } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 
 const formFieldData = [
@@ -60,9 +55,7 @@ const ResearcherEdit = ({ researcher, is_complete }) => {
       const img = new Image()
       img.onload = () => {
         if (img.width > MAX_IMAGE_SIZE || img.height > MAX_IMAGE_SIZE) {
-          reject(
-            `Image must be ${MAX_IMAGE_SIZE}x${MAX_IMAGE_SIZE} pixels or smaller`
-          )
+          reject(`Image must be ${MAX_IMAGE_SIZE}x${MAX_IMAGE_SIZE} pixels or smaller`)
         } else {
           resolve(true)
         }
@@ -119,8 +112,7 @@ const ResearcherEdit = ({ researcher, is_complete }) => {
         method: 'PUT',
         body: formData,
         headers: {
-          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]')
-            ?.content,
+          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]')?.content,
           Accept: 'application/json',
         },
         credentials: 'same-origin',
@@ -142,29 +134,19 @@ const ResearcherEdit = ({ researcher, is_complete }) => {
     <div className="container mx-auto px-4 py-8 max-w-[80%]">
       {!is_complete && (
         <div className="flex text-center justify-center items-center mb-4 bg-yellow-100 p-4 rounded-md">
-          <p className="text-md">
-            Please complete your profile in order to start recruiting
-            participants.
-          </p>
+          <p className="text-md">Please complete your profile in order to start recruiting participants.</p>
         </div>
       )}
-      <h3 className="text-2xl font-bold mb-4">
-        {researcher.professional_name}
-      </h3>
+      <h3 className="text-2xl font-bold mb-4">{researcher.professional_name}</h3>
       <p className="mb-4">
-        A core tenet of SSStutterBuddy is that PWS may be intimidated by the
-        research process, but they will also be more likely to engage with
-        researchers who they see as more human and accessible.
+        A core tenet of SSStutterBuddy is that PWS may be intimidated by the research process, but they will
+        also be more likely to engage with researchers who they see as more human and accessible.
         <br />
         <br />
-        The information on your profile will help them feel more comfortable
-        engaging in studies with you.
+        The information on your profile will help them feel more comfortable engaging in studies with you.
       </p>
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(saveResearcherChanges)}
-          className="w-2/3 space-y-6"
-        >
+        <form onSubmit={form.handleSubmit(saveResearcherChanges)} className="w-2/3 space-y-6">
           {formFieldData.map(({ name, label, placeholder, desc }) =>
             ['bio', 'research_interests'].includes(name) ? (
               <FormTextarea
@@ -194,20 +176,12 @@ const ResearcherEdit = ({ researcher, is_complete }) => {
                 <FormItem>
                   <FormLabel>Headshot</FormLabel>
                   <FormControl>
-                    <Input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleImageChange}
-                    />
+                    <Input type="file" accept="image/*" onChange={handleImageChange} />
                   </FormControl>
-                  {imageError && (
-                    <p className="text-sm text-red-500">{imageError}</p>
-                  )}
+                  {imageError && <p className="text-sm text-red-500">{imageError}</p>}
                   {previewUrl && (
                     <div className="mt-2">
-                      <p className="text-sm text-muted-foreground mb-2">
-                        Preview:
-                      </p>
+                      <p className="text-sm text-muted-foreground mb-2">Preview:</p>
                       <img
                         src={previewUrl}
                         alt="Headshot preview"

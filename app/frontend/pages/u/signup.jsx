@@ -49,15 +49,10 @@ const Signup = ({ user }) => {
 
   const ModalHeader = () => (
     <div>
-      <h2 className="text-center text-3xl font-bold tracking-tight text-gray-900">
-        Create your account
-      </h2>
+      <h2 className="text-center text-3xl font-bold tracking-tight text-gray-900">Create your account</h2>
       <p className="mt-2 text-center text-sm text-gray-600">
         Already have an account?{' '}
-        <Link
-          href="/login"
-          className="font-medium text-indigo-600 hover:text-indigo-500"
-        >
+        <Link href="/login" className="font-medium text-indigo-600 hover:text-indigo-500">
           Sign in
         </Link>
       </p>
@@ -69,32 +64,22 @@ const Signup = ({ user }) => {
       <div className="w-full max-w-md space-y-8 rounded-lg bg-white p-8 shadow-lg">
         <ModalHeader />
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(sendCreateRequest)}
-            className="space-y-6"
-          >
+          <form onSubmit={form.handleSubmit(sendCreateRequest)} className="space-y-6">
             {formFieldData.map(({ name, placeholder, type }) => (
-              <FormInput
-                key={name}
-                form={form}
-                name={name}
-                placeholder={placeholder}
-                type={type}
-              />
+              <FormInput key={name} form={form} name={name} placeholder={placeholder} type={type} />
             ))}
 
             <div className="space-y-4 text-sm text-gray-600">
               <div>
                 <Label>
-                  If you plan to sign up as both researcher <b>and</b>{' '}
-                  participant, use two separate email addresses to create two
-                  separate accounts.
+                  If you plan to sign up as both researcher <b>and</b> participant, use two separate email
+                  addresses to create two separate accounts.
                 </Label>
                 <br />
                 <br />
                 <Label>
-                  If you are signing up as a researcher, please use an email
-                  address associated with your institution.
+                  If you are signing up as a researcher, please use an email address associated with your
+                  institution.
                 </Label>
               </div>
             </div>

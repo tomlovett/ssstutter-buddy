@@ -23,12 +23,7 @@ export const mockApiResponse = (method, path, response, status = 200) => {
  * @param {string} error - Error message
  * @param {number} status - HTTP status code
  */
-export const mockApiError = (
-  method,
-  path,
-  error = 'Server error',
-  status = 500
-) => {
+export const mockApiError = (method, path, error = 'Server error', status = 500) => {
   server.use(
     http[method.toLowerCase()](`http://localhost${path}`, () => {
       return HttpResponse.json({ error }, { status })

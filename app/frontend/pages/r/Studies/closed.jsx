@@ -10,10 +10,7 @@ const StudiesClosed = ({ studies }) => (
       </Link>
     </div>
 
-    <StudyTable
-      studies={studies}
-      nullStatement="You don't have any closed studies"
-    />
+    <StudyTable studies={studies} nullStatement="You don't have any closed studies" />
   </div>
 )
 

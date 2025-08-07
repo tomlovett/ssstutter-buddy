@@ -1,14 +1,6 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@ui/table'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@ui/table'
 
-const formatDate = dateObj =>
-  dateObj ? new Date(dateObj).toDateString().slice(3, -4) : '---'
+const formatDate = dateObj => (dateObj ? new Date(dateObj).toDateString().slice(3, -4) : '---')
 
 const StudyTable = ({ studies, nullStatement }) => {
   const HeaderRow = () => (
@@ -41,10 +33,7 @@ const StudyTable = ({ studies, nullStatement }) => {
         <TableBody>
           {studies.length === 0 ? (
             <TableRow>
-              <TableCell
-                colSpan={4}
-                className="text-muted-foreground text-center"
-              >
+              <TableCell colSpan={4} className="text-muted-foreground text-center">
                 {nullStatement}
               </TableCell>
             </TableRow>

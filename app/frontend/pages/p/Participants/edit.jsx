@@ -13,12 +13,7 @@ import { Label } from '@/components/ui/label'
 import { putRequest } from '@/lib/api'
 import { isUnderEighteen } from '@/lib/participant'
 import ParticipantSchema from '@/schemas/Participant'
-import {
-  FormField,
-  FormItem,
-  FormControl,
-  FormLabel,
-} from '@/components/ui/form'
+import { FormField, FormItem, FormControl, FormLabel } from '@/components/ui/form'
 import { Checkbox } from '@/components/ui/checkbox'
 
 const genderValues = [
@@ -70,15 +65,12 @@ const ParticipantEdit = ({ participant, is_complete }) => {
         {!is_complete && (
           <div className="flex text-center justify-center items-center mb-4 bg-yellow-100 p-4 rounded-md">
             <p className="text-md">
-              Please complete your profile in order to start participating in
-              studies.
+              Please complete your profile in order to start participating in studies.
             </p>
           </div>
         )}
         <div className="border-b pb-4">
-          <h1 className="text-2xl mb-2 font-semibold text-gray-900">
-            Edit Participant Profile
-          </h1>
+          <h1 className="text-2xl mb-2 font-semibold text-gray-900">Edit Participant Profile</h1>
           <p className="text-gray-600 ml-2">
             To edit your name or email, go to your{' '}
             <Link
@@ -93,10 +85,7 @@ const ParticipantEdit = ({ participant, is_complete }) => {
         <div className="grid gap-6">
           <div className="space-y-4">
             <div>
-              <Label
-                htmlFor="name"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
+              <Label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
                 Name
               </Label>
               <Input
@@ -108,10 +97,7 @@ const ParticipantEdit = ({ participant, is_complete }) => {
             </div>
 
             <div>
-              <Label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
+              <Label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
                 Email
               </Label>
               <Input
@@ -124,9 +110,7 @@ const ParticipantEdit = ({ participant, is_complete }) => {
           </div>
 
           <div className="border-t pt-6">
-            <h2 className="text-lg font-medium text-gray-900 mb-4">
-              Participant Information
-            </h2>
+            <h2 className="text-lg font-medium text-gray-900 mb-4">Participant Information</h2>
 
             <div className="py-4">
               <LocationTool
@@ -170,13 +154,11 @@ const ParticipantEdit = ({ participant, is_complete }) => {
                   {isUnderEighteen(watchedParticipant.birthdate) && (
                     <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-md">
                       <p className="text-yellow-800 text-sm">
-                        For legal reasons, participants under the age of
-                        eighteen must have their accounts managed by their
-                        parent or legal guardian.
+                        For legal reasons, participants under the age of eighteen must have their accounts
+                        managed by their parent or legal guardian.
                         <br />
                         <br />
-                        By continuing, you acknolwedge that this account is
-                        managed by an adult
+                        By continuing, you acknolwedge that this account is managed by an adult
                       </p>
                     </div>
                   )}
@@ -189,14 +171,9 @@ const ParticipantEdit = ({ participant, is_complete }) => {
                     render={({ field }) => (
                       <FormItem className="flex flex-row items-start space-x-3 space-y-0">
                         <FormControl>
-                          <Checkbox
-                            checked={field.value}
-                            onCheckedChange={field.onChange}
-                          />
+                          <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                         </FormControl>
-                        <FormLabel>
-                          Opt me out of the weekly digest emails
-                        </FormLabel>
+                        <FormLabel>Opt me out of the weekly digest emails</FormLabel>
                       </FormItem>
                     )}
                   />
@@ -223,9 +200,7 @@ const ParticipantEdit = ({ participant, is_complete }) => {
           </div>
 
           <div className="border-t pt-6">
-            <ParticipantPreview
-              participant={Object.assign(participant, watchedParticipant)}
-            />
+            <ParticipantPreview participant={Object.assign(participant, watchedParticipant)} />
           </div>
         </div>
       </div>

@@ -46,9 +46,7 @@ describe('InvitePage', () => {
     render(<InvitePage user={mockUser} />)
 
     expect(screen.getByText('Invite a Friend')).toBeInTheDocument()
-    expect(
-      screen.getByText(/Help us advance the pace of stuttering research!/)
-    ).toBeInTheDocument()
+    expect(screen.getByText(/Help us advance the pace of stuttering research!/)).toBeInTheDocument()
     expect(screen.getByText(/Enter a friend's email/)).toBeInTheDocument()
     expect(screen.getByPlaceholderText('Email address')).toBeInTheDocument()
     expect(screen.getByText('Send')).toBeInTheDocument()
@@ -79,9 +77,6 @@ describe('InvitePage', () => {
 
     const form = screen.getByDisplayValue('')
     expect(form.closest('form')).toBeInTheDocument()
-    expect(form.closest('form')).toHaveAttribute(
-      'class',
-      expect.stringContaining('space-y-6')
-    )
+    expect(form.closest('form')).toHaveAttribute('class', expect.stringContaining('space-y-6'))
   })
 })

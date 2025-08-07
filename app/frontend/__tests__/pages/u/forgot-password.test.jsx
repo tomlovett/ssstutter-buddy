@@ -3,9 +3,7 @@ import { render, screen } from '@testing-library/react'
 
 describe('User Forgot Password Page', () => {
   test('renders without crashing', async () => {
-    const { default: ForgotPassword } = await import(
-      '@/pages/u/forgot-password'
-    )
+    const { default: ForgotPassword } = await import('@/pages/u/forgot-password')
 
     render(<ForgotPassword />)
 

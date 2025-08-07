@@ -3,9 +3,7 @@ import { render, screen } from '@testing-library/react'
 
 describe('Participant Studies Digital Studies Page', () => {
   test('renders without crashing', async () => {
-    const { default: DigitalStudies } = await import(
-      '@/pages/p/Studies/digital-studies'
-    )
+    const { default: DigitalStudies } = await import('@/pages/p/Studies/digital-studies')
 
     // Mock props
     const mockProps = {

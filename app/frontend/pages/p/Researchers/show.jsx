@@ -27,10 +27,7 @@ const ResearcherShow = ({ researcher, studies }) => (
     <div className="h-10" />
     <section>
       <h3 className="text-lg font-bold mb-4">Studies from this Researcher</h3>
-      <StudyTable
-        studies={studies}
-        nullStatement="This researcher has not posted any studies yet."
-      />
+      <StudyTable studies={studies} nullStatement="This researcher has not posted any studies yet." />
     </section>
   </div>
 )

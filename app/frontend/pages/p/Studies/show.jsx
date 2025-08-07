@@ -18,19 +18,9 @@ import { Form, FormMessage } from '@/components/ui/form'
 import FormTextarea from '@/components/ui/custom/formTextarea'
 import InvitationSchema from '@/schemas/Invitation'
 import { postRequest } from '@/lib/api'
-import {
-  displayLocationShort,
-  displayMethodologies,
-  displayRemuneration,
-  timeline,
-} from '@/lib/study'
+import { displayLocationShort, displayMethodologies, displayRemuneration, timeline } from '@/lib/study'
 import { status } from '@/lib/study'
-import {
-  hasMadeDecision,
-  ACCEPTED,
-  INTERESTED,
-  NOT_INTERESTED,
-} from '@/lib/invitations'
+import { hasMadeDecision, ACCEPTED, INTERESTED, NOT_INTERESTED } from '@/lib/invitations'
 import { Loader2 } from 'lucide-react'
 
 const StudyShow = ({ user, study, researcher, invitation }) => {
@@ -44,14 +34,11 @@ const StudyShow = ({ user, study, researcher, invitation }) => {
     },
   })
 
-  const publishedDate = new Date(study.published_at).toLocaleDateString(
-    'en-US',
-    {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    }
-  )
+  const publishedDate = new Date(study.published_at).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  })
 
   const onSubmit = data => {
     postRequest('/p/invitations', data).then(res => {
@@ -70,14 +57,12 @@ const StudyShow = ({ user, study, researcher, invitation }) => {
         <AlertDialogTitle>Confirm your interest</AlertDialogTitle>
         <AlertDialogHeader>
           <AlertDialogDescription>
-            By confirming interest, an email will be sent to you and the
-            researcher so that you can connect off the platform.
+            By confirming interest, an email will be sent to you and the researcher so that you can connect
+            off the platform.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={() => form.reset()}>
-            Cancel
-          </AlertDialogCancel>
+          <AlertDialogCancel onClick={() => form.reset()}>Cancel</AlertDialogCancel>
           <AlertDialogAction
             onClick={() => {
               form.setValue('status', INTERESTED)
@@ -97,9 +82,7 @@ const StudyShow = ({ user, study, researcher, invitation }) => {
         <Button variant="outline">Not Interested</Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
-        <AlertDialogTitle>
-          Is this study not a good fit for you?
-        </AlertDialogTitle>
+        <AlertDialogTitle>Is this study not a good fit for you?</AlertDialogTitle>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <div>
@@ -118,9 +101,7 @@ const StudyShow = ({ user, study, researcher, invitation }) => {
               <FormMessage />
             </div>
             <AlertDialogFooter>
-              <AlertDialogCancel onClick={() => form.reset()}>
-                Cancel
-              </AlertDialogCancel>
+              <AlertDialogCancel onClick={() => form.reset()}>Cancel</AlertDialogCancel>
               <AlertDialogAction
                 type="submit"
                 onClick={() => {
@@ -154,9 +135,7 @@ const StudyShow = ({ user, study, researcher, invitation }) => {
       // Participant has declined interest
       return (
         <div className="text-center">
-          <p className="mb-4">
-            You declined interest in this study. Change your mind?
-          </p>
+          <p className="mb-4">You declined interest in this study. Change your mind?</p>
           <ExpressInterest />
         </div>
       )
@@ -170,13 +149,10 @@ const StudyShow = ({ user, study, researcher, invitation }) => {
 
     return (
       <div className="container mx-auto w-1/2 px-4 py-16 shadow-md border rounded-lg">
-        <h3 className="text-2xl font-bold mb-4 text-center">
-          Study not accepting participants
-        </h3>
+        <h3 className="text-2xl font-bold mb-4 text-center">Study not accepting participants</h3>
         <p className="text-center mb-12">
-          This study is not currently accepting participants. Check back later.
-          Studies are very important to advancing the field of stuttering
-          research. Your commitment to participate is greatly appreciated.
+          This study is not currently accepting participants. Check back later. Studies are very important to
+          advancing the field of stuttering research. Your commitment to participate is greatly appreciated.
           <br />
           <br />
           You will now be redirected.
@@ -217,20 +193,16 @@ const StudyShow = ({ user, study, researcher, invitation }) => {
                 <h3 className="text-lg mb-2">Study Details</h3>
                 <ul className="space-y-2 ml-2">
                   <li>
-                    <span className="font-medium">Location:</span>{' '}
-                    {displayLocationShort(study)}
+                    <span className="font-medium">Location:</span> {displayLocationShort(study)}
                   </li>
                   <li>
-                    <span className="font-medium">Methodologies:</span>{' '}
-                    {displayMethodologies(study)}
+                    <span className="font-medium">Methodologies:</span> {displayMethodologies(study)}
                   </li>
                   <li>
-                    <span className="font-medium">Timeline:</span>{' '}
-                    {timeline(study)}
+                    <span className="font-medium">Timeline:</span> {timeline(study)}
                   </li>
                   <li>
-                    <span className="font-medium">Estimated remuneration:</span>{' '}
-                    {displayRemuneration(study)}
+                    <span className="font-medium">Estimated remuneration:</span> {displayRemuneration(study)}
                   </li>
                 </ul>
               </div>

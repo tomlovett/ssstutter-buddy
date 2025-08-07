@@ -1,19 +1,16 @@
 import { clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
-export const camelToReadable = str =>
-  capitalize(str.replace(/([A-Z])/g, ' $1').replace('_', ' '))
+export const camelToReadable = str => capitalize(str.replace(/([A-Z])/g, ' $1').replace('_', ' '))
 
 export const cn = (...inputs) => {
   return twMerge(clsx(inputs))
 }
 
-export const capitalize = str =>
-  str && str[0].toLocaleUpperCase() + str.substring(1)
+export const capitalize = str => str && str[0].toLocaleUpperCase() + str.substring(1)
 
 // Tue Oct 17
-export const formatDate = dateObj =>
-  new Date(dateObj).toDateString().slice(0, -4)
+export const formatDate = dateObj => new Date(dateObj).toDateString().slice(0, -4)
 
 //  Oct 17 , 1995
 export const formatBirthday = dateObj => {
