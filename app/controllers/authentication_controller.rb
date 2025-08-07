@@ -34,8 +34,10 @@ class AuthenticationController < ApplicationController
 
     redirect_url = if @user.participant?
                      "/p/participants/#{@user.participant.id}/edit"
-                   else
+                   elsif @user.researcher?
                      "/r/researchers/#{@user.researcher.id}/edit"
+                   else
+                     @user.home_page
                    end
 
     redirect_to "#{redirect_url}?confirmed=true", notice: 'Account confirmed!'

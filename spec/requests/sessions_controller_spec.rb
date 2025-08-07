@@ -15,15 +15,26 @@ RSpec.describe 'SessionsController' do
   end
 
   describe 'POST /login' do
+    let(:params) { { email: user.email, password: user.password } }
+
     context 'with valid credentials' do
       it 'logs in the user successfully' do
-        post '/login', params: {
-          email: user.email,
-          password: user.password
-        }
+        expect { post '/login', params: }.to change { user.sessions.count }.by(1)
 
         expect(response).to have_http_status(:redirect)
         expect(response).to redirect_to(user.home_page)
+      end
+
+      context 'when user has 5 active sessions' do
+        let!(:oldest_session) { create(:session, user:, created_at: 2.days.ago) }
+
+        before { create_list(:session, 4, user:, created_at: 1.day.ago) }
+
+        it 'removes oldest session and creates new one' do
+          # +1 new, -1 old = 0 change
+          expect { post '/login', params: }.not_to(change { user.sessions.count })
+          expect(user.sessions.reload).not_to include(oldest_session)
+        end
       end
 
       context 'when return_to_after_authenticating is set' do
@@ -35,10 +46,7 @@ RSpec.describe 'SessionsController' do
             get '/p/studies/19'
 
             # Now login with the session already set
-            post '/login', params: {
-              email: user.email,
-              password: user.password
-            }
+            post '/login', params: params
 
             expect(response).to redirect_to('/p/studies/19')
           end
@@ -48,10 +56,7 @@ RSpec.describe 'SessionsController' do
           it 'redirects to the home page' do
             get '/logout'
 
-            post '/login', params: {
-              email: user.email,
-              password: user.password
-            }
+            post '/login', params: params
 
             expect(response).to redirect_to(user.home_page)
           end
@@ -60,11 +65,10 @@ RSpec.describe 'SessionsController' do
     end
 
     context 'with invalid credentials' do
+      let(:params) { { email: user.email, password: 'wrong_password' } }
+
       it 'redirects with error' do
-        post '/login', params: {
-          email: user.email,
-          password: 'wrong_password'
-        }
+        post '/login', params: params
 
         expect(response).to have_http_status(:unauthorized)
       end
@@ -72,8 +76,10 @@ RSpec.describe 'SessionsController' do
   end
 
   describe 'GET /logout' do
-    it 'returns a successful response' do
-      get '/logout'
+    before { sign_in(user) }
+
+    it 'destroys the current session' do
+      expect { get '/logout' }.to change { user.sessions.count }.by(-1)
 
       expect(response).to have_http_status(:redirect)
       expect(response).to redirect_to('/login')

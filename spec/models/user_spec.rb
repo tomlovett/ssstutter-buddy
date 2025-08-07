@@ -118,12 +118,25 @@ RSpec.describe User do
   end
 
   describe '#assign_activation_pin!' do
-    let(:user) { create(:user, activation_pin: '') }
+    let(:user) { create(:user, activation_pin:) }
+    let(:activation_pin) { nil }
 
-    it 'assigns a new activation pin' do
-      expect { user.assign_activation_pin! }.to change(user, :activation_pin)
+    context 'when user has no activation pin' do
+      it 'assigns a new activation pin' do
+        expect { user.assign_activation_pin! }.to change(user, :activation_pin)
 
-      expect(user.reload.activation_pin.length).to eq(6)
+        expect(user.reload.activation_pin.length).to eq(6)
+      end
+    end
+
+    context 'when user has an activation pin' do
+      let(:activation_pin) { '123456' }
+
+      it 'assigns a new activation pin' do
+        expect { user.assign_activation_pin! }.to change(user, :activation_pin)
+
+        expect(user.reload.activation_pin).not_to eq(activation_pin)
+      end
     end
   end
 

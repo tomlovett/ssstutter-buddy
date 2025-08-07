@@ -6,9 +6,7 @@ RSpec.describe 'P::ParticipantsController' do
   let(:participant) { create(:participant) }
   let(:user) { participant.user }
 
-  before do
-    sign_in(user)
-  end
+  before { sign_in(user) }
 
   describe 'GET /p/' do
     it 'returns a successful response' do
@@ -42,7 +40,7 @@ RSpec.describe 'P::ParticipantsController' do
       put "/p/participants/#{participant.id}", params: {
         participant: { codename: 'NewCodename' }
       }
-      expect(response).to have_http_status(:ok)
+      expect(response).to have_http_status(:redirect)
     end
   end
 end
