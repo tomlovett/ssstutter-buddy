@@ -20,6 +20,9 @@ gem 'puma', '~> 5.0'
 # Use Redis adapter to run Action Cable in production
 # gem "redis", "~> 4.0"
 
+gem 'sentry-rails'
+gem 'sentry-ruby'
+
 # importmap
 gem 'importmap-rails'
 
