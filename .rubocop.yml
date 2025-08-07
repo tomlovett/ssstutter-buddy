@@ -67,5 +67,8 @@ Style/ClassAndModuleChildren:
 Style/Documentation:
   Enabled: false
 
+Style/HashSyntax:
+  EnforcedStyle: ruby19_no_mixed_keys
+
 Style/FetchEnvVar:
   Enabled: true
