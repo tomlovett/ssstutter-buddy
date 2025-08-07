@@ -12,8 +12,20 @@ class Researcher < ApplicationRecord
 
   def as_json(options = {})
     headshot_url = if headshot.attached?
-                     Rails.application.routes.url_helpers
-                       .rails_blob_url(headshot)
+                     begin
+                       Rails.application.routes.url_helpers.rails_blob_url(headshot)
+                     rescue StandardError => e
+                       Rails.logger.error "Failed to generate headshot URL: #{e.message}"
+                       Rails.logger.error "Host config: #{Rails.application.routes.default_url_options}"
+                       # Fall back to redirect URL if direct URL fails
+                       begin
+                         Rails.application.routes.url_helpers
+                           .rails_blob_path(headshot, only_path: true)
+                       rescue StandardError => e2
+                         Rails.logger.error "Failed to generate fallback URL: #{e2.message}"
+                         nil
+                       end
+                     end
                    end
 
     super.merge(
