@@ -110,11 +110,11 @@ RSpec.describe 'AuthenticationController' do
     end
   end
 
-  describe 'GET /reset-password' do
+  describe 'GET /reset-password?pin=123456' do
     before { user.update!(activation_pin: '123456') }
 
     it 'resets password and creates new session' do
-      expect { get '/reset-password', params: { pin: user.activation_pin } }.to change { user.sessions.count }.by(1)
+      expect { get "/reset-password?pin=#{user.activation_pin}" }.to change { user.sessions.count }.by(1)
 
       expect(user.reload.activation_pin).to be_nil
       expect(response).to have_http_status(:redirect)
@@ -123,7 +123,7 @@ RSpec.describe 'AuthenticationController' do
 
     context 'with invalid pin' do
       it 'redirects to forgot password' do
-        get '/reset-password', params: { pin: 'invalid' }
+        get '/reset-password?pin=654321'
 
         expect(response).to redirect_to('/forgot-password')
         expect(flash[:alert]).to eq('Invalid password reset link.')
