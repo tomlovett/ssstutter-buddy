@@ -12,6 +12,11 @@ amazon:
   secret_access_key: <%= ENV.fetch('AWS_SECRET_ACCESS_KEY', '') %>
   region: <%= ENV.fetch('AWS_REGION', 'us-east-1') %>
   bucket: <%= ENV.fetch('AWS_S3_BUCKET', '') %>
+  public: true
+  url_options:
+    virtual_host: true
+  # Use proxy service for better performance in production
+  # This will serve files through your Rails app but with better caching
 
 # Remember not to checkin your GCS keyfile to a repository
 # google:
