@@ -1,10 +1,13 @@
 # frozen_string_literal: true
 
-Sentry.init do |config|
-  config.dsn = 'https://d7d480213057d96b54e11a22ea0ee90a@o4509804242337793.ingest.us.sentry.io/4509804243189760'
-  config.breadcrumbs_logger = %i[active_support_logger http_logger]
+# Only initialize Sentry in production and staging environments
+unless Rails.env.local?
+  Sentry.init do |config|
+    config.dsn = 'https://d7d480213057d96b54e11a22ea0ee90a@o4509804242337793.ingest.us.sentry.io/4509804243189760'
+    config.breadcrumbs_logger = %i[active_support_logger http_logger]
 
-  # Add data like request headers and IP for users,
-  # see https://docs.sentry.io/platforms/ruby/data-management/data-collected/ for more info
-  config.send_default_pii = true
+    # Add data like request headers and IP for users,
+    # see https://docs.sentry.io/platforms/ruby/data-management/data-collected/ for more info
+    config.send_default_pii = true
+  end
 end

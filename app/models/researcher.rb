@@ -10,40 +10,6 @@ class Researcher < ApplicationRecord
 
   delegate :first_name, :last_name, :full_name, :email, to: :user
 
-  after_save :log_headshot_errors, if: :saved_change_to_headshot_attachment?
-
-  private
-
-  def log_headshot_errors
-    return unless headshot.attached?
-
-    if headshot.blob&.errors&.any?
-      Sentry.capture_message(
-        'Headshot attachment validation errors',
-        tags: {
-          component: 'researcher_headshot_validation',
-          researcher_id: id,
-          user_id: user_id
-        },
-        extra: {
-          headshot_blob_id: headshot.blob&.id,
-          validation_errors: headshot.blob.errors.full_messages,
-          content_type: headshot.content_type,
-          file_size: headshot.size
-        }
-      )
-    end
-  rescue StandardError => e
-    Sentry.capture_exception(
-      e,
-      tags: {
-        component: 'researcher_headshot_error_logging',
-        researcher_id: id,
-        user_id: user_id
-      }
-    )
-  end
-
   def as_json(options = {})
     headshot_url = safe_headshot_url
 
