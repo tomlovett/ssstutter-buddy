@@ -31,5 +31,13 @@ module SsstutterBuddy
     # config.eager_load_paths << Rails.root.join("extras")
 
     config.action_mailer.default_url_options = { host: 'ssstutterbuddy.com' }
+
+    # Set default URL options for routes (used by Active Storage)
+    config.default_url_options = { host: 'ssstutterbuddy.com' }
+
+    # Ensure routes have default URL options
+    initializer 'set_default_url_options' do
+      Rails.application.routes.default_url_options = { host: 'ssstutterbuddy.com' }
+    end
   end
 end

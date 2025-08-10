@@ -40,7 +40,14 @@ class Researcher < ApplicationRecord
     return nil unless headshot.attached?
 
     begin
-      Rails.application.routes.url_helpers.rails_blob_url(headshot)
+      # Ensure we have proper host configuration for URL generation
+      url_options = Rails.application.routes.default_url_options.dup
+      if url_options[:host].blank?
+        # Fallback to environment-specific defaults
+        url_options = Rails.application.config.active_storage.default_url_options.dup
+      end
+
+      Rails.application.routes.url_helpers.rails_blob_url(headshot, url_options)
     rescue StandardError => e
       Sentry.capture_exception(
         e,
@@ -48,12 +55,13 @@ class Researcher < ApplicationRecord
           component: 'researcher_safe_headshot_url',
           researcher_id: id,
           user_id: user_id,
-          storage_service: ActiveStorage::Blob.service_name
+          storage_service: ActiveStorage::Blob.service.name
         },
         extra: {
           headshot_blob_id: headshot.blob&.id,
           headshot_blob_key: headshot.blob&.key,
           host_config: Rails.application.routes.default_url_options,
+          active_storage_host_config: Rails.application.config.active_storage.default_url_options,
           error_message: e.message,
           error_class: e.class.name
         }
