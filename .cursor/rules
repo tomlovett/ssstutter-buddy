@@ -20,6 +20,7 @@
 - Use 2-space indentation
 - Include Authentication and Gatekeeping concerns in controllers where needed
 - Prefer object shorthand syntax: `{ var_name: }` instead of `{ var_name: var_name }`
+- When method calls have multiple parameters with nested blocks, align the opening parenthesis with the method name to avoid deep indentation
 
 ### Rails Patterns
 - Use concerns for shared functionality (see app/controllers/concerns/)
@@ -202,6 +203,7 @@
 ### Ruby/Rails
 - Use rescue blocks appropriately
 - Log errors with appropriate context
+- Log errors to Sentry
 - Return meaningful error messages
 - Use Rails error pages for production
 

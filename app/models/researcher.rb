@@ -10,23 +10,42 @@ class Researcher < ApplicationRecord
 
   delegate :first_name, :last_name, :full_name, :email, to: :user
 
+  after_save :log_headshot_errors, if: :saved_change_to_headshot_attachment?
+
+  private
+
+  def log_headshot_errors
+    return unless headshot.attached?
+
+    if headshot.blob&.errors&.any?
+      Sentry.capture_message(
+        'Headshot attachment validation errors',
+        tags: {
+          component: 'researcher_headshot_validation',
+          researcher_id: id,
+          user_id: user_id
+        },
+        extra: {
+          headshot_blob_id: headshot.blob&.id,
+          validation_errors: headshot.blob.errors.full_messages,
+          content_type: headshot.content_type,
+          file_size: headshot.size
+        }
+      )
+    end
+  rescue StandardError => e
+    Sentry.capture_exception(
+      e,
+      tags: {
+        component: 'researcher_headshot_error_logging',
+        researcher_id: id,
+        user_id: user_id
+      }
+    )
+  end
+
   def as_json(options = {})
-    headshot_url = if headshot.attached?
-                     begin
-                       Rails.application.routes.url_helpers.rails_blob_url(headshot)
-                     rescue StandardError => e
-                       Rails.logger.error "Failed to generate headshot URL: #{e.message}"
-                       Rails.logger.error "Host config: #{Rails.application.routes.default_url_options}"
-                       # Fall back to redirect URL if direct URL fails
-                       begin
-                         Rails.application.routes.url_helpers
-                           .rails_blob_path(headshot, only_path: true)
-                       rescue StandardError => e2
-                         Rails.logger.error "Failed to generate fallback URL: #{e2.message}"
-                         nil
-                       end
-                     end
-                   end
+    headshot_url = safe_headshot_url
 
     super.merge(
       {
@@ -49,6 +68,33 @@ class Researcher < ApplicationRecord
       research_interests,
       university_profile_url
     ].none?(&:nil?)
+  end
+
+  def safe_headshot_url
+    return nil unless headshot.attached?
+
+    begin
+      Rails.application.routes.url_helpers.rails_blob_url(headshot)
+    rescue StandardError => e
+      Sentry.capture_exception(
+        e,
+        tags: {
+          component: 'researcher_safe_headshot_url',
+          researcher_id: id,
+          user_id: user_id,
+          storage_service: ActiveStorage::Blob.service_name
+        },
+        extra: {
+          headshot_blob_id: headshot.blob&.id,
+          headshot_blob_key: headshot.blob&.key,
+          host_config: Rails.application.routes.default_url_options,
+          error_message: e.message,
+          error_class: e.class.name
+        }
+      )
+
+      nil
+    end
   end
 
   def professional_name
