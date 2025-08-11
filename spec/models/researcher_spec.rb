@@ -76,17 +76,15 @@ RSpec.describe Researcher do
           filename: 'test_image.jpg',
           content_type: 'image/jpeg'
         )
+
+        allow(researcher.headshot.blob).to receive(:url).and_return('http://example.com/test_image.jpg')
       end
 
       it 'includes headshot_url with direct URL' do
-        # Set host for URL generation
-        Rails.application.routes.default_url_options = { host: 'example.com' }
-
         json = researcher.as_json
 
         expect(json[:headshot_url]).to be_present
-        expect(json[:headshot_url]).to start_with('http')
-        expect(json[:headshot_url]).to include('rails/active_storage/blobs')
+        expect(json[:headshot_url]).to match('http://example.com/test_image.jpg')
       end
     end
   end
