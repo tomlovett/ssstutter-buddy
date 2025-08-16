@@ -1,5 +1,4 @@
-// Calendar,
-import { Computer, Home, Inbox, LogOut, Settings, UserRound } from 'lucide-react'
+import { Computer, Home, Inbox, LogOut, Settings, UserRound, UserPlus } from 'lucide-react'
 import {
   Sidebar,
   SidebarContent,
@@ -31,6 +30,11 @@ const AppSidebar = ({ user }) => {
       title: 'Digital studies',
       url: '/p/digital-studies',
       icon: Computer,
+    },
+    {
+      title: 'Invite a friend',
+      url: '/invite',
+      icon: UserPlus,
     },
     {
       title: 'My profile',
@@ -65,6 +69,11 @@ const AppSidebar = ({ user }) => {
     //   url: '/r/studies/new',
     //   icon: Plus,
     // },
+    {
+      title: 'Invite collaborators',
+      url: '/invite',
+      icon: UserPlus,
+    },
     {
       title: 'My profile',
       url: `/r/researchers/${user?.researcher?.id}`,

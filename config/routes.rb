@@ -32,6 +32,8 @@ Rails.application.routes.draw do
   get '/change-password', to: 'authentication#change_password'
   put '/change-password', to: 'authentication#change_password_action'
 
+  resources :user_invitations, only: %i[index create], path: 'invite'
+
   # Admin routes
   get 'admin/stats', to: 'admin#stats'
 

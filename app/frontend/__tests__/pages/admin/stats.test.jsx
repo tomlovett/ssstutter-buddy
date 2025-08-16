@@ -17,6 +17,8 @@ describe('Admin Stats Page', () => {
       digital_only_studies_count: 8,
       participants_by_country: { 'United States': 30, Canada: 20 },
       studies_by_country: { 'United States': 8, Canada: 2 },
+      invitations_count: 10,
+      accepted_invitations_count: 5,
     }
 
     render(<Stats {...mockProps} />)
@@ -33,5 +35,7 @@ describe('Admin Stats Page', () => {
     // Check that section headings are present
     expect(screen.getByText('Studies by Country')).toBeInTheDocument()
     expect(screen.getByText('Participants by Country')).toBeInTheDocument()
+    expect(screen.getByText('Invitations')).toBeInTheDocument()
+    expect(screen.getByText('Accepted Invitations')).toBeInTheDocument()
   })
 })

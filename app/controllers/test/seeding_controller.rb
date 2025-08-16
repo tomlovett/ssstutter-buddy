@@ -19,7 +19,7 @@ class Test::SeedingController < ApplicationController
       researcher: @researcher.as_json,
       admin_user: @admin.as_json,
       studies: @studies.map(&:as_json)
-    }
+    }, status: :ok
   rescue StandardError => e
     render json: { message: 'Seed controller failed', error: e.message }, status: :internal_server_error
   end
@@ -27,7 +27,7 @@ class Test::SeedingController < ApplicationController
   def cleanup
     cleanup_test_data
 
-    render json: { message: 'Test data cleaned up successfully' }
+    render json: { message: 'Test data cleaned up successfully' }, status: :ok
   rescue StandardError => e
     render json: { message: "Cleanup controller failed: #{e.message}" }, status: :internal_server_error
   end

@@ -38,6 +38,8 @@
 - Follow Rails naming conventions for tables and columns
 - Use migrations for all database changes
 - Use seeds.rb for initial data
+- NEVER run migrations created by Cursor agent without explicit developer confirmation
+- If a generated migration needs changes: rollback the migration first, then edit it - do NOT create a new migration to override the first one
 
 ## React/JavaScript Conventions
 

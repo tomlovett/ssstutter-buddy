@@ -17,6 +17,8 @@ class AdminController < ApplicationController
       .group('locations.country').count
     studies_by_country = Study.joins(:location).where.not(published_at: nil).where.not(locations: { country: nil })
       .group('locations.country').count
+    invitations_count = UserInvitation.count
+    accepted_invitations_count = UserInvitation.where.not(accepted_at: nil).count
 
     render inertia: 'admin/stats', props: {
       users_count:,
@@ -28,7 +30,9 @@ class AdminController < ApplicationController
       digital_completed_connections_count:,
       digital_only_studies_count:,
       participants_by_country:,
-      studies_by_country:
+      studies_by_country:,
+      invitations_count:,
+      accepted_invitations_count:
     }
   end
 
