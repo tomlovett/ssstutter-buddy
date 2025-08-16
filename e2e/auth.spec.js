@@ -4,6 +4,8 @@ import { faker } from '@faker-js/faker'
 import { seedTestData, cleanupTestData } from './utils/database-seeder'
 import { loginUser, signupNewUser, selectRole } from './utils/auth-helpers'
 import { setLocationAndSave, expectLocationDisplay } from './utils/location-tool-helper'
+import { searchEmailForString } from './utils/letter-opener'
+import { expectToast } from './utils/toast-helper'
 
 test.describe('Authentication Flow', () => {
   test.afterAll(async () => await cleanupTestData())
@@ -23,8 +25,6 @@ test.describe('Authentication Flow', () => {
 
     await expect(page).toHaveURL('/r')
   })
-
-  // TODO: Request reset password
 
   test('user can sign up as a participant', async ({ page }) => {
     // Navigate to signup page
@@ -91,5 +91,46 @@ test.describe('Authentication Flow', () => {
     // Is not on edit page, but regex does not verify that
     await expect(page).toHaveURL(/\/r\/researchers\/\d+/)
     // await expect(page).not.toHaveURL(/\/r\/researchers\/\d+\/edit/)
+  })
+
+  test('user can use forgot password flow', async ({ page }) => {
+    const { participant } = await seedTestData()
+
+    await page.goto('/login')
+    await page.click('a[href="/forgot-password"]')
+    await expect(page).toHaveURL('/forgot-password')
+
+    await page.fill('input[name="email"]', participant.email)
+    await page.click('button[type="submit"]')
+
+    await expectToast(page, 'If an account exists with this email, you will receive login instructions.')
+    await page.waitForTimeout(1000)
+
+    const activation_pin = await searchEmailForString('reset-password\\?pin=(\\d{6})')
+
+    if (!activation_pin) {
+      throw new Error('No activation pin found - forgot password flow may not have completed')
+    }
+
+    // simulate clicking on reset link in email with the actual pin
+    await page.goto(`/reset-password?pin=${activation_pin}`)
+    await expect(page).toHaveURL(/\/change-password/)
+
+    await page.fill('input[name="password"]', 'newpassword')
+    await page.fill('input[name="password_confirmation"]', 'newpassword')
+    await page.click('button[type="submit"]')
+
+    await expect(page).toHaveURL('/p')
+
+    await page.click('a:has-text("Logout")')
+
+    await expect(page).toHaveURL('/login')
+
+    // Login with the new password
+    await page.fill('input[name="email"]', participant.email)
+    await page.fill('input[name="password"]', 'newpassword')
+    await page.click('button[type="submit"]')
+
+    await expect(page).toHaveURL('/p')
   })
 })

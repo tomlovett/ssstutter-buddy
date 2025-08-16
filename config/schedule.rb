@@ -15,6 +15,11 @@ every :sunday, at: '9:00 am' do
   runner 'WeeklyStatsJob.perform_later'
 end
 
+# Clean up expired sessions daily at 2am
+every :day, at: '2:00 am' do
+  runner 'SessionCleanupJob.perform_later'
+end
+
 # Run new researcher notification every day at 11pm
 every :day, at: '11:00 pm' do
   runner 'NightlyNewResearcherJob.perform_later'

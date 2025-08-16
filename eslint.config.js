@@ -50,7 +50,7 @@ export default [
     },
   },
   {
-    files: ['playwright.config.js'],
+    files: ['vite.config.js', 'playwright.config.js', 'e2e/utils/letter-opener.js'],
     languageOptions: {
       globals: {
         ...globals.browser,

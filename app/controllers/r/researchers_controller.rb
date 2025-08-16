@@ -63,7 +63,29 @@ class R::ResearchersController < R::BaseController
   def attach_headshot_if_present(headshot)
     return true if headshot.blank?
 
-    @researcher.headshot.attach(headshot)
+    begin
+      @researcher.headshot.attach(headshot)
+      true
+    rescue StandardError => e
+      Sentry.capture_exception(
+        e,
+        tags: {
+          component: 'researcher_headshot_attachment',
+          researcher_id: @researcher.id,
+          user_id: @researcher.user_id,
+          action: 'update'
+        },
+        extra: {
+          headshot_filename: headshot.original_filename,
+          headshot_content_type: headshot.content_type,
+          headshot_size: headshot.size,
+          error_message: e.message,
+          researcher_data: researcher_params.except(:headshot)
+        }
+      )
+
+      false
+    end
   end
 
   def set_researcher

@@ -4,6 +4,7 @@
 class Test::SeedingController < ApplicationController
   skip_forgery_protection
   skip_before_action :require_authentication
+  before_action :ensure_test_environment
 
   E2E_EMAIL_PREFIX = 'e2e_1658498146584'
   PASSWORD = 'password123'
@@ -32,6 +33,12 @@ class Test::SeedingController < ApplicationController
   end
 
   private
+
+  def ensure_test_environment
+    return if Rails.env.local?
+
+    render json: { error: 'Not available in production' }, status: :forbidden
+  end
 
   def create_test_data
     # Create participant user

@@ -20,6 +20,9 @@ gem 'puma', '~> 5.0'
 # Use Redis adapter to run Action Cable in production
 # gem "redis", "~> 4.0"
 
+gem 'sentry-rails'
+gem 'sentry-ruby'
+
 # importmap
 gem 'importmap-rails'
 
@@ -54,6 +57,9 @@ gem 'factory_bot_rails'
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
+
+# AWS SDK for S3 storage
+gem 'aws-sdk-s3', '~> 1.0'
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem 'rack-cors'

@@ -12,6 +12,7 @@
 
     <%= vite_client_tag %>
     <%= vite_javascript_tag 'application.jsx' %>
+    <%= Sentry.get_trace_propagation_meta.html_safe %>
   </head>
   <body>
     <%= yield %>

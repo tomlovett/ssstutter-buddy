@@ -35,11 +35,52 @@ RSpec.describe 'AuthenticationController' do
   end
 
   describe 'GET /confirm' do
-    before { sign_in(user) }
+    before { user.update!(activation_pin: '123456') }
 
-    it 'returns a successful response' do
-      get '/confirm', params: { token: 'valid_token' }
-      expect(response).to have_http_status(:redirect)
+    context 'when user has a participant' do
+      let!(:participant) { create(:participant, user:) }
+
+      it 'confirms user and creates new session' do
+        expect { get '/confirm', params: { pin: user.activation_pin } }.to change { user.sessions.count }.by(1)
+
+        expect(user.reload.confirmed_at).to be_present
+        expect(user.activation_pin).to be_nil
+        expect(response).to have_http_status(:redirect)
+        expect(response).to redirect_to("/p/participants/#{participant.id}/edit?confirmed=true")
+      end
+    end
+
+    context 'when user is a researcher' do
+      let!(:researcher) { create(:researcher, user:) }
+
+      it 'confirms user and creates new session' do
+        expect { get '/confirm', params: { pin: user.activation_pin } }.to change { user.sessions.count }.by(1)
+
+        expect(user.reload.confirmed_at).to be_present
+        expect(user.activation_pin).to be_nil
+        expect(response).to have_http_status(:redirect)
+        expect(response).to redirect_to("/r/researchers/#{researcher.id}/edit?confirmed=true")
+      end
+    end
+
+    context 'when user has no role yet' do
+      it 'confirms user and creates new session' do
+        expect { get '/confirm', params: { pin: user.activation_pin } }.to change { user.sessions.count }.by(1)
+
+        expect(user.reload.confirmed_at).to be_present
+        expect(user.activation_pin).to be_nil
+        expect(response).to have_http_status(:redirect)
+        expect(response).to redirect_to("/u/#{user.id}/select-role?confirmed=true")
+      end
+    end
+
+    context 'with invalid pin' do
+      it 'redirects to await confirmation' do
+        get '/confirm', params: { pin: 'invalid' }
+
+        expect(response).to redirect_to('/await-confirmation')
+        expect(flash[:alert]).to eq('Invalid confirmation link.')
+      end
     end
   end
 
@@ -69,14 +110,24 @@ RSpec.describe 'AuthenticationController' do
     end
   end
 
-  describe 'GET /reset-password' do
+  describe 'GET /reset-password?pin=123456' do
     before { user.update!(activation_pin: '123456') }
 
-    it 'returns a successful response' do
-      get '/reset-password', params: { pin: user.activation_pin }
+    it 'resets password and creates new session' do
+      expect { get "/reset-password?pin=#{user.activation_pin}" }.to change { user.sessions.count }.by(1)
 
       expect(user.reload.activation_pin).to be_nil
       expect(response).to have_http_status(:redirect)
+      expect(response).to redirect_to('/change-password')
+    end
+
+    context 'with invalid pin' do
+      it 'redirects to forgot password' do
+        get '/reset-password?pin=654321'
+
+        expect(response).to redirect_to('/forgot-password')
+        expect(flash[:alert]).to eq('Invalid password reset link.')
+      end
     end
   end
 

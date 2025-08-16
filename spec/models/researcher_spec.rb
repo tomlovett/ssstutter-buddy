@@ -68,6 +68,25 @@ RSpec.describe Researcher do
       expect(json).to have_key(:headshot_url)
       expect(json[:headshot_url]).to be_nil # headshot_url is nil when headshot is not attached
     end
+
+    context 'when headshot is attached' do
+      before do
+        researcher.headshot.attach(
+          io: Rails.root.join('spec/fixtures/files/test_image.jpg').open,
+          filename: 'test_image.jpg',
+          content_type: 'image/jpeg'
+        )
+
+        allow(researcher.headshot.blob).to receive(:url).and_return('http://example.com/test_image.jpg')
+      end
+
+      it 'includes headshot_url with direct URL' do
+        json = researcher.as_json
+
+        expect(json[:headshot_url]).to be_present
+        expect(json[:headshot_url]).to match('http://example.com/test_image.jpg')
+      end
+    end
   end
 
   describe '#complete?' do
