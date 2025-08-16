@@ -25,9 +25,7 @@ RSpec.describe UserInvitationsController do
       let(:valid_params) { { email: 'test@example.com' } }
 
       it 'creates a new user invitation and returns created status' do
-        expect do
-          post '/invite', params: valid_params
-        end.to change(UserInvitation, :count).by(1)
+        expect { post '/invite', params: valid_params }.to change(UserInvitation, :count).by(1)
 
         expect(UserInvitationMailer).to have_received(:with).with(
           recipient: 'test@example.com',
@@ -43,9 +41,7 @@ RSpec.describe UserInvitationsController do
       let(:invalid_params) { { email: 'invalid-email' } }
 
       it 'does not create a user invitation and returns unprocessable entity status' do
-        expect do
-          post '/invite', params: invalid_params
-        end.not_to change(UserInvitation, :count)
+        expect { post '/invite', params: invalid_params }.not_to change(UserInvitation, :count)
 
         expect(response).to have_http_status(:unprocessable_entity)
       end
@@ -57,9 +53,7 @@ RSpec.describe UserInvitationsController do
       before { create(:user_invitation, email: 'test@example.com') }
 
       it 'does not create a duplicate user invitation but returns ok status' do
-        expect do
-          post '/invite', params: duplicate_params
-        end.not_to change(UserInvitation, :count)
+        expect { post '/invite', params: duplicate_params }.not_to change(UserInvitation, :count)
 
         expect(UserInvitationMailer).not_to have_received(:with)
         expect(response).to have_http_status(:ok)
@@ -70,9 +64,7 @@ RSpec.describe UserInvitationsController do
       before { create(:user, email: 'test@example.com') }
 
       it 'does not create a user invitation but returns ok status' do
-        expect do
-          post '/invite', params: { email: 'test@example.com' }
-        end.not_to change(UserInvitation, :count)
+        expect { post '/invite', params: { email: 'test@example.com' } }.not_to change(UserInvitation, :count)
 
         expect(UserInvitationMailer).not_to have_received(:with)
         expect(response).to have_http_status(:ok)
