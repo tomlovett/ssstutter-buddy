@@ -97,6 +97,7 @@ class R::StudiesController < R::BaseController
       :follow_up,
       :remuneration,
       :location_type,
+      :flyer,
       location_attributes: %i[id city state country _destroy _delete]
     )
   end

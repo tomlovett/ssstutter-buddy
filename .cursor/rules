@@ -8,6 +8,7 @@
 - Comprehensive testing with RSpec and Jest
 - Authentication with JWT and OmniAuth
 - Documentationand reference files in /.documentation directory
+- Developer can print out full branch diffs into ./branch-diff.txt to help Cursor agent write merge commit messages for PR's
 
 ## Ruby/Rails Conventions
 
