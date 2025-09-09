@@ -204,11 +204,8 @@ RSpec.describe Study do
         expect(Sentry).to have_received(:capture_exception).with(
           instance_of(StandardError),
           hash_including(
-            tags: hash_including(
-              component: 'study_safe_flyer_url',
-              study_id: study.id,
-              researcher_id: study.researcher_id
-            )
+            tags: hash_including(component: 'study_safe_flyer_url', study_id: study.id,
+                                 researcher_id: study.researcher_id)
           )
         )
       end

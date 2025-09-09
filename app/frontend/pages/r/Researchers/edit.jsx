@@ -32,7 +32,7 @@ const formFieldData = [
   },
 ]
 
-const MAX_IMAGE_SIZE = 1000 // pixels
+const MAX_IMAGE_SIZE = 2000 // pixels
 
 const ResearcherEdit = ({ researcher, is_complete }) => {
   const [previewUrl, setPreviewUrl] = useState(null)
@@ -98,13 +98,13 @@ const ResearcherEdit = ({ researcher, is_complete }) => {
     // Nest all form values under the 'researcher' key
     Object.entries(formValues).forEach(([key, value]) => {
       if (key !== 'headshot' && value !== undefined) {
-        formData.append(`researcher[${key}]`, value)
+        formData.set(`researcher[${key}]`, value)
       }
     })
 
     const headshotFile = form.getValues('headshot')
     if (headshotFile instanceof File) {
-      formData.append('researcher[headshot]', headshotFile)
+      formData.set('researcher[headshot]', headshotFile)
     }
 
     try {

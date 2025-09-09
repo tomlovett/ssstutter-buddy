@@ -21,7 +21,7 @@ class PublishStudy
   private
 
   def send_invitation_emails
-    return if @study.digital_only?
+    # return if @study.digital_only? || @study.location.nil?
 
     existing_connections = @study.connections.pluck(:participant_id)
     existing_invitations = @study.invitations.pluck(:participant_id)
@@ -29,7 +29,7 @@ class PublishStudy
       .where.not(location: nil)
       .where.not(id: existing_connections)
       .where.not(id: existing_invitations)
-      .near(@study.location.coordinates, 100)
+    # .near(@study.location.coordinates, 100)
 
     participants.each do |participant|
       Invitation.create!(study: @study, participant:, status: :invited)

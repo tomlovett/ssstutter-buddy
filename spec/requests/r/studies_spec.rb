@@ -78,12 +78,63 @@ RSpec.describe 'R::StudiesController' do
   end
 
   describe 'PUT /r/studies/:id' do
-    it 'updates the study successfully' do
-      put "/r/studies/#{study.id}", params: {
-        study: { title: 'Updated Title' }
-      }
+    let(:study_params) { { title: 'Updated Title', short_desc: 'Updated description', flyer: nil } }
 
-      expect(response).to have_http_status(:redirect)
+    it 'updates the study successfully' do
+      put "/r/studies/#{study.id}", params: { study: study_params }
+
+      expect(response).to have_http_status(:ok)
+      expect(study.reload.title).to eq('Updated Title')
+      expect(study.reload.short_desc).to eq('Updated description')
+    end
+
+    context 'with flyer upload' do
+      let(:flyer_file) { fixture_file_upload('spec/fixtures/files/test_image.jpg', 'image/jpeg') }
+      let(:study_params) { { title: 'Updated Title', flyer: flyer_file } }
+
+      it 'attaches flyer successfully' do
+        put "/r/studies/#{study.id}", params: { study: study_params }
+
+        expect(response).to have_http_status(:ok)
+        study.reload
+        expect(study.title).to eq('Updated Title')
+        expect(study.flyer).to be_attached
+        expect(study.flyer.filename).to eq('test_image.jpg')
+      end
+
+      it 'updates study attributes and attaches flyer' do
+        put "/r/studies/#{study.id}", params: { study: study_params }
+
+        expect(response).to have_http_status(:ok)
+        study.reload
+        expect(study.title).to eq('Updated Title')
+        expect(study.flyer).to be_attached
+      end
+    end
+
+    context 'when flyer attachment fails' do
+      let(:flyer_file) { fixture_file_upload('spec/fixtures/files/test_image.jpg', 'image/jpeg') }
+
+      before do
+        # Mock the flyer attachment to fail by stubbing the attach method
+        allow(study).to receive(:flyer).and_return(
+          instance_double(ActiveStorage::Attached::One, attach: -> { raise StandardError, 'Storage error' })
+        )
+      end
+
+      it 'handles the errors gracefully' do
+        put "/r/studies/#{study.id}", params: {
+          study: {
+            title: 'Updated Title',
+            flyer: flyer_file
+          }
+        }
+
+        # The controller will return :ok even if flyer attachment fails
+        # because the study update succeeds and attach_flyer_if_present returns false
+        expect(response).to have_http_status(:ok)
+        expect(study.reload.title).to eq('Updated Title')
+      end
     end
   end
 
@@ -101,6 +152,52 @@ RSpec.describe 'R::StudiesController' do
         expect(study.reload.title).to eq('Updated Title')
         expect(response).to have_http_status(:redirect)
       end
+
+      it 'publishes study with flyer upload' do
+        flyer_file = fixture_file_upload('spec/fixtures/files/test_image.jpg', 'image/jpeg')
+
+        post "/r/studies/#{study.id}/publish", params: {
+          study: { title: 'Updated Title', flyer: flyer_file }
+        }
+
+        expect(PublishStudy).to have_received(:new).with(study:)
+        expect(study.reload.title).to eq('Updated Title')
+        expect(study.flyer).to be_attached
+        expect(response).to have_http_status(:redirect)
+      end
+
+      context 'with flyer attachment error' do
+        before do
+          # Mock the flyer attachment to fail by stubbing the attach method
+          allow(study).to receive(:flyer).and_return(
+            instance_double(ActiveStorage::Attached::One, attach: -> { raise StandardError, 'Storage error' })
+          )
+        end
+
+        it 'handles flyer attachment errors during publish' do
+          flyer_file = fixture_file_upload('spec/fixtures/files/test_image.jpg', 'image/jpeg')
+
+          post "/r/studies/#{study.id}/publish", params: {
+            study: { title: 'Updated Title', flyer: flyer_file }
+          }
+
+          # The controller will redirect to show page on success even if flyer attachment fails
+          # because the study update succeeds and attach_flyer_if_present returns false
+          expect(response).to have_http_status(:redirect)
+          expect(response).to redirect_to("/r/studies/#{study.id}")
+          expect(study.reload.title).to eq('Updated Title')
+        end
+      end
+    end
+
+    context 'when study is already published' do
+      before { study.update!(published_at: Time.current) }
+
+      it 'returns unprocessable entity' do
+        post "/r/studies/#{study.id}/publish", params: { study: { title: 'Updated Title' } }
+
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
     end
   end
 
@@ -109,6 +206,55 @@ RSpec.describe 'R::StudiesController' do
       get '/r/studies/closed'
       expect(response).to have_http_status(:success)
       expect(response.body).to include('r/Studies/closed')
+    end
+  end
+
+  describe 'authorization' do
+    context 'when user is not authorized to update study' do
+      let(:other_study) { create(:study) }
+
+      it 'returns unauthorized for update' do
+        put "/r/studies/#{other_study.id}", params: { study: { title: 'Unauthorized Update' } }
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(response.body).to be_empty # head :unauthorized returns empty body
+      end
+
+      it 'returns unauthorized for publish' do
+        post "/r/studies/#{other_study.id}/publish", params: {
+          study: { title: 'Unauthorized Publish' }
+        }
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+  end
+
+  describe 'flyer attachment edge cases' do
+    let(:flyer_file) { fixture_file_upload('spec/fixtures/files/test_image.jpg', 'image/jpeg') }
+
+    context 'when replacing existing flyer' do
+      before { study.flyer.attach(fixture_file_upload('spec/fixtures/files/test_image.jpg', 'image/jpeg')) }
+
+      it 'replaces existing flyer' do
+        initial_flyer_key = study.flyer.blob.key
+
+        put "/r/studies/#{study.id}", params: { study: { flyer: flyer_file } }
+
+        expect(response).to have_http_status(:ok)
+        study.reload
+        expect(study.flyer).to be_attached
+        expect(study.flyer.blob.key).not_to eq(initial_flyer_key)
+      end
+    end
+
+    context 'when passed a nil flyer' do
+      it 'handles nil flyer parameter gracefully' do
+        put "/r/studies/#{study.id}", params: { study: { title: 'Updated Title' } }
+
+        expect(response).to have_http_status(:ok)
+        expect(study.reload.title).to eq('Updated Title')
+      end
     end
   end
 end
