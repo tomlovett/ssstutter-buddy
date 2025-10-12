@@ -155,6 +155,14 @@
 - Use feature branches for new development
 - Test thoroughly before merging
 
+### Rails Console Usage
+- NEVER use `rails console` or `rails c` in terminal commands
+- Cursor agents cannot reliably execute multi-step commands in interactive Rails console sessions
+- Instead, use `rails runner` to execute Ruby code: `rails runner "User.count"`
+- For data manipulation: `rails runner "User.create!(name: 'Test')"`
+- For debugging: use `rails runner` with puts/logger statements instead of console inspection
+- Example: `rails runner "puts User.first.inspect"` instead of opening Rails console
+
 ## Project-Specific Patterns
 
 ### User Types and Access Control

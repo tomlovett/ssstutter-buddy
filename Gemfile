@@ -68,6 +68,7 @@ gem 'rack-cors'
 gem 'concurrent-ruby', '1.3.4'
 
 gem 'whenever', require: false
+gem 'solid_queue'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
