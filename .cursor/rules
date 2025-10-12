@@ -150,6 +150,8 @@
 - Update documentation as needed
 
 ### Git Workflow
+- NEVER push commits to origin
+- NEVER run heroku commands
 - Use descriptive commit messages
 - Keep commits focused and atomic
 - Use feature branches for new development
