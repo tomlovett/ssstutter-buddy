@@ -8,6 +8,8 @@ class Study < ApplicationRecord
 
   accepts_nested_attributes_for :location, reject_if: :all_blank, allow_destroy: true
 
+  before_update :update_last_verified_active
+
   scope :draft, -> { where('published_at IS NULL AND closed_at IS NULL') }
   scope :active, -> { where('published_at IS NOT NULL AND closed_at IS NULL AND paused_at IS NULL') }
   scope :paused, -> { where.not(paused_at: nil) }
@@ -86,5 +88,11 @@ class Study < ApplicationRecord
 
   def closed?
     closed_at.present?
+  end
+
+  private
+
+  def update_last_verified_active
+    self.last_verified_active = Time.current
   end
 end
