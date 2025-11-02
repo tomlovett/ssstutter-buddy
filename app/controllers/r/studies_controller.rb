@@ -2,6 +2,8 @@
 
 class R::StudiesController < R::BaseController
   allow_unauthenticated_access only: %i[verify_status]
+  skip_before_action :redirect_if_not_researcher, only: %i[verify_status]
+  skip_before_action :redirect_if_not_complete, only: %i[verify_status]
   before_action :set_study, only: %i[show edit update publish]
 
   # GET /r/studies
