@@ -8,6 +8,8 @@ extract StudyLocation component
 	isValid, isTouched
 	model changes: (location_type) online, in_person, hybrid
 
+allow publicly-visible studies & non-user email registration
+
 create frontend model classes
 	parse data into relevant models on API call
 
