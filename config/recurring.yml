@@ -29,3 +29,7 @@ production:
   nightly_new_researcher:
     class: NightlyNewResearcherJob
     schedule: at 11:00 pm every day
+
+  study_verification:
+    class: StudyVerificationJob
+    schedule: at 1:00 pm every 3 days
