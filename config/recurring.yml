@@ -13,3 +13,23 @@ production:
   clear_solid_queue_finished_jobs:
     command: "SolidQueue::Job.clear_finished_in_batches(sleep_between_batches: 0.3)"
     schedule: every hour at minute 12
+
+  weekly_online_digest:
+    class: WeeklyOnlineDigestJob
+    schedule: at 11:00 am every tuesday
+
+  weekly_stats:
+    class: WeeklyStatsJob
+    schedule: at 9:00 am every sunday
+
+  session_cleanup:
+    class: SessionCleanupJob
+    schedule: at 2:00 am every day
+
+  nightly_new_researcher:
+    class: NightlyNewResearcherJob
+    schedule: at 11:00 pm every day
+
+  email_health_check:
+    class: EmailHealthCheckJob
+    schedule: at 1:50 pm every day
