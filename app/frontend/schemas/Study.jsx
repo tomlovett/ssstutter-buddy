@@ -13,7 +13,6 @@ const StudySchema = z.object({
   duration: z.string(),
   remuneration: z.coerce.number(),
   location_type: z.string(),
-  flyer: z.any().optional(),
   location: z.object({
     country: z.string(),
     state: z.string(),

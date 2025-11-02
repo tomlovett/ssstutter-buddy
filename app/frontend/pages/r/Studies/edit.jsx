@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { Link } from '@inertiajs/react'
@@ -6,13 +6,12 @@ import { zodResolver } from '@hookform/resolvers/zod'
 
 import LocationTool from '@/components/lib/LocationTool'
 import { Button } from '@/components/ui/button'
-import { Form, FormMessage, FormField, FormItem, FormLabel, FormControl } from '@/components/ui/form'
+import { Form, FormMessage } from '@/components/ui/form'
 import FormCheckboxes from '@/components/ui/custom/formCheckboxes'
 import FormInput from '@/components/ui/custom/formInput'
 import FormRadioGroup from '@/components/ui/custom/formRadioGroup'
 import FormTextarea from '@/components/ui/custom/formTextarea'
-import { Input } from '@/components/ui/input'
-import { postRequest } from '@/lib/api'
+import { postRequest, putRequest } from '@/lib/api'
 import {
   ageRange,
   displayLocationShort,
@@ -85,8 +84,6 @@ const METHODOLOGIES = [
   { id: 'Speaker panel', label: 'Speaker Panel' },
 ]
 
-const MAX_IMAGE_SIZE = 2000 // pixels
-
 const LOCATION_TYPES = [
   { value: 'digital', label: 'Digital Only' },
   { value: 'in_person', label: 'In-Person Only' },
@@ -95,15 +92,12 @@ const LOCATION_TYPES = [
 
 const StudyEdit = ({ study }) => {
   const [errors, setErrors] = useState([])
-  const [flyerError, setFlyerError] = useState(null)
-  const [flyerPreviewUrl, setFlyerPreviewUrl] = useState(null)
   const form = useForm({
     resolver: zodResolver(StudyInProgressSchema),
     defaultValues: {
       title: study.title || '',
       short_desc: study.short_desc || '',
       long_desc: study.long_desc || '',
-      flyer: undefined,
       methodologies: study.methodologies?.split(',') || [],
       location_type: study.location_type || '',
       location: {
@@ -123,83 +117,13 @@ const StudyEdit = ({ study }) => {
 
   const watchedStudy = form.watch()
 
-  const validateImage = file => {
-    return new Promise((resolve, reject) => {
-      const img = new Image()
-      img.onload = () => {
-        if (img.width > MAX_IMAGE_SIZE || img.height > MAX_IMAGE_SIZE) {
-          reject(`Image must be ${MAX_IMAGE_SIZE}x${MAX_IMAGE_SIZE} pixels or smaller`)
-        } else {
-          resolve(true)
-        }
-      }
-      img.onerror = () => reject('Invalid image file')
-      img.src = URL.createObjectURL(file)
-    })
-  }
-
-  const handleFlyerChange = async e => {
-    const file = e.target.files?.[0]
-    if (!file) return
-
-    setFlyerError(null)
-    setFlyerPreviewUrl(null)
-
-    try {
-      await validateImage(file)
-      form.setValue('flyer', file, { shouldValidate: true })
-      setFlyerPreviewUrl(URL.createObjectURL(file))
-    } catch (error) {
-      setFlyerError(error)
-      form.setValue('flyer', undefined)
-      e.target.value = '' // Reset the file input
-    }
-  }
-
-  // Cleanup preview URL when component unmounts
-  useEffect(() => {
-    return () => {
-      if (flyerPreviewUrl) {
-        URL.revokeObjectURL(flyerPreviewUrl)
-      }
-    }
-  }, [flyerPreviewUrl])
-
   const saveStudy = async studyValues => {
-    const formData = new FormData()
-
-    // Nest all form values under the 'study' key
-    Object.entries(studyValues).forEach(([key, value]) => {
-      if (key !== 'flyer' && value !== undefined) {
-        formData.set(`study[${key}]`, value)
-      }
-    })
-
-    const flyerFile = form.getValues('flyer')
-    if (flyerFile instanceof File) {
-      formData.set('study[flyer]', flyerFile)
-    }
-
     try {
-      const response = await fetch(`/r/studies/${study.id}`, {
-        method: 'PUT',
-        body: formData,
-        headers: {
-          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]')?.content,
-          Accept: 'application/json',
-        },
-        credentials: 'same-origin',
-      })
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-
+      await putRequest(`/r/studies/${study.id}`, studyValues)
       toast.success('Changes saved!', 6000)
-    } catch (error) {
-      console.error('Error saving changes:', error)
+    } catch (_error) {
+      console.log(_error)
       toast.error('Failed to update study', 6000)
-      throw error
     }
   }
 
@@ -364,34 +288,6 @@ const StudyEdit = ({ study }) => {
             placeholder={remuneration.placeholder}
             desc={remuneration.desc}
           />
-
-          <div className="space-y-2">
-            <FormField
-              control={form.control}
-              name="flyer"
-              render={() => (
-                <FormItem>
-                  <FormLabel>Study Flyer</FormLabel>
-                  <FormControl>
-                    <Input type="file" accept="image/*" onChange={handleFlyerChange} />
-                  </FormControl>
-                  <p className="text-sm text-muted-foreground">Maximum image size: 2000x2000 pixels</p>
-                  {flyerError && <p className="text-sm text-red-500">{flyerError}</p>}
-                  {flyerPreviewUrl && (
-                    <div className="mt-2">
-                      <p className="text-sm text-muted-foreground mb-2">Preview:</p>
-                      <img
-                        src={flyerPreviewUrl}
-                        alt="Flyer preview"
-                        className="w-32 h-32 object-cover rounded-md"
-                      />
-                    </div>
-                  )}
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
 
           <FormMessage />
 

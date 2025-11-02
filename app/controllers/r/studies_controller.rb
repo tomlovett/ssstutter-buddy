@@ -49,10 +49,8 @@ class R::StudiesController < R::BaseController
 
   # PATCH/PUT /r/studies/1
   def update
-    return head :unauthorized unless allowed_to?(:update?, @study)
-
-    if update_study(study_params)
-      head :ok
+    if allowed_to?(:update?, @study) && @study.update(study_params)
+      redirect_to "/r/studies/#{@study.id}", status: :see_other
     else
       render json: @study.errors.as_json, status: :unprocessable_entity
     end
@@ -63,7 +61,7 @@ class R::StudiesController < R::BaseController
     return head :unauthorized unless allowed_to?(:update?, @study)
     return head :unprocessable_entity unless @study.present? && can_publish?
 
-    if update_study(study_params) && PublishStudy.new(study: @study).call
+    if @study.update(study_params) && PublishStudy.new(study: @study).call
       redirect_to "/r/studies/#{@study.id}", notice: 'Study published successfully!'
     else
       redirect_to "/r/studies/#{@study.id}/edit",
@@ -79,38 +77,6 @@ class R::StudiesController < R::BaseController
 
   def can_publish?
     @study.published_at.nil? || (@study.published_at.present? && @study.paused_at.present?)
-  end
-
-  def update_study(study_params)
-    @study.update(study_params.except(:flyer)) && attach_flyer_if_present(study_params[:flyer])
-  end
-
-  def attach_flyer_if_present(flyer)
-    return true if flyer.blank?
-
-    begin
-      @study.flyer.attach(flyer)
-      true
-    rescue StandardError => e
-      Sentry.capture_exception(
-        e,
-        tags: {
-          component: 'study_flyer_attachment',
-          study_id: @study.id,
-          researcher_id: @study.researcher_id,
-          action: 'update'
-        },
-        extra: {
-          flyer_filename: flyer.original_filename,
-          flyer_content_type: flyer.content_type,
-          flyer_size: flyer.size,
-          error_message: e.message,
-          study_data: study_params.except(:flyer)
-        }
-      )
-
-      false
-    end
   end
 
   def study_params
@@ -131,9 +97,6 @@ class R::StudiesController < R::BaseController
       :follow_up,
       :remuneration,
       :location_type,
-      :flyer,
-      :open_date,
-      :location,
       location_attributes: %i[id city state country _destroy _delete]
     )
   end

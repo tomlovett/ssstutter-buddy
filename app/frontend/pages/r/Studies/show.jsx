@@ -61,9 +61,6 @@ const StudyShow = ({ study, active_connections, invitations, completed_connectio
     connection.pin?.toString().includes(activePin)
   )
 
-  console.log('study', study)
-  console.log('study.flyer_url', study.flyer_url)
-
   return (
     <div className="space-y-8">
       <div>
@@ -73,11 +70,6 @@ const StudyShow = ({ study, active_connections, invitations, completed_connectio
             <Link href={`/r/studies/${study.id}/edit`}>Edit</Link>
           </Button>
         </div>
-        {study.flyer_url && (
-          <div className="mb-4">
-            <img src={study.flyer_url} alt="Study flyer" className="max-w-md rounded-lg shadow-md" />
-          </div>
-        )}
         <StudyDetails study={study} />
       </div>
 

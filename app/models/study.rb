@@ -6,8 +6,6 @@ class Study < ApplicationRecord
   has_many :invitations, dependent: :destroy
   has_one :location, dependent: :destroy
 
-  has_one_attached :flyer
-
   accepts_nested_attributes_for :location, reject_if: :all_blank, allow_destroy: true
 
   scope :draft, -> { where('published_at IS NULL AND closed_at IS NULL') }
@@ -34,7 +32,7 @@ class Study < ApplicationRecord
   IN_PERSON = 'in_person'
 
   def as_json(options = {})
-    super(options.merge(include: :location)).merge({ 'flyer_url' => safe_flyer_url })
+    super(options.merge(include: :location))
   end
 
   def address
@@ -88,33 +86,5 @@ class Study < ApplicationRecord
 
   def closed?
     closed_at.present?
-  end
-
-  def safe_flyer_url
-    return nil unless flyer.attached?
-
-    begin
-      flyer.blob.url
-    rescue StandardError => e
-      Sentry.capture_exception(
-        e,
-        tags: {
-          component: 'study_safe_flyer_url',
-          study_id: id,
-          researcher_id: researcher_id,
-          storage_service: ActiveStorage::Blob.service.name
-        },
-        extra: {
-          flyer_blob_id: flyer.blob&.id,
-          flyer_blob_key: flyer.blob&.key,
-          host_config: Rails.application.routes.default_url_options,
-          active_storage_host_config: Rails.application.config.active_storage.default_url_options,
-          error_message: e.message,
-          error_class: e.class.name
-        }
-      )
-
-      nil
-    end
   end
 end

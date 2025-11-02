@@ -7,7 +7,6 @@ const StudyInProgressSchema = z.object({
   long_desc: z.string().optional(),
   methodologies: z.any().optional(),
   location_type: z.string().optional(),
-  flyer: z.any().optional(),
   location: z
     .object({
       id: z.string().optional(),

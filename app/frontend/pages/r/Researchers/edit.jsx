@@ -98,13 +98,13 @@ const ResearcherEdit = ({ researcher, is_complete }) => {
     // Nest all form values under the 'researcher' key
     Object.entries(formValues).forEach(([key, value]) => {
       if (key !== 'headshot' && value !== undefined) {
-        formData.set(`researcher[${key}]`, value)
+        formData.append(`researcher[${key}]`, value)
       }
     })
 
     const headshotFile = form.getValues('headshot')
     if (headshotFile instanceof File) {
-      formData.set('researcher[headshot]', headshotFile)
+      formData.append('researcher[headshot]', headshotFile)
     }
 
     try {

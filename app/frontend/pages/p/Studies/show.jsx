@@ -171,12 +171,6 @@ const StudyShow = ({ user, study, researcher, invitation }) => {
     <div className="container mx-auto px-4 py-8">
       <h3 className="text-2xl font-bold mb-4">{study.title}</h3>
 
-      {study.flyer_url && (
-        <div className="mb-6 flex justify-center">
-          <img src={study.flyer_url} alt="Study flyer" className="max-w-md rounded-lg shadow-md" />
-        </div>
-      )}
-
       <div className="grid grid-cols-3 gap-4">
         <div className="col-span-2">
           <div className="mb-4 ml-2">
