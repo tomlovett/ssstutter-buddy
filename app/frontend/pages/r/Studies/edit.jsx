@@ -290,17 +290,29 @@ const StudyEdit = ({ study }) => {
           />
 
           <FormMessage />
-          <div className="flex gap-4 justify-end">
-            <Link
-              href={`/r/studies/${study.id}/edit`}
-              as="button"
-              className="border-[0.5px] border-black px-4 py-2 rounded-md"
-            >
-              Discard Unsaved Changes
-            </Link>
-            <Button key="submit" type="submit">
-              Save Changes
-            </Button>
+
+          <div className="flex gap-4 justify-between">
+            <div className="flex gap-4 justify-left">
+              <Link
+                href={`/r/studies/${study.id}`}
+                as="button"
+                className="border-[0.5px] border-black px-4 py-2 rounded-md"
+              >
+                Back
+              </Link>
+            </div>
+            <div className="flex gap-4 justify-end">
+              <Link
+                href={`/r/studies/${study.id}/edit`}
+                as="button"
+                className="border-[0.5px] border-black px-4 py-2 rounded-md"
+              >
+                Discard Unsaved Changes
+              </Link>
+              <Button key="submit" type="submit">
+                Save Changes
+              </Button>
+            </div>
           </div>
         </form>
       </Form>

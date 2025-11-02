@@ -32,7 +32,7 @@ const formFieldData = [
   },
 ]
 
-const MAX_IMAGE_SIZE = 1000 // pixels
+const MAX_IMAGE_SIZE = 2000 // pixels
 
 const ResearcherEdit = ({ researcher, is_complete }) => {
   const [previewUrl, setPreviewUrl] = useState(null)

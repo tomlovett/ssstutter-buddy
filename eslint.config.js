@@ -5,9 +5,24 @@ import pluginReact from 'eslint-plugin-react'
 /** @type {import('eslint').Linter.Config[]} */
 export default [
   {
-    ignores: ['**/node_modules/**', '**/vendor/**', '**/public/**', '**/tmp/**'],
+    ignores: [
+      '**/node_modules/**',
+      '**/vendor/**',
+      '**/public/**',
+      '**/tmp/**',
+      '**/log/**',
+      '**/storage/**',
+      '**/coverage/**',
+      '**/test-results/**',
+    ],
   },
-  { languageOptions: { globals: globals.browser } },
+  {
+    languageOptions: {
+      globals: globals.browser,
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+    },
+  },
   pluginJs.configs.recommended,
   {
     ...pluginReact.configs.flat.recommended,
@@ -34,6 +49,7 @@ export default [
       'react/no-unescaped-entities': ['error', { forbid: ['>', '}'] }],
       'react/prop-types': 'off',
       'react/react-in-jsx-scope': 'off',
+      'no-undef': ['error', { typeof: true }],
     },
   },
   {
@@ -42,6 +58,7 @@ export default [
       globals: {
         ...globals.browser,
         ...globals.jest,
+        process: 'readonly',
       },
     },
     rules: {
@@ -50,11 +67,17 @@ export default [
     },
   },
   {
-    files: ['vite.config.js', 'playwright.config.js', 'e2e/utils/letter-opener.js'],
+    files: ['vite.config.js', 'playwright.config.js', 'e2e/utils/letter-opener.js', '**/*.cjs'],
     languageOptions: {
       globals: {
         ...globals.browser,
         ...globals.node,
+        process: 'readonly',
+        module: 'readonly',
+        exports: 'readonly',
+        require: 'readonly',
+        __dirname: 'readonly',
+        __filename: 'readonly',
       },
     },
   },
