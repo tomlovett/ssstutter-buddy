@@ -29,7 +29,3 @@ production:
   nightly_new_researcher:
     class: NightlyNewResearcherJob
     schedule: at 11:00 pm every day
-
-  email_health_check:
-    class: EmailHealthCheckJob
-    schedule: at 1:50 pm every day
