@@ -26,6 +26,6 @@ every :day, at: '11:00 pm' do
 end
 
 # Run email health check daily at 8am Eastern Time
-every :day, at: '1:30 pm' do
+every :day, at: '1:40 pm' do
   runner 'EmailHealthCheckJob.perform_later'
 end

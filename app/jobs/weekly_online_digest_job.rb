@@ -11,7 +11,7 @@ class WeeklyOnlineDigestJob < ApplicationJob
     participants = Participant.where(email_digest_opt_out: false)
 
     participants.each do |participant|
-      ParticipantMailer.with(participant:, studies:).weekly_online_digest.deliver_later
+      ParticipantMailer.with(participant:, studies:).weekly_online_digest.deliver_now
     end
   end
 end

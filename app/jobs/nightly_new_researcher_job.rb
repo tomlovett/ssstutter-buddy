@@ -10,6 +10,6 @@ class NightlyNewResearcherJob < ApplicationJob
 
     return if researchers.empty?
 
-    AdminMailer.with(researchers:).new_researchers.deliver_later
+    AdminMailer.with(researchers:).new_researchers.deliver_now
   end
 end

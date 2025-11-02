@@ -5,7 +5,7 @@ class WeeklyStatsJob < ApplicationJob
 
   def perform
     stats_data = collect_stats
-    AdminMailer.with(stats_data:).weekly_stats.deliver_later
+    AdminMailer.with(stats_data:).weekly_stats.deliver_now
   end
 
   private
