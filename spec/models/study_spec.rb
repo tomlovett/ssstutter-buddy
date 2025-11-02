@@ -26,6 +26,10 @@ RSpec.describe Study do
       expect(study.connections).to include(connection)
     end
 
+    it 'has one attached flyer' do
+      expect(study.flyer).to be_an_instance_of(ActiveStorage::Attached::One)
+    end
+
     context 'with a hybrid study' do
       let(:study) { create(:study, :hybrid) }
 
@@ -132,11 +136,82 @@ RSpec.describe Study do
         expect(study.as_json).to have_key('location')
         expect(study.as_json['location']['city']).to be_present
       end
+
+      it 'includes flyer_url when flyer is attached' do
+        flyer_blob = fixture_file_upload('spec/fixtures/files/test_image.jpg', 'image/jpeg')
+        study.flyer.attach(flyer_blob)
+        allow(study.flyer.blob).to receive(:url).and_return('http://example.com/test_image.jpg')
+
+        expect(study.as_json).to have_key('flyer_url')
+        expect(study.as_json['flyer_url']).to eq('http://example.com/test_image.jpg')
+      end
+
+      it 'includes flyer_url as nil when flyer is not attached' do
+        expect(study.as_json).to have_key('flyer_url')
+        expect(study.as_json['flyer_url']).to be_nil
+      end
     end
 
     context 'when location is nil' do
       it 'does not include a location key' do
         expect(study.as_json).not_to have_key(:location)
+      end
+
+      it 'includes flyer_url when flyer is attached' do
+        flyer_blob = fixture_file_upload('spec/fixtures/files/test_image.jpg', 'image/jpeg')
+        study.flyer.attach(flyer_blob)
+        allow(study.flyer.blob).to receive(:url).and_return('http://example.com/test_image.jpg')
+
+        expect(study.as_json).to have_key('flyer_url')
+        expect(study.as_json['flyer_url']).to eq('http://example.com/test_image.jpg')
+      end
+    end
+  end
+
+  describe '#safe_flyer_url' do
+    context 'when flyer is not attached' do
+      it 'returns nil' do
+        expect(study.safe_flyer_url).to be_nil
+      end
+    end
+
+    context 'when flyer is attached' do
+      let(:flyer_blob) { fixture_file_upload('spec/fixtures/files/test_image.jpg', 'image/jpeg') }
+
+      before do
+        study.flyer.attach(flyer_blob)
+        allow(study.flyer.blob).to receive(:url).and_return('http://example.com/test_image.jpg')
+      end
+
+      it 'returns the flyer url' do
+        expect(study.safe_flyer_url).to be_present
+        expect(study.safe_flyer_url).to eq('http://example.com/test_image.jpg')
+      end
+    end
+
+    context 'when flyer blob url raises an error' do
+      let(:flyer_blob) { fixture_file_upload('spec/fixtures/files/test_image.jpg', 'image/jpeg') }
+
+      before do
+        study.flyer.attach(flyer_blob)
+        allow(study.flyer.blob).to receive(:url).and_raise(StandardError.new('Storage error'))
+        allow(Sentry).to receive(:capture_exception)
+      end
+
+      it 'captures the exception in Sentry' do
+        study.safe_flyer_url
+
+        expect(Sentry).to have_received(:capture_exception).with(
+          instance_of(StandardError),
+          hash_including(
+            tags: hash_including(component: 'study_safe_flyer_url', study_id: study.id,
+                                 researcher_id: study.researcher_id)
+          )
+        )
+      end
+
+      it 'returns nil' do
+        expect(study.safe_flyer_url).to be_nil
       end
     end
   end
