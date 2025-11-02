@@ -21,4 +21,11 @@ class AdminMailer < ApplicationMailer
       subject: "SB: #{@count} New Researcher#{'s' unless @count == 1} - #{@date}"
     )
   end
+
+  def email_health_check
+    mail(
+      to: ENV.fetch('ADMIN_EMAILS', '').split(', '),
+      subject: 'SB emails working'
+    )
+  end
 end
