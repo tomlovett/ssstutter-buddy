@@ -24,3 +24,8 @@ end
 every :day, at: '11:00 pm' do
   runner 'NightlyNewResearcherJob.perform_later'
 end
+
+# Run email health check daily at 8am Eastern Time
+every :day, at: '1:30 pm' do
+  runner 'EmailHealthCheckJob.perform_later'
+end
