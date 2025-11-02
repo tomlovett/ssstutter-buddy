@@ -6,7 +6,7 @@ class StudyMailer < ApplicationMailer
     @researcher = params[:researcher]
     @verify_active_token = generate_token(@study, 'verify_active')
     @mark_inactive_token = generate_token(@study, 'mark_inactive')
-    @auto_close_date = (@study.last_verified_active + 52.days).strftime('%B %d, %Y')
+    @auto_close_date = (@study.last_verified_active + 50.days).strftime('%B %d, %Y')
 
     mail(to: @researcher.email, subject: 'Is your study still accepting participants?')
   end
@@ -16,7 +16,7 @@ class StudyMailer < ApplicationMailer
     @researcher = params[:researcher]
     @verify_active_token = generate_token(@study, 'verify_active')
     @mark_inactive_token = generate_token(@study, 'mark_inactive')
-    @auto_close_date = (@study.last_verified_active + 52.days).strftime('%B %d, %Y')
+    @auto_close_date = (@study.last_verified_active + 50.days).strftime('%B %d, %Y')
 
     mail(to: @researcher.email, subject: 'Warning: Verify your study\'s status or it will be CLOSED')
   end
