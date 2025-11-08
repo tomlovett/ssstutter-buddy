@@ -14,6 +14,7 @@ import {
   LOCATION_TYPES,
   timeline,
 } from '@/lib/study'
+import { parseMarkdown } from '@/lib/utils'
 
 const StudyShow = ({ study, active_connections, invitations, completed_connections, declined_count }) => {
   const [activePin, setActivePin] = useState('')
@@ -23,9 +24,13 @@ const StudyShow = ({ study, active_connections, invitations, completed_connectio
       <p key="short_desc" className="text-sm text-foreground mb-2">
         <span className="font-medium">Short description:</span> {study.short_desc}
       </p>
-      <p key="long_desc" className="text-sm text-foreground mb-4">
-        <span className="font-medium">Long description:</span> {study.long_desc}
-      </p>
+      <div key="long_desc" className="text-sm text-foreground mb-4">
+        <span className="font-medium">Long description:</span>
+        <div
+          className="prose prose-sm max-w-none mt-2 ml-8 mt-2 mb-2"
+          dangerouslySetInnerHTML={{ __html: parseMarkdown(study.long_desc) }}
+        />
+      </div>
       <p key="irb_number" className="text-sm text-foreground mb-4">
         <span className="font-medium">IRB number:</span> {study.irb_number}
       </p>

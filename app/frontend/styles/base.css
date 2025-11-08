@@ -1,6 +1,7 @@
 @import 'tailwindcss';
 
 @plugin 'tailwindcss-animate';
+@plugin './typography.js';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -116,12 +117,15 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+
   a {
     @apply text-blue-700 hover:text-blue-500;
   }
+
   :root {
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -152,5 +156,32 @@
 
   .stats-number-cell {
     @apply text-right font-mono tabular-nums;
+  }
+
+  /* Ensure prose elements use proper typography */
+  .prose,
+  .prose-sm {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif,
+      'Apple Color Emoji', 'Segoe UI Emoji';
+  }
+
+  .prose p,
+  .prose-sm p,
+  .prose li,
+  .prose-sm li,
+  .prose h1,
+  .prose-sm h1,
+  .prose h2,
+  .prose-sm h2,
+  .prose h3,
+  .prose-sm h3,
+  .prose h4,
+  .prose-sm h4,
+  .prose h5,
+  .prose-sm h5,
+  .prose h6,
+  .prose-sm h6 {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif,
+      'Apple Color Emoji', 'Segoe UI Emoji';
   }
 }

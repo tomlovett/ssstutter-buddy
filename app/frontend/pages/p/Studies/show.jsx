@@ -1,6 +1,7 @@
 import { Link, router } from '@inertiajs/react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Loader2 } from 'lucide-react'
 
 import {
   AlertDialog,
@@ -21,7 +22,7 @@ import { postRequest } from '@/lib/api'
 import { displayLocationShort, displayMethodologies, displayRemuneration, timeline } from '@/lib/study'
 import { status } from '@/lib/study'
 import { hasMadeDecision, ACCEPTED, INTERESTED, NOT_INTERESTED } from '@/lib/invitations'
-import { Loader2 } from 'lucide-react'
+import { parseMarkdown } from '@/lib/utils'
 
 const StudyShow = ({ user, study, researcher, invitation }) => {
   const form = useForm({
@@ -192,9 +193,10 @@ const StudyShow = ({ user, study, researcher, invitation }) => {
               <div>
                 <h3 className="text-lg mb-2">Study Details</h3>
                 <ul className="space-y-2 ml-2">
-                  {study.irb_number && (<li>
-                    <span className="font-medium">IRB number:</span> {study.irb_number}
-                  </li>
+                  {study.irb_number && (
+                    <li>
+                      <span className="font-medium">IRB number:</span> {study.irb_number}
+                    </li>
                   )}
                   <li>
                     <span className="font-medium">Location:</span> {displayLocationShort(study)}
@@ -213,9 +215,12 @@ const StudyShow = ({ user, study, researcher, invitation }) => {
             </div>
           </div>
 
-          <div className="prose max-w-none mb-8">
+          <div className="mb-8">
             <h3 className="text-lg mb-2">Study Description</h3>
-            <p className="ml-2">{study.long_desc}</p>
+            <div
+              className="prose prose-sm max-w-none ml-2"
+              dangerouslySetInnerHTML={{ __html: parseMarkdown(study.long_desc) }}
+            />
           </div>
 
           <div className="flex justify-center gap-4">

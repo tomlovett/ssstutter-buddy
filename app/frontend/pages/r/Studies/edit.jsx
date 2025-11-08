@@ -10,7 +10,7 @@ import { Form, FormMessage } from '@/components/ui/form'
 import FormCheckboxes from '@/components/ui/custom/formCheckboxes'
 import FormInput from '@/components/ui/custom/formInput'
 import FormRadioGroup from '@/components/ui/custom/formRadioGroup'
-import FormTextarea from '@/components/ui/custom/formTextarea'
+import FormMarkdownEditor from '@/components/ui/custom/formMarkdownEditor'
 import { postRequest, putRequest } from '@/lib/api'
 import {
   ageRange,
@@ -37,7 +37,7 @@ const topFormFields = [
   },
   {
     name: 'irb_number',
-    placeholder: 'IRB Number',
+    placeholder: 'IRB number',
     desc: 'The number assigned to the study by the Institutional Review Board',
   },
 ]
@@ -232,7 +232,7 @@ const StudyEdit = ({ study }) => {
         <form onSubmit={form.handleSubmit(saveFormChanges)} className="w-2/3 space-y-6">
           {topFormFields.map(({ name, label, placeholder, desc }) =>
             name == 'long_desc' ? (
-              <FormTextarea
+              <FormMarkdownEditor
                 key={name}
                 form={form}
                 name={name}
