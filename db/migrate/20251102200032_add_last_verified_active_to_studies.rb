@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddLastVerifiedActiveToStudies < ActiveRecord::Migration[8.0]
   def up
     add_column :studies, :last_verified_active, :datetime, default: -> { 'CURRENT_TIMESTAMP' }

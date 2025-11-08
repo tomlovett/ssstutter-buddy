@@ -45,17 +45,19 @@ class R::StudiesController < R::BaseController
     return render_error('Study not found.') unless study
 
     action = payload[:action]
-    
+
     case action
     when 'verify_active'
-      return render inertia: 'r/Studies/verify/AlreadyClosed', props: { study: study.as_json } if study.status == 'closed'
-      
+      if study.status == 'closed'
+        return render inertia: 'r/Studies/verify/AlreadyClosed', props: { study: study.as_json }
+      end
+
       study.update(last_verified_active: Time.current)
-      
+
       render inertia: 'r/Studies/verify/VerifyActive', props: { study: study.as_json }
     when 'mark_inactive'
       study.update(closed_at: Time.current) if study.status != 'closed'
-      
+
       render inertia: 'r/Studies/verify/MarkInactive', props: { study: study.as_json }
     else
       render_error('Invalid action in token.')

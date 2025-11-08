@@ -4,7 +4,7 @@ class StudyVerificationJob < ApplicationJob
   queue_as :default
 
   def perform
-    studies_to_check = Study.active.where('last_verified_active < ?', 30.days.ago)
+    studies_to_check = Study.active.where(last_verified_active: ...30.days.ago)
 
     studies_to_check.find_each do |study|
       days_since_verification = ((Time.current - study.last_verified_active) / 1.day).to_i

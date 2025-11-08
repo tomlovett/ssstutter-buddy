@@ -24,4 +24,3 @@ class StudyMailerPreview < ActionMailer::Preview
     StudyMailer.with(study:, researcher:).verify_active_final_warning
   end
 end
-
