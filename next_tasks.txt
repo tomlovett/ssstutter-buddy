@@ -2,6 +2,12 @@
 move all functionality to Location model
 	update API calls, update controller
 
+allow un-auth'd users to view studies
+	easy/phase one: sign-in to connect
+	second/harder: create connection for unauth'd user
+		create provisional_user/participant
+		prov_user_connection flow
+
 extract StudyLocation component
 	in-person, online-only, hybrid
 	has logic that it must be one of those three

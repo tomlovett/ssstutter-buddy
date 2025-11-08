@@ -116,6 +116,7 @@ class R::StudiesController < R::BaseController
       :title,
       :short_desc,
       :long_desc,
+      :irb_number,
       :published_at,
       :paused_at,
       :closed_at,

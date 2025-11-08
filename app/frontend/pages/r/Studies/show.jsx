@@ -11,6 +11,7 @@ import {
   displayLocationShort,
   displayMethodologies,
   displayRemuneration,
+  LOCATION_TYPES,
   timeline,
 } from '@/lib/study'
 
@@ -24,6 +25,9 @@ const StudyShow = ({ study, active_connections, invitations, completed_connectio
       </p>
       <p key="long_desc" className="text-sm text-foreground mb-4">
         <span className="font-medium">Long description:</span> {study.long_desc}
+      </p>
+      <p key="irb_number" className="text-sm text-foreground mb-4">
+        <span className="font-medium">IRB number:</span> {study.irb_number}
       </p>
       <div className="grid grid-cols-2 gap-4 text-sm">
         <p key="methodologies" className="text-foreground">
@@ -89,7 +93,7 @@ const StudyShow = ({ study, active_connections, invitations, completed_connectio
         />
       </section>
 
-      {!study.digital_only && (
+      {study.location_type !== LOCATION_TYPES.DIGITAL && (
         <section>
           <h3 className="text-lg font-bold">Invitations</h3>
           <InvitationsTable

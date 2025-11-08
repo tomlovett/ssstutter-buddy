@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_11_02_200032) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_08_160436) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -256,8 +256,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_02_200032) do
     t.integer "researcher_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "digital_only", default: false, null: false
-    t.boolean "digital_friendly", default: false, null: false
     t.datetime "paused_at"
     t.datetime "published_at"
     t.datetime "closed_at"
@@ -265,6 +263,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_02_200032) do
     t.text "autosend_message"
     t.string "location_type", default: "in_person"
     t.datetime "last_verified_active", default: -> { "CURRENT_TIMESTAMP" }
+    t.string "irb_number"
     t.index ["researcher_id"], name: "index_studies_on_researcher_id"
   end
 

@@ -35,6 +35,11 @@ const topFormFields = [
     placeholder: 'Long Description',
     desc: 'Describe the study in as much detail as you like, letting the participant know what to expect, and what will be required of them',
   },
+  {
+    name: 'irb_number',
+    placeholder: 'IRB Number',
+    desc: 'The number assigned to the study by the Institutional Review Board',
+  },
 ]
 
 const ageFields = [
@@ -98,6 +103,7 @@ const StudyEdit = ({ study }) => {
       title: study.title || '',
       short_desc: study.short_desc || '',
       long_desc: study.long_desc || '',
+      irb_number: study.irb_number || '',
       methodologies: study.methodologies?.split(',') || [],
       location_type: study.location_type || '',
       location: {

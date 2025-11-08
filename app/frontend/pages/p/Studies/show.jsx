@@ -192,6 +192,10 @@ const StudyShow = ({ user, study, researcher, invitation }) => {
               <div>
                 <h3 className="text-lg mb-2">Study Details</h3>
                 <ul className="space-y-2 ml-2">
+                  {study.irb_number && (<li>
+                    <span className="font-medium">IRB number:</span> {study.irb_number}
+                  </li>
+                  )}
                   <li>
                     <span className="font-medium">Location:</span> {displayLocationShort(study)}
                   </li>

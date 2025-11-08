@@ -5,6 +5,7 @@ const StudyInProgressSchema = z.object({
   title: z.string().optional(),
   short_desc: z.string().optional(),
   long_desc: z.string().optional(),
+  irb_number: z.string().optional(),
   methodologies: z.any().optional(),
   location_type: z.string().optional(),
   location: z
