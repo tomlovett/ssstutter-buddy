@@ -236,8 +236,8 @@ RSpec.describe Study do
     context 'when published and active' do
       let(:published_at) { 3.days.ago }
 
-      it 'returns "published"' do
-        expect(study.status).to eq('published')
+      it 'returns "active"' do
+        expect(study.status).to eq('active')
       end
     end
   end

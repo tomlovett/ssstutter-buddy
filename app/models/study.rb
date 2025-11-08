@@ -56,7 +56,7 @@ class Study < ApplicationRecord
     return 'draft' unless published?
     return 'closed' if closed?
 
-    'published'
+    'active'
   end
 
   def timeline

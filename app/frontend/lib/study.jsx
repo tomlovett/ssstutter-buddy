@@ -80,15 +80,14 @@ export const ageRange = ({ min_age, max_age }) => {
 }
 
 export const status = study => {
-  if (!study.published_at) {
+  if (study.paused_at) {
+    return 'paused'
+  } else if (!study.published_at) {
     return 'draft'
   } else if (study.closed_at) {
     return 'closed'
-  } else if (study.paused_at) {
-    return 'paused'
-  } else {
-    return 'active'
   }
+  return 'active'
 }
 
 export const statusText = study => {
