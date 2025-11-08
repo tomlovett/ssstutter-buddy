@@ -48,13 +48,13 @@ class R::StudiesController < R::BaseController
     
     case action
     when 'verify_active'
-      return render inertia: 'r/Studies/verify/AlreadyClosed', props: { study: study.as_json } if study.closed_at.present?
+      return render inertia: 'r/Studies/verify/AlreadyClosed', props: { study: study.as_json } if study.status == 'closed'
       
       study.update(last_verified_active: Time.current)
       
       render inertia: 'r/Studies/verify/VerifyActive', props: { study: study.as_json }
     when 'mark_inactive'
-      study.update(closed_at: Time.current) if study.closed_at.blank?
+      study.update(closed_at: Time.current) if study.status != 'closed'
       
       render inertia: 'r/Studies/verify/MarkInactive', props: { study: study.as_json }
     else
