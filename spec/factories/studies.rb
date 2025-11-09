@@ -7,8 +7,6 @@ FactoryBot.define do
     title { Faker::Lorem.sentence }
     short_desc { Faker::Lorem.sentences(number: 2) }
     long_desc { Faker::Lorem.paragraph }
-    open_date { '2024-08-31' }
-    close_date { '2024-08-31' }
     methodologies { gen_methodologies }
     min_age { 18 }
     max_age { nil }
@@ -60,6 +58,7 @@ FactoryBot.define do
 
     trait :in_person do
       location_type { 'in_person' }
+      location
 
       after(:create) do |study|
         create(:location, study:)
@@ -68,6 +67,7 @@ FactoryBot.define do
 
     trait :hybrid do
       location_type { 'hybrid' }
+      location
 
       after(:create) do |study|
         create(:location, study:)

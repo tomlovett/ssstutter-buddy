@@ -128,16 +128,34 @@ RSpec.describe 'R::StudiesController' do
   describe 'POST /r/studies/:id/publish' do
     before do
       study.update!(published_at: nil)
-      allow(PublishStudy).to receive(:new).with(study:).and_return(instance_double(PublishStudy, call: true))
+      allow(PublishStudy).to receive(:new).with(study:).and_return(instance_double(PublishStudy, call: []))
     end
 
-    context 'when the study is not published' do
+    context 'when the study is published' do
       it 'publishes the study successfully' do
         post "/r/studies/#{study.id}/publish", params: { study: { title: 'Updated Title' } }
 
         expect(PublishStudy).to have_received(:new).with(study:)
         expect(study.reload.title).to eq('Updated Title')
         expect(response).to have_http_status(:redirect)
+      end
+    end
+
+    context 'when the study fails validation' do
+      it 'returns the errors' do
+        error_messages = ['Title is required', 'Short desc is required']
+        allow(PublishStudy).to receive(:new).with(study:).and_return(
+          instance_double(PublishStudy, call: error_messages)
+        )
+
+        post "/r/studies/#{study.id}/publish", params: { study: { title: '' } }
+
+        expect(response).to have_http_status(:redirect)
+        expect(study.reload.published_at).not_to be_present
+
+        expect(flash[:alert]).to include('Issues publishing study:')
+        expect(flash[:alert]).to include('Title is required')
+        expect(flash[:alert]).to include('Short desc is required')
       end
     end
   end

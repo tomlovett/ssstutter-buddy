@@ -4,10 +4,12 @@ class PublishStudy
   def initialize(study:)
     @study = study
     @errors = []
+    @participants_to_exclude = []
+    @participants_to_invite = []
   end
 
   def call
-    return false unless valid?
+    return @errors unless valid?
 
     if @study.published_at.nil?
       @study.update!(published_at: Time.current)
@@ -15,27 +17,42 @@ class PublishStudy
       @study.update!(paused_at: nil, closed_at: nil)
     end
 
-    send_invitation_emails unless @study.digital_only?
-  end
+    # existing connections
+    @participants_to_exclude.concat(@study.connections.pluck(:participant_id)) if @study.connections.present?
+    # existing invitations
+    @participants_to_exclude.concat(@study.invitations.pluck(:participant_id)) if @study.invitations.present?
 
-  private
+    if @study.min_age.present?
+      @participants_to_exclude.concat(Participant.where('birthdate > ?', @study.min_age.years.ago).pluck(:id))
+    end
+    if @study.max_age.present?
+      @participants_to_exclude.concat(Participant.where(birthdate: ...@study.max_age.years.ago).pluck(:id))
+    end
 
-  def send_invitation_emails
-    # return if @study.digital_only? || @study.location.nil?
+    if @study.location_type == Study::IN_PERSON
+      @participants_to_exclude.concat(Participant.where.not(id: local_participants))
+    end
 
-    existing_connections = @study.connections.pluck(:participant_id)
-    existing_invitations = @study.invitations.pluck(:participant_id)
-    participants = Participant.joins(:location)
-      .where.not(location: nil)
-      .where.not(id: existing_connections)
-      .where.not(id: existing_invitations)
-    # .near(@study.location.coordinates, 100)
-
-    participants.each do |participant|
+    Participant.where.not(id: @participants_to_exclude).find_each do |participant|
       Invitation.create!(study: @study, participant:, status: :invited)
 
       ParticipantMailer.with(study: @study, participant:).new_study_alert.deliver_later
     end
+
+    []
+  end
+
+  private
+
+  def local_participants
+    # `to_a` syntax prevents a SQL error where the scope is joined with the Participant model
+    nearby_location_ids = Location.where.not(participant_id: nil)
+      .near([@study.location.latitude, @study.location.longitude], 100)
+      .to_a.pluck(:id)
+
+    Participant.joins(:location)
+      .where(location: { id: nearby_location_ids })
+      .pluck(:id)
   end
 
   def valid?
@@ -51,10 +68,15 @@ class PublishStudy
     required_fields.each do |field|
       @errors << "#{field.to_s.humanize} is required" if @study.send(field).blank?
     end
+
+    @errors << 'Total sessions must be 1 or greater' if @study.total_sessions.to_i < 1
   end
 
   def validate_location
-    return if @study.location_type == Study::DIGITAL
+    if @study.location_type == Study::DIGITAL
+      @errors << 'If a study is digital, it should not have a location' if @study.location.present?
+      return
+    end
 
     if @study.location.nil?
       @errors << 'Location is required for hybrid or in-person studies'
@@ -68,10 +90,9 @@ class PublishStudy
 
   def validate_timeline
     # Allow duration to be empty if total_sessions == 1
-    return if @study.total_hours.present? && @study.total_sessions.present? &&
-              (@study.total_sessions == 1 || @study.duration.present?)
+    return if @study.total_sessions == 1 || !@study.duration.empty?
 
-    @errors << 'Study timeline (total hours and sessions) must be specified'
+    @errors << 'Study duration must be set if there are multiple sessions'
   end
 
   def validate_age_range

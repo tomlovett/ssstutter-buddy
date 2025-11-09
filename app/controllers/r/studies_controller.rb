@@ -92,11 +92,17 @@ class R::StudiesController < R::BaseController
     return head :unauthorized unless allowed_to?(:update?, @study)
     return head :unprocessable_entity unless @study.present? && can_publish?
 
-    if @study.update(study_params) && PublishStudy.new(study: @study).call
+    unless @study.update(study_params)
+      return redirect_to "/r/studies/#{@study.id}/edit",
+                         alert: 'Unable to publish study. Please check all required fields are filled out.'
+    end
+
+    validation_errors = PublishStudy.new(study: @study).call
+
+    if validation_errors.blank?
       redirect_to "/r/studies/#{@study.id}", notice: 'Study published successfully!'
     else
-      redirect_to "/r/studies/#{@study.id}/edit",
-                  alert: 'Unable to publish study. Please check all required fields are filled out.'
+      redirect_to "/r/studies/#{@study.id}/edit", alert: "Issues publishing study: #{validation_errors.join(', ')}"
     end
   end
 
