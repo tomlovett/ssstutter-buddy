@@ -8,7 +8,7 @@ class AddLastVerifiedActiveToStudies < ActiveRecord::Migration[8.0]
     Study.reset_column_information
     Study.active.find_each do |study|
       last_verified = [30.days.ago, study.updated_at].max
-      study.update_column(:last_verified_active, last_verified)
+      study.update(last_verified_active: last_verified)
     end
   end
 

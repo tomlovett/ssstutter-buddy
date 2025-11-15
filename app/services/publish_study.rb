@@ -5,17 +5,14 @@ class PublishStudy
     @study = study
     @errors = []
     @participants_to_exclude = []
-    @participants_to_invite = []
   end
 
   def call
     return @errors unless valid?
 
-    if @study.published_at.nil?
-      @study.update!(published_at: Time.current)
-    else
-      @study.update!(paused_at: nil, closed_at: nil)
-    end
+    return @errors if @study.status == 'active'
+
+    @study.update!(published_at: Time.current, paused_at: nil, closed_at: nil)
 
     # existing connections
     @participants_to_exclude.concat(@study.connections.pluck(:participant_id)) if @study.connections.present?
@@ -39,7 +36,7 @@ class PublishStudy
       ParticipantMailer.with(study: @study, participant:).new_study_alert.deliver_later
     end
 
-    []
+    [] # return empty errors array
   end
 
   private
@@ -60,6 +57,7 @@ class PublishStudy
     validate_location
     validate_timeline
     validate_age_range
+
     @errors.empty?
   end
 
@@ -74,7 +72,7 @@ class PublishStudy
 
   def validate_location
     if @study.location_type == Study::DIGITAL
-      @errors << 'If a study is digital, it should not have a location' if @study.location.present?
+      @study.update!(location: nil)
       return
     end
 

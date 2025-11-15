@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/ClassLength
 class Test::SeedingController < ApplicationController
   skip_forgery_protection
   skip_before_action :require_authentication
@@ -173,4 +172,3 @@ class Test::SeedingController < ApplicationController
     User.where('email LIKE ?', "#{E2E_EMAIL_PREFIX}%").destroy_all
   end
 end
-# rubocop:enable Metrics/ClassLength

@@ -8,7 +8,7 @@ class StudyMailerPreview < ActionMailer::Preview
     researcher = study.researcher
 
     # Ensure last_verified_active is set for the auto_close_date calculation
-    study.update_column(:last_verified_active, 35.days.ago) if study.last_verified_active.nil?
+    study.update(last_verified_active: 35.days.ago) if study.last_verified_active.nil?
 
     StudyMailer.with(study:, researcher:).verify_active_warning
   end
@@ -19,7 +19,7 @@ class StudyMailerPreview < ActionMailer::Preview
     researcher = study.researcher
 
     # Ensure last_verified_active is set for the auto_close_date calculation
-    study.update_column(:last_verified_active, 48.days.ago) if study.last_verified_active.nil?
+    study.update(last_verified_active: 48.days.ago) if study.last_verified_active.nil?
 
     StudyMailer.with(study:, researcher:).verify_active_final_warning
   end

@@ -89,8 +89,9 @@ RSpec.describe PublishStudy do
           context 'when location is present' do
             before { study.update(location: create(:location)) }
 
-            it 'returns an array containing the error message' do
-              expect(service.call).to include('If a study is digital, it should not have a location')
+            it 'clears the location and returns an empty array' do
+              expect(service.call).to eq([])
+              expect(study.reload.location).to be_nil
             end
           end
         end
@@ -134,7 +135,7 @@ RSpec.describe PublishStudy do
         context 'when min_age is greater than max_age and max_age is 0' do
           before { study.update(min_age: 20, max_age: 0) }
 
-          it 'ereturns an empty array' do
+          it 'returns an empty array' do
             expect(service.call).to eq([])
           end
         end
@@ -148,6 +149,7 @@ RSpec.describe PublishStudy do
 
       it 'does not change the study status' do
         expect(service.call).to eq([])
+        expect(study.reload.status).to eq('active')
       end
     end
 
@@ -157,6 +159,7 @@ RSpec.describe PublishStudy do
       it 'publishes the study' do
         expect(service.call).to eq([])
         expect(study.reload.published_at).to be_present
+        expect(study.reload.status).to eq('active')
       end
     end
 
@@ -168,6 +171,7 @@ RSpec.describe PublishStudy do
           expect(service.call).to eq([])
           expect(study.reload.paused_at).to be_nil
           expect(study.reload.published_at).to be_present
+          expect(study.reload.status).to eq('active')
         end
       end
     end
@@ -257,7 +261,7 @@ RSpec.describe PublishStudy do
 
     context 'with different location types' do
       let!(:baltimorean) { create(:participant, location: baltimore) }
-      let!(:bel_air_ean) { create(:participant, location: bel_air) }
+      let!(:bel_airrion) { create(:participant, location: bel_air) }
       let!(:masshole) { create(:participant, location: somerville) }
       let(:baltimore) do
         create(:location, city: 'Baltimore', state: 'MD', country: 'US', latitude: 39.2904, longitude: -76.6122)
@@ -272,9 +276,7 @@ RSpec.describe PublishStudy do
       context 'when location_type is in_person' do
         let(:study) { create(:study, :in_person, location: baltimore) }
 
-        before do
-          study.location.update(latitude: baltimore.latitude, longitude: baltimore.longitude)
-        end
+        before { study.location.update(latitude: baltimore.latitude, longitude: baltimore.longitude) }
 
         it 'only invites local participants' do
           expect { service.call }.to change(Invitation, :count).by(2)
@@ -283,7 +285,7 @@ RSpec.describe PublishStudy do
             study:, participant: baltimorean
           )
           expect(ParticipantMailer).to have_received(:with).with(
-            study:, participant: bel_air_ean
+            study:, participant: bel_airrion
           )
           expect(ParticipantMailer).not_to have_received(:with).with(
             study:, participant: masshole
@@ -301,7 +303,7 @@ RSpec.describe PublishStudy do
             study:, participant: baltimorean
           )
           expect(ParticipantMailer).to have_received(:with).with(
-            study:, participant: bel_air_ean
+            study:, participant: bel_airrion
           )
           expect(ParticipantMailer).to have_received(:with).with(
             study:, participant: masshole
