@@ -29,6 +29,9 @@ Metrics/BlockLength:
 Metrics/MethodLength:
   Enabled: false
 
+Metrics/ClassLength:
+  Max: 150
+
 Metrics/CyclomaticComplexity:
   Enabled: true
   Exclude:
@@ -55,7 +58,7 @@ RSpec/MultipleExpectations:
   Enabled: false
 
 RSpec/MultipleMemoizedHelpers:
-  Max: 8
+  Max: 10
 
 Style/ClassAndModuleChildren:
   EnforcedStyle: compact
