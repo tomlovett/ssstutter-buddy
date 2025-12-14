@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
-  has_secure_password
+  has_secure_password validations: false
 
   has_many :sessions, dependent: :destroy
   # User can be associated to a participant or researcher, but not both
@@ -29,6 +29,7 @@ class User < ApplicationRecord
   def home_page
     return '/p' if participant.present?
     return '/r' if researcher.present?
+    return '/p/digital-studies' if provisional?
 
     "/u/#{id}/select-role"
   end
@@ -50,9 +51,23 @@ class User < ApplicationRecord
       .split(', ').include?(email) || email.include?('@tomlovett.com') || email.include?('@ssstutterbuddy.com')
   end
 
+  def provisional?
+    password.blank? && password_digest.blank?
+  end
+
+  def creating_provisional_user?
+    !persisted? && provisional?
+  end
+
   private
 
   def password_required?
+    # For new records being created as provisional (no password_digest and no password provided)
+    return false if creating_provisional_user?
+    # For existing records, check if they're provisional
+    return false if provisional?
+
+    # Otherwise, require password for new records or when password is being set
     !persisted? || password.present?
   end
 end

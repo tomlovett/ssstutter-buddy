@@ -5,7 +5,12 @@ class P::StudiesController < P::BaseController
 
   # GET /p/digital-studies
   def digital_studies
-    existing_study_connections = Current.user.participant.connections.pluck(:study_id)
+    existing_study_connections = if Current.user&.participant
+                                   Current.user.participant.connections.pluck(:study_id)
+                                 else
+                                   []
+                                 end
+
     untouched_digital_studies = Study.digital_friendly.active
       .where.not(id: existing_study_connections)
       .order(created_at: :desc).page(params[:page]).per(25)
@@ -24,11 +29,19 @@ class P::StudiesController < P::BaseController
 
   # GET /p/studies/1
   def show
+    invitation = nil
+    connection = nil
+
+    if Current.user&.participant
+      invitation = Invitation.find_by(study: @study, participant: Current.user.participant)
+      connection = Connection.find_by(study: @study, participant: Current.user.participant)
+    end
+
     render inertia: 'p/Studies/show', props: {
       study: @study,
       researcher: @study.researcher.as_json,
-      invitation: Invitation.find_by(study: @study, participant: Current.user.participant),
-      connection: Connection.find_by(study: @study, participant: Current.user.participant)
+      invitation:,
+      connection:
     }
   end
 

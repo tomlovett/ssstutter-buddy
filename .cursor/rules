@@ -32,7 +32,7 @@
 - Use Geocoder for location services
 - Use Kaminari for pagination
 - `inertia_share` always passes `Current.user` as `user` to the frontend
-- The `user` object always includes its `participant` or `researcher` association
+   - The `user` object includes its `participant` or `researcher` association when present (may be nil for anonymous users)
 
 ### Database
 - Use PostgreSQL as the database
@@ -177,6 +177,23 @@
 - Use Current.user pattern for current user access
 - Use sessions for user state management
 - Use admin? helper from ApplicationPolicy for admin access
+- The Participant side of the application allows unauthenticated access to viewing pages (digital studies, study show, researcher show), but anonymous users cannot access personal pages like the participant home page or profile
+
+### Provisional users
+- Anonymous/unauthenticated visitors can view and connect to studies by creating provisional users
+- Provisional users are User records with a blank/null password and password_digest (identified by the provisional? method)
+- Provisional users will not have a session
+- Provisional users are only created when an anonymous/unauthenticated user connects with a study
+- When an anonymous user connects to a study, they provide first name, last name, and email; the backend creates:
+  - A provisional User record (with first_name, last_name, email, but no password or password_digest)
+  - A Participant record associated with that User (may be incomplete)
+  - A Connection record linking the Participant to the Study
+- If an anonymous user tries to connect but their email matches an existing regular user account, prompt them to login
+- When an existing provisional user tries to connect with a study, create a new Connection
+- Provisional users cannot authenticate (cannot log in) until they set a password
+- A provisional user can connect through multiple studies (through their Participant) without being required to convert to a regular user
+- Provisional users can convert to regular users by setting a password (via "forgot password" flow or account claim functionality)
+  - Use the "forgot password" email with slight text modifications if User.provisional?
 
 ### Route Organization
 - User-related routes are namespaced under '/u/'
@@ -185,10 +202,17 @@
 - Frontend pages and directories follow the same namespace structure
 
 ### Route Access Control
-- Users must be logged in to access pages not in the "public" section
-- Users must have a participant association to access controllers in the participant directory ('/p/')
-- Users must have a researcher association to access controllers in the researcher directory ('/r/')
-- Use Gatekeeping concern methods (redirect_if_not_researcher, redirect_if_not_participant) for role-based redirects
+- Public routes (/, /faq, /researchers, /participants) are accessible without authentication
+- Participant routes ('/p/*') have mixed access:
+  - **Publicly accessible (no authentication required)**: `/p/digital-studies`, `/p/studies/:id`, `/p/researchers/:id`
+  - **Requires authentication and participant association**: `/p/` (home), `/p/participants/:id` (profile pages), `/p/connections`, `/p/invitations` (create action)
+- Researcher routes ('/r/*') require authentication and researcher association
+- User management routes ('/u/*') require authentication (except signup/login flows)
+- Redirect authenticated Researchers to `/r` (their home page) if they try to access any participant route
+- Redirect authenticated Participants without complete profiles to their profile edit page when accessing protected participant routes
+- Anonymous users accessing participant routes will see a simplified header instead of the sidebar navigation
+- Use Gatekeeping concern methods (redirect_if_not_researcher, gatekeep_all_researchers, require_registered_participant) for role-based redirects
+- Gatekeeping methods should allow nil Current.user for publicly accessible participant routes (skip redirects when user is nil)
 
 ### Study Management
 - Use Study model for research studies

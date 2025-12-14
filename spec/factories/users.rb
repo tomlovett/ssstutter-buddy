@@ -9,4 +9,17 @@ FactoryBot.define do
     activation_pin { PinGenerator.new.pin }
     confirmed_at { Time.current }
   end
+
+  trait :provisional do
+    password { nil }
+    password_digest { nil }
+  end
+
+  trait :participant do
+    participant
+  end
+
+  trait :researcher do
+    researcher
+  end
 end

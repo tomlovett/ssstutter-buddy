@@ -8,7 +8,7 @@ class UserInvitationsController < ApplicationController
   def create
     return head :unprocessable_entity unless params[:email]&.match?(URI::MailTo::EMAIL_REGEXP)
 
-    return head :ok if UserInvitation.exists?(email: params[:email]) || User.exists?(email: params[:email])
+    return head :ok if UserInvitation.exists?(email: params[:email]) || complete_user_exists?
 
     @user_invitation = UserInvitation.new(user_invitation_params.merge(invited_by_id: Current.user.id))
 
@@ -26,5 +26,11 @@ class UserInvitationsController < ApplicationController
 
   def user_invitation_params
     params.permit(:email)
+  end
+
+  def complete_user_exists?
+    user = User.find_by(email: params[:email])
+
+    user.present? && !user.provisional?
   end
 end
