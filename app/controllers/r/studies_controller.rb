@@ -90,7 +90,7 @@ class R::StudiesController < R::BaseController
   # POST /r/studies/1/publish
   def publish
     return head :unauthorized unless allowed_to?(:update?, @study)
-    return head :unprocessable_entity unless @study.present? && can_publish?
+    return head :unprocessable_entity if @study.blank?
 
     unless @study.update(study_params)
       return redirect_to "/r/studies/#{@study.id}/edit",
@@ -110,10 +110,6 @@ class R::StudiesController < R::BaseController
 
   def set_study
     @study = Study.find(params[:id])
-  end
-
-  def can_publish?
-    @study.published_at.nil? || (@study.published_at.present? && @study.paused_at.present?)
   end
 
   def study_params
