@@ -151,7 +151,7 @@ RSpec.describe 'P::InvitationsController' do
       end
 
       context 'with an existing provisional user' do
-        let!(:user) { create(:user, :provisional, :participant, email:) }
+        let(:user) { create(:user, :provisional, :participant, email:) }
 
         before { user.participant.update(weekly_digest_opt_out: true) }
 
@@ -175,7 +175,7 @@ RSpec.describe 'P::InvitationsController' do
 
       context 'without an existing provisional user' do
         it 'creates a provisional user and a connection record and sends a new connection email' do
-          # One is created by test infrastructure, the other is the provisional user
+          # One user is created by the study creating a researcher, the other is the provisional user
           expect { post '/p/invitations', params: }.to change(User, :count).by(2)
             .and change(Participant, :count).by(1)
             .and change(Invitation, :count).by(1)

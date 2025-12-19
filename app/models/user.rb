@@ -27,11 +27,17 @@ class User < ApplicationRecord
   end
 
   def home_page
-    return '/p' if participant.present?
-    return '/r' if researcher.present?
     return '/p/digital-studies' if provisional?
 
-    "/u/#{id}/select-role"
+    return "/u/#{id}/select-role" if participant.blank? && researcher.blank?
+
+    if participant.present?
+      return participant.complete? ? '/p' : "/p/participants/#{participant.id}/edit"
+    end
+
+    return if researcher.blank?
+
+    researcher.complete? ? '/r' : "/r/researchers/#{researcher.id}/edit"
   end
 
   def assign_activation_pin!

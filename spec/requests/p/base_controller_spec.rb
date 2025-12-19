@@ -43,10 +43,18 @@ RSpec.describe 'P::BaseController' do
       it_behaves_like 'the request succeeds'
     end
 
-    context 'when accessing a non-public route' do
+    context 'when accessing their participant profile page' do
       let(:path) { "/p/participants/#{user.participant.id}/edit" }
 
       it_behaves_like 'the request succeeds'
+    end
+
+    context 'when trying to view another participant\'s profile page' do
+      let(:other_participant) { create(:participant) }
+      let(:path) { "/p/participants/#{other_participant.id}" }
+      let(:expected_redirect_path) { '/p' }
+
+      it_behaves_like 'the request fails'
     end
   end
 

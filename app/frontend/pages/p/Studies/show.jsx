@@ -37,6 +37,7 @@ const StudyShow = ({ user, study, researcher, invitation }) => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       study_id: study.id,
+      participant_id: user?.participant?.id,
       status: INTERESTED,
       status_explanation: '',
       anonymous: !user,
