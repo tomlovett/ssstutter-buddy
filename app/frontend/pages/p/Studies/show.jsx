@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { Link, router } from '@inertiajs/react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
 import { Loader2 } from 'lucide-react'
 
 import {
@@ -21,32 +20,21 @@ import { Form, FormMessage } from '@/components/ui/form'
 import FormInput from '@/components/ui/custom/formInput'
 import FormTextarea from '@/components/ui/custom/formTextarea'
 import FormCheckbox from '@/components/ui/custom/formCheckbox'
+import AnonymousInvitationSchema from '@/schemas/AnonymousInvitation'
+import InvitationSchema from '@/schemas/Invitation'
 import { postRequest } from '@/lib/api'
 import { displayLocationShort, displayMethodologies, displayRemuneration, timeline } from '@/lib/study'
 import { status } from '@/lib/study'
-import { hasMadeDecision, ACCEPTED, INTERESTED, NOT_INTERESTED, INVITATION_STATUSES } from '@/lib/invitations'
+import { hasMadeDecision, ACCEPTED, INTERESTED, NOT_INTERESTED } from '@/lib/invitations'
 import { parseMarkdown } from '@/lib/utils'
-
-const ExpandedInvitationSchema = z.object({
-  id: z.string().optional(),
-  study_id: z.coerce.number(),
-  participant_id: z.coerce.number().optional(),
-  status: z.enum(INVITATION_STATUSES),
-  status_explanation: z.string().optional(),
-  created_at: z.string().optional(),
-  updated_at: z.string().optional(),
-  anonymous: z.boolean().optional(),
-  first_name: z.string().optional(),
-  last_name: z.string().optional(),
-  email: z.string().email().optional(),
-  send_new_studies_emails: z.boolean().optional(),
-})
 
 const StudyShow = ({ user, study, researcher, invitation }) => {
   const [isLoginRequiredModalOpen, setIsLoginRequiredModalOpen] = useState(false)
 
+  const formSchema = user ? InvitationSchema : AnonymousInvitationSchema
+
   const form = useForm({
-    resolver: zodResolver(ExpandedInvitationSchema),
+    resolver: zodResolver(formSchema),
     defaultValues: {
       study_id: study.id,
       status: INTERESTED,

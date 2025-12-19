@@ -153,6 +153,8 @@ RSpec.describe 'P::InvitationsController' do
       context 'with an existing provisional user' do
         let!(:user) { create(:user, :provisional, :participant, email:) }
 
+        before { user.participant.update(weekly_digest_opt_out: true) }
+
         it 'creates a invitation, connection and sends the connection email' do
           expect { post '/p/invitations', params: }.to change(Invitation, :count).by(1)
             .and change(Connection, :count).by(1)
@@ -162,6 +164,12 @@ RSpec.describe 'P::InvitationsController' do
           expect(Connection.last.status).to eq(Connection::CONNECTED)
           expect(Connection.last.participant_id).to eq(user.participant.id)
           expect(Connection.last.study_id).to eq(study.id)
+        end
+
+        it 'updates the provisional user\'s weekly digest opt-out status' do
+          post '/p/invitations', params: params
+
+          expect(user.participant.reload.weekly_digest_opt_out).to be_falsey
         end
       end
 

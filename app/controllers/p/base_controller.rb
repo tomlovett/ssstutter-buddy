@@ -30,7 +30,7 @@ class P::BaseController < ApplicationController
   def redirect_if_not_complete
     return if Current.user.nil?
 
-    redirect_to Current.user.home_page unless Current.user&.participant&.complete?
+    redirect_to "/p/participants/#{Current.user.participant.id}/edit" unless Current.user&.participant&.complete?
   end
 
   def public_route?

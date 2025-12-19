@@ -12,7 +12,7 @@ class P::InvitationsController < P::BaseController
     return success_response if @invitation&.status == params[:status]
 
     create_provisional_user_with_participant if params[:anonymous] && @user.blank?
-    @user.update(digest_opt_out: !params[:send_new_studies_emails]) if @user.provisional?
+    @user.participant.update(weekly_digest_opt_out: !params[:send_new_studies_emails]) if @user.provisional?
 
     @invitation = Invitation.create!(participant: @user.participant, study: @study) if @invitation.blank?
 
@@ -67,6 +67,7 @@ class P::InvitationsController < P::BaseController
 
   def create_provisional_user_with_participant
     @user = User.create(provisional_user_params)
+    return head :unprocessable_entity unless @user.persisted?
 
     weekly_digest_opt_out = !params[:send_new_studies_emails]
     Participant.create!(user: @user, weekly_digest_opt_out:)
