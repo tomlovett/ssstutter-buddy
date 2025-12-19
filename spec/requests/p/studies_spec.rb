@@ -17,6 +17,17 @@ RSpec.describe 'P::StudiesController' do
       expect(response).to have_http_status(:success)
       expect(response.body).to include('p/Studies/show')
     end
+
+    context 'with an anonymous or provisional user' do
+      before { sign_out }
+
+      it 'returns a successful response' do
+        get "/p/studies/#{study.id}"
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include('p/Studies/show')
+      end
+    end
   end
 
   describe 'GET /p/digital-studies' do
@@ -25,6 +36,17 @@ RSpec.describe 'P::StudiesController' do
 
       expect(response).to have_http_status(:success)
       expect(response.body).to include('p/Studies/digital-studies')
+    end
+
+    context 'with an anonymous or provisional user' do
+      before { sign_out }
+
+      it 'returns a successful response' do
+        get '/p/digital-studies'
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include('p/Studies/digital-studies')
+      end
     end
   end
 end

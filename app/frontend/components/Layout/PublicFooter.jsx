@@ -8,6 +8,10 @@ const PublicFooter = () => (
         Home
       </Link>
       {' | '}
+      <Link href="/p/digital-studies" className="hover:text-gray-900">
+        View Studies
+      </Link>
+      {' | '}
       <Link href="/faq" className="hover:text-gray-900">
         FAQ
       </Link>

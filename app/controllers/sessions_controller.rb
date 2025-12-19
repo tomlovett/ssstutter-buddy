@@ -12,7 +12,13 @@ class SessionsController < ApplicationController
   def new
     Current.session ||= find_session_by_cookie
 
-    return redirect_to Current.user.home_page if Current.user.present?
+    session[:return_to_after_authenticating] = params[:return_to] if params[:return_to].present?
+
+    if Current.user.present?
+      return redirect_to session[:return_to_after_authenticating] if valid_redirect?
+
+      return redirect_to Current.user.home_page
+    end
 
     render inertia: 'u/login'
   end

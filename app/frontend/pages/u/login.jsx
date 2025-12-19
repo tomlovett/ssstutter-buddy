@@ -84,6 +84,12 @@ const Login = () => {
           <Link href="/home" className="font-medium text-indigo-600 hover:text-indigo-500">
             Back to homepage
           </Link>
+          <br />
+          <i>or</i>
+          <br />
+          <Link href="/p/digital-studies" className="font-medium text-indigo-600 hover:text-indigo-500">
+            View studies anonymously
+          </Link>
         </div>
       </div>
     </div>

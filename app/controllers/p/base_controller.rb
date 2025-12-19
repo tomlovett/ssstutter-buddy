@@ -10,7 +10,8 @@ class P::BaseController < ApplicationController
   PUBLIC_PATHS = [
     '/p/digital-studies',
     %r{^/p/studies/\d+$}, # study show /p/studies/1
-    %r{^/p/researchers/\d+$} # researcher show /p/researchers/1
+    %r{^/p/researchers/\d+$}, # researcher show /p/researchers/1
+    '/p/invitations' # invitation create /p/invitations
   ].freeze
 
   private

@@ -31,5 +31,8 @@ module RequestSpecHelper
 
     # Clear the Current model
     Current.session = nil
+
+    # Remove the stub on Current.user that was set by sign_in
+    allow(Current).to receive(:user).and_return(nil)
   end
 end
