@@ -29,7 +29,9 @@ RSpec.describe 'UsersController' do
       expect do
         post '/signup', params: valid_params
       end.to change(User, :count).by(1)
+
       expect(response).to have_http_status(:redirect)
+      expect(User.last.provisional).to be false
     end
 
     context 'with invalid params' do

@@ -51,7 +51,7 @@ class P::InvitationsController < P::BaseController
       :first_name,
       :last_name,
       :email
-    )
+    ).merge(provisional: true)
   end
 
   def set_study_user_invitation

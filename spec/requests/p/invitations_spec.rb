@@ -185,6 +185,7 @@ RSpec.describe 'P::InvitationsController' do
           provisional_user = User.last
           expect(provisional_user.email).to eq(email)
           expect(provisional_user.participant).to be_present
+          expect(provisional_user.provisional).to be_truthy
           expect(Connection.last.participant_id).to eq(provisional_user.participant.id)
         end
 
