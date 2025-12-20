@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link, router } from '@inertiajs/react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -16,7 +17,10 @@ import {
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
 import { Form, FormMessage } from '@/components/ui/form'
+import FormInput from '@/components/ui/custom/formInput'
 import FormTextarea from '@/components/ui/custom/formTextarea'
+import FormCheckbox from '@/components/ui/custom/formCheckbox'
+import AnonymousInvitationSchema from '@/schemas/AnonymousInvitation'
 import InvitationSchema from '@/schemas/Invitation'
 import { postRequest } from '@/lib/api'
 import { displayLocationShort, displayMethodologies, displayRemuneration, timeline } from '@/lib/study'
@@ -25,13 +29,22 @@ import { hasMadeDecision, ACCEPTED, INTERESTED, NOT_INTERESTED } from '@/lib/inv
 import { parseMarkdown } from '@/lib/utils'
 
 const StudyShow = ({ user, study, researcher, invitation }) => {
+  const [isLoginRequiredModalOpen, setIsLoginRequiredModalOpen] = useState(false)
+
+  const formSchema = user ? InvitationSchema : AnonymousInvitationSchema
+
   const form = useForm({
-    resolver: zodResolver(InvitationSchema),
+    resolver: zodResolver(formSchema),
     defaultValues: {
       study_id: study.id,
-      participant_id: user.participant.id,
+      participant_id: user?.participant?.id,
       status: INTERESTED,
       status_explanation: '',
+      anonymous: !user,
+      first_name: '',
+      last_name: '',
+      email: '',
+      send_new_studies_emails: true,
     },
   })
 
@@ -43,13 +56,24 @@ const StudyShow = ({ user, study, researcher, invitation }) => {
 
   const onSubmit = data => {
     postRequest('/p/invitations', data).then(res => {
-      if (res.ok) {
+      if (res.status === 401) {
+        setIsLoginRequiredModalOpen(true)
+      } else if (res.ok) {
         form.reset()
       }
     })
   }
 
-  const ExpressInterest = () => (
+  const LoginSuggestion = () => (
+    <>
+      <br />
+      <br />
+      Already have an account?{' '}
+      <Link href={`/login?return_to=${encodeURIComponent(window.location.pathname)}`}>Login</Link>
+    </>
+  )
+
+  const ExpressInterestModal = () => (
     <AlertDialog key="express-interest">
       <AlertDialogTrigger asChild>
         <Button>Express Interest</Button>
@@ -60,24 +84,53 @@ const StudyShow = ({ user, study, researcher, invitation }) => {
           <AlertDialogDescription>
             By confirming interest, an email will be sent to you and the researcher so that you can connect
             off the platform.
+            {!user && <LoginSuggestion />}
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel onClick={() => form.reset()}>Cancel</AlertDialogCancel>
-          <AlertDialogAction
-            onClick={() => {
-              form.setValue('status', INTERESTED)
-              form.handleSubmit(onSubmit)()
-            }}
-          >
-            Confirm
-          </AlertDialogAction>
-        </AlertDialogFooter>
+        {!user ? ( // unAuth form
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <FormInput form={form} name="first_name" placeholder="First Name" required />
+              <FormInput form={form} name="last_name" placeholder="Last Name" required />
+              <FormInput form={form} name="email" placeholder="Email" required />
+              <FormCheckbox
+                form={form}
+                name="send_new_studies_emails"
+                subtitle="Send me an email when new studies are posted"
+              />
+              <AlertDialogFooter>
+                <AlertDialogCancel onClick={() => form.reset()}>Cancel</AlertDialogCancel>
+                <AlertDialogAction
+                  onClick={e => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    form.setValue('status', INTERESTED)
+                    form.handleSubmit(onSubmit)()
+                  }}
+                >
+                  Confirm
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </form>
+          </Form>
+        ) : (
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => form.reset()}>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                form.setValue('status', INTERESTED)
+                form.handleSubmit(onSubmit)()
+              }}
+            >
+              Confirm
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        )}
       </AlertDialogContent>
     </AlertDialog>
   )
 
-  const NotInterested = () => (
+  const NotInterestedModal = () => (
     <AlertDialog key="not-interested">
       <AlertDialogTrigger asChild>
         <Button variant="outline">Not Interested</Button>
@@ -118,13 +171,38 @@ const StudyShow = ({ user, study, researcher, invitation }) => {
     </AlertDialog>
   )
 
+  const LoginRequiredModal = () => (
+    <AlertDialog open={isLoginRequiredModalOpen} onOpenChange={setIsLoginRequiredModalOpen}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Login Required</AlertDialogTitle>
+          <AlertDialogDescription>
+            It looks like you have an account. This link will take you to login and then return you to this
+            study.
+            <div className="text-center mt-4">
+              <Link
+                href={`/login?return_to=${encodeURIComponent(window.location.pathname)}`}
+                className="text-primary hover:underline font-medium"
+              >
+                Go to Login
+              </Link>
+            </div>
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel onClick={() => setIsLoginRequiredModalOpen(false)}>Close</AlertDialogCancel>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  )
+
   const ConnectionManagementButtons = () => {
     // Participant has not been invited or has not made a decision, display both options
     if (!invitation || !hasMadeDecision(invitation)) {
       return (
         <div className="flex gap-4">
-          <NotInterested />
-          <ExpressInterest />
+          {user && <NotInterestedModal />}
+          <ExpressInterestModal />
         </div>
       )
     }
@@ -137,7 +215,7 @@ const StudyShow = ({ user, study, researcher, invitation }) => {
       return (
         <div className="text-center">
           <p className="mb-4">You declined interest in this study. Change your mind?</p>
-          <ExpressInterest />
+          <ExpressInterestModal />
         </div>
       )
     }
@@ -228,6 +306,7 @@ const StudyShow = ({ user, study, researcher, invitation }) => {
           </div>
         </div>
       </div>
+      <LoginRequiredModal />
     </div>
   )
 }

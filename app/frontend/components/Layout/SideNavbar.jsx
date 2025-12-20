@@ -15,7 +15,20 @@ import {
 // TODO: add argument for making it short for mobile
 
 const AppSidebar = ({ user }) => {
-  const participantItems = [
+  const unauthItems = [
+    {
+      title: 'Studies',
+      url: '/p/digital-studies',
+      icon: Computer,
+    },
+    {
+      title: 'Create an account',
+      url: '/signup',
+      icon: UserPlus,
+    },
+  ]
+
+  const participantItems = user && [
     {
       title: 'Home',
       url: user.home_page,
@@ -27,7 +40,7 @@ const AppSidebar = ({ user }) => {
     //   icon: Inbox,
     // },
     {
-      title: 'Digital studies',
+      title: 'Studies',
       url: '/p/digital-studies',
       icon: Computer,
     },
@@ -38,7 +51,7 @@ const AppSidebar = ({ user }) => {
     },
     {
       title: 'My profile',
-      url: `/p/participants/${user?.participant?.id}`,
+      url: `/p/participants/${user.participant?.id}`,
       icon: UserRound,
     },
     // {
@@ -53,7 +66,7 @@ const AppSidebar = ({ user }) => {
     },
   ]
 
-  const researcherItems = [
+  const researcherItems = user && [
     {
       title: 'Home',
       url: user.home_page,
@@ -76,7 +89,7 @@ const AppSidebar = ({ user }) => {
     },
     {
       title: 'My profile',
-      url: `/r/researchers/${user?.researcher?.id}`,
+      url: `/r/researchers/${user.researcher?.id}`,
       icon: UserRound,
     },
     {
@@ -86,7 +99,11 @@ const AppSidebar = ({ user }) => {
     },
   ]
 
-  const menuItems = user.participant ? participantItems : researcherItems
+  const menuItems = () => {
+    if (!user) return unauthItems
+
+    return user.participant ? participantItems : researcherItems
+  }
 
   return (
     <Sidebar collapsible="none">
@@ -97,7 +114,7 @@ const AppSidebar = ({ user }) => {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {menuItems.map(item => (
+              {menuItems().map(item => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <a href={item.url} className="flex items-center gap-2 text-black">
@@ -112,12 +129,14 @@ const AppSidebar = ({ user }) => {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <SidebarMenuButton asChild>
-          <a href={`/logout`} className="flex items-center gap-2 text-black">
-            <LogOut className="h-4 w-4 text-blue-500" />
-            <span>Logout</span>
-          </a>
-        </SidebarMenuButton>
+        {user && (
+          <SidebarMenuButton asChild>
+            <a href={`/logout`} className="flex items-center gap-2 text-black">
+              <LogOut className="h-4 w-4 text-blue-500" />
+              <span>Logout</span>
+            </a>
+          </SidebarMenuButton>
+        )}
       </SidebarFooter>
     </Sidebar>
   )

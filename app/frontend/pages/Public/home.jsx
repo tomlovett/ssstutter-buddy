@@ -44,6 +44,14 @@ const Home = () => {
                 Login
               </a>
             </div>
+            <br />
+            <p className="mt-4 text-gray-600 text-center max-w-3xl mx-auto">
+              Don't have an account? You can still{' '}
+              <a href="/p/digital-studies" className="text-blue-600 hover:underline">
+                view and connect with studies
+              </a>
+              .
+            </p>
           </div>
           <br />
         </div>

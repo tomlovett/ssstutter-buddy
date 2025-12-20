@@ -38,17 +38,18 @@ RSpec.describe 'SessionsController' do
       end
 
       context 'when return_to_after_authenticating is set' do
-        let(:user) { create(:participant).user }
+        let(:user) { create(:user, :participant) }
+        let(:path) { "/p/participants/#{user.participant.id}/edit" }
 
         context 'when the return_to_after_authenticating url is valid' do
           it 'redirects to the return_to_after_authenticating url' do
             # First, trigger the authentication requirement to set the session
-            get '/p/studies/19'
+            get path
 
             # Now login with the session already set
             post '/login', params: params
 
-            expect(response).to redirect_to('/p/studies/19')
+            expect(response).to redirect_to(path)
           end
         end
 

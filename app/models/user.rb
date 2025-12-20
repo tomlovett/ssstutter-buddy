@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
-  has_secure_password
+  has_secure_password validations: false
 
   has_many :sessions, dependent: :destroy
   # User can be associated to a participant or researcher, but not both
@@ -27,10 +27,17 @@ class User < ApplicationRecord
   end
 
   def home_page
-    return '/p' if participant.present?
-    return '/r' if researcher.present?
+    return '/p/digital-studies' if provisional?
 
-    "/u/#{id}/select-role"
+    return "/u/#{id}/select-role" if participant.blank? && researcher.blank?
+
+    if participant.present?
+      return participant.complete? ? '/p' : "/p/participants/#{participant.id}/edit"
+    end
+
+    return if researcher.blank?
+
+    researcher.complete? ? '/r' : "/r/researchers/#{researcher.id}/edit"
   end
 
   def assign_activation_pin!
@@ -53,6 +60,9 @@ class User < ApplicationRecord
   private
 
   def password_required?
+    return false if provisional?
+
+    # Otherwise, require password for new records or when password is being set
     !persisted? || password.present?
   end
 end

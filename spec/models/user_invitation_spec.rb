@@ -40,12 +40,19 @@ RSpec.describe UserInvitation do
         expect(user_invitation.errors[:invited_by_id]).to include('can\'t be blank')
       end
 
-      it 'cannot use an email that belongs to a user' do
+      it 'cannot use an email that belongs to a complete user' do
         create(:user, email: 'test@example.com')
         user_invitation = build(:user_invitation, email: 'test@example.com')
 
         expect(user_invitation).not_to be_valid
         expect(user_invitation.errors[:email]).to include('belongs to an existing user')
+      end
+
+      it 'can use an email that belongs to a provisional user' do
+        create(:user, :provisional, email: 'test@example.com')
+        user_invitation = build(:user_invitation, email: 'test@example.com')
+
+        expect(user_invitation).to be_valid
       end
     end
   end

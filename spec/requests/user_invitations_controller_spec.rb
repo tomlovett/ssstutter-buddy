@@ -61,13 +61,30 @@ RSpec.describe UserInvitationsController do
     end
 
     context 'with existing user record' do
-      before { create(:user, email: 'test@example.com') }
+      context 'when the user is a complete user' do
+        before { create(:user, email: 'test@example.com') }
 
-      it 'does not create a user invitation but returns ok status' do
-        expect { post '/invite', params: { email: 'test@example.com' } }.not_to change(UserInvitation, :count)
+        it 'does not create a user invitation but returns ok status' do
+          expect { post '/invite', params: { email: 'test@example.com' } }.not_to change(UserInvitation, :count)
 
-        expect(UserInvitationMailer).not_to have_received(:with)
-        expect(response).to have_http_status(:ok)
+          expect(UserInvitationMailer).not_to have_received(:with)
+          expect(response).to have_http_status(:ok)
+        end
+      end
+
+      context 'when the user is a provisional user' do
+        before { create(:user, :provisional, email: 'test@example.com') }
+
+        it 'creates a user invitation and returns ok status' do
+          expect { post '/invite', params: { email: 'test@example.com' } }.to change(UserInvitation, :count).by(1)
+
+          expect(UserInvitationMailer).to have_received(:with).with(
+            recipient: 'test@example.com',
+            invited_by_name: user.full_name
+          )
+          expect(response).to have_http_status(:ok)
+          expect(UserInvitation.last.invited_by_id).to eq(user.id)
+        end
       end
     end
   end

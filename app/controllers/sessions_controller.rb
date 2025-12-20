@@ -12,24 +12,26 @@ class SessionsController < ApplicationController
   def new
     Current.session ||= find_session_by_cookie
 
-    return redirect_to Current.user.home_page if Current.user.present?
+    session[:return_to_after_authenticating] = params[:return_to] if params[:return_to].present?
+
+    if Current.user.present?
+      return redirect_to session[:return_to_after_authenticating] if valid_redirect?
+
+      return redirect_to Current.user.home_page
+    end
 
     render inertia: 'u/login'
   end
 
   # POST /login
   def create
-    if (user = User.authenticate_by(params.permit(:email, :password)))
-      start_new_session_for user
+    user = User.authenticate_by(params.permit(:email, :password))
 
-      if valid_redirect_to?(session[:return_to_after_authenticating])
-        redirect_to session[:return_to_after_authenticating]
-      else
-        redirect_to user.home_page
-      end
-    else
-      head :unauthorized, alert: 'Invalid email or password.'
-    end
+    return head :unauthorized, alert: 'Invalid email or password.' if user.blank?
+
+    start_new_session_for user
+
+    redirect_to valid_redirect? ? session[:return_to_after_authenticating] : user.home_page
   end
 
   # GET /logout
@@ -40,7 +42,8 @@ class SessionsController < ApplicationController
 
   private
 
-  def valid_redirect_to?(redirect_to)
-    session[:return_to_after_authenticating].present? && ['/', '/logout'].exclude?(URI.parse(redirect_to).path)
+  def valid_redirect?
+    session[:return_to_after_authenticating].present? &&
+      ['/', '/logout'].exclude?(URI.parse(session[:return_to_after_authenticating]).path)
   end
 end

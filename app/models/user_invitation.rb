@@ -14,6 +14,10 @@ class UserInvitation < ApplicationRecord
   def email_does_not_belong_to_existing_user
     return if email.blank?
 
-    errors.add(:email, 'belongs to an existing user') if User.exists?(email:)
+    errors.add(:email, 'belongs to an existing user') if complete_user_exists?
+  end
+
+  def complete_user_exists?
+    User.exists?(email:) && !User.find_by(email:).provisional?
   end
 end

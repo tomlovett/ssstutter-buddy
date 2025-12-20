@@ -42,16 +42,18 @@ RSpec.describe User do
         expect(user.errors[:last_name]).to include("can't be blank")
       end
 
-      it 'requires password on creation' do
-        user = build(:user, password: nil)
-        expect(user).not_to be_valid
-        expect(user.errors[:password]).to include("can't be blank")
-      end
-
       it 'requires password minimum length' do
         user = build(:user, password: 'short')
         expect(user).not_to be_valid
         expect(user.errors[:password]).to include('is too short (minimum is 8 characters)')
+      end
+    end
+
+    context 'when creating a provisional user' do
+      it 'does not require password' do
+        user = build(:user, :provisional)
+
+        expect(user).to be_valid
       end
     end
   end

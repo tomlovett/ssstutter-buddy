@@ -20,8 +20,8 @@ const Layout = ({ children, notice, alert }) => {
     )
   }
 
-  const userNotOnboarded = !user || (!user.participant && !user.researcher)
-  if (userNotOnboarded) {
+  const isAuthRoute = ['/login', '/signup'].includes(window.location.pathname)
+  if (isAuthRoute) {
     return (
       <div>
         <Head />

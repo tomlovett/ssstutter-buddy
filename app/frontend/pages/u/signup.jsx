@@ -56,6 +56,12 @@ const Signup = ({ user }) => {
           Sign in
         </Link>
       </p>
+      <p className="mt-2 text-center text-sm text-gray-600">
+        Prefer to view studies anonymously?{' '}
+        <Link href="/p/digital-studies" className="font-medium text-indigo-600 hover:text-indigo-500">
+          Click here
+        </Link>
+      </p>
     </div>
   )
 
