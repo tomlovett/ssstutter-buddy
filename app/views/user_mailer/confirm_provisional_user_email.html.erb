@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+      <h1>Confirm Your SSStutterBuddy Account</h1>
+      
+      <p>Hi <%= @user.first_name %>,</p>
+      
+      <p>To complete your account setup, please confirm your email address by clicking the button below:</p>
+      
+      <div style="text-align: center; margin: 30px 0;">
+        <a href="<%= @confirmation_url %>" style="background-color: #2563eb; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold;">
+          Confirm My Account
+        </a>
+      </div>
+      
+      <p><strong>This confirmation link will expire in 10 minutes.</strong></p>
+      
+      <p>If you didn't request this, please ignore this email.</p>
+      
+      <hr style="margin: 30px 0; border: none; border-top: 1px solid #eaeaea;" />
+      
+      <p style="color: #666; font-size: 14px;">
+        Best regards,<br />
+        The SSStutterBuddy Team
+      </p>
+    </div>
+  </body>
+</html>
+

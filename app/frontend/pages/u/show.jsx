@@ -1,3 +1,4 @@
+import { Link } from '@inertiajs/react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@ui/card'
 import { Input } from '@ui/input'
 import { Label } from '@ui/label'
@@ -7,9 +8,9 @@ const UserShow = ({ user }) => {
     <Card className="w-1/2">
       <CardHeader>
         <CardTitle>
-          <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">Hola Muchacho</h3>
+          <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">Your Profile</h3>
         </CardTitle>
-        <CardDescription>Make changes to your account here.</CardDescription>
+        <CardDescription>Make changes to your account here</CardDescription>
       </CardHeader>
       <CardContent className="space-y-2">
         <div className="space-y-1">
@@ -23,6 +24,11 @@ const UserShow = ({ user }) => {
         <div className="space-y-1">
           <Label htmlFor="username">Email</Label>
           <Input id="email" defaultValue={user.email} />
+        </div>
+        <div className="space-y-1 mt-4">
+          <Link href="/change-password" className="text-blue-500 hover:text-blue-600">
+            Change Password
+          </Link>
         </div>
       </CardContent>
     </Card>

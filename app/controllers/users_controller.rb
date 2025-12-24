@@ -51,6 +51,14 @@ class UsersController < ApplicationController
 
   # POST /signup
   def create
+    existing_provisional_user = User.find_by(email: user_params[:email], provisional: true)
+
+    if existing_provisional_user.present?
+      existing_provisional_user.assign_activation_pin!
+      UserMailer.with(user: existing_provisional_user).confirm_provisional_user_email.deliver_later
+      return redirect_to '/await-confirmation'
+    end
+
     @user = User.new(user_params)
 
     if @user.save

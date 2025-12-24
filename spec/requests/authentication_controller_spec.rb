@@ -84,6 +84,58 @@ RSpec.describe 'AuthenticationController' do
     end
   end
 
+  describe 'GET /confirm-provisional' do
+    context 'when logged in' do
+      before { sign_in(user) }
+
+      it 'redirects to the user\'s home page' do
+        get '/confirm-provisional', params: { id: user.id, pin: user.activation_pin }
+
+        expect(response).to have_http_status(:redirect)
+        expect(response).to redirect_to(user.home_page)
+      end
+    end
+
+    context 'when passing an activation pin and id' do
+      context 'with a provisional user with that activation pin' do
+        let(:provisional_user) { create(:user, :provisional, activation_pin:, updated_at: 5.minutes.ago) }
+        let(:activation_pin) { '123456' }
+
+        it 'logs the user in and redirects them to set their password but does not convert them to a regular user' do
+          expect { get '/confirm-provisional', params: { id: provisional_user.id, pin: activation_pin } }
+            .to(change { provisional_user.sessions.count }.by(1))
+
+          expect(provisional_user.reload.provisional).to be true
+          expect(response).to have_http_status(:redirect)
+          expect(response).to redirect_to('/change-password')
+        end
+
+        context 'with an expired link' do
+          let(:provisional_user) { create(:user, :provisional, activation_pin:, updated_at: 11.minutes.ago) }
+
+          it 'does not convert the user and renders the page to request a new email' do
+            expect { get '/confirm-provisional', params: { id: provisional_user.id, pin: activation_pin } }
+              .not_to(change { provisional_user.reload.provisional })
+
+            expect(response).to have_http_status(:success)
+            expect(response.body).to include('u/confirm-provisional')
+          end
+        end
+
+        context 'with an invalid activation code' do
+          it 'renders the page to request a new email' do
+            expect { get '/confirm-provisional', params: { id: provisional_user.id, pin: 'wrong_code' } }
+              .not_to(change { provisional_user.reload.provisional })
+
+            expect(provisional_user.reload.provisional).to be true
+            expect(response).to have_http_status(:success)
+            expect(response.body).to include('u/confirm-provisional')
+          end
+        end
+      end
+    end
+  end
+
   describe 'GET /forgot-password' do
     it 'renders the forgot password page' do
       get '/forgot-password'
@@ -99,6 +151,19 @@ RSpec.describe 'AuthenticationController' do
 
       expect(user.reload.activation_pin).to be_present
       expect(response).to have_http_status(:ok)
+    end
+
+    context 'when the user is a provisional user' do
+      let(:provisional_user) { create(:user, :provisional) }
+
+      it 'sends a provisional confirmation email' do
+        expect do
+          post '/forgot-password', params: { email: provisional_user.email }
+        end.to have_enqueued_mail(UserMailer, :confirm_provisional_user_email)
+
+        expect(provisional_user.reload.activation_pin).to be_present
+        expect(response).to have_http_status(:ok)
+      end
     end
 
     context 'with invalid email' do
@@ -140,6 +205,17 @@ RSpec.describe 'AuthenticationController' do
       expect(response).to have_http_status(:success)
       expect(response.body).to include('u/change-password')
     end
+
+    context 'when not logged in' do
+      before { sign_out }
+
+      it 'redirects to login' do
+        get '/change-password'
+
+        expect(response).to have_http_status(:redirect)
+        expect(response).to redirect_to('/login')
+      end
+    end
   end
 
   describe 'PUT /change-password' do
@@ -151,6 +227,22 @@ RSpec.describe 'AuthenticationController' do
         password_confirmation: 'new_password'
       }
       expect(response).to have_http_status(:redirect)
+    end
+
+    context 'with a provisional user' do
+      let(:user) { create(:user, :provisional) }
+
+      it 'sets the password and removes their provisional status' do
+        expect do
+          put '/change-password', params: {
+            password: 'new_password',
+            password_confirmation: 'new_password'
+          }
+        end.to change { user.reload.provisional }.from(true).to(false)
+
+        expect(response).to have_http_status(:redirect)
+        expect(response).to redirect_to(user.home_page)
+      end
     end
   end
 end
