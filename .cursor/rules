@@ -222,6 +222,7 @@
 - Use email alerts to notify Participants when new in-person or hybrid studies are published in their area
 - Use email notifications when Connections are made between Researchers and Participants
 - Connections are created when Participants express interest in Studies
+- Studies can include autosend settings (autosend_url, autosend_message, autosend_verified_only) that automatically send a survey link and optional message to Participants when they connect to a study. The autosend_url and autosend_message are included in the connection email. If autosend_verified_only is enabled (default: true), the URL is only sent to verified (non-provisional) users, not to anonymous/provisional users browsing the site
 
 ### Location Services
 - Use Geocoder for address geocoding
