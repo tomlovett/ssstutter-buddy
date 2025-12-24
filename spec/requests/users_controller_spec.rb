@@ -46,9 +46,12 @@ RSpec.describe 'UsersController' do
         }
       end
 
-      it 'triggers a ConfirmProvisionalUserEmail email and redirects to the explanatory page' do
+      it 'does not create a new user' do
         expect { post '/signup', params: params }.not_to change(User, :count)
-          .and have_enqueued_mail(UserMailer, :confirm_provisional_user_email)
+      end
+
+      it 'triggers a ConfirmProvisionalUserEmail email and redirects to the explanatory page' do
+        expect { post '/signup', params: params }.to have_enqueued_mail(UserMailer, :confirm_provisional_user_email)
 
         expect(provisional_user.reload.activation_pin).to be_present
         expect(response).to have_http_status(:redirect)

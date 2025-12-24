@@ -56,16 +56,14 @@ class AuthenticationController < ApplicationController
 
     return head :unprocessable_entity if user.blank?
 
-    # if user.confirmed_at.present?
     user.assign_activation_pin!
 
-    UserMailer.with(user:).forgot_password_email.deliver_later
-    # else
-    #   p "confirmation email sent to #{user.email}"
-    #   UserMailer.with(user:).confirmation_email.deliver_later
-    # end
+    if user.provisional?
+      UserMailer.with(user:).confirm_provisional_user_email.deliver_later
+    else
+      UserMailer.with(user:).forgot_password_email.deliver_later
+    end
 
-    # redirect_to login_path, notice: 'Check your email for reset instructions.'
     head :ok
   end
 
@@ -93,5 +91,22 @@ class AuthenticationController < ApplicationController
     else
       head :unprocessable_entity, alert: 'Problem resetting password.'
     end
+  end
+
+  # GET /confirm-provisional
+  def confirm_provisional
+    return redirect_to Current.user.home_page if Current.user.present?
+
+    return render inertia: 'u/confirm-provisional' if params[:id].blank? || params[:pin].blank?
+
+    @user = User.find_by(id: params[:id], provisional: true)
+
+    if @user&.activation_pin == params[:pin] && @user.updated_at > 10.minutes.ago
+      @user.update(provisional: false, activation_pin: nil)
+      start_new_session_for @user
+      return redirect_to @user.home_page
+    end
+
+    render inertia: 'u/confirm-provisional'
   end
 end

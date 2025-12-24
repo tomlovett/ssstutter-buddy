@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   get '/await-confirmation', to: 'authentication#await_confirmation'
   get '/await-confirmation/resend-confirmation', to: 'authentication#resend_confirmation'
   get '/confirm', to: 'authentication#confirm'
+  get '/confirm-provisional', to: 'authentication#confirm_provisional'
 
   #  Routes for forgot password
   get '/forgot-password', to: 'authentication#forgot_password'

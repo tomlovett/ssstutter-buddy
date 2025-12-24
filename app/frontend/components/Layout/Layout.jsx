@@ -20,7 +20,9 @@ const Layout = ({ children, notice, alert }) => {
     )
   }
 
-  const isAuthRoute = ['/login', '/signup'].includes(window.location.pathname)
+  const isAuthRoute = ['/login', '/signup', '/confirm-provisional', '/await-confirmation'].includes(
+    window.location.pathname
+  )
   if (isAuthRoute) {
     return (
       <div>

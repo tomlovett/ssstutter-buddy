@@ -25,6 +25,14 @@ class SessionsController < ApplicationController
 
   # POST /login
   def create
+    provisional_user = User.find_by(email: params[:email], provisional: true)
+
+    if provisional_user.present?
+      provisional_user.assign_activation_pin!
+      UserMailer.with(user: provisional_user).confirm_provisional_user_email.deliver_later
+      return redirect_to '/await-confirmation'
+    end
+
     user = User.authenticate_by(params.permit(:email, :password))
 
     return head :unauthorized, alert: 'Invalid email or password.' if user.blank?
