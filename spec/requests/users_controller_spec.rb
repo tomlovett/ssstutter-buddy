@@ -34,6 +34,28 @@ RSpec.describe 'UsersController' do
       expect(User.last.provisional).to be false
     end
 
+    context 'when submitting an email that belongs to a provisional user' do
+      let!(:provisional_user) { create(:user, :provisional, email: 'provisional@example.com') }
+      let(:params) do
+        {
+          first_name: 'John',
+          last_name: 'Doe',
+          email: 'provisional@example.com',
+          password: 'password123',
+          password_confirmation: 'password123'
+        }
+      end
+
+      it 'triggers a ConfirmProvisionalUserEmail email and redirects to the explanatory page' do
+        expect { post '/signup', params: params }.not_to change(User, :count)
+          .and have_enqueued_mail(UserMailer, :confirm_provisional_user_email)
+
+        expect(provisional_user.reload.activation_pin).to be_present
+        expect(response).to have_http_status(:redirect)
+        expect(response).to redirect_to('/await-confirmation')
+      end
+    end
+
     context 'with invalid params' do
       it 'returns an error' do
         post '/signup', params: { email: 'invalid' }

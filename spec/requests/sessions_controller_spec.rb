@@ -65,6 +65,20 @@ RSpec.describe 'SessionsController' do
       end
     end
 
+    context 'when submitting an email that belongs to a provisional user' do
+      let!(:provisional_user) { create(:user, :provisional, email: 'provisional@example.com') }
+      let(:params) { { email: 'provisional@example.com', password: 'any_password' } }
+
+      it 'triggers a ConfirmProvisionalUserEmail email and redirects to the explanatory page' do
+        expect { post '/login', params: params }.not_to change { provisional_user.sessions.count }
+          .and have_enqueued_mail(UserMailer, :confirm_provisional_user_email)
+
+        expect(provisional_user.reload.activation_pin).to be_present
+        expect(response).to have_http_status(:redirect)
+        expect(response).to redirect_to('/await-confirmation')
+      end
+    end
+
     context 'with invalid credentials' do
       let(:params) { { email: user.email, password: 'wrong_password' } }
 

@@ -11,6 +11,7 @@ FactoryBot.define do
   end
 
   trait :provisional do
+    participant
     provisional { true }
     password { nil }
     password_digest { nil }
