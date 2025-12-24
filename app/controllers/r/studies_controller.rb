@@ -129,6 +129,9 @@ class R::StudiesController < R::BaseController
       :follow_up,
       :remuneration,
       :location_type,
+      :autosend_url,
+      :autosend_message,
+      :autosend_verified_only,
       location_attributes: %i[id city state country _destroy _delete]
     )
   end

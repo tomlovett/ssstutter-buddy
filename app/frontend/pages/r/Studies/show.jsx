@@ -34,6 +34,25 @@ const StudyShow = ({ study, active_connections, invitations, completed_connectio
       <p key="irb_number" className="text-sm text-foreground mb-4">
         <span className="font-medium">IRB number:</span> {study.irb_number}
       </p>
+      {(study.autosend_url || study.autosend_message || study.autosend_verified_only !== undefined) && (
+        <div className="mb-4 p-4 border border-gray-200 rounded-md">
+          <h4 className="font-medium text-sm mb-2">Autosend Settings</h4>
+          {study.autosend_url && (
+            <p className="text-sm text-foreground mb-2">
+              <span className="font-medium">Autosend URL:</span> {study.autosend_url}
+            </p>
+          )}
+          {study.autosend_message && (
+            <p className="text-sm text-foreground mb-2">
+              <span className="font-medium">Autosend Message:</span> {study.autosend_message}
+            </p>
+          )}
+          <p className="text-sm text-foreground">
+            <span className="font-medium">Autosend to verified only:</span>{' '}
+            {study.autosend_verified_only ? 'Yes' : 'No'}
+          </p>
+        </div>
+      )}
       <div className="grid grid-cols-2 gap-4 text-sm">
         <p key="methodologies" className="text-foreground">
           <span className="font-medium">Methodologies:</span> {displayMethodologies(study)}

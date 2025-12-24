@@ -23,6 +23,9 @@ const StudyInProgressSchema = z.object({
   sessions: z.coerce.number().optional(),
   duration: z.string().optional(),
   remuneration: z.coerce.number().optional(),
+  autosend_url: z.string().optional(),
+  autosend_message: z.string().optional(),
+  autosend_verified_only: z.boolean().default(true),
 })
 
 export default StudyInProgressSchema
