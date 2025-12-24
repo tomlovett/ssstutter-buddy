@@ -108,7 +108,11 @@ const AppSidebar = ({ user }) => {
   return (
     <Sidebar collapsible="none">
       <SidebarHeader className="m-0 p-2  bg-blue-500">
-        <SidebarGroupLabel className="text-2xl text-white mb-2">SSStutterBuddy</SidebarGroupLabel>
+        <a href="/" className="no-underline">
+          <SidebarGroupLabel className="text-2xl text-white mb-2">
+            SSStutterBuddy
+          </SidebarGroupLabel>
+        </a>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
