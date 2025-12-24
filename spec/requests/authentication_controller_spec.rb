@@ -158,8 +158,7 @@ RSpec.describe 'AuthenticationController' do
 
       it 'sends a provisional confirmation email' do
         expect do
-          post '/forgot-password',
-               params: { email: provisional_user.email }
+          post '/forgot-password', params: { email: provisional_user.email }
         end.to have_enqueued_mail(UserMailer, :confirm_provisional_user_email)
 
         expect(provisional_user.reload.activation_pin).to be_present

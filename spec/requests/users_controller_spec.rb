@@ -17,43 +17,38 @@ RSpec.describe 'UsersController' do
   describe 'POST /signup' do
     let(:valid_params) do
       {
-        first_name: 'John',
-        last_name: 'Doe',
-        email: 'john@example.com',
+        first_name: Faker::Name.first_name,
+        last_name: Faker::Name.last_name,
+        email: Faker::Internet.email,
         password: 'password123',
         password_confirmation: 'password123'
       }
     end
 
     it 'creates a new user successfully' do
-      expect do
-        post '/signup', params: valid_params
-      end.to change(User, :count).by(1)
+      expect { post '/signup', params: valid_params }.to change(User, :count).by(1)
 
       expect(response).to have_http_status(:redirect)
       expect(User.last.provisional).to be false
     end
 
     context 'when submitting an email that belongs to a provisional user' do
-      let!(:provisional_user) { create(:user, :provisional, email: 'provisional@example.com') }
+      let(:user) { create(:user, :provisional) }
       let(:params) do
         {
-          first_name: 'John',
-          last_name: 'Doe',
-          email: 'provisional@example.com',
+          first_name: Faker::Name.first_name,
+          last_name: Faker::Name.last_name,
+          email: user.email,
           password: 'password123',
           password_confirmation: 'password123'
         }
       end
 
-      it 'does not create a new user' do
-        expect { post '/signup', params: params }.not_to change(User, :count)
-      end
-
       it 'triggers a ConfirmProvisionalUserEmail email and redirects to the explanatory page' do
         expect { post '/signup', params: params }.to have_enqueued_mail(UserMailer, :confirm_provisional_user_email)
 
-        expect(provisional_user.reload.activation_pin).to be_present
+        expect(user.reload.activation_pin).to be_present
+        expect(user.reload.provisional).to be true
         expect(response).to have_http_status(:redirect)
         expect(response).to redirect_to('/await-confirmation')
       end

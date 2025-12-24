@@ -23,8 +23,13 @@ class UserMailer < ApplicationMailer
 
   def confirm_provisional_user_email
     @user = params[:user]
-    @confirmation_url = url_for(controller: 'authentication', action: 'confirm_provisional', id: @user.id,
-                                pin: @user.activation_pin, only_path: false)
+    @confirmation_url = url_for(
+      controller: 'authentication',
+      action: 'confirm_provisional',
+      id: @user.id,
+      pin: @user.activation_pin,
+      only_path: false
+    )
 
     mail(
       to: @user.email,
