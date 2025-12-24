@@ -16,7 +16,7 @@ import {
 } from '@/lib/study'
 import { parseMarkdown } from '@/lib/utils'
 
-const StudyShow = ({ study, active_connections, invitations, completed_connections, declined_count }) => {
+const StudyShow = ({ study, active_connections, invitations, completed_connections }) => {
   const [activePin, setActivePin] = useState('')
 
   const StudyDetails = ({ study }) => (
@@ -116,13 +116,6 @@ const StudyShow = ({ study, active_connections, invitations, completed_connectio
           connections={completed_connections}
           nullStatement="No completed connections for this study yet."
         />
-      </section>
-
-      <section>
-        <h3 className="text-lg font-bold">Declined Connections</h3>
-        <p className="text-sm text-gray-500">
-          {declined_count > 0 ? declined_count : 'No'} participants have declined this study.
-        </p>
       </section>
     </div>
   )

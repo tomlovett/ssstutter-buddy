@@ -24,11 +24,9 @@ class R::StudiesController < R::BaseController
     active_connections = @study.connections.includes(:participant).order(updated_at: :desc).map(&:as_json)
     invitations = @study.invitations.invited.includes(:participant).order(updated_at: :desc).as_json
     completed_connections = @study.connections.includes(:participant).order(updated_at: :desc).completed.map(&:as_json)
-    declined_count = @study.invitations.declined.count
 
     render inertia: 'r/Studies/show',
-           props: { study: @study.as_json, active_connections:, invitations:, completed_connections:,
-                    declined_count: }
+           props: { study: @study.as_json, active_connections:, invitations:, completed_connections: }
   end
 
   # GET /r/studies/closed
