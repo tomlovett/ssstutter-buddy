@@ -27,7 +27,7 @@ class User < ApplicationRecord
   end
 
   def home_page
-    return '/p/digital-studies' if provisional?
+    return '/change-password' if provisional?
 
     return "/u/#{id}/select-role" if participant.blank? && researcher.blank?
 

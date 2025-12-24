@@ -81,12 +81,16 @@ class AuthenticationController < ApplicationController
 
   # GET /change-password
   def change_password
+    return redirect_to '/login' if Current.user.blank?
+
     render inertia: 'u/change-password'
   end
 
   # PUT /change-password
   def change_password_action
     if Current.user.update(params.permit(:password, :password_confirmation))
+      Current.user.update(provisional: false, activation_pin: nil) if Current.user.provisional?
+
       redirect_to Current.user.home_page, notice: 'Password has been changed!'
     else
       head :unprocessable_entity, alert: 'Problem resetting password.'
@@ -102,9 +106,8 @@ class AuthenticationController < ApplicationController
     @user = User.find_by(id: params[:id], provisional: true)
 
     if @user&.activation_pin == params[:pin] && @user.updated_at > 10.minutes.ago
-      @user.update(provisional: false, activation_pin: nil)
       start_new_session_for @user
-      return redirect_to @user.home_page
+      return redirect_to '/change-password'
     end
 
     render inertia: 'u/confirm-provisional'

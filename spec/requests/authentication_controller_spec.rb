@@ -101,14 +101,13 @@ RSpec.describe 'AuthenticationController' do
         let(:provisional_user) { create(:user, :provisional, activation_pin:, updated_at: 5.minutes.ago) }
         let(:activation_pin) { '123456' }
 
-        it 'converts the user to regular and redirects the user to their home page' do
+        it 'logs the user in and redirects them to set their password but does not convert them to a regular user' do
           expect { get '/confirm-provisional', params: { id: provisional_user.id, pin: activation_pin } }
-            .to change { provisional_user.reload.provisional }.from(true).to(false)
-            .and change { provisional_user.sessions.count }.by(1)
+            .to(change { provisional_user.sessions.count }.by(1))
 
-          expect(provisional_user.reload.activation_pin).to be_nil
+          expect(provisional_user.reload.provisional).to be true
           expect(response).to have_http_status(:redirect)
-          expect(response).to redirect_to(provisional_user.home_page)
+          expect(response).to redirect_to('/change-password')
         end
 
         context 'with an expired link' do
@@ -207,6 +206,17 @@ RSpec.describe 'AuthenticationController' do
       expect(response).to have_http_status(:success)
       expect(response.body).to include('u/change-password')
     end
+
+    context 'when not logged in' do
+      before { sign_out }
+
+      it 'redirects to login' do
+        get '/change-password'
+
+        expect(response).to have_http_status(:redirect)
+        expect(response).to redirect_to('/login')
+      end
+    end
   end
 
   describe 'PUT /change-password' do
@@ -218,6 +228,22 @@ RSpec.describe 'AuthenticationController' do
         password_confirmation: 'new_password'
       }
       expect(response).to have_http_status(:redirect)
+    end
+
+    context 'with a provisional user' do
+      let(:user) { create(:user, :provisional) }
+
+      it 'sets the password and removes their provisional status' do
+        expect do
+          put '/change-password', params: {
+            password: 'new_password',
+            password_confirmation: 'new_password'
+          }
+        end.to change { user.reload.provisional }.from(true).to(false)
+
+        expect(response).to have_http_status(:redirect)
+        expect(response).to redirect_to(user.home_page)
+      end
     end
   end
 end
