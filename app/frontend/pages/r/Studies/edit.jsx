@@ -14,15 +14,7 @@ import FormTextarea from '@/components/ui/custom/formTextarea'
 import FormRadioGroup from '@/components/ui/custom/formRadioGroup'
 import FormMarkdownEditor from '@/components/ui/custom/formMarkdownEditor'
 import { postRequest, putRequest } from '@/lib/api'
-import {
-  ageRange,
-  displayLocationShort,
-  displayRemuneration,
-  validateStudy,
-  timeline,
-  status,
-  statusText,
-} from '@/lib/study'
+import { ageRange, validateStudy, timeline, status, statusText } from '@/lib/study'
 import StudyInProgressSchema from '@/schemas/StudyInProgress'
 
 const topFormFields = [

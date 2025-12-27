@@ -7,8 +7,10 @@ class ConnectionMailer < ApplicationMailer
     @participant = @connection.participant
     @researcher = @study.researcher
 
-    subject = "SSStutterBuddy: New Connection - #{@study.title}"
+    @participant.user # Eager load the user to avoid N+1 queries
+    @show_autosend_url = @study.autosend_url.present? &&
+                         !(@study.autosend_verified_only && @participant.user.provisional?)
 
-    mail(to: [@participant.email, @researcher.email], subject:)
+    mail(to: [@participant.email, @researcher.email], subject: "New connection - #{@study.title}")
   end
 end
