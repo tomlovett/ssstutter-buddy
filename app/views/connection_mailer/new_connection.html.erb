@@ -24,7 +24,7 @@
       <% end %>
       <% if @show_autosend_url %>
         <p>
-          <%= @researcher.first_name %> has <%# if @autosend_message.present? %>also <%# end %>included the following link for you: <a href="<%= @study.autosend_url %>"><%= @study.autosend_url %></a>
+          <%= @researcher.first_name %> has <% if @study.autosend_message.present? %>also <% end %>included the following link for you: <a href="<%= @study.autosend_url %>"><%= @study.autosend_url %></a>
         </p>
       <% end %>
     </div>
