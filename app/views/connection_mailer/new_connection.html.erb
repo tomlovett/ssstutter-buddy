@@ -5,41 +5,46 @@
   </head>
   <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.5; color: #333; max-width: 900px; margin: 20px auto; padding: 20px;">
     <div style="text-align: left; padding: 20px;">
-      <h1 style="margin-bottom: 10px; text-align: center;">New connection!</h1>
       <p style="font-size: 16px; margin-bottom: 20px;">
-        Congrats! <%= @participant.first_name %> has expressed interest in the study below!
+        <%= @participant.first_name %> has expressed interest in the study below!
       </p>
-      <p style="font-size: 16px; margin-bottom: 20px;">
-        We are so excited! SSStutterBuddy exists to connect PWS like you with researchers.
-      </p>
-      <p style="font-size: 16px; margin-bottom: 20px;">
-        <%= @researcher.first_name %> &mdash; CC'd on this email &mdash; will contact you soon to arrange completion of the study.
-      </p>
+      <% if @study.autosend_message.present? %>
+        <p>
+          <%= @researcher.first_name %> has included the following message for you:
+        </p>
+        <div style="background-color: #e5e7eb; border-radius: 8px; padding: 20px; margin-bottom: 20px; width: 80%; margin-left: auto; margin-right: auto;">
+          <p>
+            <i><%= @study.autosend_message %></i>
+          </p>
+        </div>
+      <% else %>
+        <p style="font-size: 16px; margin-bottom: 20px;">
+          <%= @researcher.first_name %> &mdash; CC'd on this email &mdash; will contact you soon to arrange completion of the study.
+        </p>
+      <% end %>
+      <% if @show_autosend_url %>
+        <p>
+          <%= @researcher.first_name %> has <% if @study.autosend_message.present? %>also <% end %>included the following link for you: <a href="<%= @study.autosend_url %>"><%= @study.autosend_url %></a>
+        </p>
+      <% end %>
     </div>
 
-    <div style="border-top: 1px solid #000000; margin: 20px 0;"></div>
+    <!-- <div style="border-top: 1px solid #000000; margin: 20px 0;"></div> -->
 
-    <div style=" border-radius: 8px; padding: 20px; margin-bottom: 20px;">
-      <p style="font-size: 16px; margin-bottom: 20px;">
-        Your PIN for this connection is <span style="font-family: monospace; text-decoration: underline;"><%= @connection.pin %></span>
-      </p>
-      <p style="font-size: 16px; margin-bottom: 20px;">
-        You may be asked to enter this PIN to ensure the quality of the data.
-      </p>
-    </div>
+    <!-- <div style=" border-radius: 8px; padding: 20px; margin-bottom: 20px;"> -->
+    <!--   <p style="font-size: 16px; margin-bottom: 20px;"> -->
+    <!--     Your PIN for this connection is <span style="font-family: monospace; text-decoration: underline;"><%= @connection.pin %></span> -->
+    <!--     <br> -->
+    <!--     You may be asked to enter this PIN to ensure the quality of the data. -->
+    <!--   </p> -->
+    <!-- </div> -->
+
+    <p>Thank you for supporting stuttering research!</p>
 
     <div style="background-color: #f8fafc; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
       <h2 style="margin-top: 0;"><%= @study.title %></h2>
       
       <p style="font-size: 16px; margin-bottom: 20px;"><%= @study.short_desc %></p>
-
-      <div style="margin-bottom: 20px;">
-        <ul style="list-style: none; padding: 0; margin: 0;">
-          <li style="margin-bottom: 8px;">
-            <strong>Location:</strong> <%= @study.short_addr %>
-          </li>
-        </ul>
-      </div>
 
       <div style="text-align: center;">
         <a href="<%= p_study_url(@study) %>" style="display: inline-block; background-color: #2563eb; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: 500;">

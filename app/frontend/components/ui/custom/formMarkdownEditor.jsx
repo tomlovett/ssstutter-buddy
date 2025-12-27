@@ -4,7 +4,7 @@ import rehypeSanitize from 'rehype-sanitize'
 
 import { FormControl, FormDescription, FormField, FormItem, FormLabel } from '@/components/ui/form'
 
-const MarkdownEditorField = ({ field, placeholder, ...props }) => (
+const MarkdownEditorField = ({ field, ...props }) => (
   <div className="border border-black" data-color-mode="light">
     <MDEditor
       value={field.value || ''}
