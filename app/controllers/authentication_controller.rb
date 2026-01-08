@@ -73,10 +73,9 @@ class AuthenticationController < ApplicationController
 
     return redirect_to forgot_password_path, alert: 'Invalid password reset link.' if @user.nil?
 
-    @user.update(activation_pin: nil)
     start_new_session_for @user
 
-    redirect_to change_password_path, notice: 'Your password has been reset. Please enter a new one.'
+    redirect_to change_password_path, notice: 'Your password has been reset. Please set a new one.'
   end
 
   # GET /change-password
@@ -89,7 +88,7 @@ class AuthenticationController < ApplicationController
   # PUT /change-password
   def change_password_action
     if Current.user.update(params.permit(:password, :password_confirmation))
-      Current.user.update(provisional: false, activation_pin: nil) if Current.user.provisional?
+      Current.user.update(provisional: false) if Current.user.provisional?
 
       redirect_to Current.user.home_page, notice: 'Password has been changed!'
     else
