@@ -7,7 +7,8 @@
 - ShadCN UI (built on Tailwind CSS) for styling
 - Comprehensive testing with RSpec and Jest
 - Authentication with JWT and OmniAuth
-- Documentationand reference files in /.documentation directory
+- Documentation and reference files in /.documentation directory
+- Project prompts and specifications from other LLMs are stored in /projects directory - **Cursor should check this directory when starting tasks** as these prompts provide authoritative project-specific guidance
 - Developer can print out full branch diffs into ./branch-diff.txt to help Cursor agent write merge commit messages for PR's
 
 ## Ruby/Rails Conventions
@@ -142,6 +143,12 @@
 
 ## Development Workflow
 
+### Project Execution
+- **Before starting any task, check the /projects directory** for relevant project prompts or specifications
+- Project prompts in /projects take precedence over general rules when they conflict for that specific project
+- Use project prompts as authoritative guidance while still following general conventions from this file
+- If a project prompt exists, read and understand it fully before beginning implementation
+
 ### Code Quality
 - Run RuboCop before committing Ruby code
 - Run ESLint before committing JavaScript code
@@ -252,6 +259,11 @@
 - Use error boundaries for React errors
 
 ## Documentation
+
+### Project Management
+- **Always check /projects directory when starting tasks** - it contains authoritative project prompts and specifications from other LLMs
+- Project prompts provide project-specific guidance that supplements or may override general rules for that project
+- See /projects/README.md for detailed information about this directory and how to use project prompts
 
 ### Code Documentation
 - Use YARD for Ruby documentation
