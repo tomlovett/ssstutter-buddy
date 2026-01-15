@@ -39,6 +39,8 @@
 - Use PostgreSQL as the database
 - Follow Rails naming conventions for tables and columns
 - Use migrations for all database changes
+- **ALWAYS use `rails g migration` command to generate new database migrations - NEVER manually create migration files**
+- **ALWAYS run `rubocop -A` on migration files after creating or modifying them**
 - Use seeds.rb for initial data
 - NEVER run migrations created by Cursor agent without explicit developer confirmation
 - If a generated migration needs changes: rollback the migration first, then edit it - do NOT create a new migration to override the first one
