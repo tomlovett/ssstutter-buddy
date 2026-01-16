@@ -11,6 +11,7 @@ This document provides a comprehensive technical reference for the authenticatio
 **File:** `app/frontend/components/Layout/Layout.jsx`
 
 #### Before
+
 ```jsx
 if (isAuthRoute) {
   return (
@@ -24,6 +25,7 @@ if (isAuthRoute) {
 ```
 
 #### After
+
 ```jsx
 if (isAuthRoute) {
   return (
@@ -38,12 +40,14 @@ if (isAuthRoute) {
 ```
 
 #### Key Changes:
+
 1. **Layout Structure**: Changed from simple div to flexbox column layout with `min-h-screen bg-slate-50 flex flex-col`
 2. **PublicHeader Integration**: Added `PublicHeader` component to provide consistent navigation across auth pages
 3. **Centering Logic**: Moved centering from individual pages to Layout component using `flex-1 flex items-center justify-center p-4`
 4. **Background Color**: Applied `bg-slate-50` for consistent background across all auth routes
 
 #### Technical Rationale:
+
 - Centralizes layout logic, removing redundant centering code from individual pages
 - Ensures consistent header presence across all authentication flows
 - Provides proper vertical centering using flexbox without requiring individual page wrappers
@@ -58,15 +62,15 @@ if (isAuthRoute) {
 #### Structural Changes
 
 **Before:**
+
 ```jsx
 <div className="flex min-h-screen items-center justify-center">
-  <div className="w-full max-w-md space-y-8 rounded-lg bg-white p-8 shadow-lg">
-    {/* content */}
-  </div>
+  <div className="w-full max-w-md space-y-8 rounded-lg bg-white p-8 shadow-lg">{/* content */}</div>
 </div>
 ```
 
 **After:**
+
 ```jsx
 <Card className="w-full max-w-md">
   <CardHeader>
@@ -74,23 +78,23 @@ if (isAuthRoute) {
       Sign in to your account
     </CardTitle>
   </CardHeader>
-  <CardContent>
-    {/* content */}
-  </CardContent>
+  <CardContent>{/* content */}</CardContent>
 </Card>
 ```
 
 #### Typography Updates
 
 **Heading:**
+
 - **Before**: `text-3xl font-bold tracking-tight text-gray-900`
 - **After**: `text-3xl font-extrabold tracking-tight font-display text-slate-900`
-- **Changes**: 
+- **Changes**:
   - `font-bold` → `font-extrabold` (increased weight)
   - `text-gray-900` → `text-slate-900` (color system migration)
   - Added `font-display` (Lexend font family)
 
 **Body Text:**
+
 - **Before**: `text-sm text-gray-600`
 - **After**: `font-sans text-slate-600`
 - **Changes**:
@@ -100,6 +104,7 @@ if (isAuthRoute) {
 #### Color System Migration
 
 **Links:**
+
 - **Before**: `text-indigo-600 hover:text-indigo-500`
 - **After**: `text-blue-600 hover:text-blue-500`
 - **Rationale**: Aligns with design system using blue as primary accent color
@@ -107,6 +112,7 @@ if (isAuthRoute) {
 #### Button Updates
 
 **Before:**
+
 ```jsx
 <Button type="submit" className="w-full">
   Sign in
@@ -114,6 +120,7 @@ if (isAuthRoute) {
 ```
 
 **After:**
+
 ```jsx
 <Button
   type="submit"
@@ -126,6 +133,7 @@ if (isAuthRoute) {
 ```
 
 **Changes:**
+
 - Added explicit color classes: `bg-blue-600 hover:bg-blue-700`
 - Added `size="lg"` for consistent button sizing
 - Added `disabled={form.formState.isSubmitting}` to prevent double submissions
@@ -136,6 +144,7 @@ if (isAuthRoute) {
 2. **Footer navigation links** - Removed "Back to homepage" and "View studies anonymously" links (streamlined focus)
 
 #### Component Imports Added
+
 ```jsx
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 ```
@@ -147,29 +156,28 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 #### Structural Changes
 
 **Before:**
+
 ```jsx
 <div className="flex min-h-screen items-center justify-center">
-  <div className="w-full max-w-md space-y-8 rounded-lg bg-white p-8 shadow-lg">
-    {/* content */}
-  </div>
+  <div className="w-full max-w-md space-y-8 rounded-lg bg-white p-8 shadow-lg">{/* content */}</div>
 </div>
 ```
 
 **After:**
+
 ```jsx
 <Card className="w-full max-w-md">
   <CardHeader>
     <ModalHeader />
   </CardHeader>
-  <CardContent>
-    {/* content */}
-  </CardContent>
+  <CardContent>{/* content */}</CardContent>
 </Card>
 ```
 
 #### Alert Component Integration
 
 **Before:**
+
 ```jsx
 <div className="space-y-4 text-sm text-gray-600">
   <div>
@@ -178,26 +186,24 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
     </Label>
     <br />
     <br />
-    <Label>
-      If you are signing up as a researcher...
-    </Label>
+    <Label>If you are signing up as a researcher...</Label>
   </div>
 </div>
 ```
 
 **After:**
+
 ```jsx
 <Alert variant="info">
   <AlertDescription className="font-sans text-slate-600">
     <div className="space-y-2">
       <p>
-        If you are signing up as a <strong>researcher</strong>, please use an email address
-        associated with your institution.
+        If you are signing up as a <strong>researcher</strong>, please use an email address associated with
+        your institution.
       </p>
       <p>
-        If you plan to sign up as both <strong>researcher</strong> and{' '}
-        <strong>participant</strong>, use two separate email addresses to create two separate
-        accounts.
+        If you plan to sign up as both <strong>researcher</strong> and <strong>participant</strong>, use two
+        separate email addresses to create two separate accounts.
       </p>
     </div>
   </AlertDescription>
@@ -205,6 +211,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 ```
 
 **Key Changes:**
+
 - Wrapped instructions in `Alert` component with `variant="info"`
 - Reordered content (researcher instructions first, then both roles)
 - Changed `<b>` tags to `<strong>` for semantic HTML
@@ -214,11 +221,13 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 #### Button Updates
 
 **Cancel Button:**
+
 - **Before**: Custom styled link with `bg-gray-100 hover:bg-gray-200`
 - **After**: `Button variant="outline" asChild` wrapping Link component
 - **Rationale**: Better visual hierarchy and consistency with design system
 
 **Submit Button:**
+
 - Added `bg-blue-600 hover:bg-blue-700`
 - Added `size="lg"`
 - Added `disabled={form.formState.isSubmitting}`
@@ -226,10 +235,12 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 #### Typography Updates
 
 **Heading:**
+
 - Updated to `text-3xl font-extrabold tracking-tight font-display text-slate-900`
 - Removed "Already have an account? Sign in" link from header
 
 #### Component Imports Added
+
 ```jsx
 import { Card, CardHeader, CardContent } from '@/components/ui/card'
 import { Alert, AlertDescription } from '@/components/ui/alert'
@@ -244,6 +255,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert'
 #### State Management Addition
 
 **New State:**
+
 ```jsx
 const [isSubmitted, setIsSubmitted] = useState(false)
 ```
@@ -253,6 +265,7 @@ const [isSubmitted, setIsSubmitted] = useState(false)
 #### Success State Implementation
 
 **Before:**
+
 ```jsx
 await postRequest('/forgot-password', data).then(() => {
   toast('If an account exists with this email, you will receive login instructions.', {
@@ -262,6 +275,7 @@ await postRequest('/forgot-password', data).then(() => {
 ```
 
 **After:**
+
 ```jsx
 const onSubmit = async data => {
   try {
@@ -275,22 +289,24 @@ const onSubmit = async data => {
 ```
 
 **Conditional Rendering:**
+
 ```jsx
-{isSubmitted ? (
-  <Alert variant="info" className="mb-6">
-    <MailCheck className="h-4 w-4" />
-    <AlertDescription className="font-sans text-slate-600">
-      If an account exists with this email, you will receive login instructions.
-    </AlertDescription>
-  </Alert>
-) : (
-  <Form {...form}>
-    {/* form content */}
-  </Form>
-)}
+{
+  isSubmitted ? (
+    <Alert variant="info" className="mb-6">
+      <MailCheck className="h-4 w-4" />
+      <AlertDescription className="font-sans text-slate-600">
+        If an account exists with this email, you will receive login instructions.
+      </AlertDescription>
+    </Alert>
+  ) : (
+    <Form {...form}>{/* form content */}</Form>
+  )
+}
 ```
 
 **Key Changes:**
+
 - Replaced toast notification with inline Alert component
 - Added `MailCheck` icon from lucide-react for visual context
 - Alert persists on page (no auto-dismiss)
@@ -299,13 +315,12 @@ const onSubmit = async data => {
 #### Structural Changes
 
 **Before:**
+
 ```jsx
 <div className="flex min-h-screen items-center justify-center">
   <div className="w-full max-w-md space-y-8 rounded-lg bg-white p-8 shadow-lg">
     <div>
-      <h2 className="text-center text-3xl font-bold tracking-tight text-gray-900">
-        Reset your password
-      </h2>
+      <h2 className="text-center text-3xl font-bold tracking-tight text-gray-900">Reset your password</h2>
       <p className="mt-2 text-center text-sm text-gray-600">
         Enter your email address and we'll send you an email to reset your password.
       </p>
@@ -316,6 +331,7 @@ const onSubmit = async data => {
 ```
 
 **After:**
+
 ```jsx
 <Card className="w-full max-w-md">
   <CardHeader>
@@ -323,19 +339,19 @@ const onSubmit = async data => {
       Reset your password
     </CardTitle>
   </CardHeader>
-  <CardContent>
-    {/* conditional content */}
-  </CardContent>
+  <CardContent>{/* conditional content */}</CardContent>
 </Card>
 ```
 
 **Removed:**
+
 - Descriptive paragraph text from CardHeader (user modification)
 - Outer wrapper div with centering (handled by Layout)
 
 #### Navigation Link Update
 
 **Before:**
+
 ```jsx
 <Link href="/login" className="font-medium text-indigo-600 hover:text-indigo-500">
   Back to login
@@ -343,6 +359,7 @@ const onSubmit = async data => {
 ```
 
 **After:**
+
 ```jsx
 <Button variant="link" asChild>
   <Link href="/login" className="font-medium text-blue-600">
@@ -352,6 +369,7 @@ const onSubmit = async data => {
 ```
 
 **Changes:**
+
 - Wrapped in Button component with `variant="link"`
 - Updated color from `text-indigo-600` to `text-blue-600`
 - Removed `hover:text-indigo-500` (handled by Button variant)
@@ -359,9 +377,11 @@ const onSubmit = async data => {
 #### Button Width Modification
 
 **User Modification:**
+
 - Button width changed from `w-full` to `w-1/2` (half-width button)
 
 #### Component Imports Added
+
 ```jsx
 import { useState } from 'react'
 import { MailCheck } from 'lucide-react'
@@ -376,28 +396,25 @@ import { Alert, AlertDescription } from '@/components/ui/alert'
 #### Layout Cleanup
 
 **Before:**
+
 ```jsx
 <div className="min-h-screen bg-gray-100">
-  <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-    {/* content */}
-  </div>
+  <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">{/* content */}</div>
   <PublicFooter />
 </div>
 ```
 
 **After:**
+
 ```jsx
 <Card className="w-full max-w-md">
-  <CardHeader className="text-center">
-    {/* content */}
-  </CardHeader>
-  <CardContent>
-    {/* content */}
-  </CardContent>
+  <CardHeader className="text-center">{/* content */}</CardHeader>
+  <CardContent>{/* content */}</CardContent>
 </Card>
 ```
 
 **Removed:**
+
 - `min-h-screen bg-gray-100` (handled by Layout component)
 - `PublicFooter` component (not needed in auth layout)
 - Custom max-width container with padding
@@ -405,6 +422,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert'
 #### Icon Integration
 
 **Added:**
+
 ```jsx
 <div className="flex justify-center mb-4">
   <MailOpen className="h-16 w-16 text-blue-600" />
@@ -412,6 +430,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert'
 ```
 
 **Purpose:**
+
 - Provides immediate visual context for "check your email" action
 - Large icon (64x64px) draws attention
 - Blue color matches design system
@@ -419,6 +438,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert'
 #### Input Component Migration
 
 **Before:**
+
 ```jsx
 <input
   type="email"
@@ -430,16 +450,13 @@ import { Alert, AlertDescription } from '@/components/ui/alert'
 ```
 
 **After:**
+
 ```jsx
-<Input
-  type="email"
-  value={email}
-  onChange={e => setEmail(e.target.value)}
-  placeholder="Email"
-/>
+<Input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="Email" />
 ```
 
 **Benefits:**
+
 - Consistent styling with other form inputs
 - Automatic focus states and accessibility
 - Reduced custom CSS
@@ -447,6 +464,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert'
 #### Button Update
 
 **Before:**
+
 ```jsx
 <button
   onClick={handleResend}
@@ -457,6 +475,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert'
 ```
 
 **After:**
+
 ```jsx
 <Button onClick={handleResend} variant="outline" className="w-full">
   Resend confirmation email
@@ -464,6 +483,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert'
 ```
 
 **Changes:**
+
 - Replaced custom button with shadcn Button component
 - Changed to `variant="outline"` for secondary action styling
 - Full width (`w-full`) for better mobile UX
@@ -472,10 +492,12 @@ import { Alert, AlertDescription } from '@/components/ui/alert'
 #### Typography Updates
 
 **Heading:**
+
 - Updated to `text-3xl font-extrabold tracking-tight font-display text-slate-900`
 - Body text updated to `font-sans text-slate-600`
 
 #### Component Imports Added
+
 ```jsx
 import { MailOpen } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -484,6 +506,7 @@ import { Input } from '@/components/ui/input'
 ```
 
 #### Component Imports Removed
+
 ```jsx
 import PublicFooter from '@/components/Layout/PublicFooter'
 ```
@@ -495,6 +518,7 @@ import PublicFooter from '@/components/Layout/PublicFooter'
 #### Layout Cleanup
 
 **Before:**
+
 ```jsx
 <div className="min-h-screen">
   <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8 text-center">
@@ -511,6 +535,7 @@ import PublicFooter from '@/components/Layout/PublicFooter'
 ```
 
 **After:**
+
 ```jsx
 <Card className="w-full max-w-md">
   <CardHeader className="text-center">
@@ -521,13 +546,12 @@ import PublicFooter from '@/components/Layout/PublicFooter'
       Check your email
     </CardTitle>
   </CardHeader>
-  <CardContent>
-    {/* content */}
-  </CardContent>
+  <CardContent>{/* content */}</CardContent>
 </Card>
 ```
 
 **Removed:**
+
 - `min-h-screen` wrapper (handled by Layout)
 - Descriptive paragraph "Please check your email for a confirmation link" (user modification)
 - "Back to Home Page" link (user modification)
@@ -536,6 +560,7 @@ import PublicFooter from '@/components/Layout/PublicFooter'
 #### Icon Integration
 
 **Added:**
+
 ```jsx
 <div className="flex justify-center mb-4">
   <CheckCircle2 className="h-16 w-16 text-green-600" />
@@ -543,6 +568,7 @@ import PublicFooter from '@/components/Layout/PublicFooter'
 ```
 
 **Purpose:**
+
 - Visual indicator of successful progress
 - Green color (`text-green-600`) signifies success/completion
 - Large size (64x64px) for visibility
@@ -550,6 +576,7 @@ import PublicFooter from '@/components/Layout/PublicFooter'
 #### Input Component Migration
 
 **Before:**
+
 ```jsx
 <input
   type="email"
@@ -561,18 +588,15 @@ import PublicFooter from '@/components/Layout/PublicFooter'
 ```
 
 **After:**
+
 ```jsx
-<Input
-  type="email"
-  value={email}
-  onChange={e => setEmail(e.target.value)}
-  placeholder="Email"
-/>
+<Input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="Email" />
 ```
 
 #### Button Update
 
 **Before:**
+
 ```jsx
 <Button onClick={handleRequestNewEmail} className="mt-3">
   Send new confirmation email
@@ -580,6 +604,7 @@ import PublicFooter from '@/components/Layout/PublicFooter'
 ```
 
 **After:**
+
 ```jsx
 <Button onClick={handleRequestNewEmail} className="w-full" size="lg">
   Send new confirmation email
@@ -587,10 +612,12 @@ import PublicFooter from '@/components/Layout/PublicFooter'
 ```
 
 **Changes:**
+
 - Added `w-full` for full-width button
 - Added `size="lg"` for consistent sizing
 
 #### Component Imports Added
+
 ```jsx
 import { CheckCircle2 } from 'lucide-react'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
@@ -598,8 +625,9 @@ import { Input } from '@/components/ui/input'
 ```
 
 #### Component Imports Removed
+
 ```jsx
-import { Link } from '@inertiajs/react'  // No longer needed
+import { Link } from '@inertiajs/react' // No longer needed
 ```
 
 ---
@@ -609,6 +637,7 @@ import { Link } from '@inertiajs/react'  // No longer needed
 ### Typography
 
 #### Headings
+
 - **Font Family**: `font-display` (Lexend)
 - **Size**: `text-3xl`
 - **Weight**: `font-extrabold`
@@ -616,6 +645,7 @@ import { Link } from '@inertiajs/react'  // No longer needed
 - **Color**: `text-slate-900`
 
 **Example:**
+
 ```jsx
 <CardTitle className="text-center text-3xl font-extrabold tracking-tight font-display text-slate-900">
   Page Title
@@ -623,40 +653,46 @@ import { Link } from '@inertiajs/react'  // No longer needed
 ```
 
 #### Body Text
+
 - **Font Family**: `font-sans` (Inter)
 - **Color**: `text-slate-600` (secondary) or `text-slate-900` (primary)
 
 **Example:**
+
 ```jsx
-<p className="font-sans text-slate-600">
-  Body text content
-</p>
+<p className="font-sans text-slate-600">Body text content</p>
 ```
 
 ### Color System Migration
 
 #### Primary Text
+
 - **Before**: `text-gray-900`
 - **After**: `text-slate-900`
 
 #### Secondary Text
+
 - **Before**: `text-gray-600`
 - **After**: `text-slate-600`
 
 #### Accent Colors (Links, Buttons)
+
 - **Before**: `text-indigo-600`, `bg-indigo-600`, `hover:bg-indigo-700`
 - **After**: `text-blue-600`, `bg-blue-600`, `hover:bg-blue-700`
 
 #### Success Indicators
+
 - **Icon Color**: `text-green-600` (CheckCircle2 icon)
 
 ### Component Sizing
 
 #### Cards
+
 - **Width**: `max-w-md` (28rem / 448px) - consistent across all auth pages
 - **Container**: `w-full` to allow responsive behavior
 
 #### Buttons
+
 - **Primary Actions**: `size="lg"` with `bg-blue-600 hover:bg-blue-700`
 - **Secondary Actions**: `variant="outline"`
 - **Tertiary Actions**: `variant="link"` or `variant="ghost"`
@@ -664,6 +700,7 @@ import { Link } from '@inertiajs/react'  // No longer needed
 ### Spacing
 
 #### Card Structure
+
 - **CardHeader**: Contains title and optional description
 - **CardContent**: Contains form fields and actions
 - **Internal Spacing**: `space-y-6` for form fields, `space-y-4` for grouped content
@@ -675,17 +712,20 @@ import { Link } from '@inertiajs/react'  // No longer needed
 ### New shadcn/ui Components Used
 
 1. **Card** (`@/components/ui/card`)
+
    - `Card`: Main container
    - `CardHeader`: Header section with title
    - `CardTitle`: Title component
    - `CardContent`: Main content area
 
 2. **Alert** (`@/components/ui/alert`)
+
    - `Alert`: Container with variant support
    - `AlertDescription`: Content wrapper
    - **Variant Added**: `info` variant for informational messages
 
 3. **Input** (`@/components/ui/input`)
+
    - Replaces native HTML input elements
    - Consistent styling and focus states
 
@@ -713,11 +753,13 @@ import { Link } from '@inertiajs/react'  // No longer needed
 ### Loading States
 
 All submit buttons now include:
+
 ```jsx
 disabled={form.formState.isSubmitting}
 ```
 
 **Purpose:**
+
 - Prevents double submissions
 - Provides visual feedback during async operations
 - Improves UX by disabling button during processing
@@ -725,6 +767,7 @@ disabled={form.formState.isSubmitting}
 ### Validation
 
 Existing Zod validation schemas maintained:
+
 - `LoginSchema` - Email and password validation
 - `ForgotPasswordSchema` - Email validation
 - `UserSchema` - Signup form validation
@@ -734,10 +777,12 @@ Form error display handled by `FormInput` component using `FormMessage`.
 ### State Management
 
 #### Forgot Password Page
+
 - Added `isSubmitted` state to toggle between form and success message
 - Replaces toast notifications with persistent Alert component
 
 #### Other Pages
+
 - Continue using React Hook Form's built-in state management
 - No additional state required for conditional rendering
 
@@ -746,16 +791,19 @@ Form error display handled by `FormInput` component using `FormMessage`.
 ## Accessibility Considerations
 
 ### Semantic HTML
+
 - Replaced `<b>` tags with `<strong>` in Alert content
 - Proper heading hierarchy maintained
 - Button components provide proper ARIA attributes
 
 ### Focus Management
+
 - shadcn Input components include proper focus states
 - Button components handle keyboard navigation
 - Form submission accessible via Enter key
 
 ### Visual Indicators
+
 - Icons provide visual context alongside text
 - Color contrast maintained (slate-900 on slate-50 background)
 - Button states (hover, disabled) clearly visible
@@ -765,11 +813,13 @@ Form error display handled by `FormInput` component using `FormMessage`.
 ## Performance Implications
 
 ### Bundle Size
+
 - Additional shadcn/ui components add minimal bundle size
 - Lucide React icons are tree-shakeable
 - No new heavy dependencies added
 
 ### Rendering
+
 - Card components use CSS for styling (no runtime overhead)
 - Conditional rendering in forgot-password page is lightweight
 - No performance regressions expected
@@ -779,15 +829,18 @@ Form error display handled by `FormInput` component using `FormMessage`.
 ## Migration Notes
 
 ### Breaking Changes
+
 None - all changes are UI-only, no API or routing changes.
 
 ### Backward Compatibility
+
 - All existing form submission logic maintained
 - React Hook Form integration unchanged
 - API endpoints unchanged
 - Route paths unchanged
 
 ### Testing Considerations
+
 1. **Visual Regression**: All pages have new layouts - visual testing recommended
 2. **Form Submission**: Verify all forms still submit correctly
 3. **Loading States**: Test button disabled states during submission
@@ -799,6 +852,7 @@ None - all changes are UI-only, no API or routing changes.
 ## Future Maintenance
 
 ### Adding New Auth Pages
+
 When adding new authentication-related pages:
 
 1. **Layout**: Use Card component with `max-w-md` width
@@ -808,13 +862,17 @@ When adding new authentication-related pages:
 5. **Loading States**: Always include `disabled={form.formState.isSubmitting}`
 
 ### Updating Design System
+
 If design system colors change:
+
 - Search for `text-slate-*` and `bg-blue-*` classes
 - Update Alert `info` variant if blue color changes
 - Maintain contrast ratios for accessibility
 
 ### Component Updates
+
 If shadcn/ui components are updated:
+
 - Review Card component API changes
 - Check Alert variant support
 - Verify Button variant behavior
@@ -825,6 +883,7 @@ If shadcn/ui components are updated:
 ## File Change Summary
 
 ### Modified Files
+
 1. `app/frontend/components/Layout/Layout.jsx` - Global auth layout
 2. `app/frontend/pages/u/login.jsx` - Login page refactor
 3. `app/frontend/pages/u/signup.jsx` - Signup page refactor
@@ -833,9 +892,11 @@ If shadcn/ui components are updated:
 6. `app/frontend/pages/u/confirm-provisional.jsx` - Confirm provisional refactor
 
 ### New Components Added
+
 1. `app/frontend/components/ui/alert.tsx` - Alert component with info variant
 
 ### Dependencies
+
 - No new npm packages required (all components from existing shadcn/ui setup)
 - Lucide React icons already in dependencies
 
@@ -844,6 +905,7 @@ If shadcn/ui components are updated:
 ## Code Examples
 
 ### Standard Auth Page Structure
+
 ```jsx
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -873,23 +935,21 @@ const AuthPage = () => {
 ```
 
 ### Alert Usage Pattern
+
 ```jsx
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { MailCheck } from 'lucide-react'
-
-<Alert variant="info" className="mb-6">
+;<Alert variant="info" className="mb-6">
   <MailCheck className="h-4 w-4" />
-  <AlertDescription className="font-sans text-slate-600">
-    Informational message content
-  </AlertDescription>
+  <AlertDescription className="font-sans text-slate-600">Informational message content</AlertDescription>
 </Alert>
 ```
 
 ### Icon Integration Pattern
+
 ```jsx
 import { IconName } from 'lucide-react'
-
-<CardHeader className="text-center">
+;<CardHeader className="text-center">
   <div className="flex justify-center mb-4">
     <IconName className="h-16 w-16 text-blue-600" />
   </div>

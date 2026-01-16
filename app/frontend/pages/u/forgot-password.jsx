@@ -47,8 +47,11 @@ const ForgotPassword = () => {
     <Card className="w-full max-w-md">
       <CardHeader>
         <CardTitle className="text-center text-3xl font-extrabold tracking-tight font-display text-slate-900">
-          Reset your password
+          Forgot your password?
         </CardTitle>
+        <p className="mt-4 font-sans text-slate-600">
+          Enter your email address and we'll send you an email to reset your password.
+        </p>
       </CardHeader>
       <CardContent>
         {isSubmitted ? (
@@ -65,7 +68,7 @@ const ForgotPassword = () => {
                 <FormInput key={name} form={form} name={name} placeholder={placeholder} type={type} />
               ))}
 
-              <div>
+              <div className="flex justify-center">
                 <Button
                   type="submit"
                   className="w-1/2 bg-blue-600 hover:bg-blue-700"

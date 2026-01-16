@@ -54,7 +54,7 @@ class AuthenticationController < ApplicationController
 
     user = User.find_by(email: params[:email])
 
-    return head :ok
+    return head :ok if user.blank?
 
     user.assign_activation_pin!
 
