@@ -31,9 +31,10 @@ const Layout = ({ children, notice, alert }) => {
   ].includes(window.location.pathname)
   if (isAuthRoute) {
     return (
-      <div>
+      <div className="min-h-screen bg-slate-50 flex flex-col">
         <Head />
-        <main className="p-6 justify-center">{children}</main>
+        <PublicHeader />
+        <main className="flex-1 flex items-center justify-center p-4">{children}</main>
         <Toaster />
       </div>
     )

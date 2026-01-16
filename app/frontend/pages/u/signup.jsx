@@ -3,8 +3,10 @@ import { toast } from 'sonner'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
+import { Button } from '@/components/ui/button'
+import { Card, CardHeader, CardContent } from '@/components/ui/card'
+import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Form } from '@/components/ui/form'
-import { Label } from '@/components/ui/label'
 import FormInput from '@/components/ui/custom/formInput'
 import UserSchema from '@/schemas/User'
 
@@ -49,16 +51,12 @@ const Signup = ({ user }) => {
 
   const ModalHeader = () => (
     <div>
-      <h2 className="text-center text-3xl font-bold tracking-tight text-gray-900">Create your account</h2>
-      <p className="mt-2 text-center text-sm text-gray-600">
-        Already have an account?{' '}
-        <Link href="/login" className="font-medium text-indigo-600 hover:text-indigo-500">
-          Sign in
-        </Link>
-      </p>
-      <p className="mt-2 text-center text-sm text-gray-600">
+      <h2 className="text-center text-3xl font-extrabold tracking-tight font-display text-slate-900">
+        Create your account
+      </h2>
+      <p className="mt-2 text-center text-sm font-sans text-slate-600">
         Prefer to view studies anonymously?{' '}
-        <Link href="/p/digital-studies" className="font-medium text-indigo-600 hover:text-indigo-500">
+        <Link href="/p/digital-studies" className="font-medium text-blue-600 hover:text-blue-500">
           Click here
         </Link>
       </p>
@@ -66,48 +64,50 @@ const Signup = ({ user }) => {
   )
 
   return (
-    <div className="flex min-h-screen items-center justify-center">
-      <div className="w-full max-w-md space-y-8 rounded-lg bg-white p-8 shadow-lg">
+    <Card className="w-full max-w-md">
+      <CardHeader>
         <ModalHeader />
+      </CardHeader>
+      <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(sendCreateRequest)} className="space-y-6">
             {formFieldData.map(({ name, placeholder, type }) => (
               <FormInput key={name} form={form} name={name} placeholder={placeholder} type={type} />
             ))}
 
-            <div className="space-y-4 text-sm text-gray-600">
-              <div>
-                <Label>
-                  If you plan to sign up as both researcher <b>and</b> participant, use two separate email
-                  addresses to create two separate accounts.
-                </Label>
-                <br />
-                <br />
-                <Label>
-                  If you are signing up as a researcher, please use an email address associated with your
-                  institution.
-                </Label>
-              </div>
-            </div>
+            <Alert variant="info">
+              <AlertDescription className="font-sans text-slate-600">
+                <div className="space-y-2">
+                  <p>
+                    If you are signing up as a <strong>researcher</strong>, please use an email address
+                    associated with your institution.
+                  </p>
+                  <p>
+                    If you plan to sign up as both <strong>researcher</strong> and{' '}
+                    <strong>participant</strong>, use two separate email addresses to create two separate
+                    accounts.
+                  </p>
+                </div>
+              </AlertDescription>
+            </Alert>
 
             <div className="flex gap-4 mt-8 w-full">
-              <Link
-                href={`/u/${user.id}/edit`}
-                className="flex-1 px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-semibold transition-colors text-center"
-              >
-                Cancel
-              </Link>
-              <button
+              <Button variant="outline" asChild className="flex-1">
+                <Link href={`/u/${user.id}/edit`}>Cancel</Link>
+              </Button>
+              <Button
                 type="submit"
-                className="flex-1 px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-semibold transition-colors"
+                className="flex-1 bg-blue-600 hover:bg-blue-700"
+                size="lg"
+                disabled={form.formState.isSubmitting}
               >
                 Next
-              </button>
+              </Button>
             </div>
           </form>
         </Form>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   )
 }
 

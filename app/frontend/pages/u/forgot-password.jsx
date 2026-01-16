@@ -1,11 +1,14 @@
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link } from '@inertiajs/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { postRequest } from '@/lib/api'
-import { toast } from 'sonner'
+import { MailCheck } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Form } from '@/components/ui/form'
 import FormInput from '@/components/ui/custom/formInput'
 
@@ -22,6 +25,7 @@ const formFieldData = [
 ]
 
 const ForgotPassword = () => {
+  const [isSubmitted, setIsSubmitted] = useState(false)
   const form = useForm({
     resolver: zodResolver(ForgotPasswordSchema),
     defaultValues: {
@@ -32,45 +36,58 @@ const ForgotPassword = () => {
   const onSubmit = async data => {
     try {
       await postRequest('/forgot-password', data).then(() => {
-        toast('If an account exists with this email, you will receive login instructions.', {
-          duration: 5000,
-        })
+        setIsSubmitted(true)
       })
     } catch (_error) {
-      toast('Something went wrong. Please try again.', { duration: 5000 })
+      // Error handling can be added here if needed
     }
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center">
-      <div className="w-full max-w-md space-y-8 rounded-lg bg-white p-8 shadow-lg">
-        <div>
-          <h2 className="text-center text-3xl font-bold tracking-tight text-gray-900">Reset your password</h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Enter your email address and we&apos;ll send you an email to reset your password.
-          </p>
+    <Card className="w-full max-w-md">
+      <CardHeader>
+        <CardTitle className="text-center text-3xl font-extrabold tracking-tight font-display text-slate-900">
+          Reset your password
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        {isSubmitted ? (
+          <Alert variant="info" className="mb-6">
+            <MailCheck className="h-4 w-4" />
+            <AlertDescription className="font-sans text-slate-600">
+              If an account exists with this email, you will receive login instructions.
+            </AlertDescription>
+          </Alert>
+        ) : (
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              {formFieldData.map(({ name, placeholder, type }) => (
+                <FormInput key={name} form={form} name={name} placeholder={placeholder} type={type} />
+              ))}
+
+              <div>
+                <Button
+                  type="submit"
+                  className="w-1/2 bg-blue-600 hover:bg-blue-700"
+                  size="lg"
+                  disabled={form.formState.isSubmitting}
+                >
+                  Send Reset Email
+                </Button>
+              </div>
+            </form>
+          </Form>
+        )}
+
+        <div className="text-center text-sm mt-6">
+          <Button variant="link" asChild>
+            <Link href="/login" className="font-medium text-blue-600">
+              Back to login
+            </Link>
+          </Button>
         </div>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            {formFieldData.map(({ name, placeholder, type }) => (
-              <FormInput key={name} form={form} name={name} placeholder={placeholder} type={type} />
-            ))}
-
-            <div>
-              <Button type="submit" className="w-full">
-                Send Reset Email
-              </Button>
-            </div>
-
-            <div className="text-center text-sm">
-              <Link href="/login" className="font-medium text-indigo-600 hover:text-indigo-500">
-                Back to login
-              </Link>
-            </div>
-          </form>
-        </Form>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   )
 }
 
