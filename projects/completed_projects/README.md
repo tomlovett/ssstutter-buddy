@@ -5,6 +5,7 @@ This directory contains completed project prompts and specifications. Projects a
 ## Project Structure
 
 Each completed project subdirectory contains:
+
 - **`README.md`**: A summary document that serves as a passdown for the entire project
   - Provides an overview of what was implemented
   - Documents key decisions, patterns, and approaches used
@@ -14,6 +15,7 @@ Each completed project subdirectory contains:
 ## When to Check This Directory
 
 **Immediately check this directory when:**
+
 1. **Starting a similar feature** - Look for completed projects that implemented comparable functionality
 2. **Encountering unfamiliar code patterns** - Find the project that introduced them to understand the reasoning
 3. **Making architectural decisions** - Review how similar problems were solved previously
@@ -37,6 +39,7 @@ Each completed project subdirectory contains:
 ## Value for LLM Assistants
 
 Completed projects provide:
+
 - **Quick context** - The `README.md` in each project gives you immediate understanding of what was built
 - **Decision rationale** - Understand why certain approaches were chosen over alternatives
 - **Consistency patterns** - See how similar features were implemented to maintain codebase consistency
@@ -46,6 +49,7 @@ Completed projects provide:
 ## Search Strategy
 
 When looking for relevant completed projects:
+
 - Check project subdirectory names for keywords matching your current task
 - Read multiple project READMEs if working on a complex feature that may span several areas
 - Look for projects that mention similar technologies, patterns, or user flows

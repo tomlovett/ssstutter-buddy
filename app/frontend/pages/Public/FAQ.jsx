@@ -1,19 +1,26 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import PublicFooter from '@/components/Layout/PublicFooter'
 
-const FAQ = () => (
-  <div className="min-h-screen bg-gray-100">
-    <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold text-gray-900">FAQ</h1>
-        <div className="mt-8 max-w-3xl mx-auto">
-          <Accordion type="single" collapsible className="bg-white rounded-lg">
+const FAQ = () => {
+  return (
+    <div className="min-h-screen bg-white">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div className="text-center mb-12">
+          <h1 className="text-5xl font-extrabold tracking-tight font-display text-slate-900">
+            Frequently Asked Questions
+          </h1>
+          <p className="mt-4 text-xl text-slate-600 font-sans">
+            Everything you need to know about SSStutterBuddy
+          </p>
+        </div>
+        <div className="max-w-3xl mx-auto">
+          <Accordion type="single" collapsible className="w-full">
             <AccordionItem value="public">
-              <AccordionTrigger className="text-lg font-medium text-gray-900 px-4 py-5 ">
+              <AccordionTrigger className="text-lg font-medium text-slate-900 px-4 py-5 hover:no-underline">
                 Will people know that I am on SSStutterBuddy?
               </AccordionTrigger>
               <AccordionContent className="px-4 pb-5">
-                <p className="text-gray-600 whitespace-pre-line text-left">
+                <p className="text-slate-600 whitespace-pre-line text-left font-sans">
                   No. SSStutterBuddy is a sealed environment. No data on participants, studies, or researchers
                   is publicly available.
                   <br />
@@ -28,11 +35,11 @@ const FAQ = () => (
             </AccordionItem>
 
             <AccordionItem value="mydata">
-              <AccordionTrigger className="text-lg font-medium text-gray-900 px-4 py-5">
+              <AccordionTrigger className="text-lg font-medium text-slate-900 px-4 py-5 hover:no-underline">
                 What will researchers be able to see about me?
               </AccordionTrigger>
               <AccordionContent className="px-4 pb-5">
-                <p className="text-gray-600 whitespace-pre-line text-left">
+                <p className="text-slate-600 whitespace-pre-line text-left font-sans">
                   A researcher will not be able to see any information about you unless you express interest
                   in one of their studies.
                   <br />
@@ -52,11 +59,11 @@ const FAQ = () => (
             </AccordionItem>
 
             <AccordionItem value="money">
-              <AccordionTrigger className="text-lg font-medium text-gray-900 px-4 py-5">
+              <AccordionTrigger className="text-lg font-medium text-slate-900 px-4 py-5 hover:no-underline">
                 How does SSStutterBuddy make money?
               </AccordionTrigger>
               <AccordionContent className="px-4 pb-5">
-                <p className="text-gray-600 whitespace-pre-line text-left">
+                <p className="text-slate-600 whitespace-pre-line text-left font-sans">
                   That's the neat part. <span className="font-semibold">It doesn't.</span> SSStutterBuddy does
                   not take any of the compensation given to study participants, nor does it charge researchers
                   for posting studies.
@@ -70,11 +77,11 @@ const FAQ = () => (
             </AccordionItem>
 
             <AccordionItem value="costs">
-              <AccordionTrigger className="text-lg font-medium text-gray-900 px-4 py-5">
+              <AccordionTrigger className="text-lg font-medium text-slate-900 px-4 py-5 hover:no-underline">
                 But building a web application is expensive. How can SSStutterBuddy do it without money?
               </AccordionTrigger>
               <AccordionContent className="px-4 pb-5">
-                <p className="text-gray-600 whitespace-pre-line text-left">
+                <p className="text-slate-600 whitespace-pre-line text-left font-sans">
                   The most expensive part of creating a new web application is not the technology,{' '}
                   <span className="font-semibold">it's paying the developers who write the code.</span>
                   <br />
@@ -91,11 +98,11 @@ const FAQ = () => (
             </AccordionItem>
 
             <AccordionItem value="location">
-              <AccordionTrigger className="text-lg font-medium text-gray-900 px-4 py-5">
+              <AccordionTrigger className="text-lg font-medium text-slate-900 px-4 py-5 hover:no-underline">
                 I live in ____. Can I still join SSStutterBuddy?
               </AccordionTrigger>
               <AccordionContent className="px-4 pb-5">
-                <p className="text-gray-600 whitespace-pre-line text-left">
+                <p className="text-slate-600 whitespace-pre-line text-left font-sans">
                   <span className="font-semibold">Yes!</span> SSStutterBuddy is available for PWS and
                   researchers all over the world. Our location-matching algorithm services 251 different
                   countries!
@@ -108,11 +115,11 @@ const FAQ = () => (
             </AccordionItem>
 
             <AccordionItem value="compensation">
-              <AccordionTrigger className="text-lg font-medium text-gray-900 px-4 py-5">
+              <AccordionTrigger className="text-lg font-medium text-slate-900 px-4 py-5 hover:no-underline">
                 Do I have to accept the money for participating in a study?
               </AccordionTrigger>
               <AccordionContent className="px-4 pb-5">
-                <p className="text-gray-600 whitespace-pre-line text-left">
+                <p className="text-slate-600 whitespace-pre-line text-left font-sans">
                   Most institutions require that researchers <i>give</i> you the advertised remuneration. That
                   said, you may have to take it but you don't have to keep it.
                   <br />
@@ -124,10 +131,10 @@ const FAQ = () => (
             </AccordionItem>
           </Accordion>
         </div>
-      </div>
+      </section>
+      <PublicFooter />
     </div>
-    <PublicFooter />
-  </div>
-)
+  )
+}
 
 export default FAQ
