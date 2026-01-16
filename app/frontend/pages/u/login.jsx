@@ -6,6 +6,7 @@ import { postRequest } from '@/lib/api'
 import { toast } from 'sonner'
 
 import { Button } from '@/components/ui/button'
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Form } from '@/components/ui/form'
 import FormInput from '@/components/ui/custom/formInput'
 
@@ -45,19 +46,13 @@ const Login = () => {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center">
-      <div className="w-full max-w-md space-y-8 rounded-lg bg-white p-8 shadow-lg">
-        <div>
-          <h2 className="text-center text-3xl font-bold tracking-tight text-gray-900">
-            Sign in to your account
-          </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Or{' '}
-            <Link href="/signup" className="font-medium text-indigo-600 hover:text-indigo-500">
-              create a new account
-            </Link>
-          </p>
-        </div>
+    <Card className="w-full max-w-md">
+      <CardHeader>
+        <CardTitle className="text-center text-3xl font-extrabold tracking-tight font-display text-slate-900">
+          Sign in to your account
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             {formFieldData.map(({ name, placeholder, type }) => (
@@ -66,33 +61,26 @@ const Login = () => {
 
             <div className="flex items-center justify-end">
               <div className="text-sm">
-                <Link href="/forgot-password" className="font-medium text-indigo-600 hover:text-indigo-500">
+                <Link href="/forgot-password" className="font-medium text-blue-600 hover:text-blue-500">
                   Forgot your password?
                 </Link>
               </div>
             </div>
 
             <div>
-              <Button type="submit" className="w-full">
+              <Button
+                type="submit"
+                className="w-full bg-blue-600 hover:bg-blue-700"
+                size="lg"
+                disabled={form.formState.isSubmitting}
+              >
                 Sign in
               </Button>
             </div>
           </form>
         </Form>
-
-        <div className="text-center text-sm text-gray-600">
-          <Link href="/home" className="font-medium text-indigo-600 hover:text-indigo-500">
-            Back to homepage
-          </Link>
-          <br />
-          <i>or</i>
-          <br />
-          <Link href="/p/digital-studies" className="font-medium text-indigo-600 hover:text-indigo-500">
-            View studies anonymously
-          </Link>
-        </div>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   )
 }
 
