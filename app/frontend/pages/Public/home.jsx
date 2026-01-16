@@ -44,16 +44,16 @@ const Home = () => {
       {/* Value Proposition Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 bg-slate-50">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Card 1: The Missing Link */}
+          {/* Card 1: We need YOU! */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-2xl font-display">The Missing Link</CardTitle>
+              <CardTitle className="text-2xl font-display">We need YOU!</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-slate-600 font-sans">
                 You might be surprised, but the biggest impediment to stuttering research is usually not
-                funding, research ideas, even technology — it's finding enough PWS to participate in the
-                study!
+                funding, research ideas, or even technology —{' '}
+                <strong> it's finding enough PWS to participate in the study!</strong>
               </p>
             </CardContent>
           </Card>
