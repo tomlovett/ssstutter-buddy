@@ -1,34 +1,21 @@
 import React from 'react'
-import { Link } from '@inertiajs/react'
 
 const PublicFooter = () => (
-  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
-    <div className="text-gray-600 text-center text-lg">
-      <Link href="/" className="hover:text-gray-900">
-        Home
-      </Link>
-      {' | '}
-      <Link href="/p/digital-studies" className="hover:text-gray-900">
-        View Studies
-      </Link>
-      {' | '}
-      <Link href="/faq" className="hover:text-gray-900">
-        FAQ
-      </Link>
-      {' | '}
-      <Link href="/participants" className="hover:text-gray-900">
-        For PWS
-      </Link>
-      {' | '}
-      <Link href="/researchers" className="hover:text-gray-900">
-        For Researchers
-      </Link>
-      {' | '}
-      <a href="mailto:support@ssstutterbuddy.com" className="hover:text-gray-900">
-        Contact Us
-      </a>
+  <footer className="border-t border-slate-200 bg-white">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="text-slate-600 text-center text-sm font-sans">
+        <p>© {new Date().getFullYear()} SSStutterBuddy. All rights reserved.</p>
+        <p className="mt-2">
+          <a
+            href="mailto:support@ssstutterbuddy.com"
+            className="text-blue-600 hover:text-blue-700 hover:underline"
+          >
+            support@ssstutterbuddy.com
+          </a>
+        </p>
+      </div>
     </div>
-  </div>
+  </footer>
 )
 
 export default PublicFooter

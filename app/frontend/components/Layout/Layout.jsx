@@ -4,18 +4,20 @@ import { Toaster, toast } from 'sonner'
 
 import { SidebarProvider } from '@/components/ui/sidebar'
 import SideNavbar from '@/components/Layout/SideNavbar'
+import PublicHeader from '@/components/Layout/PublicHeader'
 
 const Layout = ({ children, notice, alert }) => {
   const { user } = usePage().props
 
-  const publicRoutes = ['/', '/about', '/faq', '/researchers', '/participants']
+  const publicRoutes = ['/', '/faq', '/researchers', '/participants']
   const isPublicRoute = publicRoutes.includes(window.location.pathname)
 
   if (isPublicRoute) {
     return (
-      <div>
+      <div className="flex flex-col min-h-screen">
         <Head />
-        <main className="flex-1 max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">{children}</main>
+        <PublicHeader />
+        <main className="flex-1">{children}</main>
       </div>
     )
   }
