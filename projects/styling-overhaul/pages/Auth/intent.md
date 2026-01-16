@@ -1,63 +1,114 @@
-UI/UX Overhaul Intent: Authentication & Onboarding
-(shadcn/ui Optimized)
+# UI/UX Overhaul Intent: Authentication & Onboarding
+## shadcn/ui Optimized
 
-1. Project Objective
-   Modernize the authentication flow and post-registration onboarding pages. The goal is to replace the current standard HTML forms and basic layouts with high-trust, centered card interfaces using shadcn/ui, consistent with the established slate and blue design system.
+---
 
-2. Global Auth Layout Refactor
-   File: app/frontend/components/Layout/Layout.jsx
+## 1. Project Objective
 
-Background: Update the isAuthRoute wrapper to use min-h-screen bg-slate-50 flex items-center justify-center p-4.
+Modernize the authentication flow and post-registration onboarding pages. The goal is to replace the current standard HTML forms and basic layouts with high-trust, centered card interfaces using shadcn/ui, consistent with the established slate and blue design system.
 
-Redundancy: Ensure the PublicHeader is present but consider a "minimalist" version for auth routes to keep users focused on the form.
+---
 
-3. Page-Specific Implementations
-   Login (/login) & Sign Up (/signup)
-   Container: Use a shadcn Card component with a max-w-md width.
+## 2. Global Auth Layout Refactor
 
-Typography: \* Headings: text-3xl font-extrabold tracking-tight font-display text-slate-900.
+**File:** `app/frontend/components/Layout/Layout.jsx`
 
-Body/Labels: font-sans text-slate-600.
+### Background
+Update the `isAuthRoute` wrapper to use:
+- `min-h-screen bg-slate-50 flex items-center justify-center p-4`
 
-Form Components: Replace custom styled inputs with shadcn Form, FormControl, FormItem, and FormLabel.
+### PublicHeader
+- Ensure the `PublicHeader` is present
+- Consider a "minimalist" version for auth routes to keep users focused on the form
 
-Sign Up Context: Use a shadcn Alert (variant: info) to wrap the researcher/participant email instructions currently in the Label tags of signup.jsx.
+---
 
-Actions: Standardize primary buttons to bg-blue-600 hover:bg-blue-700.
+## 3. Page-Specific Implementations
 
-Forgot Password (/forgot-password)
-Component: shadcn Card.
+### Login (`/login`) & Sign Up (`/signup`)
 
-Success State: Upon submission, use a shadcn Alert with a MailCheck icon to display the "login instructions sent" message without forcing a full page redirect.
+#### Container
+- Use a shadcn `Card` component with a `max-w-md` width
 
-Navigation: Ensure the "Back to login" link uses Button variant="link" for a cleaner look.
+#### Typography
+- **Headings:** `text-3xl font-extrabold tracking-tight font-display text-slate-900`
+- **Body/Labels:** `font-sans text-slate-600`
 
-Await Confirmation (/await-confirmation)
-Layout: Remove the bg-gray-100 and use the centralized AuthLayout.
+#### Form Components
+- Replace custom styled inputs with shadcn `Form`, `FormControl`, `FormItem`, and `FormLabel`
 
-Visuals: Add a large MailOpen icon (Lucide) above the "Account created!" heading to provide immediate visual context.
+#### Sign Up Context
+- Use a shadcn `Alert` (variant: info) to wrap the researcher/participant email instructions currently in the `Label` tags of `signup.jsx`
 
-Input Styling: Convert the native email input to a shadcn Input component.
+#### Actions
+- Standardize primary buttons to `bg-blue-600 hover:bg-blue-700`
 
-Action: Style "Resend confirmation email" as a Button variant="outline".
+---
 
-Confirm Provisional (/confirm-provisional)
-Structure: Wrap the current text in a Card centered on the page.
+### Forgot Password (`/forgot-password`)
 
-Visuals: Add a CheckCircle2 icon in green to signify successful progress.
+#### Component
+- Use shadcn `Card`
 
-Navigation: Update "Back to Home Page" to a standard button or a high-visibility link centered at the bottom.
+#### Success State
+- Upon submission, use a shadcn `Alert` with a `MailCheck` icon to display the "login instructions sent" message without forcing a full page redirect
 
-Change Password (/change-password)
-Consistency: Refactor to use the same max-w-md Card layout as Login/Signup instead of the custom flex column.
+#### Navigation
+- Ensure the "Back to login" link uses `Button variant="link"` for a cleaner look
 
-Cancel Action: Update the "Cancel" link to use Button variant="ghost" or variant="outline" for better visual hierarchy against the "Change Password" submit button.
+---
 
-4. Implementation Checklist for Cursor
-   Initialize Components: Ensure form, label, input, alert, and card are added via npx shadcn-ui@latest.
+### Await Confirmation (`/await-confirmation`)
 
-Typography Mapping: Replace all instances of text-gray-900 with text-slate-900 and text-indigo-600 with text-blue-600.
+#### Layout
+- Remove the `bg-gray-100` and use the centralized `AuthLayout`
 
-Loading States: Add disabled={form.formState.isSubmitting} to all submit buttons to prevent double-posts.
+#### Visuals
+- Add a large `MailOpen` icon (Lucide) above the "Account created!" heading to provide immediate visual context
 
-Zod Integration: Maintain existing zodResolver logic but ensure FormMessage is used to display errors.
+#### Input Styling
+- Convert the native email input to a shadcn `Input` component
+
+#### Action
+- Style "Resend confirmation email" as a `Button variant="outline"`
+
+---
+
+### Confirm Provisional (`/confirm-provisional`)
+
+#### Structure
+- Wrap the current text in a `Card` centered on the page
+
+#### Visuals
+- Add a `CheckCircle2` icon in green to signify successful progress
+
+#### Navigation
+- Update "Back to Home Page" to a standard button or a high-visibility link centered at the bottom
+
+---
+
+### Change Password (`/change-password`)
+
+#### Consistency
+- Refactor to use the same `max-w-md` `Card` layout as Login/Signup instead of the custom flex column
+
+#### Cancel Action
+- Update the "Cancel" link to use `Button variant="ghost"` or `variant="outline"` for better visual hierarchy against the "Change Password" submit button
+
+---
+
+## 4. Implementation Checklist for Cursor
+
+1. **Initialize Components**
+   - Ensure `form`, `label`, `input`, `alert`, and `card` are added via `npx shadcn-ui@latest`
+
+2. **Typography Mapping**
+   - Replace all instances of `text-gray-900` with `text-slate-900`
+   - Replace all instances of `text-indigo-600` with `text-blue-600`
+
+3. **Loading States**
+   - Add `disabled={form.formState.isSubmitting}` to all submit buttons to prevent double-posts
+
+4. **Zod Integration**
+   - Maintain existing `zodResolver` logic
+   - Ensure `FormMessage` is used to display errors
