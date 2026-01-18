@@ -54,13 +54,6 @@ const Layout = ({ children, notice, alert }) => {
         <SideNavbar user={user} />
         <div className="flex-1">
           <Head title="SSStutterBuddy" />
-          <div className="bg-gray-100 p-4">
-            <strong>SSStutterBuddy is still in early beta</strong>, please be patient.
-            <br />
-            Please report any bugs or issues to support@ssstutterbuddy.com
-            <br />
-            Thank you for your patience and thank you for being here!
-          </div>
           <main className="p-6 overflow-y-auto h-full">
             {/* <SidebarTrigger /> */}
             {children}
