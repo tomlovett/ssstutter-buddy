@@ -2,7 +2,7 @@ import React from 'react'
 import { Head, usePage } from '@inertiajs/react'
 import { Toaster, toast } from 'sonner'
 
-import { SidebarProvider } from '@/components/ui/sidebar'
+import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import SideNavbar from '@/components/Layout/SideNavbar'
 import PublicHeader from '@/components/Layout/PublicHeader'
 
@@ -52,12 +52,15 @@ const Layout = ({ children, notice, alert }) => {
     <SidebarProvider>
       <div className="flex h-screen w-full">
         <SideNavbar user={user} />
-        <div className="flex-1">
+        <div className="flex min-w-0 flex-1 flex-col">
           <Head title="SSStutterBuddy" />
-          <main className="p-6 overflow-y-auto h-full">
-            {/* <SidebarTrigger /> */}
-            {children}
-          </main>
+          <div className="md:hidden bg-blue-600 text-white p-4 rounded-bl-xl sticky top-0 z-40 flex h-12 items-center gap-2 border-b border-slate-200 px-4 backdrop-blur-md">
+            <SidebarTrigger />
+            <div className="ml-auto flex justify-end gap-2 px-2 py-1">
+              <div className="font-display font-semibold text-2xl">SSStutterBuddy</div>
+            </div>
+          </div>
+          <main className="min-h-0 flex-1 overflow-y-auto p-6">{children}</main>
           <Toaster duration={8000} />
         </div>
       </div>

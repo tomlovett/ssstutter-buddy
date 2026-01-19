@@ -1,10 +1,24 @@
-import { Computer, Home, Inbox, LogOut, Settings, UserRound, UserPlus } from 'lucide-react'
+import React from 'react'
+import { Link, usePage } from '@inertiajs/react'
+import {
+  BadgeCheck,
+  FolderOpen,
+  HeartHandshake,
+  LayoutDashboard,
+  LogIn,
+  LogOut,
+  Settings2,
+  Telescope,
+  UserCircle,
+  Users,
+} from 'lucide-react'
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
   SidebarHeader,
+  SidebarRail,
   SidebarMenuItem,
   SidebarMenuButton,
   SidebarMenu,
@@ -12,134 +26,143 @@ import {
   SidebarGroupContent,
 } from '@/components/ui/sidebar'
 
-// TODO: add argument for making it short for mobile
+const AppSidebar = ({ user, className }) => {
+  const { url } = usePage()
 
-const AppSidebar = ({ user }) => {
-  const unauthItems = [
-    {
-      title: 'Studies',
-      url: '/p/digital-studies',
-      icon: Computer,
+  const isActive = React.useCallback(
+    path => {
+      if (!path) return false
+      if (path === '/') return url === '/'
+      return url.startsWith(path)
     },
+    [url]
+  )
+
+  const guest = [
     {
-      title: 'Create an account',
-      url: '/signup',
-      icon: UserPlus,
+      label: 'Browsing Anonymously',
+      items: [{ title: 'View Studies', url: '/p/digital-studies', icon: Telescope }],
     },
   ]
 
-  const participantItems = user && [
+  const participant = [
     {
-      title: 'Home',
-      url: user.home_page,
-      icon: Home,
-    },
-    // {
-    //   title: 'Studies near me',
-    //   url: '/p/',
-    //   icon: Inbox,
-    // },
-    {
-      title: 'Studies',
-      url: '/p/digital-studies',
-      icon: Computer,
+      label: 'Discover',
+      items: [
+        { title: 'Dashboard', url: user?.home_page, icon: LayoutDashboard },
+        { title: 'Find Studies', url: '/p/digital-studies', icon: Telescope },
+      ],
     },
     {
-      title: 'Invite a friend',
-      url: '/invite',
-      icon: UserPlus,
-    },
-    {
-      title: 'My profile',
-      url: `/p/participants/${user.participant?.id}`,
-      icon: UserRound,
-    },
-    // {
-    //   title: 'My connections',
-    //   url: '#',
-    //   icon: Calendar,
-    // },
-    {
-      title: 'Account settings',
-      url: `/u/${user.id}/edit`,
-      icon: Settings,
+      label: 'My Journey',
+      items: [
+        { title: 'My Profile', url: `/p/participants/${user?.participant?.id}`, icon: UserCircle },
+        { title: 'Invite Friends', url: '/invite', icon: HeartHandshake },
+      ],
     },
   ]
 
-  const researcherItems = user && [
+  const researcher = [
     {
-      title: 'Home',
-      url: user.home_page,
-      icon: Home,
+      label: 'Research',
+      items: [
+        { title: 'Overview', url: user?.home_page, icon: LayoutDashboard },
+        { title: 'My Studies', url: '/r/studies', icon: FolderOpen },
+      ],
     },
     {
-      title: 'Studies',
-      url: '/r/studies',
-      icon: Inbox,
-    },
-    // {
-    //   title: 'New study',
-    //   url: '/r/studies/new',
-    //   icon: Plus,
-    // },
-    {
-      title: 'Invite collaborators',
-      url: '/invite',
-      icon: UserPlus,
-    },
-    {
-      title: 'My profile',
-      url: `/r/researchers/${user.researcher?.id}`,
-      icon: UserRound,
-    },
-    {
-      title: 'Account',
-      url: `/u/${user.id}/edit`,
-      icon: Settings,
+      label: 'Collaboration',
+      items: [
+        { title: 'Researcher Profile', url: `/r/researchers/${user?.researcher?.id}`, icon: BadgeCheck },
+        { title: 'Invite Colleagues', url: '/invite', icon: Users },
+      ],
     },
   ]
 
-  const menuItems = () => {
-    if (!user) return unauthItems
+  let primaryMenuItems = []
 
-    return user.participant ? participantItems : researcherItems
+  if (!user) {
+    primaryMenuItems = guest
+  } else if (user?.participant) {
+    primaryMenuItems = participant
+  } else if (user?.researcher) {
+    primaryMenuItems = researcher
   }
 
   return (
-    <Sidebar collapsible="none">
-      <SidebarHeader className="m-0 p-2  bg-blue-500">
-        <a href="/" className="no-underline">
-          <SidebarGroupLabel className="text-2xl text-white mb-2">SSStutterBuddy</SidebarGroupLabel>
-        </a>
+    <Sidebar collapsible="icon" className={className}>
+      <SidebarHeader className="bg-blue-600 text-white p-4 rounded-br-xl">
+        <Link href="/" className="no-underline">
+          <div className="flex items-center gap-2 px-2 py-1">
+            <div className="font-display font-semibold text-2xl text-white">SSStutterBuddy</div>
+          </div>
+        </Link>
       </SidebarHeader>
+
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {menuItems().map(item => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url} className="flex items-center gap-2 text-black">
-                      <item.icon className="h-4 w-4 text-blue-500" />
-                      <span>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        {primaryMenuItems.map(group => (
+          <SidebarGroup key={group.label}>
+            <SidebarGroupLabel>{group.label}</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {group.items.map(item => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={isActive(item.url)}
+                      tooltip={item.title}
+                      aria-disabled={!item.url}
+                    >
+                      <Link href={item.url || '#'}>
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        ))}
       </SidebarContent>
+
       <SidebarFooter>
-        {user && (
-          <SidebarMenuButton asChild>
-            <a href={`/logout`} className="flex items-center gap-2 text-black">
-              <LogOut className="h-4 w-4 text-blue-500" />
-              <span>Logout</span>
-            </a>
-          </SidebarMenuButton>
+        {user ? (
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild isActive={isActive(`/u/${user.id}/edit`)} tooltip="Account">
+                <Link href={`/u/${user.id}/edit`}>
+                  <Settings2 />
+                  <span>Account</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild tooltip="Logout">
+                <Link href="/logout">
+                  <LogOut />
+                  <span>Logout</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        ) : (
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild tooltip="Log in / Sign up">
+                <Link href="/login">
+                  <LogIn />
+                  <span>Log in / Sign up</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
         )}
       </SidebarFooter>
+
+      {/* Desktop: keep collapse/expand affordance without the top trigger */}
+      <SidebarRail />
     </Sidebar>
   )
 }
