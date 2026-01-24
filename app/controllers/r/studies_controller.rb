@@ -120,7 +120,7 @@ class R::StudiesController < R::BaseController
       :published_at,
       :paused_at,
       :closed_at,
-      :methodologies,
+      :survey_only,
       :min_age,
       :max_age,
       :total_hours,

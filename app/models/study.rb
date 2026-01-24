@@ -17,18 +17,6 @@ class Study < ApplicationRecord
   scope :closed, -> { where.not(closed_at: nil) }
   scope :digital_friendly, -> { where(location_type: [HYBRID, DIGITAL]) }
 
-  METHODOLOGIES = [
-    'survey',
-    'interview',
-    'task performance',
-    'brain imaging',
-    'speech intervention',
-    'behavioral intervention',
-    'genetic sample collection',
-    'pharmaceutical',
-    'speaker panel'
-  ].freeze
-
   DIGITAL = 'digital'
   HYBRID = 'hybrid'
   IN_PERSON = 'in_person'

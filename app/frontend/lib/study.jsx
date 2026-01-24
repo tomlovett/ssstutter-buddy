@@ -9,7 +9,7 @@ export const LOCATION_TYPES = {
 export const validateStudy = study => {
   const errors = []
 
-  const requiredFields = ['title', 'short_desc', 'long_desc', 'remuneration', 'total_hours', 'methodologies']
+  const requiredFields = ['title', 'short_desc', 'long_desc', 'remuneration', 'total_hours']
 
   requiredFields.forEach(field => {
     if (study[field] === null || study[field] === undefined) {
@@ -49,12 +49,6 @@ export const displayLocationShort = ({ location_type, location }) => {
 
 export const displayRemuneration = ({ remuneration }) =>
   !remuneration || remuneration == '0' ? 'Gratis' : `$${remuneration}`
-
-export const displayMethodologies = ({ methodologies }) =>
-  methodologies
-    .split(',')
-    .map(m => capitalize(m))
-    .join(', ')
 
 export const displayHours = total_hours => {
   if (total_hours == 1) {

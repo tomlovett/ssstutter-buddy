@@ -1,11 +1,11 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@ui/table'
-import { ageRange, displayLocationShort, displayMethodologies, timeline } from '@/lib/study'
+import { ageRange, displayLocationShort, timeline } from '@/lib/study'
 import { formatDate } from '@/lib/utils'
 
 const StudyTable = ({ studies, nullStatement }) => {
   const EmptyRow = () => (
     <TableRow>
-      <TableCell colSpan={7} className="text-muted-foreground text-center">
+      <TableCell colSpan={6} className="text-muted-foreground text-center">
         {nullStatement}
       </TableCell>
     </TableRow>
@@ -15,7 +15,6 @@ const StudyTable = ({ studies, nullStatement }) => {
     <TableHeader>
       <TableRow className="hover:bg-transparent cursor-default">
         <TableHead>Study Name</TableHead>
-        <TableHead>Methodologies</TableHead>
         <TableHead>Age Range</TableHead>
         <TableHead>Estimated Commitment</TableHead>
         <TableHead>Location</TableHead>
@@ -30,7 +29,6 @@ const StudyTable = ({ studies, nullStatement }) => {
       onClick={() => (window.location.href = `/p/studies/${study.id}`)}
     >
       <TableCell>{study.title}</TableCell>
-      <TableCell>{displayMethodologies(study)}</TableCell>
       <TableCell>{ageRange(study)}</TableCell>
       <TableCell>{timeline(study)}</TableCell>
       <TableCell>{displayLocationShort(study)}</TableCell>

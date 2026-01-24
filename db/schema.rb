@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_01_15_230954) do
+ActiveRecord::Schema[8.0].define(version: 2026_01_24_163945) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -245,7 +245,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_15_230954) do
     t.text "long_desc"
     t.date "open_date"
     t.date "close_date"
-    t.string "methodologies"
     t.integer "min_age"
     t.integer "max_age"
     t.float "total_hours"
@@ -265,6 +264,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_15_230954) do
     t.datetime "last_verified_active", default: -> { "CURRENT_TIMESTAMP" }
     t.string "irb_number"
     t.boolean "autosend_verified_only", default: true, null: false
+    t.boolean "survey_only", default: false, null: false
     t.index ["researcher_id"], name: "index_studies_on_researcher_id"
   end
 

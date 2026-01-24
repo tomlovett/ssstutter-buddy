@@ -7,7 +7,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import LocationTool from '@/components/lib/LocationTool'
 import { Button } from '@/components/ui/button'
 import { Form, FormMessage } from '@/components/ui/form'
-import FormCheckboxes from '@/components/ui/custom/formCheckboxes'
 import FormCheckbox from '@/components/ui/custom/formCheckbox'
 import FormInput from '@/components/ui/custom/formInput'
 import FormTextarea from '@/components/ui/custom/formTextarea'
@@ -73,18 +72,6 @@ const timelineFields = [
   },
 ]
 
-const METHODOLOGIES = [
-  { id: 'Survey', label: 'Survey' },
-  { id: 'Interview', label: 'Interview' },
-  { id: 'Task performance', label: 'Task Performance' },
-  { id: 'Brain imaging', label: 'Brain Imaging' },
-  { id: 'Speech intervention', label: 'Speech Intervention' },
-  { id: 'Behavioral intervention', label: 'Behavioral Intervention' },
-  { id: 'Genetic sample collection', label: 'Genetic Sample Collection' },
-  { id: 'Pharmaceutical trial', label: 'Pharmaceutical' },
-  { id: 'Speaker panel', label: 'Speaker Panel' },
-]
-
 const LOCATION_TYPES = [
   { value: 'digital', label: 'Digital Only' },
   { value: 'in_person', label: 'In-Person Only' },
@@ -100,7 +87,7 @@ const StudyEdit = ({ user, study }) => {
       short_desc: study.short_desc || '',
       long_desc: study.long_desc || '',
       irb_number: study.irb_number || '',
-      methodologies: study.methodologies?.split(',') || [],
+      survey_only: study.survey_only ?? false,
       location_type: study.location_type || '',
       location: {
         country: study.location?.country || '',
@@ -163,7 +150,6 @@ const StudyEdit = ({ user, study }) => {
 
   const saveFormChanges = formValues => {
     const refinedValues = Object.assign({}, formValues)
-    refinedValues.methodologies = formValues.methodologies.join(',')
 
     refinedValues.location_attributes = formatLocationAttributes(refinedValues)
     delete refinedValues.location
@@ -252,13 +238,7 @@ const StudyEdit = ({ user, study }) => {
             )
           )}
 
-          <FormCheckboxes
-            form={form}
-            title="Methodologies"
-            subtitle="Select all that apply"
-            name="methodologies"
-            items={METHODOLOGIES}
-          />
+          <FormCheckbox form={form} name="survey_only" title="Survey-only?" />
 
           {/* <p>Location: {displayLocationShort(watchedStudy)}</p> */}
           <h3 className="text-lg font-semibold">Study Logistics</h3>

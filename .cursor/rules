@@ -40,6 +40,7 @@
 - Follow Rails naming conventions for tables and columns
 - Use migrations for all database changes
 - **ALWAYS use `rails g migration` command to generate new database migrations - NEVER manually create migration files**
+- Do not modify existing (historical) migration files. If any database changes are required, always generate a new migration file to apply those changes.
 - **ALWAYS run `rubocop -A` on migration files after creating or modifying them**
 - Use seeds.rb for initial data
 - NEVER run migrations created by Cursor agent without explicit developer confirmation

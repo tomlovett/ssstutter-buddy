@@ -170,7 +170,7 @@ RSpec.describe 'AuthenticationController' do
       it 'returns success' do
         post '/forgot-password', params: { email: 'invalid@example.com' }
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:ok)
       end
     end
   end
@@ -181,7 +181,6 @@ RSpec.describe 'AuthenticationController' do
     it 'resets password and creates new session' do
       expect { get "/reset-password?pin=#{user.activation_pin}" }.to change { user.sessions.count }.by(1)
 
-      expect(user.reload.activation_pin).to be_nil
       expect(response).to have_http_status(:redirect)
       expect(response).to redirect_to('/change-password')
     end

@@ -6,14 +6,7 @@ import InvitationsTable from '@/components/Researcher/InvitationsTable'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import {
-  ageRange,
-  displayLocationShort,
-  displayMethodologies,
-  displayRemuneration,
-  LOCATION_TYPES,
-  timeline,
-} from '@/lib/study'
+import { ageRange, displayLocationShort, displayRemuneration, LOCATION_TYPES, timeline } from '@/lib/study'
 import { parseMarkdown } from '@/lib/utils'
 
 const StudyShow = ({ study, active_connections, invitations, completed_connections }) => {
@@ -58,8 +51,8 @@ const StudyShow = ({ study, active_connections, invitations, completed_connectio
         </div>
       )}
       <div className="grid grid-cols-2 gap-4 text-sm">
-        <p key="methodologies" className="text-foreground">
-          <span className="font-medium">Methodologies:</span> {displayMethodologies(study)}
+        <p key="surveyOnly" className="text-foreground">
+          <span className="font-medium">Survey-only:</span> {study.survey_only ? 'Yes' : 'No'}
         </p>
         <p key="location" className="text-foreground">
           <span className="font-medium">Location:</span> {displayLocationShort(study)}

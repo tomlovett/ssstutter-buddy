@@ -7,7 +7,7 @@ FactoryBot.define do
     title { Faker::Lorem.sentence }
     short_desc { Faker::Lorem.sentences(number: 2) }
     long_desc { Faker::Lorem.paragraph }
-    methodologies { gen_methodologies }
+    survey_only { false }
     min_age { 18 }
     max_age { nil }
     total_hours { rand(0.5..5).round(1) }
@@ -74,11 +74,4 @@ FactoryBot.define do
       end
     end
   end
-end
-
-def gen_methodologies
-  end_array = []
-  types = Study::METHODOLOGIES.dup.shuffle
-  rand(2..7).times { end_array << types.pop }
-  end_array.join(', ')
 end

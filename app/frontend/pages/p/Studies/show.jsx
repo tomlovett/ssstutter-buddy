@@ -23,7 +23,7 @@ import FormCheckbox from '@/components/ui/custom/formCheckbox'
 import AnonymousInvitationSchema from '@/schemas/AnonymousInvitation'
 import InvitationSchema from '@/schemas/Invitation'
 import { postRequest } from '@/lib/api'
-import { displayLocationShort, displayMethodologies, displayRemuneration, timeline } from '@/lib/study'
+import { displayLocationShort, displayRemuneration, timeline } from '@/lib/study'
 import { status } from '@/lib/study'
 import { hasMadeDecision, ACCEPTED, INTERESTED, NOT_INTERESTED } from '@/lib/invitations'
 import { parseMarkdown } from '@/lib/utils'
@@ -278,9 +278,6 @@ const StudyShow = ({ user, study, researcher, invitation }) => {
                   )}
                   <li>
                     <span className="font-medium">Location:</span> {displayLocationShort(study)}
-                  </li>
-                  <li>
-                    <span className="font-medium">Methodologies:</span> {displayMethodologies(study)}
                   </li>
                   <li>
                     <span className="font-medium">Timeline:</span> {timeline(study)}

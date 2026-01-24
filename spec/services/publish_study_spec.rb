@@ -27,12 +27,6 @@ RSpec.describe PublishStudy do
           it { expect(service.call).to include('Long desc is required') }
         end
 
-        context 'when methodologies is missing' do
-          before { study.update(methodologies: nil) }
-
-          it { expect(service.call).to include('Methodologies is required') }
-        end
-
         context 'when total_hours is missing' do
           before { study.update(total_hours: nil) }
 

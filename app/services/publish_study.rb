@@ -62,7 +62,7 @@ class PublishStudy
   end
 
   def validate_required_fields
-    required_fields = %i[title short_desc long_desc methodologies total_hours total_sessions remuneration]
+    required_fields = %i[title short_desc long_desc total_hours total_sessions remuneration]
     required_fields.each do |field|
       @errors << "#{field.to_s.humanize} is required" if @study.send(field).blank?
     end

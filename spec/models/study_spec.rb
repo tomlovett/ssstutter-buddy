@@ -112,11 +112,6 @@ RSpec.describe Study do
   end
 
   describe 'constants' do
-    it 'defines METHODOLOGIES' do
-      expect(Study::METHODOLOGIES).to be_an(Array)
-      expect(Study::METHODOLOGIES).to include('survey', 'interview', 'task performance')
-    end
-
     it 'defines location type constants' do
       expect(Study::DIGITAL).to eq('digital')
       expect(Study::HYBRID).to eq('hybrid')
