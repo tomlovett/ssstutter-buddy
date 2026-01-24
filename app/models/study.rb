@@ -16,6 +16,7 @@ class Study < ApplicationRecord
   scope :published, -> { where.not(published_at: nil) }
   scope :closed, -> { where.not(closed_at: nil) }
   scope :digital_friendly, -> { where(location_type: [HYBRID, DIGITAL]) }
+  scope :survey_only, -> { where(survey_only: true) }
 
   DIGITAL = 'digital'
   HYBRID = 'hybrid'

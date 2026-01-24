@@ -238,7 +238,12 @@ const StudyEdit = ({ user, study }) => {
             )
           )}
 
-          <FormCheckbox form={form} name="survey_only" title="Survey-only?" />
+          <FormCheckbox
+            form={form}
+            name="survey_only"
+            title="Survey-only?"
+            subtitle="The only required task for the participant is to respond to a survey form"
+          />
 
           {/* <p>Location: {displayLocationShort(watchedStudy)}</p> */}
           <h3 className="text-lg font-semibold">Study Logistics</h3>

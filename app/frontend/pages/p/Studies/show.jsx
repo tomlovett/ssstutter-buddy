@@ -280,6 +280,9 @@ const StudyShow = ({ user, study, researcher, invitation }) => {
                     <span className="font-medium">Location:</span> {displayLocationShort(study)}
                   </li>
                   <li>
+                    <span className="font-medium">Survey-only:</span> {study.survey_only ? 'Yes' : 'No'}
+                  </li>
+                  <li>
                     <span className="font-medium">Timeline:</span> {timeline(study)}
                   </li>
                   <li>

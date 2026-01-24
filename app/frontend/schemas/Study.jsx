@@ -5,7 +5,7 @@ const StudySchema = z.object({
   short_desc: z.string(),
   long_desc: z.string(),
   irb_number: z.string().optional(),
-  survey_only: z.boolean(),
+  survey_only: z.boolean().default(false),
   min_age: z.coerce.number().optional(),
   max_age: z.coerce.number().optional(),
   total_hours: z.coerce.number(),
