@@ -73,6 +73,16 @@ export const ageRange = ({ min_age, max_age }) => {
   }
 }
 
+export const ageRangeShort = ({ min_age, max_age }) => {
+  if (!min_age && !max_age) {
+    return 'All ages'
+  } else if (min_age) {
+    return max_age ? `${min_age}-${max_age}` : `${min_age}+`
+  } else {
+    return `< ${max_age}`
+  }
+}
+
 export const status = study => {
   if (study.paused_at) {
     return 'paused'

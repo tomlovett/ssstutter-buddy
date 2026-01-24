@@ -5,22 +5,18 @@ class P::StudiesController < P::BaseController
 
   # GET /p/digital-studies
   def digital_studies
-    existing_study_connections = if Current.user&.participant
-                                   Current.user.participant.connections.pluck(:study_id)
-                                 else
-                                   []
-                                 end
-
-    untouched_digital_studies = Study.digital_friendly.active
-      .where.not(id: existing_study_connections)
-      .order(created_at: :desc).page(params[:page]).per(25)
+    all_studies = Study.digital_friendly.active
+      .includes(:invitations, :connections, :location)
+      .order(created_at: :desc)
+      .page(params[:page])
+      .per(25)
 
     props = {
-      studies: untouched_digital_studies,
+      studies: all_studies,
       pagination: {
-        current_page: untouched_digital_studies.current_page,
-        total_pages: untouched_digital_studies.total_pages,
-        total_count: untouched_digital_studies.total_count
+        current_page: all_studies.current_page,
+        total_pages: all_studies.total_pages,
+        total_count: all_studies.total_count
       }
     }
 

@@ -7,12 +7,13 @@ class P::ParticipantsController < P::BaseController
   # GET /p
   def index
     @participant = Current.user.participant
+    nearby_studies = @participant.nearby_studies.includes(:invitations, :connections, :location)
 
     props = {
       participant: @participant.as_json(include: :user),
       invitations: @participant.invitations.invited.as_json(include: :study),
       connections: @participant.connections.as_json(include: :study),
-      nearby_studies: @participant.nearby_studies
+      nearby_studies:
     }
 
     render inertia: 'p/Participants/home', props:

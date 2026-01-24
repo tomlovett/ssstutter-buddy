@@ -7,7 +7,7 @@ class AddSurveyOnlyToStudies < ActiveRecord::Migration[7.0]
     # Migrate existing data: set survey_only = true where methodologies exactly equals "survey"
     reversible do |dir|
       dir.up do
-        execute <<-SQL
+        execute <<-SQL.squish
           UPDATE studies
           SET survey_only = true
           WHERE methodologies = 'Survey'

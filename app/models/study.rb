@@ -23,7 +23,16 @@ class Study < ApplicationRecord
   IN_PERSON = 'in_person'
 
   def as_json(options = {})
-    super(options.merge(include: :location))
+    result = super(options.merge(include: :location))
+
+    if Current.user&.participant
+      invitation = invitations.find_by(participant: Current.user.participant)
+      connection = connections.find_by(participant: Current.user.participant)
+      result['invitation'] = invitation&.as_json
+      result['connection'] = connection&.as_json
+    end
+
+    result
   end
 
   def address

@@ -28,14 +28,16 @@ const DigitalStudies = ({ studies, pagination }) => {
 
   return (
     <>
-      <h3 className="text-2xl font-bold mb-4">Digital-Friendly Studies</h3>
+      <h3 className="text-2xl font-bold mb-4">Studies Recommended for You</h3>
 
       {total_pages > 1 && <PaginationControls />}
 
-      <StudyTable
-        studies={studies}
-        nullStatement="There are currently no digital studies, or you have already responded to all of them"
-      />
+      <div className="md:mx-6">
+        <StudyTable
+          studies={studies}
+          nullStatement="There are currently no digital studies, or you have already responded to all of them"
+        />
+      </div>
 
       {total_pages > 1 && <PaginationControls />}
     </>

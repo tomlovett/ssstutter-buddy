@@ -12,7 +12,12 @@ export const cn = (...inputs) => {
 export const capitalize = str => str && str[0].toLocaleUpperCase() + str.substring(1)
 
 // Tue Oct 17
-export const formatDate = dateObj => new Date(dateObj).toDateString().slice(0, -4)
+export const formatDate = dateObj => {
+  const date = new Date(dateObj)
+  const month = date.toLocaleString('default', { month: 'short' })
+  const day = date.getDate()
+  return `${month} ${day}`
+}
 
 //  Oct 17 , 1995
 export const formatBirthday = dateObj => {
