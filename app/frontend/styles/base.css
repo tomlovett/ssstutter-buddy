@@ -118,6 +118,16 @@
     @apply border-border outline-ring/50;
   }
 
+  html,
+  body {
+    min-height: 100dvh;
+    overflow-x: hidden;
+  }
+
+  #app {
+    min-height: 100dvh;
+  }
+
   body {
     @apply bg-background text-foreground;
   }
