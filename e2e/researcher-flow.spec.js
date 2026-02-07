@@ -125,7 +125,7 @@ test.describe('Researcher Workflow', () => {
     await expect(page.locator('h3:has-text("Completed Connections")')).toBeVisible()
     await expect(page.locator('h3:has-text("Declined Connections")')).toBeVisible()
 
-    const activeConnectionsTable = page.locator('[id="active-connections-table"]')
+    const activeConnectionsTable = page.locator('[id="connections-table"]')
     await expect(activeConnectionsTable).toBeVisible()
 
     const tableRows = activeConnectionsTable.locator('tbody tr')

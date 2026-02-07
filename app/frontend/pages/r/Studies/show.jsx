@@ -1,138 +1,211 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { Link } from '@inertiajs/react'
+import { Pencil, ChevronDown, MapPin, Clock, Banknote, FileText, ClipboardCheck, Search } from 'lucide-react'
 
-import ConnectionsTable from '@/components/Researcher/ConnectionsTable'
-import InvitationsTable from '@/components/Researcher/InvitationsTable'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { ageRange, displayLocationShort, displayRemuneration, LOCATION_TYPES, timeline } from '@/lib/study'
-import { parseMarkdown } from '@/lib/utils'
+import { status, displayLocationShort, displayRemuneration, timeline } from '@/lib/study'
+import { parseMarkdown, formatDate } from '@/lib/utils'
 
-const StudyShow = ({ study, active_connections, invitations, completed_connections }) => {
-  const [activePin, setActivePin] = useState('')
+const participantLocation = p => {
+  if (!p?.location) return '—'
+  const { city, state, country } = p.location
+  return [city, state, country].filter(Boolean).join(', ') || '—'
+}
 
-  const StudyDetails = ({ study }) => (
-    <>
-      <p key="short_desc" className="text-sm text-foreground mb-2">
-        <span className="font-medium">Short description:</span> {study.short_desc}
-      </p>
-      <div key="long_desc" className="text-sm text-foreground mb-4">
-        <span className="font-medium">Long description:</span>
-        <div
-          className="prose prose-sm max-w-none mt-2 ml-8 mt-2 mb-2"
-          dangerouslySetInnerHTML={{ __html: parseMarkdown(study.long_desc) }}
-        />
-      </div>
-      <p key="irb_number" className="text-sm text-foreground mb-4">
-        <span className="font-medium">IRB number:</span> {study.irb_number}
-      </p>
-      {(study.autosend_url || study.autosend_message || study.autosend_verified_only !== undefined) && (
-        <div className="mt-4 mb-4">
-          <h4 className="font-large text-foreground mb-2">Autosend Settings</h4>
-          {study.autosend_url && (
-            <>
-              <p className="text-sm text-foreground mb-2">
-                <span className="font-medium">Autosend URL:</span> {study.autosend_url}
-              </p>
-              <p className="text-sm text-foreground">
-                <span className="font-medium">Autosend to verified users only:</span>{' '}
-                {study.autosend_verified_only ? 'Yes' : 'No'}
-              </p>
-            </>
-          )}
-          {study.autosend_message && (
-            <p className="text-sm text-foreground mb-2">
-              <span className="font-medium">Autosend Message:</span>
-              <br />
-              <span className="mt-2 ml-2">{study.autosend_message}</span>
-            </p>
-          )}
-        </div>
-      )}
-      <div className="grid grid-cols-2 gap-4 text-sm">
-        <p key="surveyOnly" className="text-foreground">
-          <span className="font-medium">Survey-only:</span> {study.survey_only ? 'Yes' : 'No'}
-        </p>
-        <p key="location" className="text-foreground">
-          <span className="font-medium">Location:</span> {displayLocationShort(study)}
-        </p>
-        <p key="timeline" className="text-foreground">
-          <span className="font-medium">Timeline:</span> {timeline(study)}
-        </p>
-        <p key="ageRange" className="text-foreground">
-          <span className="font-medium">Age range:</span> {ageRange(study)}
-        </p>
-        <p key="remuneration" className="text-foreground">
-          <span className="font-medium">Est. remuneration:</span> {displayRemuneration(study)}
-        </p>
-      </div>
-    </>
+const StudyShow = ({ study, connections }) => {
+  const [configOpen, setConfigOpen] = useState(true)
+  const [descriptionExpanded, setDescriptionExpanded] = useState(false)
+  const [searchTerm, setSearchTerm] = useState('')
+
+  const filterBySearch = (connections, term) => {
+    if (!term.trim()) return connections
+    const t = term.toLowerCase().trim()
+    return connections.filter(connection => {
+      const p = connection.participant
+      const name = `${p?.first_name || ''} ${p?.last_name || ''}`.toLowerCase()
+      const email = (p?.email || '').toLowerCase()
+      const locationStr = p?.location
+        ? [p.location.city, p.location.state, p.location.country].filter(Boolean).join(', ').toLowerCase()
+        : ''
+      return name.includes(t) || email.includes(t) || locationStr.includes(t)
+    })
+  }
+
+  const filteredConnections = useMemo(
+    () => filterBySearch(connections || [], searchTerm),
+    [connections, searchTerm]
   )
 
-  const updatePin = value => !isNaN(Number(value)) && setActivePin(value)
+  const studyStatus = status(study)
+  const statusLabel = studyStatus.charAt(0).toUpperCase() + studyStatus.slice(1)
 
-  const PinFinder = () => (
-    <Input
-      value={activePin}
-      onChange={e => updatePin(e.target.value)}
-      autoFocus
-      maxLength={6}
-      className="w-24"
-    />
-  )
+  const hasAutosend =
+    study.autosend_url || study.autosend_message || study.autosend_verified_only !== undefined
 
-  const filtered_connections = active_connections.filter(connection =>
-    connection.pin?.toString().includes(activePin)
-  )
+  const descriptionPreview = study.long_desc
+    ? study.long_desc.length > 200
+      ? study.long_desc.slice(0, 200) + '...'
+      : study.long_desc
+    : ''
+  const showViewDescription = study.long_desc && study.long_desc.length > 200
 
   return (
-    <div className="space-y-8">
-      <div>
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold">{study.title}</h2>
-          <Button asChild>
-            <Link href={`/r/studies/${study.id}/edit`}>Edit</Link>
-          </Button>
+    <div className="container mx-auto max-w-6xl space-y-6 px-4 py-8">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-wrap items-center gap-3">
+          <h1 className="text-2xl font-bold">{study.title}</h1>
+          <Badge variant="secondary">{statusLabel}</Badge>
         </div>
-        <StudyDetails study={study} />
+        <Button variant="outline" asChild>
+          <Link href={`/r/studies/${study.id}/edit`} className="inline-flex items-center gap-2">
+            <Pencil className="h-4 w-4" />
+            Edit Study
+          </Link>
+        </Button>
       </div>
 
-      <section>
-        <div className="flex items-center gap-2 justify-between mr-12">
-          <h3 className="text-lg font-bold">Active Connections</h3>
-          <div className="flex items-center gap-2">
-            <Label>Search active connections by PIN</Label>
-            <PinFinder />
+      <Collapsible open={configOpen} onOpenChange={setConfigOpen}>
+        <Card>
+          <CollapsibleTrigger asChild>
+            <CardHeader className="cursor-pointer select-none">
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-base">Study Configuration</CardTitle>
+                <ChevronDown
+                  className={`h-4 w-4 text-muted-foreground transition-transform duration-200 ${configOpen ? 'rotate-180' : ''}`}
+                />
+              </div>
+            </CardHeader>
+          </CollapsibleTrigger>
+          <CollapsibleContent>
+            <CardContent className="pt-0">
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                <div className="space-y-4">
+                  {study.irb_number && (
+                    <div className="flex items-start gap-3">
+                      <FileText className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
+                      <span>{study.irb_number}</span>
+                    </div>
+                  )}
+                  <div className="flex items-start gap-3">
+                    <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
+                    <span>{displayLocationShort(study)}</span>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <Clock className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
+                    <span>{timeline(study)}</span>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <Banknote className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
+                    <span>{displayRemuneration(study)}</span>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <ClipboardCheck className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
+                    <span>Survey only: {study.survey_only ? 'Yes' : 'No'}</span>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <div>
+                    <p className="text-sm font-medium text-muted-foreground">Description</p>
+                    {descriptionExpanded ? (
+                      <div
+                        className="prose prose-sm mt-1 max-w-none"
+                        dangerouslySetInnerHTML={{ __html: parseMarkdown(study.long_desc || '') }}
+                      />
+                    ) : (
+                      <p className="mt-1 text-sm">{descriptionPreview}</p>
+                    )}
+                    {showViewDescription && (
+                      <Button
+                        variant="link"
+                        className="h-auto p-0 text-sm"
+                        onClick={() => setDescriptionExpanded(!descriptionExpanded)}
+                      >
+                        {descriptionExpanded ? 'Show less' : 'View full description'}
+                      </Button>
+                    )}
+                  </div>
+
+                  {hasAutosend && (
+                    <div className="rounded-md border p-3">
+                      <p className="mb-2 text-sm font-medium">Autosend Settings</p>
+                      {study.autosend_url && (
+                        <p className="text-sm">
+                          <span className="text-muted-foreground">URL:</span> {study.autosend_url}
+                        </p>
+                      )}
+                      {study.autosend_message && (
+                        <p className="mt-1 text-sm">
+                          <span className="text-muted-foreground">Message:</span>{' '}
+                          {study.autosend_message.slice(0, 100)}
+                          {study.autosend_message.length > 100 ? '...' : ''}
+                        </p>
+                      )}
+                      {study.autosend_verified_only !== undefined && (
+                        <p className="mt-1 text-sm">
+                          <span className="text-muted-foreground">Verified only:</span>{' '}
+                          {study.autosend_verified_only ? 'Yes' : 'No'}
+                        </p>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </CardContent>
+          </CollapsibleContent>
+        </Card>
+      </Collapsible>
+
+      <Card>
+        <CardHeader>
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <CardTitle>Connections</CardTitle>
+            <div className="relative w-full sm:w-64">
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                placeholder="Search by name or email"
+                value={searchTerm}
+                onChange={e => setSearchTerm(e.target.value)}
+                className="pl-9"
+              />
+            </div>
           </div>
-        </div>
-
-        <ConnectionsTable
-          id="active-connections-table"
-          connections={filtered_connections}
-          nullStatement="No connections for this study yet."
-        />
-      </section>
-
-      {study.location_type !== LOCATION_TYPES.DIGITAL && (
-        <section>
-          <h3 className="text-lg font-bold">Invitations</h3>
-          <InvitationsTable
-            id="invitations-table"
-            invitations={invitations}
-            nullStatement="No participants currently in range for this study."
-          />
-        </section>
-      )}
-
-      <section>
-        <h3 className="text-lg font-bold">Completed Connections</h3>
-        <ConnectionsTable
-          id="completed-connections-table"
-          connections={completed_connections}
-          nullStatement="No completed connections for this study yet."
-        />
-      </section>
+        </CardHeader>
+        <CardContent>
+          {filteredConnections.length === 0 ? (
+            <p className="text-muted-foreground">No connections for this study yet.</p>
+          ) : (
+            <div className="divide-y">
+              <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)_minmax(0,1fr)_6rem] gap-4 py-3 font-semibold text-muted-foreground">
+                <span className="min-w-0 font-medium">Name</span>
+                <span className="min-w-0">Email</span>
+                <span className="min-w-0 text-sm">Location</span>
+                <span className="text-sm">Last updated</span>
+              </div>
+              {filteredConnections.map(connection => {
+                const p = connection.participant
+                return (
+                  <div
+                    key={connection.id}
+                    className="grid grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)_minmax(0,1fr)_6rem] gap-4 py-3"
+                  >
+                    <span className="min-w-0 truncate font-medium">
+                      {p?.first_name} {p?.last_name}
+                    </span>
+                    <span className="min-w-0 truncate">{p?.email}</span>
+                    <span className="min-w-0 truncate text-sm">{participantLocation(p)}</span>
+                    <span className="text-sm ">{formatDate(connection.updated_at)}</span>
+                  </div>
+                )
+              })}
+            </div>
+          )}
+        </CardContent>
+      </Card>
     </div>
   )
 }
