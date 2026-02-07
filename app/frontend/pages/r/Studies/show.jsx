@@ -2,19 +2,14 @@ import { useState, useMemo } from 'react'
 import { Link } from '@inertiajs/react'
 import { Pencil, ChevronDown, MapPin, Clock, Banknote, FileText, ClipboardCheck, Search } from 'lucide-react'
 
+import ConnectionsTable from '@/components/Researcher/ConnectionsTable'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import { Input } from '@/components/ui/input'
 import { status, displayLocationShort, displayRemuneration, timeline } from '@/lib/study'
-import { parseMarkdown, formatDate } from '@/lib/utils'
-
-const participantLocation = p => {
-  if (!p?.location) return '—'
-  const { city, state, country } = p.location
-  return [city, state, country].filter(Boolean).join(', ') || '—'
-}
+import { parseMarkdown } from '@/lib/utils'
 
 const StudyShow = ({ study, connections }) => {
   const [configOpen, setConfigOpen] = useState(true)
@@ -176,34 +171,11 @@ const StudyShow = ({ study, connections }) => {
           </div>
         </CardHeader>
         <CardContent>
-          {filteredConnections.length === 0 ? (
-            <p className="text-muted-foreground">No connections for this study yet.</p>
-          ) : (
-            <div className="divide-y">
-              <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)_minmax(0,1fr)_6rem] gap-4 py-3 font-semibold text-muted-foreground">
-                <span className="min-w-0 font-medium">Name</span>
-                <span className="min-w-0">Email</span>
-                <span className="min-w-0 text-sm">Location</span>
-                <span className="text-sm">Last updated</span>
-              </div>
-              {filteredConnections.map(connection => {
-                const p = connection.participant
-                return (
-                  <div
-                    key={connection.id}
-                    className="grid grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)_minmax(0,1fr)_6rem] gap-4 py-3"
-                  >
-                    <span className="min-w-0 truncate font-medium">
-                      {p?.first_name} {p?.last_name}
-                    </span>
-                    <span className="min-w-0 truncate">{p?.email}</span>
-                    <span className="min-w-0 truncate text-sm">{participantLocation(p)}</span>
-                    <span className="text-sm ">{formatDate(connection.updated_at)}</span>
-                  </div>
-                )
-              })}
-            </div>
-          )}
+          <ConnectionsTable
+            id="connections-table"
+            connections={filteredConnections}
+            nullStatement="No connections for this study yet."
+          />
         </CardContent>
       </Card>
     </div>

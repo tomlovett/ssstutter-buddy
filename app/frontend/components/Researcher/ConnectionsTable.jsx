@@ -1,18 +1,16 @@
 import { toast } from 'sonner'
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
 import { putRequest } from '@/lib/api'
-import { CONNECTION_STATUSES } from '@/lib/connections'
 
-import { capitalize, formatDate } from '@/lib/utils'
+import { formatDate } from '@/lib/utils'
+
+const formatLocation = p => {
+  const loc = p?.location
+  if (!loc) return '—'
+  const parts = [loc.city, loc.state, loc.country].filter(Boolean)
+  return parts.length ? parts.join(', ') : '—'
+}
 
 const ConnectionsTable = ({ connections, nullStatement, id }) => {
   const EmptyTable = () => (
@@ -30,39 +28,10 @@ const ConnectionsTable = ({ connections, nullStatement, id }) => {
       <TableRow>
         <TableHead>Name/Alias</TableHead>
         <TableHead>Email</TableHead>
-        <TableHead>First Interaction</TableHead>
-        <TableHead>Last Interaction</TableHead>
-        <TableHead>PIN</TableHead>
-        <TableHead>Status</TableHead>
+        <TableHead>Location</TableHead>
+        <TableHead>Latest Interaction</TableHead>
       </TableRow>
     </TableHeader>
-  )
-
-  const updateConnectionStatus = async (connection, status) =>
-    await putRequest(`/r/connections/${connection.id}`, { status }).then(res => {
-      const msg =
-        res.status == '204'
-          ? 'Changes saved!'
-          : 'Uh oh, there was an error! Please refresh the page and try again.'
-
-      toast(msg)
-    })
-
-  const ConnectionStatusDropdown = ({ connection }) => (
-    <Select onValueChange={newStatus => updateConnectionStatus(connection, newStatus)}>
-      <SelectTrigger className="w-[180px]">
-        <SelectValue placeholder={capitalize(connection.status)} />
-      </SelectTrigger>
-      <SelectContent>
-        <SelectGroup>
-          {CONNECTION_STATUSES.map(status => (
-            <SelectItem key={status} value={status}>
-              {capitalize(status)}
-            </SelectItem>
-          ))}
-        </SelectGroup>
-      </SelectContent>
-    </Select>
   )
 
   const ConnectionSlice = ({ connection }) => (
@@ -71,14 +40,8 @@ const ConnectionsTable = ({ connections, nullStatement, id }) => {
         {connection.participant.first_name} {connection.participant.last_name}
       </TableCell>
       <TableCell key="email">{connection.participant?.email}</TableCell>
-      <TableCell key="created_at">{formatDate(connection.created_at)}</TableCell>
+      <TableCell key="location">{formatLocation(connection.participant)}</TableCell>
       <TableCell key="updated_at">{formatDate(connection.updated_at)}</TableCell>
-      <TableCell key="pin" style={{ fontFamily: 'monospace' }}>
-        {connection.pin}
-      </TableCell>
-      <TableCell key="status">
-        <ConnectionStatusDropdown connection={connection} />
-      </TableCell>
     </TableRow>
   )
 

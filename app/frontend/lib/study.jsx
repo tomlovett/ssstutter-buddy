@@ -1,4 +1,4 @@
-import { camelToReadable, capitalize } from '@/lib/utils'
+import { camelToReadable } from '@/lib/utils'
 
 export const LOCATION_TYPES = {
   DIGITAL: 'digital',
