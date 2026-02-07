@@ -71,8 +71,8 @@ const ConnectionsTable = ({ connections, nullStatement, id }) => {
         {connection.participant.first_name} {connection.participant.last_name}
       </TableCell>
       <TableCell key="email">{connection.participant?.email}</TableCell>
-      <TableCell key="created_at">{formatDate(connection.created_at).substr(3)}</TableCell>
-      <TableCell key="updated_at">{formatDate(connection.updated_at).substr(3)}</TableCell>
+      <TableCell key="created_at">{formatDate(connection.created_at)}</TableCell>
+      <TableCell key="updated_at">{formatDate(connection.updated_at)}</TableCell>
       <TableCell key="pin" style={{ fontFamily: 'monospace' }}>
         {connection.pin}
       </TableCell>
