@@ -1,7 +1,4 @@
-import { toast } from 'sonner'
-
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { putRequest } from '@/lib/api'
 
 import { formatDate } from '@/lib/utils'
 
