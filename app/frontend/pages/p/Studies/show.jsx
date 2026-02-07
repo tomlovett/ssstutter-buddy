@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link, router } from '@inertiajs/react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Loader2 } from 'lucide-react'
+import { ArrowLeft, MapPin, Clock, Banknote, FileCheck, Building2, Loader2 } from 'lucide-react'
 
 import {
   AlertDialog,
@@ -15,7 +15,11 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Separator } from '@/components/ui/separator'
 import { Form, FormMessage } from '@/components/ui/form'
 import FormInput from '@/components/ui/custom/formInput'
 import FormTextarea from '@/components/ui/custom/formTextarea'
@@ -23,8 +27,7 @@ import FormCheckbox from '@/components/ui/custom/formCheckbox'
 import AnonymousInvitationSchema from '@/schemas/AnonymousInvitation'
 import InvitationSchema from '@/schemas/Invitation'
 import { postRequest } from '@/lib/api'
-import { displayLocationShort, displayRemuneration, timeline } from '@/lib/study'
-import { status } from '@/lib/study'
+import { displayLocationShort, displayRemuneration, timeline, status, LOCATION_TYPES } from '@/lib/study'
 import { hasMadeDecision, ACCEPTED, INTERESTED, NOT_INTERESTED } from '@/lib/invitations'
 import { parseMarkdown } from '@/lib/utils'
 
@@ -46,12 +49,6 @@ const StudyShow = ({ user, study, researcher, invitation }) => {
       email: '',
       send_new_studies_emails: true,
     },
-  })
-
-  const publishedDate = new Date(study.published_at).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
   })
 
   const onSubmit = data => {
@@ -76,7 +73,7 @@ const StudyShow = ({ user, study, researcher, invitation }) => {
   const ExpressInterestModal = () => (
     <AlertDialog key="express-interest">
       <AlertDialogTrigger asChild>
-        <Button>Express Interest</Button>
+        <Button className="w-full">Express Interest</Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogTitle>Confirm your interest</AlertDialogTitle>
@@ -133,7 +130,9 @@ const StudyShow = ({ user, study, researcher, invitation }) => {
   const NotInterestedModal = () => (
     <AlertDialog key="not-interested">
       <AlertDialogTrigger asChild>
-        <Button variant="outline">Not Interested</Button>
+        <Button variant="outline" className="w-full">
+          Not Interested
+        </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogTitle>Is this study not a good fit for you?</AlertDialogTitle>
@@ -200,16 +199,20 @@ const StudyShow = ({ user, study, researcher, invitation }) => {
     // Participant has not been invited or has not made a decision, display both options
     if (!invitation || !hasMadeDecision(invitation)) {
       return (
-        <div className="flex gap-4">
-          {user && <NotInterestedModal />}
+        <div className="flex flex-col gap-3">
           <ExpressInterestModal />
+          {user && <NotInterestedModal />}
         </div>
       )
     }
 
     if ([ACCEPTED, INTERESTED].includes(invitation.status)) {
       // Participant has already accepted
-      return <Button disabled>Connected</Button>
+      return (
+        <Button disabled className="w-full">
+          Connected
+        </Button>
+      )
     } else {
       // Participant has declined interest
       return (
@@ -246,66 +249,115 @@ const StudyShow = ({ user, study, researcher, invitation }) => {
     )
   }
 
+  const locationBadgeText =
+    study.location_type === LOCATION_TYPES.DIGITAL
+      ? 'Online'
+      : study.location_type === LOCATION_TYPES.HYBRID
+        ? 'Hybrid'
+        : 'In-Person'
+
+  const researcherInitials =
+    [researcher.first_name?.[0], researcher.last_name?.[0]].filter(Boolean).join('').toUpperCase() ||
+    researcher.professional_name?.slice(0, 2)?.toUpperCase() ||
+    '?'
+
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h3 className="text-2xl font-bold mb-4">{study.title}</h3>
+    <div className="container mx-auto max-w-6xl px-4 py-8">
+      <Button variant="ghost" asChild className="mb-6 -ml-2">
+        <Link
+          href="/p"
+          className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Back to Studies
+        </Link>
+      </Button>
 
-      <div className="grid grid-cols-3 gap-4">
-        <div className="col-span-2">
-          <div className="mb-4 ml-2">
-            <p className="text-lg mb-2">
-              Led by{' '}
-              <Link
-                href={`/p/researchers/${researcher.id}`}
-                className="text-primary hover:underline font-medium"
-              >
-                {researcher.professional_name}
-              </Link>{' '}
-              of {researcher.institution}
-            </p>
-          </div>
+      <h1 className="mb-4 text-3xl font-bold tracking-tight">{study.title}</h1>
+      <div className="mb-8 flex flex-wrap gap-2">
+        {study.survey_only && <Badge variant="secondary">Survey Only</Badge>}
+        <Badge variant="secondary">{locationBadgeText}</Badge>
+      </div>
 
-          <div className="space-y-3 mb-8">
-            <p className="text-gray-600">Published {publishedDate}</p>
-            <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+        <div className="order-2 space-y-8 lg:order-1 lg:col-span-2">
+          <Card className="border bg-muted/50">
+            <CardHeader>
+              <CardTitle className="text-base">Led By</CardTitle>
+            </CardHeader>
+            <CardContent className="flex items-center gap-4">
+              <Avatar>
+                {researcher.headshot_url ? (
+                  <AvatarImage src={researcher.headshot_url} alt={researcher.professional_name} />
+                ) : null}
+                <AvatarFallback>{researcherInitials}</AvatarFallback>
+              </Avatar>
               <div>
-                <h3 className="text-lg mb-2">Study Details</h3>
-                <ul className="space-y-2 ml-2">
-                  {study.irb_number && (
-                    <li>
-                      <span className="font-medium">IRB number:</span> {study.irb_number}
-                    </li>
-                  )}
-                  <li>
-                    <span className="font-medium">Location:</span> {displayLocationShort(study)}
-                  </li>
-                  <li>
-                    <span className="font-medium">Survey-only:</span> {study.survey_only ? 'Yes' : 'No'}
-                  </li>
-                  <li>
-                    <span className="font-medium">Timeline:</span> {timeline(study)}
-                  </li>
-                  <li>
-                    <span className="font-medium">Estimated remuneration:</span> {displayRemuneration(study)}
-                  </li>
-                </ul>
+                <Link
+                  href={`/p/researchers/${researcher.id}`}
+                  className="font-medium text-primary hover:underline"
+                >
+                  {researcher.professional_name}
+                </Link>
+                {researcher.institution && (
+                  <p className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                    <Building2 className="h-4 w-4 shrink-0" />
+                    {researcher.institution}
+                  </p>
+                )}
               </div>
-            </div>
-          </div>
+            </CardContent>
+          </Card>
 
-          <div className="mb-8">
-            <h3 className="text-lg mb-2">Study Description</h3>
+          <div>
+            <h2 className="mb-4 text-xl font-semibold">About the Study</h2>
             <div
-              className="prose prose-sm max-w-none ml-2"
+              className="prose prose-slate prose-lg max-w-none"
               dangerouslySetInnerHTML={{ __html: parseMarkdown(study.long_desc) }}
             />
           </div>
+        </div>
 
-          <div className="flex justify-center gap-4">
-            <ConnectionManagementButtons />
-          </div>
+        <div className="order-1 lg:order-2 lg:col-span-1">
+          <Card className="lg:sticky lg:top-6">
+            <CardHeader>
+              <CardTitle className="text-base">Study Details</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex items-start gap-3">
+                <Banknote className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
+                <span>{displayRemuneration(study)}</span>
+              </div>
+              <div className="flex items-start gap-3">
+                <Clock className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
+                <span>{timeline(study)}</span>
+              </div>
+              <div className="flex items-start gap-3">
+                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
+                <span>{displayLocationShort(study)}</span>
+              </div>
+              {study.irb_number && (
+                <div className="flex items-start gap-3">
+                  <FileCheck className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
+                  <span className="text-sm text-muted-foreground">{study.irb_number}</span>
+                </div>
+              )}
+
+              <Separator />
+
+              <div className="space-y-4">
+                <ConnectionManagementButtons />
+                {(!invitation || !hasMadeDecision(invitation)) && (
+                  <p className="text-xs text-muted-foreground">
+                    Your contact info is hidden until you confirm interest.
+                  </p>
+                )}
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
+
       <LoginRequiredModal />
     </div>
   )

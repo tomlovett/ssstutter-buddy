@@ -79,7 +79,7 @@ export const ageRangeShort = ({ min_age, max_age }) => {
   } else if (min_age) {
     return max_age ? `${min_age}-${max_age}` : `${min_age}+`
   } else {
-    return `< ${max_age}`
+    return `≤ ${max_age}`
   }
 }
 
